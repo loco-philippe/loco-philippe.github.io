@@ -58,7 +58,9 @@ def gshape(coord):
 
 class ESValue:
     &#34;&#34;&#34;
-    Classe liée à la structure interne
+    This class is the parent class for each kind of values 
+     (`ES.ESValue.DatationValue`, `ES.ESValue.LocationValue`, `ES.ESValue.PropertyValue`,
+      `ES.ESValue.ResultValue`,
     &#34;&#34;&#34;
     def mini(x, y):
         if type(x) == LocationValue: mm = LocationValue([min(x.point[0], y.point[0]), min(x.point[1], y.point[1])])
@@ -1515,14 +1517,18 @@ def vListName(self):
 <span>class <span class="ident">ESValue</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Classe liée à la structure interne</p></div>
+<div class="desc"><p>This class is the parent class for each kind of values
+(<code><a title="ES.ESValue.DatationValue" href="#ES.ESValue.DatationValue">DatationValue</a></code>, <code><a title="ES.ESValue.LocationValue" href="#ES.ESValue.LocationValue">LocationValue</a></code>, <code><a title="ES.ESValue.PropertyValue" href="#ES.ESValue.PropertyValue">PropertyValue</a></code>,
+<code><a title="ES.ESValue.ResultValue" href="#ES.ESValue.ResultValue">ResultValue</a></code>,</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class ESValue:
     &#34;&#34;&#34;
-    Classe liée à la structure interne
+    This class is the parent class for each kind of values 
+     (`ES.ESValue.DatationValue`, `ES.ESValue.LocationValue`, `ES.ESValue.PropertyValue`,
+      `ES.ESValue.ResultValue`,
     &#34;&#34;&#34;
     def mini(x, y):
         if type(x) == LocationValue: mm = LocationValue([min(x.point[0], y.point[0]), min(x.point[1], y.point[1])])
