@@ -40,7 +40,7 @@ An object of the `ES.ESObs` module is a component of an `ES.ESObservation.Observ
 
 from ESElement import ESObs
 #from ESElement import Datation, Location, Property, Result
-from ESconstante import ES, identity
+from ESconstante import ES #, identity
 from datetime import datetime
 from ESValue import LocationValue, DatationValue, ESSet, PropertyValue, ResultValue #, gshape
 import numpy as np
@@ -95,13 +95,17 @@ class ESSetDatation(ESSet, Datation):
     &#34;&#34;&#34;
     Classe liée à la structure interne
     &#34;&#34;&#34;
-    def __init__(self, pObs = None, jObj = None):
+    def __init__(self, jObj = None, pObs = None):
         Datation.__init__(self, pObs)
         self.typeES = ES.set_typeES
         self.mAtt[ES.type] = ES.dat_valueType
         self.initESSet(DatationValue, jObj)
         self.majMeta()
         pass
+
+    @property
+    def vListSlot(self):
+        return [val.vSlot() for val in self.valueList]
 
     @property
     def vListInstant(self):
@@ -115,7 +119,7 @@ class ESSetDatation(ESSet, Datation):
         else : dat_valName = ES.dat_valName[1]
         return self.jsonESSet(dat_valName, option)
 
-    def to_numpy(self, func=identity):
+    def to_numpy(self, func=ES._identity):
         datList = self.vList(func)
         if func != DatationValue.vName and (type(datList[0]) == str or
                                             type(datList[0]) == datetime) :
@@ -133,7 +137,11 @@ class ESSetLocation(ESSet, Location):
     &#34;&#34;&#34;
     Classe liée à la structure interne
     &#34;&#34;&#34;
-    def __init__(self, pObs = None, jObj = None):
+    def __init__(self, jObj = None, pObs = None):
+        &#39;&#39;&#39;if type(jObj) == ESSetLocation : 
+            self = jObj
+            Location.__init__(self, pObs)
+            return&#39;&#39;&#39;
         Location.__init__(self, pObs)
         self.typeES = ES.set_typeES
         self.mAtt[ES.type] = ES.loc_valueType
@@ -151,7 +159,11 @@ class ESSetLocation(ESSet, Location):
     def vListPoint(self):
         return [val.vPoint(self.observation.option) for val in self.valueList]
 
-    def to_numpy(self, func=identity):
+    @property
+    def vListShap(self):
+        return [val.vShap() for val in self.valueList]
+
+    def to_numpy(self, func=ES._identity):
         return np.array(self.vList(func))
     
     def analyse(self):
@@ -165,7 +177,7 @@ class ESSetProperty(ESSet, Property):
     &#34;&#34;&#34;
     Classe liée à la structure interne
     &#34;&#34;&#34;
-    def __init__(self, pObs = None, jObj = None):
+    def __init__(self, jObj = None, pObs = None):
         Property.__init__(self, pObs)
         self.typeES = ES.set_typeES
         self.mAtt[ES.type] = ES.prp_valueType
@@ -179,7 +191,7 @@ class ESSetProperty(ESSet, Property):
         else : prp_valName = ES.prp_valName[1]
         return self.jsonESSet(prp_valName, option)
 
-    def to_numpy(self, func=identity):
+    def to_numpy(self, func=ES._identity):
         return np.array(self.vList(func))
     
 
@@ -187,7 +199,7 @@ class ESSetResult(ESSet, Result):
     &#34;&#34;&#34;
     Classe liée à la structure interne
     &#34;&#34;&#34;
-    def __init__(self, pObs = None, jObj = None):
+    def __init__(self, jObj = None, pObs = None):
         Result.__init__(self, pObs)
         self.typeES = ES.set_typeES
         self.mAtt[ES.type] = ES.res_valueType
@@ -203,13 +215,15 @@ class ESSetResult(ESSet, Result):
         return [val.ind for val in self.valueList]
 
     def full(self, maj=True):
-        [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs()
+        [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs
         resComp = np.ones((nDat, nLoc, nPrp))
         for res in self.valueList: resComp[tuple(res.ind)] = 0
         nz = np.nonzero(resComp)
         full = copy.copy(self.valueList)
         if maj :
-            for t in zip(list(nz[0]), list(nz[1]), list(nz[2])) : self.addValue(ResultValue, ResultValue(ind=list(t)))
+            #for t in zip(list(nz[0]), list(nz[1]), list(nz[2])) : self.addValue(ResultValue, ResultValue(ind=list(t)))
+            for t in zip(list(nz[0]), list(nz[1]), list(nz[2])) : 
+                self.addValue(ResultValue, ResultValue(ind=[int(t[0]),int(t[1]),int(t[2])]))
             self.observation.majType(order=&#39;dlp&#39;)
             return []
         else :
@@ -217,11 +231,11 @@ class ESSetResult(ESSet, Result):
             for t in zip(list(nz[0]), list(nz[1]), list(nz[2])) : full.append(ResultValue(ind=list(t)))
             return full
             
-    def to_numpy(self, func=identity, ind=&#39;axe&#39;):
+    def to_numpy(self, func=ES._identity, ind=&#39;axe&#39;):
         if type(ind) == str and ind == &#39;flat&#39; : return np.array(self.vList(func))
         #elif type(ind) == str and (ind == &#39;obs&#39; or (ind == &#39;axe&#39; and len(self.axes) == 3 )) :
         elif type(ind) == str and (ind == &#39;obs&#39; or (ind == &#39;axe&#39; and max(self.axes) &lt; 9 )) :
-            [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs()
+            [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs
             listFull = self.full(False)
             listInd = sorted(list(zip(listFull, list(range(len(listFull))))))
             fullTri, indTri = zip(*listInd)
@@ -231,7 +245,7 @@ class ESSetResult(ESSet, Result):
             for ax in self.axes :
                 if ax &gt; 100 : return np.array(self.vList(func))
                 elif ax &gt; 9 :
-                    [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs()
+                    [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs
                     order = [nDat, nLoc, nPrp]
                     cop = copy.deepcopy(self.valueList)   
                     #cop = self.vList()   
@@ -386,7 +400,7 @@ class ESSetResult(ESSet, Result):
 </dd>
 <dt id="ES.ESObs.ESSetDatation"><code class="flex name class">
 <span>class <span class="ident">ESSetDatation</span></span>
-<span>(</span><span>pObs=None, jObj=None)</span>
+<span>(</span><span>jObj=None, pObs=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Classe liée à la structure interne</p></div>
@@ -398,13 +412,17 @@ class ESSetResult(ESSet, Result):
     &#34;&#34;&#34;
     Classe liée à la structure interne
     &#34;&#34;&#34;
-    def __init__(self, pObs = None, jObj = None):
+    def __init__(self, jObj = None, pObs = None):
         Datation.__init__(self, pObs)
         self.typeES = ES.set_typeES
         self.mAtt[ES.type] = ES.dat_valueType
         self.initESSet(DatationValue, jObj)
         self.majMeta()
         pass
+
+    @property
+    def vListSlot(self):
+        return [val.vSlot() for val in self.valueList]
 
     @property
     def vListInstant(self):
@@ -418,7 +436,7 @@ class ESSetResult(ESSet, Result):
         else : dat_valName = ES.dat_valName[1]
         return self.jsonESSet(dat_valName, option)
 
-    def to_numpy(self, func=identity):
+    def to_numpy(self, func=ES._identity):
         datList = self.vList(func)
         if func != DatationValue.vName and (type(datList[0]) == str or
                                             type(datList[0]) == datetime) :
@@ -453,6 +471,18 @@ def vListInstant(self):
     return [val.vInstant(self.observation.option) for val in self.valueList]</code></pre>
 </details>
 </dd>
+<dt id="ES.ESObs.ESSetDatation.vListSlot"><code class="name">var <span class="ident">vListSlot</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def vListSlot(self):
+    return [val.vSlot() for val in self.valueList]</code></pre>
+</details>
+</dd>
 </dl>
 <h3>Methods</h3>
 <dl>
@@ -474,7 +504,7 @@ def vListInstant(self):
 </details>
 </dd>
 <dt id="ES.ESObs.ESSetDatation.json"><code class="name flex">
-<span>def <span class="ident">json</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': [0, 1, 2]})</span>
+<span>def <span class="ident">json</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': 'dlp'})</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -489,7 +519,7 @@ def vListInstant(self):
 </details>
 </dd>
 <dt id="ES.ESObs.ESSetDatation.to_numpy"><code class="name flex">
-<span>def <span class="ident">to_numpy</span></span>(<span>self, func=&lt;function identity&gt;)</span>
+<span>def <span class="ident">to_numpy</span></span>(<span>self, func=&lt;bound method Es._identity of &lt;ESconstante.Es object&gt;&gt;)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -497,7 +527,7 @@ def vListInstant(self):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def to_numpy(self, func=identity):
+<pre><code class="python">def to_numpy(self, func=ES._identity):
     datList = self.vList(func)
     if func != DatationValue.vName and (type(datList[0]) == str or
                                         type(datList[0]) == datetime) :
@@ -509,10 +539,14 @@ def vListInstant(self):
 </dd>
 <dt id="ES.ESObs.ESSetLocation"><code class="flex name class">
 <span>class <span class="ident">ESSetLocation</span></span>
-<span>(</span><span>pObs=None, jObj=None)</span>
+<span>(</span><span>jObj=None, pObs=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Classe liée à la structure interne</p></div>
+<div class="desc"><p>Classe liée à la structure interne</p>
+<p>if type(jObj) == ESSetLocation :
+self = jObj
+Location.<strong>init</strong>(self, pObs)
+return</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -521,7 +555,11 @@ def vListInstant(self):
     &#34;&#34;&#34;
     Classe liée à la structure interne
     &#34;&#34;&#34;
-    def __init__(self, pObs = None, jObj = None):
+    def __init__(self, jObj = None, pObs = None):
+        &#39;&#39;&#39;if type(jObj) == ESSetLocation : 
+            self = jObj
+            Location.__init__(self, pObs)
+            return&#39;&#39;&#39;
         Location.__init__(self, pObs)
         self.typeES = ES.set_typeES
         self.mAtt[ES.type] = ES.loc_valueType
@@ -539,7 +577,11 @@ def vListInstant(self):
     def vListPoint(self):
         return [val.vPoint(self.observation.option) for val in self.valueList]
 
-    def to_numpy(self, func=identity):
+    @property
+    def vListShap(self):
+        return [val.vShap() for val in self.valueList]
+
+    def to_numpy(self, func=ES._identity):
         return np.array(self.vList(func))
     
     def analyse(self):
@@ -570,6 +612,18 @@ def vListPoint(self):
     return [val.vPoint(self.observation.option) for val in self.valueList]</code></pre>
 </details>
 </dd>
+<dt id="ES.ESObs.ESSetLocation.vListShap"><code class="name">var <span class="ident">vListShap</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def vListShap(self):
+    return [val.vShap() for val in self.valueList]</code></pre>
+</details>
+</dd>
 </dl>
 <h3>Methods</h3>
 <dl>
@@ -591,7 +645,7 @@ def vListPoint(self):
 </details>
 </dd>
 <dt id="ES.ESObs.ESSetLocation.json"><code class="name flex">
-<span>def <span class="ident">json</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': [0, 1, 2]})</span>
+<span>def <span class="ident">json</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': 'dlp'})</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -606,7 +660,7 @@ def vListPoint(self):
 </details>
 </dd>
 <dt id="ES.ESObs.ESSetLocation.to_numpy"><code class="name flex">
-<span>def <span class="ident">to_numpy</span></span>(<span>self, func=&lt;function identity&gt;)</span>
+<span>def <span class="ident">to_numpy</span></span>(<span>self, func=&lt;bound method Es._identity of &lt;ESconstante.Es object&gt;&gt;)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -614,7 +668,7 @@ def vListPoint(self):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def to_numpy(self, func=identity):
+<pre><code class="python">def to_numpy(self, func=ES._identity):
     return np.array(self.vList(func))</code></pre>
 </details>
 </dd>
@@ -622,7 +676,7 @@ def vListPoint(self):
 </dd>
 <dt id="ES.ESObs.ESSetProperty"><code class="flex name class">
 <span>class <span class="ident">ESSetProperty</span></span>
-<span>(</span><span>pObs=None, jObj=None)</span>
+<span>(</span><span>jObj=None, pObs=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Classe liée à la structure interne</p></div>
@@ -634,7 +688,7 @@ def vListPoint(self):
     &#34;&#34;&#34;
     Classe liée à la structure interne
     &#34;&#34;&#34;
-    def __init__(self, pObs = None, jObj = None):
+    def __init__(self, jObj = None, pObs = None):
         Property.__init__(self, pObs)
         self.typeES = ES.set_typeES
         self.mAtt[ES.type] = ES.prp_valueType
@@ -648,7 +702,7 @@ def vListPoint(self):
         else : prp_valName = ES.prp_valName[1]
         return self.jsonESSet(prp_valName, option)
 
-    def to_numpy(self, func=identity):
+    def to_numpy(self, func=ES._identity):
         return np.array(self.vList(func))</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -661,7 +715,7 @@ def vListPoint(self):
 <h3>Methods</h3>
 <dl>
 <dt id="ES.ESObs.ESSetProperty.json"><code class="name flex">
-<span>def <span class="ident">json</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': [0, 1, 2]})</span>
+<span>def <span class="ident">json</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': 'dlp'})</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -676,7 +730,7 @@ def vListPoint(self):
 </details>
 </dd>
 <dt id="ES.ESObs.ESSetProperty.to_numpy"><code class="name flex">
-<span>def <span class="ident">to_numpy</span></span>(<span>self, func=&lt;function identity&gt;)</span>
+<span>def <span class="ident">to_numpy</span></span>(<span>self, func=&lt;bound method Es._identity of &lt;ESconstante.Es object&gt;&gt;)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -684,7 +738,7 @@ def vListPoint(self):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def to_numpy(self, func=identity):
+<pre><code class="python">def to_numpy(self, func=ES._identity):
     return np.array(self.vList(func))</code></pre>
 </details>
 </dd>
@@ -692,7 +746,7 @@ def vListPoint(self):
 </dd>
 <dt id="ES.ESObs.ESSetResult"><code class="flex name class">
 <span>class <span class="ident">ESSetResult</span></span>
-<span>(</span><span>pObs=None, jObj=None)</span>
+<span>(</span><span>jObj=None, pObs=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Classe liée à la structure interne</p></div>
@@ -704,7 +758,7 @@ def vListPoint(self):
     &#34;&#34;&#34;
     Classe liée à la structure interne
     &#34;&#34;&#34;
-    def __init__(self, pObs = None, jObj = None):
+    def __init__(self, jObj = None, pObs = None):
         Result.__init__(self, pObs)
         self.typeES = ES.set_typeES
         self.mAtt[ES.type] = ES.res_valueType
@@ -720,13 +774,15 @@ def vListPoint(self):
         return [val.ind for val in self.valueList]
 
     def full(self, maj=True):
-        [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs()
+        [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs
         resComp = np.ones((nDat, nLoc, nPrp))
         for res in self.valueList: resComp[tuple(res.ind)] = 0
         nz = np.nonzero(resComp)
         full = copy.copy(self.valueList)
         if maj :
-            for t in zip(list(nz[0]), list(nz[1]), list(nz[2])) : self.addValue(ResultValue, ResultValue(ind=list(t)))
+            #for t in zip(list(nz[0]), list(nz[1]), list(nz[2])) : self.addValue(ResultValue, ResultValue(ind=list(t)))
+            for t in zip(list(nz[0]), list(nz[1]), list(nz[2])) : 
+                self.addValue(ResultValue, ResultValue(ind=[int(t[0]),int(t[1]),int(t[2])]))
             self.observation.majType(order=&#39;dlp&#39;)
             return []
         else :
@@ -734,11 +790,11 @@ def vListPoint(self):
             for t in zip(list(nz[0]), list(nz[1]), list(nz[2])) : full.append(ResultValue(ind=list(t)))
             return full
             
-    def to_numpy(self, func=identity, ind=&#39;axe&#39;):
+    def to_numpy(self, func=ES._identity, ind=&#39;axe&#39;):
         if type(ind) == str and ind == &#39;flat&#39; : return np.array(self.vList(func))
         #elif type(ind) == str and (ind == &#39;obs&#39; or (ind == &#39;axe&#39; and len(self.axes) == 3 )) :
         elif type(ind) == str and (ind == &#39;obs&#39; or (ind == &#39;axe&#39; and max(self.axes) &lt; 9 )) :
-            [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs()
+            [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs
             listFull = self.full(False)
             listInd = sorted(list(zip(listFull, list(range(len(listFull))))))
             fullTri, indTri = zip(*listInd)
@@ -748,7 +804,7 @@ def vListPoint(self):
             for ax in self.axes :
                 if ax &gt; 100 : return np.array(self.vList(func))
                 elif ax &gt; 9 :
-                    [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs()
+                    [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs
                     order = [nDat, nLoc, nPrp]
                     cop = copy.deepcopy(self.valueList)   
                     #cop = self.vList()   
@@ -951,13 +1007,15 @@ measure rate : taux de triplet (dat, loc, prop) documenté</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def full(self, maj=True):
-    [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs()
+    [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs
     resComp = np.ones((nDat, nLoc, nPrp))
     for res in self.valueList: resComp[tuple(res.ind)] = 0
     nz = np.nonzero(resComp)
     full = copy.copy(self.valueList)
     if maj :
-        for t in zip(list(nz[0]), list(nz[1]), list(nz[2])) : self.addValue(ResultValue, ResultValue(ind=list(t)))
+        #for t in zip(list(nz[0]), list(nz[1]), list(nz[2])) : self.addValue(ResultValue, ResultValue(ind=list(t)))
+        for t in zip(list(nz[0]), list(nz[1]), list(nz[2])) : 
+            self.addValue(ResultValue, ResultValue(ind=[int(t[0]),int(t[1]),int(t[2])]))
         self.observation.majType(order=&#39;dlp&#39;)
         return []
     else :
@@ -997,7 +1055,7 @@ measure rate : taux de triplet (dat, loc, prop) documenté</p></div>
 </details>
 </dd>
 <dt id="ES.ESObs.ESSetResult.json"><code class="name flex">
-<span>def <span class="ident">json</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': [0, 1, 2]})</span>
+<span>def <span class="ident">json</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': 'dlp'})</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1066,7 +1124,7 @@ measure rate : taux de triplet (dat, loc, prop) documenté</p></div>
 </details>
 </dd>
 <dt id="ES.ESObs.ESSetResult.to_numpy"><code class="name flex">
-<span>def <span class="ident">to_numpy</span></span>(<span>self, func=&lt;function identity&gt;, ind='axe')</span>
+<span>def <span class="ident">to_numpy</span></span>(<span>self, func=&lt;bound method Es._identity of &lt;ESconstante.Es object&gt;&gt;, ind='axe')</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1074,11 +1132,11 @@ measure rate : taux de triplet (dat, loc, prop) documenté</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def to_numpy(self, func=identity, ind=&#39;axe&#39;):
+<pre><code class="python">def to_numpy(self, func=ES._identity, ind=&#39;axe&#39;):
     if type(ind) == str and ind == &#39;flat&#39; : return np.array(self.vList(func))
     #elif type(ind) == str and (ind == &#39;obs&#39; or (ind == &#39;axe&#39; and len(self.axes) == 3 )) :
     elif type(ind) == str and (ind == &#39;obs&#39; or (ind == &#39;axe&#39; and max(self.axes) &lt; 9 )) :
-        [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs()
+        [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs
         listFull = self.full(False)
         listInd = sorted(list(zip(listFull, list(range(len(listFull))))))
         fullTri, indTri = zip(*listInd)
@@ -1088,7 +1146,7 @@ measure rate : taux de triplet (dat, loc, prop) documenté</p></div>
         for ax in self.axes :
             if ax &gt; 100 : return np.array(self.vList(func))
             elif ax &gt; 9 :
-                [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs()
+                [nPrp, nDat, nLoc, nRes] = self.observation.nValueObs
                 order = [nDat, nLoc, nPrp]
                 cop = copy.deepcopy(self.valueList)   
                 #cop = self.vList()   
@@ -1241,6 +1299,7 @@ measure rate : taux de triplet (dat, loc, prop) documenté</p></div>
 <li><code><a title="ES.ESObs.ESSetDatation.json" href="#ES.ESObs.ESSetDatation.json">json</a></code></li>
 <li><code><a title="ES.ESObs.ESSetDatation.to_numpy" href="#ES.ESObs.ESSetDatation.to_numpy">to_numpy</a></code></li>
 <li><code><a title="ES.ESObs.ESSetDatation.vListInstant" href="#ES.ESObs.ESSetDatation.vListInstant">vListInstant</a></code></li>
+<li><code><a title="ES.ESObs.ESSetDatation.vListSlot" href="#ES.ESObs.ESSetDatation.vListSlot">vListSlot</a></code></li>
 </ul>
 </li>
 <li>
@@ -1250,6 +1309,7 @@ measure rate : taux de triplet (dat, loc, prop) documenté</p></div>
 <li><code><a title="ES.ESObs.ESSetLocation.json" href="#ES.ESObs.ESSetLocation.json">json</a></code></li>
 <li><code><a title="ES.ESObs.ESSetLocation.to_numpy" href="#ES.ESObs.ESSetLocation.to_numpy">to_numpy</a></code></li>
 <li><code><a title="ES.ESObs.ESSetLocation.vListPoint" href="#ES.ESObs.ESSetLocation.vListPoint">vListPoint</a></code></li>
+<li><code><a title="ES.ESObs.ESSetLocation.vListShap" href="#ES.ESObs.ESSetLocation.vListShap">vListShap</a></code></li>
 </ul>
 </li>
 <li>

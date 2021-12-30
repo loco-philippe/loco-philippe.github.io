@@ -24,7 +24,19 @@
 <p>Created on Mon Aug
 2 14:51:23 2021</p>
 <p>@author: philippe@loco-labs.io</p>
-<p>This module groups together the classes of the objects used in the <code><a title="ES.ESObs" href="ESObs.html">ES.ESObs</a></code> module.</p>
+<p>This module groups together the classes of the objects used in the <code><a title="ES.ESObs" href="ESObs.html">ES.ESObs</a></code> module :</p>
+<ul>
+<li><code><a title="ES.ESValue.DatationValue" href="#ES.ESValue.DatationValue">DatationValue</a></code>,</li>
+<li><code><a title="ES.ESValue.LocationValue" href="#ES.ESValue.LocationValue">LocationValue</a></code>,</li>
+<li><code><a title="ES.ESValue.PropertyValue" href="#ES.ESValue.PropertyValue">PropertyValue</a></code>,</li>
+<li><code><a title="ES.ESValue.ResultValue" href="#ES.ESValue.ResultValue">ResultValue</a></code></li>
+</ul>
+<p>the parent classes :</p>
+<ul>
+<li><code><a title="ES.ESValue.ESValue" href="#ES.ESValue.ESValue">ESValue</a></code>, </li>
+<li><code><a title="ES.ESValue.ESIndexValue" href="#ES.ESValue.ESIndexValue">ESIndexValue</a></code>.</li>
+</ul>
+<p>and the <code><a title="ES.ESValue.ESSet" href="#ES.ESValue.ESSet">ESSet</a></code> class.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -35,16 +47,31 @@ Created on Mon Aug  2 14:51:23 2021
 
 @author: philippe@loco-labs.io
 
-This module groups together the classes of the objects used in the `ES.ESObs` module.
+This module groups together the classes of the objects used in the `ES.ESObs` module :
+    
+- `ES.ESValue.DatationValue`,
+- `ES.ESValue.LocationValue`,
+- `ES.ESValue.PropertyValue`,
+- `ES.ESValue.ResultValue`
+
+the parent classes :
+    
+- `ES.ESValue.ESValue`, 
+- `ES.ESValue.ESIndexValue`.
+
+and the `ES.ESValue.ESSet` class.   
 &#34;&#34;&#34;
+
 import json, geojson, struct, numpy, pandas, shapely
 from datetime import datetime
-from ESconstante import ES, mDistRef, identity
+from ESconstante import ES #, _identity
 #from shapely.geometry import shape #, mapping
 from ESElement import isESAtt, isUserAtt
 from geopy import distance
+#from ESObservation import Observation
+#import ESObservation
 
-def gshape(coord):
+def _gshape(coord):
     if type(coord) == list:  coor = json.dumps(coord)
     elif type(coord) == str: coor = coord
     else: coor = coord.copy()
@@ -60,7 +87,7 @@ class ESValue:
     &#34;&#34;&#34;
     This class is the parent class for each kind of values 
      (`ES.ESValue.DatationValue`, `ES.ESValue.LocationValue`, `ES.ESValue.PropertyValue`,
-      `ES.ESValue.ResultValue`,
+      `ES.ESValue.ResultValue`)
     &#34;&#34;&#34;
     def mini(x, y):
         if type(x) == LocationValue: mm = LocationValue([min(x.point[0], y.point[0]), min(x.point[1], y.point[1])])
@@ -89,7 +116,7 @@ class ESValue:
 
     def majValue(self, val, simple = True):
         if type(val) == LocationValue :
-            if not simple and val.shap != None and val.shap != gshape(ES.nullCoor) : 
+            if not simple and val.shap != None and val.shap != _gshape(ES.nullCoor) : 
                 self.shap = val.shap
                 self.point = [self.shap.centroid.x, self.shap.centroid.y]
             if simple and val.point != ES.nullCoor : self.point = val.point
@@ -192,6 +219,10 @@ class DatationValue(ESValue):
     
     def getSlot(self) : return self.slot
 
+    def vSlot(self):
+        if self.slot != [ES.nullDate, ES.nullDate] : return self.slot
+        else : return self.initSlot(self.instant)
+            
     def vInstant(self, option = ES.mOption, string = False) : #string=False):  
         if self.slot != [ES.nullDate, ES.nullDate] : val = [self.slot[0], self.slot[1]]
         else: val =  self.instant
@@ -248,7 +279,7 @@ class LocationValue(ESValue):
             return
         elif type(val) == dict :
             self.name, val = list(val.items())[0]   
-        shap = gshape(val)
+        shap = _gshape(val)
         if shap == None :
             if type(val) == str and self.name == ES.nullName : self.name = val
         elif type(shap) == shapely.geometry.point.Point : self.point = [shap.x, shap.y]
@@ -266,7 +297,7 @@ class LocationValue(ESValue):
     def __repr__(self): return self.json()
 
     def __lt__(self, other): 
-        return distance.distance(self.coorInv, mDistRef) &lt;  distance.distance(other.coorInv, mDistRef)
+        return distance.distance(self.coorInv, ES.distRef) &lt;  distance.distance(other.coorInv, ES.distRef)
     
     @property
     def coorInv(self):  return [self.vPoint()[1], self.vPoint()[0]]
@@ -275,6 +306,10 @@ class LocationValue(ESValue):
     
     def getPoint(self) : return self.point
     
+    def vShap(self):  
+        if self.shap != None : return self.shap
+        else : return _gshape(self.point)
+
     def vPoint(self, option = ES.mOption):  
         val = ES.nullCoor
         if self.shap != None :              val =  self.shap.__geo_interface__[ES.coordinates]
@@ -379,8 +414,8 @@ class PropertyValue(ESValue):
     def from_bytes(self, byt):
         bytl = byt[0:6] + b&#39;\x00&#39; +byt[6:9] + b&#39;\x00&#39; + byt[9:10]
         prp = struct.unpack(&#39;&lt;BBBLLB&#39;, bytl)
-        self.pType      = ES.cnum[prp[0]]
-        self.unit       = ES.prop[ES.cnum[prp[0]]][5]
+        self.pType      = ES.invProp[prp[0]]
+        self.unit       = ES.prop[ES.invProp[prp[0]]][5]
         self.sampling   = ES.invSampling[prp[1]]
         self.application = ES.invApplication[prp[2]]
         self.period     = prp[3]
@@ -419,13 +454,18 @@ class ResultValue (ESIndexValue):
             self.value = val.value
             self.ind = val.ind
         elif (type(val) == float or type(val) == int): self.setValue(val)
-        else : self.setValue(json.dumps(val))
+        else : 
+            from ESObservation import Observation
+            if type(val) == Observation : self.setValue(val.name)
+            else : self.setValue(json.dumps(val))
         if type(ind) == list and ind != ES.nullInd and self.ind == ES.nullInd : self.ind = ind
 
     def __eq__(self, other): return self.value == other.value
 
-    def __lt__(self, other):         
-        o = ES.mOption[&#34;sort_order&#34;]
+    def __lt__(self, other):  
+        order = ES.mOption[&#34;sort_order&#34;]
+        o = [ES.nax[order[0]], ES.nax[order[1]], ES.nax[order[2]]]
+        #o = ES.mOption[&#34;sort_order&#34;]
         return self.ind[o[0]] &lt; other.ind[o[0]] or \
               (self.ind[o[0]] == other.ind[o[0]] and self.ind[o[1]] &lt;  other.ind[o[1]]) or \
               (self.ind[o[0]] == other.ind[o[0]] and self.ind[o[1]] == other.ind[o[1]] and self.ind[o[2]] &lt; other.ind[o[2]])
@@ -493,8 +533,10 @@ class ESSet:
     def __init__(self, ValueClass = None, jObj = None):
         if ValueClass == None: return
         self.valueList = list()
-        self.iSort = list()
+        &#39;&#39;&#39; list : list of `ES.ESValue` &#39;&#39;&#39;
+        #self.iSort = list()
         self.nValue = 0
+        &#39;&#39;&#39; int : lenght of `ES.ESValue.ESSet.valueList` &#39;&#39;&#39;
         if  type(jObj) == list :
             try :
                 for val in jObj : self.addValue(ValueClass, val)
@@ -521,7 +563,7 @@ class ESSet:
     def vListName(self):
         return [self.valueList[i].vName(ES.vName[self.classES] + str(i)) for i in range(self.nValue)]
 
-    def vList(self, func=identity):
+    def vList(self, func=ES._identity):
         return [func(self.valueList[i]) for i in range(self.nValue)]
         
     def majListName(self, listName):
@@ -553,7 +595,7 @@ class ESSet:
         if option[&#34;json_elt_type&#34;] : elt_type_nb = min(2, self.nValue)
         js = &#34;&#34;
         if option[&#34;json_ESobs_class&#34;]: js = &#39;&#34;&#39; + self.classES + &#39;&#34;:{&#39;
-        js += self.jsonAtt(elt_type_nb) 
+        js += self._jsonAtt(elt_type_nb) 
         js += &#39;&#34;&#39; + ES_valName + &#39;&#34;:&#39; + self.jsonSet(option) + &#34;,&#34;
         if js[-1] == &#39;,&#39;: js = js[:-1]
         if option[&#34;json_ESobs_class&#34;]: js += &#39;}&#39; 
@@ -597,7 +639,7 @@ class ESSet:
         code_el = (byt[0] &amp; 0b11100000) &gt;&gt; 5
         nameES = not(code_ES // 3)
         forma = &#39;null&#39;
-        if code_el &gt; 3 : forma = ES.cnum[code_ES]
+        if code_el &gt; 3 : forma = ES.invProp[code_ES]
         resIndex = code_el == 5
         nVal = 1
         idx = 1
@@ -650,7 +692,8 @@ class ESSet:
 
     def sort(self, order = [], update = True):
         if order == [] :
-            listInd = sorted(list(zip(self.valueList, list(range(self.nValue)))))
+            #listInd = sorted(list(zip(self.valueList, list(range(self.nValue)))))
+            listInd = sorted(list(zip(self.valueList, list(range(self.nValue)))), key= lambda z : z[0])
             valueTri, indTri = zip(*listInd)
             if update : self.valueList = list(valueTri)
         else :
@@ -707,31 +750,6 @@ class ESSet:
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-functions">Functions</h2>
-<dl>
-<dt id="ES.ESValue.gshape"><code class="name flex">
-<span>def <span class="ident">gshape</span></span>(<span>coord)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def gshape(coord):
-    if type(coord) == list:  coor = json.dumps(coord)
-    elif type(coord) == str: coor = coord
-    else: coor = coord.copy()
-    for tpe in [&#34;Point&#34;, &#34;MultiPoint&#34;, &#34;Polygon&#34;, &#34;MultiPolygon&#34;]:
-    #for tpe in [&#34;MultiPoint&#34;, &#34;Polygon&#34;, &#34;MultiPolygon&#34;]:
-        try:
-            s = shapely.geometry.shape(geojson.loads(&#39;{&#34;type&#34;:&#34;&#39; + tpe + &#39;&#34;,&#34;coordinates&#34;:&#39; + coor + &#39;}&#39;))
-            return s
-        except: s = None
-    return s</code></pre>
-</details>
-</dd>
-</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
@@ -817,6 +835,10 @@ class ESSet:
     
     def getSlot(self) : return self.slot
 
+    def vSlot(self):
+        if self.slot != [ES.nullDate, ES.nullDate] : return self.slot
+        else : return self.initSlot(self.instant)
+            
     def vInstant(self, option = ES.mOption, string = False) : #string=False):  
         if self.slot != [ES.nullDate, ES.nullDate] : val = [self.slot[0], self.slot[1]]
         else: val =  self.instant
@@ -967,7 +989,7 @@ class ESSet:
 </details>
 </dd>
 <dt id="ES.ESValue.DatationValue.json"><code class="name flex">
-<span>def <span class="ident">json</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': [0, 1, 2]})</span>
+<span>def <span class="ident">json</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': 'dlp'})</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1001,7 +1023,7 @@ class ESSet:
 </details>
 </dd>
 <dt id="ES.ESValue.DatationValue.vInstant"><code class="name flex">
-<span>def <span class="ident">vInstant</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': [0, 1, 2]}, string=False)</span>
+<span>def <span class="ident">vInstant</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': 'dlp'}, string=False)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1019,6 +1041,20 @@ class ESSet:
     if   string and type(val) == dict : return [val[0].isoformat(), val[1].isoformat()]
     elif string and type(val) != dict : return val.isoformat()
     else : return val</code></pre>
+</details>
+</dd>
+<dt id="ES.ESValue.DatationValue.vSlot"><code class="name flex">
+<span>def <span class="ident">vSlot</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def vSlot(self):
+    if self.slot != [ES.nullDate, ES.nullDate] : return self.slot
+    else : return self.initSlot(self.instant)</code></pre>
 </details>
 </dd>
 </dl>
@@ -1067,8 +1103,10 @@ class ESSet:
     def __init__(self, ValueClass = None, jObj = None):
         if ValueClass == None: return
         self.valueList = list()
-        self.iSort = list()
+        &#39;&#39;&#39; list : list of `ES.ESValue` &#39;&#39;&#39;
+        #self.iSort = list()
         self.nValue = 0
+        &#39;&#39;&#39; int : lenght of `ES.ESValue.ESSet.valueList` &#39;&#39;&#39;
         if  type(jObj) == list :
             try :
                 for val in jObj : self.addValue(ValueClass, val)
@@ -1095,7 +1133,7 @@ class ESSet:
     def vListName(self):
         return [self.valueList[i].vName(ES.vName[self.classES] + str(i)) for i in range(self.nValue)]
 
-    def vList(self, func=identity):
+    def vList(self, func=ES._identity):
         return [func(self.valueList[i]) for i in range(self.nValue)]
         
     def majListName(self, listName):
@@ -1127,7 +1165,7 @@ class ESSet:
         if option[&#34;json_elt_type&#34;] : elt_type_nb = min(2, self.nValue)
         js = &#34;&#34;
         if option[&#34;json_ESobs_class&#34;]: js = &#39;&#34;&#39; + self.classES + &#39;&#34;:{&#39;
-        js += self.jsonAtt(elt_type_nb) 
+        js += self._jsonAtt(elt_type_nb) 
         js += &#39;&#34;&#39; + ES_valName + &#39;&#34;:&#39; + self.jsonSet(option) + &#34;,&#34;
         if js[-1] == &#39;,&#39;: js = js[:-1]
         if option[&#34;json_ESobs_class&#34;]: js += &#39;}&#39; 
@@ -1171,7 +1209,7 @@ class ESSet:
         code_el = (byt[0] &amp; 0b11100000) &gt;&gt; 5
         nameES = not(code_ES // 3)
         forma = &#39;null&#39;
-        if code_el &gt; 3 : forma = ES.cnum[code_ES]
+        if code_el &gt; 3 : forma = ES.invProp[code_ES]
         resIndex = code_el == 5
         nVal = 1
         idx = 1
@@ -1224,7 +1262,8 @@ class ESSet:
 
     def sort(self, order = [], update = True):
         if order == [] :
-            listInd = sorted(list(zip(self.valueList, list(range(self.nValue)))))
+            #listInd = sorted(list(zip(self.valueList, list(range(self.nValue)))))
+            listInd = sorted(list(zip(self.valueList, list(range(self.nValue)))), key= lambda z : z[0])
             valueTri, indTri = zip(*listInd)
             if update : self.valueList = list(valueTri)
         else :
@@ -1234,6 +1273,10 @@ class ESSet:
 </details>
 <h3>Instance variables</h3>
 <dl>
+<dt id="ES.ESValue.ESSet.nValue"><code class="name">var <span class="ident">nValue</span></code></dt>
+<dd>
+<div class="desc"><p>int : lenght of <code><a title="ES.ESValue.ESSet.valueList" href="#ES.ESValue.ESSet.valueList">ESSet.valueList</a></code></p></div>
+</dd>
 <dt id="ES.ESValue.ESSet.vListName"><code class="name">var <span class="ident">vListName</span></code></dt>
 <dd>
 <div class="desc"></div>
@@ -1245,6 +1288,10 @@ class ESSet:
 def vListName(self):
     return [self.valueList[i].vName(ES.vName[self.classES] + str(i)) for i in range(self.nValue)]</code></pre>
 </details>
+</dd>
+<dt id="ES.ESValue.ESSet.valueList"><code class="name">var <span class="ident">valueList</span></code></dt>
+<dd>
+<div class="desc"><p>list : list of <code><a title="ES.ESValue" href="#ES.ESValue">ES.ESValue</a></code></p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -1289,7 +1336,7 @@ def vListName(self):
     code_el = (byt[0] &amp; 0b11100000) &gt;&gt; 5
     nameES = not(code_ES // 3)
     forma = &#39;null&#39;
-    if code_el &gt; 3 : forma = ES.cnum[code_ES]
+    if code_el &gt; 3 : forma = ES.invProp[code_ES]
     resIndex = code_el == 5
     nVal = 1
     idx = 1
@@ -1361,7 +1408,7 @@ def vListName(self):
     if option[&#34;json_elt_type&#34;] : elt_type_nb = min(2, self.nValue)
     js = &#34;&#34;
     if option[&#34;json_ESobs_class&#34;]: js = &#39;&#34;&#39; + self.classES + &#39;&#34;:{&#39;
-    js += self.jsonAtt(elt_type_nb) 
+    js += self._jsonAtt(elt_type_nb) 
     js += &#39;&#34;&#39; + ES_valName + &#39;&#34;:&#39; + self.jsonSet(option) + &#34;,&#34;
     if js[-1] == &#39;,&#39;: js = js[:-1]
     if option[&#34;json_ESobs_class&#34;]: js += &#39;}&#39; 
@@ -1456,7 +1503,8 @@ def vListName(self):
 </summary>
 <pre><code class="python">def sort(self, order = [], update = True):
     if order == [] :
-        listInd = sorted(list(zip(self.valueList, list(range(self.nValue)))))
+        #listInd = sorted(list(zip(self.valueList, list(range(self.nValue)))))
+        listInd = sorted(list(zip(self.valueList, list(range(self.nValue)))), key= lambda z : z[0])
         valueTri, indTri = zip(*listInd)
         if update : self.valueList = list(valueTri)
     else :
@@ -1499,7 +1547,7 @@ def vListName(self):
 </details>
 </dd>
 <dt id="ES.ESValue.ESSet.vList"><code class="name flex">
-<span>def <span class="ident">vList</span></span>(<span>self, func=&lt;function identity&gt;)</span>
+<span>def <span class="ident">vList</span></span>(<span>self, func=&lt;bound method Es._identity of &lt;ESconstante.Es object&gt;&gt;)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1507,7 +1555,7 @@ def vListName(self):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def vList(self, func=identity):
+<pre><code class="python">def vList(self, func=ES._identity):
     return [func(self.valueList[i]) for i in range(self.nValue)]</code></pre>
 </details>
 </dd>
@@ -1519,7 +1567,7 @@ def vListName(self):
 <dd>
 <div class="desc"><p>This class is the parent class for each kind of values
 (<code><a title="ES.ESValue.DatationValue" href="#ES.ESValue.DatationValue">DatationValue</a></code>, <code><a title="ES.ESValue.LocationValue" href="#ES.ESValue.LocationValue">LocationValue</a></code>, <code><a title="ES.ESValue.PropertyValue" href="#ES.ESValue.PropertyValue">PropertyValue</a></code>,
-<code><a title="ES.ESValue.ResultValue" href="#ES.ESValue.ResultValue">ResultValue</a></code>,</p></div>
+<code><a title="ES.ESValue.ResultValue" href="#ES.ESValue.ResultValue">ResultValue</a></code>)</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1528,7 +1576,7 @@ def vListName(self):
     &#34;&#34;&#34;
     This class is the parent class for each kind of values 
      (`ES.ESValue.DatationValue`, `ES.ESValue.LocationValue`, `ES.ESValue.PropertyValue`,
-      `ES.ESValue.ResultValue`,
+      `ES.ESValue.ResultValue`)
     &#34;&#34;&#34;
     def mini(x, y):
         if type(x) == LocationValue: mm = LocationValue([min(x.point[0], y.point[0]), min(x.point[1], y.point[1])])
@@ -1557,7 +1605,7 @@ def vListName(self):
 
     def majValue(self, val, simple = True):
         if type(val) == LocationValue :
-            if not simple and val.shap != None and val.shap != gshape(ES.nullCoor) : 
+            if not simple and val.shap != None and val.shap != _gshape(ES.nullCoor) : 
                 self.shap = val.shap
                 self.point = [self.shap.centroid.x, self.shap.centroid.y]
             if simple and val.point != ES.nullCoor : self.point = val.point
@@ -1637,7 +1685,7 @@ def vListName(self):
 </summary>
 <pre><code class="python">def majValue(self, val, simple = True):
     if type(val) == LocationValue :
-        if not simple and val.shap != None and val.shap != gshape(ES.nullCoor) : 
+        if not simple and val.shap != None and val.shap != _gshape(ES.nullCoor) : 
             self.shap = val.shap
             self.point = [self.shap.centroid.x, self.shap.centroid.y]
         if simple and val.point != ES.nullCoor : self.point = val.point
@@ -1748,7 +1796,7 @@ def vListName(self):
             return
         elif type(val) == dict :
             self.name, val = list(val.items())[0]   
-        shap = gshape(val)
+        shap = _gshape(val)
         if shap == None :
             if type(val) == str and self.name == ES.nullName : self.name = val
         elif type(shap) == shapely.geometry.point.Point : self.point = [shap.x, shap.y]
@@ -1766,7 +1814,7 @@ def vListName(self):
     def __repr__(self): return self.json()
 
     def __lt__(self, other): 
-        return distance.distance(self.coorInv, mDistRef) &lt;  distance.distance(other.coorInv, mDistRef)
+        return distance.distance(self.coorInv, ES.distRef) &lt;  distance.distance(other.coorInv, ES.distRef)
     
     @property
     def coorInv(self):  return [self.vPoint()[1], self.vPoint()[0]]
@@ -1775,6 +1823,10 @@ def vListName(self):
     
     def getPoint(self) : return self.point
     
+    def vShap(self):  
+        if self.shap != None : return self.shap
+        else : return _gshape(self.point)
+
     def vPoint(self, option = ES.mOption):  
         val = ES.nullCoor
         if self.shap != None :              val =  self.shap.__geo_interface__[ES.coordinates]
@@ -1891,7 +1943,7 @@ def coorInv(self):  return [self.vPoint()[1], self.vPoint()[0]]</code></pre>
         return
     elif type(val) == dict :
         self.name, val = list(val.items())[0]   
-    shap = gshape(val)
+    shap = _gshape(val)
     if shap == None :
         if type(val) == str and self.name == ES.nullName : self.name = val
     elif type(shap) == shapely.geometry.point.Point : self.point = [shap.x, shap.y]
@@ -1903,7 +1955,7 @@ def coorInv(self):  return [self.vPoint()[1], self.vPoint()[0]]</code></pre>
 </details>
 </dd>
 <dt id="ES.ESValue.LocationValue.json"><code class="name flex">
-<span>def <span class="ident">json</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': [0, 1, 2]})</span>
+<span>def <span class="ident">json</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': 'dlp'})</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1933,7 +1985,7 @@ def coorInv(self):  return [self.vPoint()[1], self.vPoint()[0]]</code></pre>
 </details>
 </dd>
 <dt id="ES.ESValue.LocationValue.vPoint"><code class="name flex">
-<span>def <span class="ident">vPoint</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': [0, 1, 2]})</span>
+<span>def <span class="ident">vPoint</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': 'dlp'})</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1952,7 +2004,7 @@ def coorInv(self):  return [self.vPoint()[1], self.vPoint()[0]]</code></pre>
 </details>
 </dd>
 <dt id="ES.ESValue.LocationValue.vPointX"><code class="name flex">
-<span>def <span class="ident">vPointX</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': [0, 1, 2]})</span>
+<span>def <span class="ident">vPointX</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': 'dlp'})</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1964,7 +2016,7 @@ def coorInv(self):  return [self.vPoint()[1], self.vPoint()[0]]</code></pre>
 </details>
 </dd>
 <dt id="ES.ESValue.LocationValue.vPointY"><code class="name flex">
-<span>def <span class="ident">vPointY</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': [0, 1, 2]})</span>
+<span>def <span class="ident">vPointY</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': 'dlp'})</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1973,6 +2025,20 @@ def coorInv(self):  return [self.vPoint()[1], self.vPoint()[0]]</code></pre>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def vPointY(self, option = ES.mOption) : return self.vPoint(option)[1]</code></pre>
+</details>
+</dd>
+<dt id="ES.ESValue.LocationValue.vShap"><code class="name flex">
+<span>def <span class="ident">vShap</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def vShap(self):  
+    if self.shap != None : return self.shap
+    else : return _gshape(self.point)</code></pre>
 </details>
 </dd>
 </dl>
@@ -2064,8 +2130,8 @@ def coorInv(self):  return [self.vPoint()[1], self.vPoint()[0]]</code></pre>
     def from_bytes(self, byt):
         bytl = byt[0:6] + b&#39;\x00&#39; +byt[6:9] + b&#39;\x00&#39; + byt[9:10]
         prp = struct.unpack(&#39;&lt;BBBLLB&#39;, bytl)
-        self.pType      = ES.cnum[prp[0]]
-        self.unit       = ES.prop[ES.cnum[prp[0]]][5]
+        self.pType      = ES.invProp[prp[0]]
+        self.unit       = ES.prop[ES.invProp[prp[0]]][5]
         self.sampling   = ES.invSampling[prp[1]]
         self.application = ES.invApplication[prp[2]]
         self.period     = prp[3]
@@ -2102,8 +2168,8 @@ def coorInv(self):  return [self.vPoint()[1], self.vPoint()[0]]</code></pre>
 <pre><code class="python">def from_bytes(self, byt):
     bytl = byt[0:6] + b&#39;\x00&#39; +byt[6:9] + b&#39;\x00&#39; + byt[9:10]
     prp = struct.unpack(&#39;&lt;BBBLLB&#39;, bytl)
-    self.pType      = ES.cnum[prp[0]]
-    self.unit       = ES.prop[ES.cnum[prp[0]]][5]
+    self.pType      = ES.invProp[prp[0]]
+    self.unit       = ES.prop[ES.invProp[prp[0]]][5]
     self.sampling   = ES.invSampling[prp[1]]
     self.application = ES.invApplication[prp[2]]
     self.period     = prp[3]
@@ -2137,7 +2203,7 @@ def coorInv(self):  return [self.vPoint()[1], self.vPoint()[0]]</code></pre>
 </details>
 </dd>
 <dt id="ES.ESValue.PropertyValue.json"><code class="name flex">
-<span>def <span class="ident">json</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': [0, 1, 2]})</span>
+<span>def <span class="ident">json</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': 'dlp'})</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -2226,13 +2292,18 @@ def coorInv(self):  return [self.vPoint()[1], self.vPoint()[0]]</code></pre>
             self.value = val.value
             self.ind = val.ind
         elif (type(val) == float or type(val) == int): self.setValue(val)
-        else : self.setValue(json.dumps(val))
+        else : 
+            from ESObservation import Observation
+            if type(val) == Observation : self.setValue(val.name)
+            else : self.setValue(json.dumps(val))
         if type(ind) == list and ind != ES.nullInd and self.ind == ES.nullInd : self.ind = ind
 
     def __eq__(self, other): return self.value == other.value
 
-    def __lt__(self, other):         
-        o = ES.mOption[&#34;sort_order&#34;]
+    def __lt__(self, other):  
+        order = ES.mOption[&#34;sort_order&#34;]
+        o = [ES.nax[order[0]], ES.nax[order[1]], ES.nax[order[2]]]
+        #o = ES.mOption[&#34;sort_order&#34;]
         return self.ind[o[0]] &lt; other.ind[o[0]] or \
               (self.ind[o[0]] == other.ind[o[0]] and self.ind[o[1]] &lt;  other.ind[o[1]]) or \
               (self.ind[o[0]] == other.ind[o[0]] and self.ind[o[1]] == other.ind[o[1]] and self.ind[o[2]] &lt; other.ind[o[2]])
@@ -2356,12 +2427,15 @@ def coorInv(self):  return [self.vPoint()[1], self.vPoint()[0]]</code></pre>
         self.value = val.value
         self.ind = val.ind
     elif (type(val) == float or type(val) == int): self.setValue(val)
-    else : self.setValue(json.dumps(val))
+    else : 
+        from ESObservation import Observation
+        if type(val) == Observation : self.setValue(val.name)
+        else : self.setValue(json.dumps(val))
     if type(ind) == list and ind != ES.nullInd and self.ind == ES.nullInd : self.ind = ind</code></pre>
 </details>
 </dd>
 <dt id="ES.ESValue.ResultValue.json"><code class="name flex">
-<span>def <span class="ident">json</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': [0, 1, 2]})</span>
+<span>def <span class="ident">json</span></span>(<span>self, option={'json_res_index': False, 'json_prp_type': True, 'json_prp_name': False, 'json_dat_instant': True, 'json_dat_name': False, 'json_loc_point': True, 'json_loc_name': False, 'json_ESobs_class': False, 'json_elt_type': False, 'json_obs_val': True, 'json_obs_attrib': False, 'json_param': False, 'json_info_type': True, 'json_info_nval': True, 'json_info_box': True, 'json_info_autre': True, 'unic_index': True, 'bytes_res_format': 'null', 'maj_reset_index': False, 'sort_order': 'dlp'})</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -2462,11 +2536,6 @@ def coorInv(self):  return [self.vPoint()[1], self.vPoint()[0]]</code></pre>
 <li><code><a title="ES" href="index.html">ES</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="">
-<li><code><a title="ES.ESValue.gshape" href="#ES.ESValue.gshape">gshape</a></code></li>
-</ul>
-</li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
@@ -2480,6 +2549,7 @@ def coorInv(self):  return [self.vPoint()[1], self.vPoint()[0]]</code></pre>
 <li><code><a title="ES.ESValue.DatationValue.json" href="#ES.ESValue.DatationValue.json">json</a></code></li>
 <li><code><a title="ES.ESValue.DatationValue.to_bytes" href="#ES.ESValue.DatationValue.to_bytes">to_bytes</a></code></li>
 <li><code><a title="ES.ESValue.DatationValue.vInstant" href="#ES.ESValue.DatationValue.vInstant">vInstant</a></code></li>
+<li><code><a title="ES.ESValue.DatationValue.vSlot" href="#ES.ESValue.DatationValue.vSlot">vSlot</a></code></li>
 <li><code><a title="ES.ESValue.DatationValue.valName" href="#ES.ESValue.DatationValue.valName">valName</a></code></li>
 <li><code><a title="ES.ESValue.DatationValue.valueType" href="#ES.ESValue.DatationValue.valueType">valueType</a></code></li>
 </ul>
@@ -2499,10 +2569,12 @@ def coorInv(self):  return [self.vPoint()[1], self.vPoint()[0]]</code></pre>
 <li><code><a title="ES.ESValue.ESSet.majListValue" href="#ES.ESValue.ESSet.majListValue">majListValue</a></code></li>
 <li><code><a title="ES.ESValue.ESSet.maxiBox" href="#ES.ESValue.ESSet.maxiBox">maxiBox</a></code></li>
 <li><code><a title="ES.ESValue.ESSet.miniBox" href="#ES.ESValue.ESSet.miniBox">miniBox</a></code></li>
+<li><code><a title="ES.ESValue.ESSet.nValue" href="#ES.ESValue.ESSet.nValue">nValue</a></code></li>
 <li><code><a title="ES.ESValue.ESSet.sort" href="#ES.ESValue.ESSet.sort">sort</a></code></li>
 <li><code><a title="ES.ESValue.ESSet.to_bytes" href="#ES.ESValue.ESSet.to_bytes">to_bytes</a></code></li>
 <li><code><a title="ES.ESValue.ESSet.vList" href="#ES.ESValue.ESSet.vList">vList</a></code></li>
 <li><code><a title="ES.ESValue.ESSet.vListName" href="#ES.ESValue.ESSet.vListName">vListName</a></code></li>
+<li><code><a title="ES.ESValue.ESSet.valueList" href="#ES.ESValue.ESSet.valueList">valueList</a></code></li>
 </ul>
 </li>
 <li>
@@ -2530,6 +2602,7 @@ def coorInv(self):  return [self.vPoint()[1], self.vPoint()[0]]</code></pre>
 <li><code><a title="ES.ESValue.LocationValue.vPoint" href="#ES.ESValue.LocationValue.vPoint">vPoint</a></code></li>
 <li><code><a title="ES.ESValue.LocationValue.vPointX" href="#ES.ESValue.LocationValue.vPointX">vPointX</a></code></li>
 <li><code><a title="ES.ESValue.LocationValue.vPointY" href="#ES.ESValue.LocationValue.vPointY">vPointY</a></code></li>
+<li><code><a title="ES.ESValue.LocationValue.vShap" href="#ES.ESValue.LocationValue.vShap">vShap</a></code></li>
 <li><code><a title="ES.ESValue.LocationValue.valName" href="#ES.ESValue.LocationValue.valName">valName</a></code></li>
 <li><code><a title="ES.ESValue.LocationValue.valueType" href="#ES.ESValue.LocationValue.valueType">valueType</a></code></li>
 </ul>

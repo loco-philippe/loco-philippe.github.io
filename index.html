@@ -22,37 +22,54 @@
 <section id="section-intro">
 <p>Created on Fri Dec 24 15:21:14 2021</p>
 <p>@author: philippe@loco-labs.io</p>
-<h1 id="what-is-environnemental-sensing">What is Environnemental Sensing ?</h1>
-<p>The ES (Environmental Sensing) package is built around the concept of Observation.
-An <code><a title="ES.ESObservation.Observation" href="ESObservation.html#ES.ESObservation.Observation">Observation</a></code> is an object representing a set of information having
+<h1 id="observation-and-measurement">Observation and Measurement</h1>
+<p>The ES (Environmental Sensing) package is built around the concept of Observation as define
+in the ISO-19156 "observation and measurement" :
+</p>
+<p><em>"This International Standard defines a conceptual schema for observations, and
+for features involved in sampling when making observations. These provide models
+for the exchange of information describing observation acts and their results,
+both within and between different scientific and technical communities."</em>
+</p>
+<h1 id="what-is-environnemental-sensing-project">What is Environnemental Sensing project ?</h1>
+<p>The ES project is an implementation of the Standard :</p>
+<ul>
+<li>A data model that makes it possible to represent elementary observations
+(a simple one-off measurement), complex observations (multi-dimensions),
+detailed levels of representation (for example, the evolution of a plume of smoke).</li>
+<li>Data formats adapted to interfaces (binary payload for networks, json for requests
+or for NoSQL API, files)</li>
+<li>A library of connectors for different uses (sensors, database, storage, networks, etc.)
+in différents languages (python, C++)</li>
+<li>Bidirectional interfaces to data processing tools (eg Numpy, Xarray, GIS).</li>
+</ul>
+<h1 id="main-principles">Main principles</h1>
+<h2 id="observation-standard">Observation standard</h2>
+<h2 id="index">Index</h2>
+<h2 id="dimension">Dimension</h2>
+<h2 id="json-interface">Json interface</h2>
+<h2 id="binary-interface">Binary interface</h2>
+<h2 id="bluetooth-mapping">Bluetooth mapping</h2>
+<h2 id="xarray-mapping">Xarray mapping</h2>
+<h1 id="data-model">Data model</h1>
+<p>An <code><a title="ES.ESObservation.Observation" href="ESObservation.html#ES.ESObservation.Observation">Observation</a></code> is an object representing a set of information having
 spatial and temporal characteristics associated with measurable or observable
 properties.
 <img alt="classes observation" src="ESclasses.png" title="Observation class"></p>
 <h1 id="what-are-the-es-classes">What are the ES classes ?</h1>
-<p>The ES functions are divided according to the class hierarchy below:</p>
+<p>The ES functions are divided according to the class hierarchy below :</p>
 <p><img alt="hierarchy observation" src="EShierarchie.png" title="Hierarchy Observation class"></p>
 <p>Modules contain the following classes :</p>
 <ul>
-<li>ESObservation : <a href="ESObservation.html#ES.ESObservation.Observation">Observation</a>, </li>
-<li>ESValue : <a href="ESValue.html#ES.ESValue.DatationValue">DatationValue</a>,
-<a href="ESValue.html#ES.ESValue.LocationValue">LocationValue</a>,
-<a href="ESValue.html#ES.ESValue.PropertyValue">PropertyValue</a>,
-<a href="ESValue.html#ES.ESValue.ResultValue">ResultValue</a>,
-<a href="ESValue.html#ES.ESValue.ESValue">ESValue</a>,
-<a href="ESValue.html#ES.ESValue.ESIndexValue">ESIndexValue</a>,
-<a href="ESValue.html#ES.ESValue.ESSet">ESSet</a></li>
-<li>ESElement : <a href="ESElement.html#ES.ESElement.ESElement">ESElement</a>,
-<a href="ESElement.html#ES.ESElement.ESObs">ESObs</a> ,
-<a href="ESElement.html#ES.ESElement.ESObject">ESObject</a>.</li>
-<li>ESObs : <a href="ESObs.html#ES.ESObs.Location">Location</a>,
-<a href="ESObs.html#ES.ESObs.Datation">Datation</a>,
-<a href="ESObs.html#ES.ESObs.Property">Property</a>,
-<a href="ESObs.html#ES.ESObs.Result">Result</a>,
-<a href="ESObs.html#ES.ESObs.ESSetLocation">ESSetLocation</a>,
-<a href="ESObs.html#ES.ESObs.ESSetDatation">ESSetDatation</a>,
-<a href="ESObs.html#ES.ESObs.ESSetProperty">ESSetProperty</a>,
-<a href="ESObs.html#ES.ESObs.ESSetResult">ESSetResult</a>,</li>
-<li>ESconstante : <a href="ESconstante.html#ES.ESconstante.Es">Es</a>,</li>
+<li>ESObservation : <code><a title="ES.ESObservation.Observation" href="ESObservation.html#ES.ESObservation.Observation">Observation</a></code>, </li>
+<li>ESValue : <code><a title="ES.ESValue.DatationValue" href="ESValue.html#ES.ESValue.DatationValue">DatationValue</a></code>, <code><a title="ES.ESValue.LocationValue" href="ESValue.html#ES.ESValue.LocationValue">LocationValue</a></code>,
+<code><a title="ES.ESValue.PropertyValue" href="ESValue.html#ES.ESValue.PropertyValue">PropertyValue</a></code>, <code><a title="ES.ESValue.ResultValue" href="ESValue.html#ES.ESValue.ResultValue">ResultValue</a></code>, <code><a title="ES.ESValue.ESValue" href="ESValue.html#ES.ESValue.ESValue">ESValue</a></code>,
+<code><a title="ES.ESValue.ESIndexValue" href="ESValue.html#ES.ESValue.ESIndexValue">ESIndexValue</a></code>, <code><a title="ES.ESValue.ESSet" href="ESValue.html#ES.ESValue.ESSet">ESSet</a></code></li>
+<li>ESElement : <code><a title="ES.ESElement.ESElement" href="ESElement.html#ES.ESElement.ESElement">ESElement</a></code>, <code><a title="ES.ESElement.ESObs" href="ESElement.html#ES.ESElement.ESObs">ESObs</a></code>, <code><a title="ES.ESElement.ESObject" href="ESElement.html#ES.ESElement.ESObject">ESObject</a></code>.</li>
+<li>ESObs : <code><a title="ES.ESObs.Location" href="ESObs.html#ES.ESObs.Location">Location</a></code>, <code><a title="ES.ESObs.Datation" href="ESObs.html#ES.ESObs.Datation">Datation</a></code>, <code><a title="ES.ESObs.Property" href="ESObs.html#ES.ESObs.Property">Property</a></code>,
+<code><a title="ES.ESObs.Result" href="ESObs.html#ES.ESObs.Result">Result</a></code>, <code><a title="ES.ESObs.ESSetLocation" href="ESObs.html#ES.ESObs.ESSetLocation">ESSetLocation</a></code>, <code><a title="ES.ESObs.ESSetDatation" href="ESObs.html#ES.ESObs.ESSetDatation">ESSetDatation</a></code>,
+<code><a title="ES.ESObs.ESSetProperty" href="ESObs.html#ES.ESObs.ESSetProperty">ESSetProperty</a></code>, <code><a title="ES.ESObs.ESSetResult" href="ESObs.html#ES.ESObs.ESSetResult">ESSetResult</a></code>, </li>
+<li>ESconstante : <code><a title="ES.ESconstante.Es" href="ESconstante.html#ES.ESconstante.Es">Es</a></code>.</li>
 </ul>
 <details class="source">
 <summary>
@@ -64,9 +81,48 @@ Created on Fri Dec 24 15:21:14 2021
 
 @author: philippe@loco-labs.io
 
-# What is Environnemental Sensing ?
 
-The ES (Environmental Sensing) package is built around the concept of Observation.
+# Observation and Measurement
+
+The ES (Environmental Sensing) package is built around the concept of Observation as define
+in the ISO-19156 &#34;observation and measurement&#34; :  
+
+*&#34;This International Standard defines a conceptual schema for observations, and 
+for features involved in sampling when making observations. These provide models 
+for the exchange of information describing observation acts and their results, 
+both within and between different scientific and technical communities.&#34;*   
+
+# What is Environnemental Sensing project ?
+
+The ES project is an implementation of the Standard :
+    
+- A data model that makes it possible to represent elementary observations 
+(a simple one-off measurement), complex observations (multi-dimensions), 
+detailed levels of representation (for example, the evolution of a plume of smoke).
+- Data formats adapted to interfaces (binary payload for networks, json for requests 
+or for NoSQL API, files)
+- A library of connectors for different uses (sensors, database, storage, networks, etc.) 
+in différents languages (python, C++)
+- Bidirectional interfaces to data processing tools (eg Numpy, Xarray, GIS).
+
+# Main principles
+
+## Observation standard
+
+## Index
+
+## Dimension
+
+## Json interface
+
+## Binary interface
+
+## Bluetooth mapping
+
+## Xarray mapping
+
+# Data model
+
 An `ES.ESObservation.Observation` is an object representing a set of information having
 spatial and temporal characteristics associated with measurable or observable
  properties.
@@ -74,32 +130,22 @@ spatial and temporal characteristics associated with measurable or observable
 
 # What are the ES classes ?
 
-The ES functions are divided according to the class hierarchy below:
+The ES functions are divided according to the class hierarchy below :
  
 ![hierarchy observation](EShierarchie.png &#34;Hierarchy Observation class&#34;)
 
 Modules contain the following classes :
     
-- ESObservation : [Observation](ESObservation.html#ES.ESObservation.Observation), 
-- ESValue : [DatationValue](ESValue.html#ES.ESValue.DatationValue), 
-[LocationValue](ESValue.html#ES.ESValue.LocationValue), 
-[PropertyValue](ESValue.html#ES.ESValue.PropertyValue), 
-[ResultValue](ESValue.html#ES.ESValue.ResultValue), 
-[ESValue](ESValue.html#ES.ESValue.ESValue), 
-[ESIndexValue](ESValue.html#ES.ESValue.ESIndexValue), 
-[ESSet](ESValue.html#ES.ESValue.ESSet)
-- ESElement : [ESElement](ESElement.html#ES.ESElement.ESElement),
-[ESObs](ESElement.html#ES.ESElement.ESObs) , 
-[ESObject](ESElement.html#ES.ESElement.ESObject).
-- ESObs : [Location](ESObs.html#ES.ESObs.Location),
-[Datation](ESObs.html#ES.ESObs.Datation),
-[Property](ESObs.html#ES.ESObs.Property),
-[Result](ESObs.html#ES.ESObs.Result),
-[ESSetLocation](ESObs.html#ES.ESObs.ESSetLocation),
-[ESSetDatation](ESObs.html#ES.ESObs.ESSetDatation),
-[ESSetProperty](ESObs.html#ES.ESObs.ESSetProperty),
-[ESSetResult](ESObs.html#ES.ESObs.ESSetResult),
-- ESconstante : [Es](ESconstante.html#ES.ESconstante.Es),
+- ESObservation : `ES.ESObservation.Observation`, 
+- ESValue : `ES.ESValue.DatationValue`, `ES.ESValue.LocationValue`, 
+`ES.ESValue.PropertyValue`, `ES.ESValue.ResultValue`, `ES.ESValue.ESValue`, 
+`ES.ESValue.ESIndexValue`, `ES.ESValue.ESSet`
+- ESElement : `ES.ESElement.ESElement`, `ES.ESElement.ESObs`, `ES.ESElement.ESObject`.
+- ESObs : `ES.ESObs.Location`, `ES.ESObs.Datation`, `ES.ESObs.Property`,
+`ES.ESObs.Result`, `ES.ESObs.ESSetLocation`, `ES.ESObs.ESSetDatation`,
+`ES.ESObs.ESSetProperty`, `ES.ESObs.ESSetResult`, 
+- ESconstante : `ES.ESconstante.Es`.
+
 
 &#34;&#34;&#34;</code></pre>
 </details>
@@ -150,7 +196,19 @@ Modules contain the following classes :
 <h1>Index</h1>
 <div class="toc">
 <ul>
-<li><a href="#what-is-environnemental-sensing">What is Environnemental Sensing ?</a></li>
+<li><a href="#observation-and-measurement">Observation and Measurement</a></li>
+<li><a href="#what-is-environnemental-sensing-project">What is Environnemental Sensing project ?</a></li>
+<li><a href="#main-principles">Main principles</a><ul>
+<li><a href="#observation-standard">Observation standard</a></li>
+<li><a href="#index">Index</a></li>
+<li><a href="#dimension">Dimension</a></li>
+<li><a href="#json-interface">Json interface</a></li>
+<li><a href="#binary-interface">Binary interface</a></li>
+<li><a href="#bluetooth-mapping">Bluetooth mapping</a></li>
+<li><a href="#xarray-mapping">Xarray mapping</a></li>
+</ul>
+</li>
+<li><a href="#data-model">Data model</a></li>
 <li><a href="#what-are-the-es-classes">What are the ES classes ?</a></li>
 </ul>
 </div>
