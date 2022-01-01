@@ -43,8 +43,48 @@ or for NoSQL API, files)</li>
 in différents languages (python, C++)</li>
 <li>Bidirectional interfaces to data processing tools (eg Numpy, Xarray, GIS).</li>
 </ul>
+<p>It allows to :</p>
+<ul>
+<li>Facilitate the use and sharing of environmental data</li>
+<li>Standardize both data acquisition equipment (sensors) and processing applications,</li>
+<li>Implement a software architecture replacing all coding / decoding operations
+(interfaces) by the use of standard connectors,</li>
+<li>Respect and rely on the main existing standards</li>
+<li>Collectively share and develop a set of open-source connectors responding to
+all situations (platform)</li>
+</ul>
 <h1 id="main-principles">Main principles</h1>
 <h2 id="observation-standard">Observation standard</h2>
+<p>The existing standards are incomplete and sometimes incompatible. They only cover
+part of the subject and most often remain at a syntactic and non-semantic level.
+The proposed data structure is based on existing standards that it complements
+by ensuring convergence:
+</p>
+<p><img alt="ES standard" src="standard.png" title="ES standard"></p>
+<h2 id="data-structure">Data structure</h2>
+<p>An Observation is characterized by:</p>
+<pre><code>- "observed property": the observed property,
+</code></pre>
+<ul>
+<li>"feature of interest": the object (most often a location) of the observation,</li>
+<li>"procedure": the information acquisition mode (sensor, model, etc.)</li>
+<li>"result": result of the observation or the measurement</li>
+</ul>
+<p>The result is a set of values ​​referenced according to the 3 dimensions:</p>
+<ul>
+<li>temporal,</li>
+<li>spatial,</li>
+<li>physical (observed property)</li>
+</ul>
+<p>It can be converted into a 3-dimensional matrix, each result being indexed by
+temporal, spatial and physical values.</p>
+<p><img alt="ES structure" src="structure.png" title="ES structure"></p>
+<p><em>Note: This “domain range” indexed representation is preferred to an “interleaved”
+tabular representation which associates temporal, spatial and physical values
+​​with each value of the result. Common properties (indicators) are associated
+with each Observation. They allow processing to be performed on Observations
+without having to know their composition (eg bounding boxes, type of observation,
+volume, etc.).</em></p>
 <h2 id="index">Index</h2>
 <h2 id="dimension">Dimension</h2>
 <h2 id="json-interface">Json interface</h2>
@@ -105,9 +145,53 @@ or for NoSQL API, files)
 in différents languages (python, C++)
 - Bidirectional interfaces to data processing tools (eg Numpy, Xarray, GIS).
 
+It allows to :
+    
+- Facilitate the use and sharing of environmental data
+- Standardize both data acquisition equipment (sensors) and processing applications,
+- Implement a software architecture replacing all coding / decoding operations 
+(interfaces) by the use of standard connectors,
+- Respect and rely on the main existing standards
+- Collectively share and develop a set of open-source connectors responding to 
+all situations (platform)
+
 # Main principles
 
 ## Observation standard
+
+The existing standards are incomplete and sometimes incompatible. They only cover 
+part of the subject and most often remain at a syntactic and non-semantic level.
+The proposed data structure is based on existing standards that it complements 
+by ensuring convergence:    
+
+![ES standard](standard.png &#34;ES standard&#34;)
+
+## Data structure
+
+An Observation is characterized by:
+
+    - &#34;observed property&#34;: the observed property,
+- &#34;feature of interest&#34;: the object (most often a location) of the observation,
+- &#34;procedure&#34;: the information acquisition mode (sensor, model, etc.)
+- &#34;result&#34;: result of the observation or the measurement
+
+The result is a set of values ​​referenced according to the 3 dimensions:
+
+- temporal,
+- spatial,
+- physical (observed property)
+
+It can be converted into a 3-dimensional matrix, each result being indexed by 
+temporal, spatial and physical values.
+
+![ES structure](structure.png &#34;ES structure&#34;)
+
+*Note: This “domain range” indexed representation is preferred to an “interleaved”
+tabular representation which associates temporal, spatial and physical values 
+​​with each value of the result. Common properties (indicators) are associated 
+with each Observation. They allow processing to be performed on Observations 
+without having to know their composition (eg bounding boxes, type of observation,
+volume, etc.).*
 
 ## Index
 
@@ -200,6 +284,7 @@ Modules contain the following classes :
 <li><a href="#what-is-environnemental-sensing-project">What is Environnemental Sensing project ?</a></li>
 <li><a href="#main-principles">Main principles</a><ul>
 <li><a href="#observation-standard">Observation standard</a></li>
+<li><a href="#data-structure">Data structure</a></li>
 <li><a href="#index">Index</a></li>
 <li><a href="#dimension">Dimension</a></li>
 <li><a href="#json-interface">Json interface</a></li>
