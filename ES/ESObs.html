@@ -220,8 +220,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">ESObs</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMin</span> <span class="o">=</span> <span class="n">DatationValue</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMax</span> <span class="o">=</span> <span class="n">DatationValue</span><span class="p">()</span>
+        <span class="c1">#self.boxMin = DatationValue()</span>
+        <span class="c1">#self.boxMax = DatationValue()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_classES</span>
 
 <span class="k">class</span> <span class="nc">Location</span><span class="p">(</span><span class="n">ESObs</span><span class="p">):</span>
@@ -230,8 +230,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">ESObs</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMin</span> <span class="o">=</span> <span class="n">LocationValue</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMax</span> <span class="o">=</span> <span class="n">LocationValue</span><span class="p">()</span>
+        <span class="c1">#self.boxMin = LocationValue()</span>
+        <span class="c1">#self.boxMax = LocationValue()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_classES</span>
 
 <span class="k">class</span> <span class="nc">Property</span><span class="p">(</span><span class="n">ESObs</span><span class="p">):</span>
@@ -275,8 +275,9 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">vSlot</span><span class="p">()</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">]</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">vListInstant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">vInstant</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">option</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">vListInstant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1">#return [val.vInstant(self.observation.option) for val in self.valueList]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">vInstant</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
@@ -297,8 +298,9 @@
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        calcul de bbox</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxiBox</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">miniBox</span><span class="p">()</span>
+        <span class="k">pass</span>
+        <span class="sd">&#39;&#39;&#39;self.boxMax = self.maxiBox()</span>
+<span class="sd">        self.boxMin = self.miniBox()&#39;&#39;&#39;</span>
         
 <span class="k">class</span> <span class="nc">ESSetLocation</span><span class="p">(</span><span class="n">ESSet</span><span class="p">,</span> <span class="n">Location</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -324,7 +326,7 @@
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vListPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">vPoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">option</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vListCodePlus</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -341,8 +343,9 @@
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        calcul de bbox</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxiBox</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">miniBox</span><span class="p">()</span>
+        <span class="k">pass</span>
+        <span class="sd">&#39;&#39;&#39;self.boxMax = self.maxiBox()</span>
+<span class="sd">        self.boxMin = self.miniBox()&#39;&#39;&#39;</span>
 
 <span class="k">class</span> <span class="nc">ESSetProperty</span><span class="p">(</span><span class="n">ESSet</span><span class="p">,</span> <span class="n">Property</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -392,43 +395,56 @@
         <span class="n">nz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">resComp</span><span class="p">)</span>
         <span class="n">full</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">maj</span> <span class="p">:</span>
-            <span class="c1">#for t in zip(list(nz[0]), list(nz[1]), list(nz[2])) : self.addValue(ResultValue, ResultValue(ind=list(t)))</span>
             <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nz</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">list</span><span class="p">(</span><span class="n">nz</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">list</span><span class="p">(</span><span class="n">nz</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span> <span class="p">:</span> 
-                <span class="bp">self</span><span class="o">.</span><span class="n">addValue</span><span class="p">(</span><span class="n">ResultValue</span><span class="p">,</span> <span class="n">ResultValue</span><span class="p">(</span><span class="n">ind</span><span class="o">=</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">])]))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ResultValue</span><span class="p">(</span><span class="n">ind</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">t</span><span class="p">)))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">majType</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s1">&#39;dlp&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">[]</span>
         <span class="k">else</span> <span class="p">:</span>
             <span class="n">full</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nz</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">list</span><span class="p">(</span><span class="n">nz</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">list</span><span class="p">(</span><span class="n">nz</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span> <span class="p">:</span> <span class="n">full</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ResultValue</span><span class="p">(</span><span class="n">ind</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">t</span><span class="p">)))</span>
             <span class="k">return</span> <span class="n">full</span>
-            
-    <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">_fullAxe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axe</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">complet</span> <span class="p">:</span>               
+            <span class="n">ob</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="p">)</span>
+            <span class="n">nr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">vListIndex</span><span class="p">)</span>
+            <span class="n">ob</span><span class="o">.</span><span class="n">full</span><span class="p">()</span>
+            <span class="n">lis</span> <span class="o">=</span> <span class="n">ob</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">valueList</span>
+            <span class="n">dellis</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">axe</span><span class="o">//</span><span class="mi">10</span><span class="p">],</span> <span class="n">lis</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">axe</span><span class="o">%</span><span class="mi">10</span><span class="p">])</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nr</span><span class="p">[:,</span><span class="n">axe</span><span class="o">//</span><span class="mi">10</span><span class="p">]),</span> <span class="nb">list</span><span class="p">(</span><span class="n">nr</span><span class="p">[:,</span><span class="n">axe</span><span class="o">%</span><span class="mi">10</span><span class="p">])))</span> <span class="p">:</span> <span class="n">dellis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">dellis</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dellis</span> <span class="p">:</span> <span class="n">lis</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">lis</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span>
+        <span class="n">lis</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">lis</span>
+        
+    <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">,</span> <span class="n">squeeze</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">ind</span> <span class="o">==</span> <span class="s1">&#39;flat&#39;</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
-        <span class="c1">#elif type(ind) == str and (ind == &#39;obs&#39; or (ind == &#39;axe&#39; and len(self.axes) == 3 )) :</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ind</span> <span class="o">==</span> <span class="s1">&#39;obs&#39;</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ind</span> <span class="o">==</span> <span class="s1">&#39;axe&#39;</span> <span class="ow">and</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">9</span> <span class="p">))</span> <span class="p">:</span>
             <span class="p">[</span><span class="n">nPrp</span><span class="p">,</span> <span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nRes</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">nValueObs</span>
             <span class="n">listFull</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
             <span class="n">listInd</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">listFull</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">listFull</span><span class="p">))))),</span> <span class="n">key</span><span class="o">=</span> <span class="k">lambda</span> <span class="n">z</span> <span class="p">:</span> <span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="n">fullTri</span><span class="p">,</span> <span class="n">indTri</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">listInd</span><span class="p">)</span>
-            <span class="c1">#return np.array([func(fullTri[i]) for i in range(len(fullTri))]).reshape(nDat, nLoc, nPrp)</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="n">fullTri</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fullTri</span><span class="p">))])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nPrp</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">squeeze</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="n">fullTri</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fullTri</span><span class="p">))])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nPrp</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+            <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="n">fullTri</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fullTri</span><span class="p">))])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nPrp</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">ind</span> <span class="o">==</span> <span class="s1">&#39;axe&#39;</span> <span class="p">:</span>
             <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span> <span class="p">:</span>
                 <span class="k">if</span> <span class="n">ax</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
                 <span class="k">elif</span> <span class="n">ax</span> <span class="o">&gt;</span> <span class="mi">9</span> <span class="p">:</span>
+                    <span class="n">lis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fullAxe</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+                    <span class="c1">#self.observation.majType()</span>
                     <span class="p">[</span><span class="n">nPrp</span><span class="p">,</span> <span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nRes</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">nValueObs</span>
                     <span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nPrp</span><span class="p">]</span>
-                    <span class="n">cop</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span>   
-                    <span class="c1">#cop = self.vList()   </span>
-                    <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">cop</span> <span class="p">:</span>
+                    <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">lis</span> <span class="p">:</span>
                         <span class="n">res</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-                    <span class="n">cop</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="n">cop</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cop</span><span class="p">))]</span>
+                    <span class="n">lis</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">))]</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="p">:</span>
                         <span class="k">if</span> <span class="p">(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">:</span>
-                            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cop</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">],</span> <span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">])</span>
-                        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cop</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">],</span> <span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">])</span>
-                    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cop</span><span class="p">)</span>
-            
+                            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">],</span> <span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">])</span>
+                        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">],</span> <span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">])</span>
+                    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span>           
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(())</span>
     
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
@@ -480,10 +496,21 @@
                         <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;p&#39;</span> <span class="ow">in</span> <span class="n">ind</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="p">:</span> <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">ir</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span> <span class="o">=</span> <span class="p">[</span> <span class="n">i</span><span class="p">[</span><span class="n">ind</span><span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">]],</span> <span class="n">i</span><span class="p">[</span><span class="n">ind</span><span class="p">[</span><span class="s1">&#39;l&#39;</span><span class="p">]],</span> <span class="n">i</span><span class="p">[</span><span class="n">ind</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]]</span> <span class="p">]</span>
                 
-    <span class="k">def</span> <span class="nf">triAxe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">9</span> <span class="p">:</span> 
-            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">def</span> <span class="nf">_axeCoor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nValAxe</span><span class="p">)</span> <span class="p">:</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="n">ax</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="p">:</span> <span class="k">return</span> <span class="n">ax</span>
+            <span class="k">if</span> <span class="n">ax</span> <span class="o">&lt;</span> <span class="mi">9</span> <span class="ow">and</span> <span class="n">nValAxe</span> <span class="o">==</span> <span class="n">ax</span> <span class="p">:</span> <span class="k">return</span> <span class="n">ax</span>
+            <span class="k">elif</span> <span class="n">ax</span> <span class="o">&gt;</span> <span class="mi">9</span> <span class="ow">and</span> <span class="p">(</span><span class="n">nValAxe</span> <span class="o">==</span> <span class="n">ax</span><span class="o">//</span><span class="mi">10</span> <span class="ow">or</span> <span class="n">nValAxe</span> <span class="o">==</span> <span class="n">ax</span><span class="o">%</span><span class="mi">10</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="n">ax</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="k">def</span> <span class="nf">triAxe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maj</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fullAxes</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">maj</span> <span class="p">:</span> <span class="n">axes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">fullAxes</span><span class="p">:</span> <span class="n">axes</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">9</span> <span class="p">:</span> 
+            <span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">=</span> <span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">axes</span>
         
     <span class="k">def</span> <span class="nf">analyse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -550,8 +577,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">ESObs</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMin</span> <span class="o">=</span> <span class="n">DatationValue</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMax</span> <span class="o">=</span> <span class="n">DatationValue</span><span class="p">()</span>
+        <span class="c1">#self.boxMin = DatationValue()</span>
+        <span class="c1">#self.boxMax = DatationValue()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_classES</span>
 </pre></div>
 
@@ -572,8 +599,8 @@
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">ESObs</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMin</span> <span class="o">=</span> <span class="n">DatationValue</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMax</span> <span class="o">=</span> <span class="n">DatationValue</span><span class="p">()</span>
+        <span class="c1">#self.boxMin = DatationValue()</span>
+        <span class="c1">#self.boxMax = DatationValue()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_classES</span>
 </pre></div>
 
@@ -617,8 +644,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">ESObs</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMin</span> <span class="o">=</span> <span class="n">LocationValue</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMax</span> <span class="o">=</span> <span class="n">LocationValue</span><span class="p">()</span>
+        <span class="c1">#self.boxMin = LocationValue()</span>
+        <span class="c1">#self.boxMax = LocationValue()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_classES</span>
 </pre></div>
 
@@ -639,8 +666,8 @@
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">ESObs</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMin</span> <span class="o">=</span> <span class="n">LocationValue</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMax</span> <span class="o">=</span> <span class="n">LocationValue</span><span class="p">()</span>
+        <span class="c1">#self.boxMin = LocationValue()</span>
+        <span class="c1">#self.boxMax = LocationValue()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_classES</span>
 </pre></div>
 
@@ -837,8 +864,9 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">vSlot</span><span class="p">()</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">]</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">vListInstant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">vInstant</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">option</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">vListInstant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1">#return [val.vInstant(self.observation.option) for val in self.valueList]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">vInstant</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
@@ -859,8 +887,9 @@
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        calcul de bbox</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxiBox</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">miniBox</span><span class="p">()</span>
+        <span class="k">pass</span>
+        <span class="sd">&#39;&#39;&#39;self.boxMax = self.maxiBox()</span>
+<span class="sd">        self.boxMin = self.miniBox()&#39;&#39;&#39;</span>
 </pre></div>
 
         </details>
@@ -917,7 +946,7 @@
             <span class="def">def</span>
             <span class="name">json</span><span class="signature">(
     self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: True, &#39;json_info_nval&#39;: True, &#39;json_info_box&#39;: True, &#39;json_info_autre&#39;: True, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;maj_reset_index&#39;: False, &#39;sort_order&#39;: &#39;dlp&#39;}
+    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: True, &#39;json_info_nval&#39;: True, &#39;json_info_box&#39;: True, &#39;json_info_autre&#39;: True, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}
 )</span>:
     </div>
 
@@ -941,7 +970,7 @@
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000025273574040&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000020983DF5040&gt;&gt;
 )</span>:
     </div>
 
@@ -974,8 +1003,9 @@
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        calcul de bbox</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxiBox</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">miniBox</span><span class="p">()</span>
+        <span class="k">pass</span>
+        <span class="sd">&#39;&#39;&#39;self.boxMax = self.maxiBox()</span>
+<span class="sd">        self.boxMin = self.miniBox()&#39;&#39;&#39;</span>
 </pre></div>
 
         </details>
@@ -990,19 +1020,19 @@
                                 <dl>
                                     <div><dt>ESValue.ESSet</dt>
                                 <dd id="ESSetDatation.valueList" class="variable">valueList</dd>
-                <dd id="ESSetDatation.nValue" class="variable">nValue</dd>
                 <dd id="ESSetDatation.initESSet" class="function">initESSet</dd>
                 <dd id="ESSetDatation.vListName" class="variable">vListName</dd>
                 <dd id="ESSetDatation.vList" class="function">vList</dd>
                 <dd id="ESSetDatation.majListName" class="function">majListName</dd>
+                <dd id="ESSetDatation.majList" class="function">majList</dd>
                 <dd id="ESSetDatation.majListValue" class="function">majListValue</dd>
                 <dd id="ESSetDatation.addValue" class="function">addValue</dd>
+                <dd id="ESSetDatation.nValue" class="variable">nValue</dd>
                 <dd id="ESSetDatation.jsonESSet" class="function">jsonESSet</dd>
                 <dd id="ESSetDatation.jsonSet" class="function">jsonSet</dd>
                 <dd id="ESSetDatation.to_bytes" class="function">to_bytes</dd>
                 <dd id="ESSetDatation.from_bytes" class="function">from_bytes</dd>
-                <dd id="ESSetDatation.miniBox" class="function">miniBox</dd>
-                <dd id="ESSetDatation.maxiBox" class="function">maxiBox</dd>
+                <dd id="ESSetDatation.boundingBox" class="function">boundingBox</dd>
                 <dd id="ESSetDatation.sort" class="function">sort</dd>
 
             </div>
@@ -1056,7 +1086,7 @@
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vListPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">vPoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">option</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vListCodePlus</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1073,8 +1103,9 @@
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        calcul de bbox</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxiBox</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">miniBox</span><span class="p">()</span>
+        <span class="k">pass</span>
+        <span class="sd">&#39;&#39;&#39;self.boxMax = self.maxiBox()</span>
+<span class="sd">        self.boxMin = self.miniBox()&#39;&#39;&#39;</span>
 </pre></div>
 
         </details>
@@ -1121,7 +1152,7 @@ return</p>
             <span class="def">def</span>
             <span class="name">json</span><span class="signature">(
     self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: True, &#39;json_info_nval&#39;: True, &#39;json_info_box&#39;: True, &#39;json_info_autre&#39;: True, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;maj_reset_index&#39;: False, &#39;sort_order&#39;: &#39;dlp&#39;}
+    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: True, &#39;json_info_nval&#39;: True, &#39;json_info_box&#39;: True, &#39;json_info_autre&#39;: True, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}
 )</span>:
     </div>
 
@@ -1172,7 +1203,7 @@ return</p>
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000025273574040&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000020983DF5040&gt;&gt;
 )</span>:
     </div>
 
@@ -1201,8 +1232,9 @@ return</p>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        calcul de bbox</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxiBox</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">boxMin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">miniBox</span><span class="p">()</span>
+        <span class="k">pass</span>
+        <span class="sd">&#39;&#39;&#39;self.boxMax = self.maxiBox()</span>
+<span class="sd">        self.boxMin = self.miniBox()&#39;&#39;&#39;</span>
 </pre></div>
 
         </details>
@@ -1217,19 +1249,19 @@ return</p>
                                 <dl>
                                     <div><dt>ESValue.ESSet</dt>
                                 <dd id="ESSetLocation.valueList" class="variable">valueList</dd>
-                <dd id="ESSetLocation.nValue" class="variable">nValue</dd>
                 <dd id="ESSetLocation.initESSet" class="function">initESSet</dd>
                 <dd id="ESSetLocation.vListName" class="variable">vListName</dd>
                 <dd id="ESSetLocation.vList" class="function">vList</dd>
                 <dd id="ESSetLocation.majListName" class="function">majListName</dd>
+                <dd id="ESSetLocation.majList" class="function">majList</dd>
                 <dd id="ESSetLocation.majListValue" class="function">majListValue</dd>
                 <dd id="ESSetLocation.addValue" class="function">addValue</dd>
+                <dd id="ESSetLocation.nValue" class="variable">nValue</dd>
                 <dd id="ESSetLocation.jsonESSet" class="function">jsonESSet</dd>
                 <dd id="ESSetLocation.jsonSet" class="function">jsonSet</dd>
                 <dd id="ESSetLocation.to_bytes" class="function">to_bytes</dd>
                 <dd id="ESSetLocation.from_bytes" class="function">from_bytes</dd>
-                <dd id="ESSetLocation.miniBox" class="function">miniBox</dd>
-                <dd id="ESSetLocation.maxiBox" class="function">maxiBox</dd>
+                <dd id="ESSetLocation.boundingBox" class="function">boundingBox</dd>
                 <dd id="ESSetLocation.sort" class="function">sort</dd>
 
             </div>
@@ -1316,7 +1348,7 @@ return</p>
             <span class="def">def</span>
             <span class="name">json</span><span class="signature">(
     self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: True, &#39;json_info_nval&#39;: True, &#39;json_info_box&#39;: True, &#39;json_info_autre&#39;: True, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;maj_reset_index&#39;: False, &#39;sort_order&#39;: &#39;dlp&#39;}
+    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: True, &#39;json_info_nval&#39;: True, &#39;json_info_box&#39;: True, &#39;json_info_autre&#39;: True, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}
 )</span>:
     </div>
 
@@ -1340,7 +1372,7 @@ return</p>
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000025273574040&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000020983DF5040&gt;&gt;
 )</span>:
     </div>
 
@@ -1360,19 +1392,19 @@ return</p>
                                 <dl>
                                     <div><dt>ESValue.ESSet</dt>
                                 <dd id="ESSetProperty.valueList" class="variable">valueList</dd>
-                <dd id="ESSetProperty.nValue" class="variable">nValue</dd>
                 <dd id="ESSetProperty.initESSet" class="function">initESSet</dd>
                 <dd id="ESSetProperty.vListName" class="variable">vListName</dd>
                 <dd id="ESSetProperty.vList" class="function">vList</dd>
                 <dd id="ESSetProperty.majListName" class="function">majListName</dd>
+                <dd id="ESSetProperty.majList" class="function">majList</dd>
                 <dd id="ESSetProperty.majListValue" class="function">majListValue</dd>
                 <dd id="ESSetProperty.addValue" class="function">addValue</dd>
+                <dd id="ESSetProperty.nValue" class="variable">nValue</dd>
                 <dd id="ESSetProperty.jsonESSet" class="function">jsonESSet</dd>
                 <dd id="ESSetProperty.jsonSet" class="function">jsonSet</dd>
                 <dd id="ESSetProperty.to_bytes" class="function">to_bytes</dd>
                 <dd id="ESSetProperty.from_bytes" class="function">from_bytes</dd>
-                <dd id="ESSetProperty.miniBox" class="function">miniBox</dd>
-                <dd id="ESSetProperty.maxiBox" class="function">maxiBox</dd>
+                <dd id="ESSetProperty.boundingBox" class="function">boundingBox</dd>
                 <dd id="ESSetProperty.sort" class="function">sort</dd>
 
             </div>
@@ -1428,43 +1460,56 @@ return</p>
         <span class="n">nz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">resComp</span><span class="p">)</span>
         <span class="n">full</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">maj</span> <span class="p">:</span>
-            <span class="c1">#for t in zip(list(nz[0]), list(nz[1]), list(nz[2])) : self.addValue(ResultValue, ResultValue(ind=list(t)))</span>
             <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nz</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">list</span><span class="p">(</span><span class="n">nz</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">list</span><span class="p">(</span><span class="n">nz</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span> <span class="p">:</span> 
-                <span class="bp">self</span><span class="o">.</span><span class="n">addValue</span><span class="p">(</span><span class="n">ResultValue</span><span class="p">,</span> <span class="n">ResultValue</span><span class="p">(</span><span class="n">ind</span><span class="o">=</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">])]))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ResultValue</span><span class="p">(</span><span class="n">ind</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">t</span><span class="p">)))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">majType</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s1">&#39;dlp&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">[]</span>
         <span class="k">else</span> <span class="p">:</span>
             <span class="n">full</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nz</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">list</span><span class="p">(</span><span class="n">nz</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">list</span><span class="p">(</span><span class="n">nz</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span> <span class="p">:</span> <span class="n">full</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ResultValue</span><span class="p">(</span><span class="n">ind</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">t</span><span class="p">)))</span>
             <span class="k">return</span> <span class="n">full</span>
-            
-    <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">_fullAxe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axe</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">complet</span> <span class="p">:</span>               
+            <span class="n">ob</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="p">)</span>
+            <span class="n">nr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">vListIndex</span><span class="p">)</span>
+            <span class="n">ob</span><span class="o">.</span><span class="n">full</span><span class="p">()</span>
+            <span class="n">lis</span> <span class="o">=</span> <span class="n">ob</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">valueList</span>
+            <span class="n">dellis</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">axe</span><span class="o">//</span><span class="mi">10</span><span class="p">],</span> <span class="n">lis</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">axe</span><span class="o">%</span><span class="mi">10</span><span class="p">])</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nr</span><span class="p">[:,</span><span class="n">axe</span><span class="o">//</span><span class="mi">10</span><span class="p">]),</span> <span class="nb">list</span><span class="p">(</span><span class="n">nr</span><span class="p">[:,</span><span class="n">axe</span><span class="o">%</span><span class="mi">10</span><span class="p">])))</span> <span class="p">:</span> <span class="n">dellis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">dellis</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dellis</span> <span class="p">:</span> <span class="n">lis</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">lis</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span>
+        <span class="n">lis</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">lis</span>
+        
+    <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">,</span> <span class="n">squeeze</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">ind</span> <span class="o">==</span> <span class="s1">&#39;flat&#39;</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
-        <span class="c1">#elif type(ind) == str and (ind == &#39;obs&#39; or (ind == &#39;axe&#39; and len(self.axes) == 3 )) :</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ind</span> <span class="o">==</span> <span class="s1">&#39;obs&#39;</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ind</span> <span class="o">==</span> <span class="s1">&#39;axe&#39;</span> <span class="ow">and</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">9</span> <span class="p">))</span> <span class="p">:</span>
             <span class="p">[</span><span class="n">nPrp</span><span class="p">,</span> <span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nRes</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">nValueObs</span>
             <span class="n">listFull</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
             <span class="n">listInd</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">listFull</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">listFull</span><span class="p">))))),</span> <span class="n">key</span><span class="o">=</span> <span class="k">lambda</span> <span class="n">z</span> <span class="p">:</span> <span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="n">fullTri</span><span class="p">,</span> <span class="n">indTri</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">listInd</span><span class="p">)</span>
-            <span class="c1">#return np.array([func(fullTri[i]) for i in range(len(fullTri))]).reshape(nDat, nLoc, nPrp)</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="n">fullTri</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fullTri</span><span class="p">))])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nPrp</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">squeeze</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="n">fullTri</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fullTri</span><span class="p">))])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nPrp</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+            <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="n">fullTri</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fullTri</span><span class="p">))])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nPrp</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">ind</span> <span class="o">==</span> <span class="s1">&#39;axe&#39;</span> <span class="p">:</span>
             <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span> <span class="p">:</span>
                 <span class="k">if</span> <span class="n">ax</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
                 <span class="k">elif</span> <span class="n">ax</span> <span class="o">&gt;</span> <span class="mi">9</span> <span class="p">:</span>
+                    <span class="n">lis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fullAxe</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+                    <span class="c1">#self.observation.majType()</span>
                     <span class="p">[</span><span class="n">nPrp</span><span class="p">,</span> <span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nRes</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">nValueObs</span>
                     <span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nPrp</span><span class="p">]</span>
-                    <span class="n">cop</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span>   
-                    <span class="c1">#cop = self.vList()   </span>
-                    <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">cop</span> <span class="p">:</span>
+                    <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">lis</span> <span class="p">:</span>
                         <span class="n">res</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-                    <span class="n">cop</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="n">cop</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cop</span><span class="p">))]</span>
+                    <span class="n">lis</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">))]</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="p">:</span>
                         <span class="k">if</span> <span class="p">(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">:</span>
-                            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cop</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">],</span> <span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">])</span>
-                        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cop</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">],</span> <span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">])</span>
-                    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cop</span><span class="p">)</span>
-            
+                            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">],</span> <span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">])</span>
+                        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">],</span> <span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">])</span>
+                    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span>           
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(())</span>
     
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
@@ -1516,10 +1561,21 @@ return</p>
                         <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;p&#39;</span> <span class="ow">in</span> <span class="n">ind</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="p">:</span> <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">ir</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span> <span class="o">=</span> <span class="p">[</span> <span class="n">i</span><span class="p">[</span><span class="n">ind</span><span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">]],</span> <span class="n">i</span><span class="p">[</span><span class="n">ind</span><span class="p">[</span><span class="s1">&#39;l&#39;</span><span class="p">]],</span> <span class="n">i</span><span class="p">[</span><span class="n">ind</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]]</span> <span class="p">]</span>
                 
-    <span class="k">def</span> <span class="nf">triAxe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">9</span> <span class="p">:</span> 
-            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">def</span> <span class="nf">_axeCoor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nValAxe</span><span class="p">)</span> <span class="p">:</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="n">ax</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="p">:</span> <span class="k">return</span> <span class="n">ax</span>
+            <span class="k">if</span> <span class="n">ax</span> <span class="o">&lt;</span> <span class="mi">9</span> <span class="ow">and</span> <span class="n">nValAxe</span> <span class="o">==</span> <span class="n">ax</span> <span class="p">:</span> <span class="k">return</span> <span class="n">ax</span>
+            <span class="k">elif</span> <span class="n">ax</span> <span class="o">&gt;</span> <span class="mi">9</span> <span class="ow">and</span> <span class="p">(</span><span class="n">nValAxe</span> <span class="o">==</span> <span class="n">ax</span><span class="o">//</span><span class="mi">10</span> <span class="ow">or</span> <span class="n">nValAxe</span> <span class="o">==</span> <span class="n">ax</span><span class="o">%</span><span class="mi">10</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="n">ax</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="k">def</span> <span class="nf">triAxe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maj</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fullAxes</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">maj</span> <span class="p">:</span> <span class="n">axes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">fullAxes</span><span class="p">:</span> <span class="n">axes</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">9</span> <span class="p">:</span> 
+            <span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">=</span> <span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">axes</span>
         
     <span class="k">def</span> <span class="nf">analyse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1619,9 +1675,8 @@ return</p>
         <span class="n">nz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">resComp</span><span class="p">)</span>
         <span class="n">full</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">maj</span> <span class="p">:</span>
-            <span class="c1">#for t in zip(list(nz[0]), list(nz[1]), list(nz[2])) : self.addValue(ResultValue, ResultValue(ind=list(t)))</span>
             <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nz</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">list</span><span class="p">(</span><span class="n">nz</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">list</span><span class="p">(</span><span class="n">nz</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span> <span class="p">:</span> 
-                <span class="bp">self</span><span class="o">.</span><span class="n">addValue</span><span class="p">(</span><span class="n">ResultValue</span><span class="p">,</span> <span class="n">ResultValue</span><span class="p">(</span><span class="n">ind</span><span class="o">=</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">])]))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ResultValue</span><span class="p">(</span><span class="n">ind</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">t</span><span class="p">)))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">majType</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s1">&#39;dlp&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">[]</span>
         <span class="k">else</span> <span class="p">:</span>
@@ -1642,40 +1697,39 @@ return</p>
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000025273574040&gt;&gt;,
-    ind=&#39;axe&#39;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000020983DF5040&gt;&gt;,
+    ind=&#39;axe&#39;,
+    squeeze=True
 )</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">):</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">,</span> <span class="n">squeeze</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">ind</span> <span class="o">==</span> <span class="s1">&#39;flat&#39;</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
-        <span class="c1">#elif type(ind) == str and (ind == &#39;obs&#39; or (ind == &#39;axe&#39; and len(self.axes) == 3 )) :</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ind</span> <span class="o">==</span> <span class="s1">&#39;obs&#39;</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ind</span> <span class="o">==</span> <span class="s1">&#39;axe&#39;</span> <span class="ow">and</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">9</span> <span class="p">))</span> <span class="p">:</span>
             <span class="p">[</span><span class="n">nPrp</span><span class="p">,</span> <span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nRes</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">nValueObs</span>
             <span class="n">listFull</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
             <span class="n">listInd</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">listFull</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">listFull</span><span class="p">))))),</span> <span class="n">key</span><span class="o">=</span> <span class="k">lambda</span> <span class="n">z</span> <span class="p">:</span> <span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="n">fullTri</span><span class="p">,</span> <span class="n">indTri</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">listInd</span><span class="p">)</span>
-            <span class="c1">#return np.array([func(fullTri[i]) for i in range(len(fullTri))]).reshape(nDat, nLoc, nPrp)</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="n">fullTri</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fullTri</span><span class="p">))])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nPrp</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">squeeze</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="n">fullTri</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fullTri</span><span class="p">))])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nPrp</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+            <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="n">fullTri</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fullTri</span><span class="p">))])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nPrp</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">ind</span> <span class="o">==</span> <span class="s1">&#39;axe&#39;</span> <span class="p">:</span>
             <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span> <span class="p">:</span>
                 <span class="k">if</span> <span class="n">ax</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
                 <span class="k">elif</span> <span class="n">ax</span> <span class="o">&gt;</span> <span class="mi">9</span> <span class="p">:</span>
+                    <span class="n">lis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fullAxe</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+                    <span class="c1">#self.observation.majType()</span>
                     <span class="p">[</span><span class="n">nPrp</span><span class="p">,</span> <span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nRes</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">nValueObs</span>
                     <span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nPrp</span><span class="p">]</span>
-                    <span class="n">cop</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span>   
-                    <span class="c1">#cop = self.vList()   </span>
-                    <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">cop</span> <span class="p">:</span>
+                    <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">lis</span> <span class="p">:</span>
                         <span class="n">res</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-                    <span class="n">cop</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="n">cop</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cop</span><span class="p">))]</span>
+                    <span class="n">lis</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">))]</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="p">:</span>
                         <span class="k">if</span> <span class="p">(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">:</span>
-                            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cop</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">],</span> <span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">])</span>
-                        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cop</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">],</span> <span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">])</span>
-                    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cop</span><span class="p">)</span>
-            
+                            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">],</span> <span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">])</span>
+                        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">],</span> <span class="n">order</span><span class="p">[(</span><span class="n">ax</span><span class="o">//</span><span class="mi">10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="p">])</span>
+                    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span>           
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(())</span>
 </pre></div>
 
@@ -1691,7 +1745,7 @@ return</p>
             <span class="def">def</span>
             <span class="name">json</span><span class="signature">(
     self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: True, &#39;json_info_nval&#39;: True, &#39;json_info_box&#39;: True, &#39;json_info_autre&#39;: True, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;maj_reset_index&#39;: False, &#39;sort_order&#39;: &#39;dlp&#39;}
+    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: True, &#39;json_info_nval&#39;: True, &#39;json_info_box&#39;: True, &#39;json_info_autre&#39;: True, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}
 )</span>:
     </div>
 
@@ -1821,15 +1875,19 @@ return</p>
 
         
             <span class="def">def</span>
-            <span class="name">triAxe</span><span class="signature">(self)</span>:
+            <span class="name">triAxe</span><span class="signature">(self, maj=True, fullAxes=False)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">triAxe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">9</span> <span class="p">:</span> 
-            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">triAxe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maj</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fullAxes</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">maj</span> <span class="p">:</span> <span class="n">axes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">fullAxes</span><span class="p">:</span> <span class="n">axes</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">9</span> <span class="p">:</span> 
+            <span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">=</span> <span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">axes</span>
 </pre></div>
 
         </details>
@@ -1907,19 +1965,19 @@ return</p>
                                 <dl>
                                     <div><dt>ESValue.ESSet</dt>
                                 <dd id="ESSetResult.valueList" class="variable">valueList</dd>
-                <dd id="ESSetResult.nValue" class="variable">nValue</dd>
                 <dd id="ESSetResult.initESSet" class="function">initESSet</dd>
                 <dd id="ESSetResult.vListName" class="variable">vListName</dd>
                 <dd id="ESSetResult.vList" class="function">vList</dd>
                 <dd id="ESSetResult.majListName" class="function">majListName</dd>
+                <dd id="ESSetResult.majList" class="function">majList</dd>
                 <dd id="ESSetResult.majListValue" class="function">majListValue</dd>
                 <dd id="ESSetResult.addValue" class="function">addValue</dd>
+                <dd id="ESSetResult.nValue" class="variable">nValue</dd>
                 <dd id="ESSetResult.jsonESSet" class="function">jsonESSet</dd>
                 <dd id="ESSetResult.jsonSet" class="function">jsonSet</dd>
                 <dd id="ESSetResult.to_bytes" class="function">to_bytes</dd>
                 <dd id="ESSetResult.from_bytes" class="function">from_bytes</dd>
-                <dd id="ESSetResult.miniBox" class="function">miniBox</dd>
-                <dd id="ESSetResult.maxiBox" class="function">maxiBox</dd>
+                <dd id="ESSetResult.boundingBox" class="function">boundingBox</dd>
                 <dd id="ESSetResult.sort" class="function">sort</dd>
 
             </div>

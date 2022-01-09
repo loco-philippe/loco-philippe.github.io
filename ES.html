@@ -31,11 +31,14 @@
 
                     <h2>Contents</h2>
                     <ul>
-  <li><a href="#observation-and-measurement">Observation and Measurement</a></li>
-  <li><a href="#what-is-environnemental-sensing-project">What is Environnemental Sensing project ?</a></li>
+  <li><a href="#environnemantal-sensing-package"><strong><em>Environnemantal Sensing Package</em></strong></a></li>
+</ul></li>
+<li><a href="#why-a-project-for-environnemental-data">Why a project for Environnemental Data ?</a>
+<ul>
+  <li><a href="#the-environnemental-sensing-project">The Environnemental Sensing project</a></li>
   <li><a href="#main-principles">Main principles</a>
   <ul>
-    <li><a href="#observation-standard">Observation standard</a></li>
+    <li><a href="#standards">Standards</a></li>
     <li><a href="#data-structure">Data structure</a></li>
     <li><a href="#index">Index</a></li>
     <li><a href="#dimension">Dimension</a></li>
@@ -44,8 +47,35 @@
     <li><a href="#bluetooth-mapping">Bluetooth mapping</a></li>
     <li><a href="#xarray-mapping">Xarray mapping</a></li>
   </ul></li>
-  <li><a href="#data-model">Data model</a></li>
-  <li><a href="#what-are-the-es-classes">What are the ES classes ?</a></li>
+  <li><a href="#quick-overview">Quick overview</a>
+  <ul>
+    <li><a href="#create-an-observation">Create an Observation</a>
+    <ul>
+      <li><a href="#measuring-station">Measuring station</a></li>
+      <li><a href="#mobile-sensor">Mobile sensor</a></li>
+      <li><a href="#simulation">Simulation</a></li>
+      <li><a href="#access-information">Access information</a></li>
+      <li><a href="#visualize-an-observation">Visualize an Observation</a></li>
+    </ul></li>
+    <li><a href="#generate-an-exchange-format">Generate an Exchange format</a>
+    <ul>
+      <li><a href="#binary-format">Binary format</a></li>
+      <li><a href="#json-format">Json format</a></li>
+      <li><a href="#no-sql-format">No SQL format</a></li>
+    </ul></li>
+    <li><a href="#managing-observations">Managing Observations</a>
+    <ul>
+      <li><a href="#sort">Sort</a></li>
+      <li><a href="#aggregation">Aggregation</a></li>
+      <li><a href="#numpy-export">Numpy export</a></li>
+      <li><a href="#xarray-export">Xarray export</a></li>
+    </ul></li>
+  </ul></li>
+  <li><a href="#developpers-documentation">Developpers documentation</a>
+  <ul>
+    <li><a href="#data-model">Data model</a></li>
+    <li><a href="#what-are-the-es-classes">What are the ES classes ?</a></li>
+  </ul></li>
 </ul>
 
 
@@ -54,6 +84,7 @@
                             <li><a href="ES/ESElement.html">ES.ESElement</a></li>
                             <li><a href="ES/ESObs.html">ES.ESObs</a></li>
                             <li><a href="ES/ESObservation.html">ES.ESObservation</a></li>
+                            <li><a href="ES/ESSlot.html">ES.ESSlot</a></li>
                             <li><a href="ES/ESValue.html">ES.ESValue</a></li>
                             <li><a href="ES/ESconstante.html">ES.ESconstante</a></li>
                             <li><a href="ES/EStestunitaire.html">ES.EStestunitaire</a></li>
@@ -74,23 +105,27 @@
                     <h1 class="modulename">
 ES    </h1>
 
-                        <div class="docstring"><p>Created on Fri Dec 24 15:21:14 2021</p>
+                        <div class="docstring"><h2 id="environnemantal-sensing-package"><strong><em>Environnemantal Sensing Package</em></strong></h2>
+
+<p>Created on Fri Dec 24 15:21:14 2021</p>
 
 <p>@author: philippe@loco-labs.io</p>
 
-<h1 id="observation-and-measurement">Observation and Measurement</h1>
+<h1 id="why-a-project-for-environnemental-data">Why a project for Environnemental Data ?</h1>
 
-<p>The ES (Environmental Sensing) package is built around the concept of Observation as define
-in the ISO-19156 "observation and measurement" :  </p>
+<p>The project was born from the following observations:</p>
 
-<p><em>"This International Standard defines a conceptual schema for observations, and 
-for features involved in sampling when making observations. These provide models 
-for the exchange of information describing observation acts and their results, 
-both within and between different scientific and technical communities."</em>   </p>
+<ul>
+<li>there is no standard format (apart from the Environmental Sensing Service Bluetooth) 
+used by the sensors to transmit the information (binary and textual),</li>
+<li>there is no data exchange format presenting at the same time a temporal, 
+spatial and physical component (apart from file formats),</li>
+<li>we spend a lot of energy converting this type of data to make it usable.</li>
+</ul>
 
-<h1 id="what-is-environnemental-sensing-project">What is Environnemental Sensing project ?</h1>
+<h1 id="the-environnemental-sensing-project">The Environnemental Sensing project</h1>
 
-<p>The ES project is an implementation of the Standard :</p>
+<p>The ES project is made of :</p>
 
 <ul>
 <li>A data model that makes it possible to represent elementary observations 
@@ -117,10 +152,23 @@ all situations (platform)</li>
 
 <h1 id="main-principles">Main principles</h1>
 
-<h2 id="observation-standard">Observation standard</h2>
+<h2 id="standards">Standards</h2>
 
-<p>The existing standards are incomplete and sometimes incompatible. They only cover 
-part of the subject and most often remain at a syntactic and non-semantic level.
+<p>The main standard about Environnemental Data is the ISO-19156 "observation and 
+measurement" standard :    </p>
+
+<p><em>"This International Standard defines a conceptual schema for observations, and 
+for features involved in sampling when making observations. These provide models 
+for the exchange of information describing observation acts and their results, 
+both within and between different scientific and technical communities."</em> </p>
+
+<p>But this standard specifies that: </p>
+
+<p><em>"ISO 19156 concerns only concerns only interfaces visible from the outside and
+ does not impose any restrictions on the underlying implementations"</em></p>
+
+<p>The other standards concern more restricted areas and are sometimes incompatible. 
+They often remain at a syntactic and non-semantic level.
 The proposed data structure is based on existing standards that it complements 
 by ensuring convergence:    </p>
 
@@ -153,8 +201,9 @@ temporal, spatial and physical values.</p>
 <p>Common properties (indicators) are associated 
 with each Observation. They allow processing to be performed on Observations 
 without having to know their composition (eg bounding boxes, type of observation,
-volume, etc.).
-<em>Note: This “domain range” indexed representation is preferred to an “interleaved”
+volume, etc.).   </p>
+
+<p><em>Note: This “domain range” indexed representation is preferred to an “interleaved”
 tabular representation which associates temporal, spatial and physical values <br />
 ​​with each value of the result.</em></p>
 
@@ -170,14 +219,66 @@ tabular representation which associates temporal, spatial and physical values <b
 
 <h2 id="xarray-mapping">Xarray mapping</h2>
 
-<h1 id="data-model">Data model</h1>
+<h1 id="quick-overview">Quick overview</h1>
+
+<h2 id="create-an-observation">Create an Observation</h2>
+
+<pre><code>In [173]: ob=Observation()
+
+In [174]: ob
+Out[174]: 
+&lt;ESObservation.Observation object at 0x0000024B1D8B73A0&gt;
+metatype, classES, typeES : ESObject observation observation 
+type : obserror 
+reference : 0 
+ResultTime : null 
+id : null 
+
+In [175]: ob.append('ce matin', 'paris', 'pm10', 'fort')
+
+In [176]: ob.append('ce matin', 'lyon', 'pm25', 'faible')
+
+In [177]: ob.append('ce midi', 'marseille', 'pm1', 'tres fort')
+</code></pre>
+
+<h3 id="measuring-station">Measuring station</h3>
+
+<h3 id="mobile-sensor">Mobile sensor</h3>
+
+<h3 id="simulation">Simulation</h3>
+
+<h3 id="access-information">Access information</h3>
+
+<h3 id="visualize-an-observation">Visualize an Observation</h3>
+
+<h2 id="generate-an-exchange-format">Generate an Exchange format</h2>
+
+<h3 id="binary-format">Binary format</h3>
+
+<h3 id="json-format">Json format</h3>
+
+<h3 id="no-sql-format">No SQL format</h3>
+
+<h2 id="managing-observations">Managing Observations</h2>
+
+<h3 id="sort">Sort</h3>
+
+<h3 id="aggregation">Aggregation</h3>
+
+<h3 id="numpy-export">Numpy export</h3>
+
+<h3 id="xarray-export">Xarray export</h3>
+
+<h1 id="developpers-documentation">Developpers documentation</h1>
+
+<h2 id="data-model">Data model</h2>
 
 <p>An <code>ESObservation.Observation</code> is an object representing a set of information having
 spatial and temporal characteristics associated with measurable or observable
  properties.
 <img src="./ES/ESclasses.png" width="800"></p>
 
-<h1 id="what-are-the-es-classes">What are the ES classes ?</h1>
+<h2 id="what-are-the-es-classes">What are the ES classes ?</h2>
 
 <p>The ES functions are divided according to the class hierarchy below :</p>
 
@@ -202,24 +303,26 @@ spatial and temporal characteristics associated with measurable or observable
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">## ***Environnemantal Sensing Package***</span>
+
 <span class="sd">Created on Fri Dec 24 15:21:14 2021</span>
 
 <span class="sd">@author: philippe@loco-labs.io</span>
 
 
-<span class="sd"># Observation and Measurement</span>
+<span class="sd"># Why a project for Environnemental Data ?</span>
 
-<span class="sd">The ES (Environmental Sensing) package is built around the concept of Observation as define</span>
-<span class="sd">in the ISO-19156 &quot;observation and measurement&quot; :  </span>
+<span class="sd">The project was born from the following observations:</span>
+<span class="sd">    </span>
+<span class="sd">- there is no standard format (apart from the Environmental Sensing Service Bluetooth) </span>
+<span class="sd">used by the sensors to transmit the information (binary and textual),</span>
+<span class="sd">- there is no data exchange format presenting at the same time a temporal, </span>
+<span class="sd">spatial and physical component (apart from file formats),</span>
+<span class="sd">- we spend a lot of energy converting this type of data to make it usable.</span>
 
-<span class="sd">*&quot;This International Standard defines a conceptual schema for observations, and </span>
-<span class="sd">for features involved in sampling when making observations. These provide models </span>
-<span class="sd">for the exchange of information describing observation acts and their results, </span>
-<span class="sd">both within and between different scientific and technical communities.&quot;*   </span>
+<span class="sd"># The Environnemental Sensing project</span>
 
-<span class="sd"># What is Environnemental Sensing project ?</span>
-
-<span class="sd">The ES project is an implementation of the Standard :</span>
+<span class="sd">The ES project is made of :</span>
 <span class="sd">    </span>
 <span class="sd">- A data model that makes it possible to represent elementary observations </span>
 <span class="sd">(a simple one-off measurement), complex observations (multi-dimensions), </span>
@@ -242,10 +345,23 @@ spatial and temporal characteristics associated with measurable or observable
 
 <span class="sd"># Main principles</span>
 
-<span class="sd">## Observation standard</span>
+<span class="sd">## Standards</span>
 
-<span class="sd">The existing standards are incomplete and sometimes incompatible. They only cover </span>
-<span class="sd">part of the subject and most often remain at a syntactic and non-semantic level.</span>
+<span class="sd">The main standard about Environnemental Data is the ISO-19156 &quot;observation and </span>
+<span class="sd">measurement&quot; standard :    </span>
+
+<span class="sd">*&quot;This International Standard defines a conceptual schema for observations, and </span>
+<span class="sd">for features involved in sampling when making observations. These provide models </span>
+<span class="sd">for the exchange of information describing observation acts and their results, </span>
+<span class="sd">both within and between different scientific and technical communities.&quot;* </span>
+
+<span class="sd">But this standard specifies that: </span>
+<span class="sd">    </span>
+<span class="sd">*&quot;ISO 19156 concerns only concerns only interfaces visible from the outside and</span>
+<span class="sd"> does not impose any restrictions on the underlying implementations&quot;*</span>
+
+<span class="sd">The other standards concern more restricted areas and are sometimes incompatible. </span>
+<span class="sd">They often remain at a syntactic and non-semantic level.</span>
 <span class="sd">The proposed data structure is based on existing standards that it complements </span>
 <span class="sd">by ensuring convergence:    </span>
 
@@ -274,7 +390,8 @@ spatial and temporal characteristics associated with measurable or observable
 <span class="sd">Common properties (indicators) are associated </span>
 <span class="sd">with each Observation. They allow processing to be performed on Observations </span>
 <span class="sd">without having to know their composition (eg bounding boxes, type of observation,</span>
-<span class="sd">volume, etc.).</span>
+<span class="sd">volume, etc.).   </span>
+
 <span class="sd">*Note: This “domain range” indexed representation is preferred to an “interleaved”</span>
 <span class="sd">tabular representation which associates temporal, spatial and physical values  </span>
 <span class="sd">​​with each value of the result.*</span>
@@ -291,14 +408,65 @@ spatial and temporal characteristics associated with measurable or observable
 
 <span class="sd">## Xarray mapping</span>
 
-<span class="sd"># Data model</span>
+<span class="sd"># Quick overview</span>
+
+<span class="sd">## Create an Observation</span>
+
+<span class="sd">    In [173]: ob=Observation()</span>
+
+<span class="sd">    In [174]: ob</span>
+<span class="sd">    Out[174]: </span>
+<span class="sd">    &lt;ESObservation.Observation object at 0x0000024B1D8B73A0&gt;</span>
+<span class="sd">    metatype, classES, typeES : ESObject observation observation </span>
+<span class="sd">    type : obserror </span>
+<span class="sd">    reference : 0 </span>
+<span class="sd">    ResultTime : null </span>
+<span class="sd">    id : null </span>
+<span class="sd">    </span>
+<span class="sd">    In [175]: ob.append(&#39;ce matin&#39;, &#39;paris&#39;, &#39;pm10&#39;, &#39;fort&#39;)</span>
+
+<span class="sd">    In [176]: ob.append(&#39;ce matin&#39;, &#39;lyon&#39;, &#39;pm25&#39;, &#39;faible&#39;)</span>
+
+<span class="sd">    In [177]: ob.append(&#39;ce midi&#39;, &#39;marseille&#39;, &#39;pm1&#39;, &#39;tres fort&#39;)</span>
+
+<span class="sd">### Measuring station</span>
+
+<span class="sd">### Mobile sensor</span>
+
+<span class="sd">### Simulation</span>
+
+<span class="sd">### Access information</span>
+
+<span class="sd">### Visualize an Observation</span>
+
+<span class="sd">## Generate an Exchange format</span>
+
+<span class="sd">### Binary format</span>
+
+<span class="sd">### Json format</span>
+
+<span class="sd">### No SQL format</span>
+
+<span class="sd">## Managing Observations</span>
+
+<span class="sd">### Sort</span>
+
+<span class="sd">### Aggregation</span>
+
+<span class="sd">### Numpy export</span>
+
+<span class="sd">### Xarray export</span>
+
+<span class="sd"># Developpers documentation</span>
+
+<span class="sd">## Data model</span>
 
 <span class="sd">An `ESObservation.Observation` is an object representing a set of information having</span>
 <span class="sd">spatial and temporal characteristics associated with measurable or observable</span>
 <span class="sd"> properties.</span>
 <span class="sd">&lt;img src=&quot;./ES/ESclasses.png&quot; width=&quot;800&quot;&gt;</span>
 
-<span class="sd"># What are the ES classes ?</span>
+<span class="sd">## What are the ES classes ?</span>
 
 <span class="sd">The ES functions are divided according to the class hierarchy below :</span>
 <span class="sd"> </span>
@@ -315,7 +483,6 @@ spatial and temporal characteristics associated with measurable or observable
 <span class="sd">`ES.ESObs.Result`, `ES.ESObs.ESSetLocation`, `ES.ESObs.ESSetDatation`,</span>
 <span class="sd">`ES.ESObs.ESSetProperty`, `ES.ESObs.ESSetResult`, </span>
 <span class="sd">- ESconstante : `ES.ESconstante.Es`.</span>
-
 
 <span class="sd">&quot;&quot;&quot;</span>
 </pre></div>
