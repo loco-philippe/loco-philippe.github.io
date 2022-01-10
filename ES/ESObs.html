@@ -125,6 +125,9 @@
                                 <a class="function" href="#ESSetProperty.__init__">ESSetProperty</a>
                         </li>
                         <li>
+                                <a class="variable" href="#ESSetProperty.vListType">vListType</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#ESSetProperty.json">json</a>
                         </li>
                         <li>
@@ -258,7 +261,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">axes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nMax</span> <span class="o">=</span> <span class="mi">1</span>
             
-<span class="k">class</span> <span class="nc">ESSetDatation</span><span class="p">(</span><span class="n">ESSet</span><span class="p">,</span> <span class="n">Datation</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">ESSetDatation</span><span class="p">(</span><span class="n">ESSet</span><span class="p">,</span> <span class="n">Datation</span><span class="p">):</span>   <span class="c1"># !!! début ESSet</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Classe liée à la structure interne</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -280,7 +283,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">vInstant</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_dat_instant&quot;</span><span class="p">]</span> <span class="p">:</span> <span class="n">dat_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -289,9 +292,16 @@
 
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
         <span class="n">datList</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">func</span> <span class="o">!=</span> <span class="n">DatationValue</span><span class="o">.</span><span class="n">vName</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">datList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">or</span>
-                                            <span class="nb">type</span><span class="p">(</span><span class="n">datList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">datetime</span><span class="p">)</span> <span class="p">:</span>
+        <span class="c1">#isdate = False</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">datList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">str</span> <span class="p">:</span>
+            <span class="k">try</span> <span class="p">:</span> 
+                <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">datList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="c1">#isdate = True</span>
+            <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datList</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datList</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)</span>
+        <span class="c1">#if func != DatationValue.vName and (type(datList[0]) == str or</span>
+        <span class="c1">#                                    type(datList[0]) == datetime) :</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">datList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">datetime</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datList</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datList</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">analyse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -317,7 +327,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">initESSet</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">majMeta</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_loc_point&quot;</span><span class="p">]</span> <span class="p">:</span> <span class="n">loc_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -358,7 +368,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">initESSet</span><span class="p">(</span><span class="n">PropertyValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">majMeta</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">vListType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">vType</span><span class="p">()</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_prp_type&quot;</span><span class="p">]</span> <span class="p">:</span> <span class="n">prp_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -382,7 +396,7 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1">#return object.__repr__(self) + &#39;\n&#39; + self.json(True, True, True) + &#39;\n&#39;</span>
-        <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vListIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -847,7 +861,7 @@
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ESSetDatation</span><span class="p">(</span><span class="n">ESSet</span><span class="p">,</span> <span class="n">Datation</span><span class="p">):</span>
+            <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ESSetDatation</span><span class="p">(</span><span class="n">ESSet</span><span class="p">,</span> <span class="n">Datation</span><span class="p">):</span>   <span class="c1"># !!! début ESSet</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Classe liée à la structure interne</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -869,7 +883,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">vInstant</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_dat_instant&quot;</span><span class="p">]</span> <span class="p">:</span> <span class="n">dat_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -878,9 +892,16 @@
 
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
         <span class="n">datList</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">func</span> <span class="o">!=</span> <span class="n">DatationValue</span><span class="o">.</span><span class="n">vName</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">datList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">or</span>
-                                            <span class="nb">type</span><span class="p">(</span><span class="n">datList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">datetime</span><span class="p">)</span> <span class="p">:</span>
+        <span class="c1">#isdate = False</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">datList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">str</span> <span class="p">:</span>
+            <span class="k">try</span> <span class="p">:</span> 
+                <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">datList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="c1">#isdate = True</span>
+            <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datList</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datList</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)</span>
+        <span class="c1">#if func != DatationValue.vName and (type(datList[0]) == str or</span>
+        <span class="c1">#                                    type(datList[0]) == datetime) :</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">datList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">datetime</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datList</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datList</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">analyse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -970,7 +991,7 @@
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000020983DF5040&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001F8189C4040&gt;&gt;
 )</span>:
     </div>
 
@@ -978,9 +999,16 @@
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
         <span class="n">datList</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">func</span> <span class="o">!=</span> <span class="n">DatationValue</span><span class="o">.</span><span class="n">vName</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">datList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">or</span>
-                                            <span class="nb">type</span><span class="p">(</span><span class="n">datList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">datetime</span><span class="p">)</span> <span class="p">:</span>
+        <span class="c1">#isdate = False</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">datList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">str</span> <span class="p">:</span>
+            <span class="k">try</span> <span class="p">:</span> 
+                <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">datList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="c1">#isdate = True</span>
+            <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datList</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datList</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)</span>
+        <span class="c1">#if func != DatationValue.vName and (type(datList[0]) == str or</span>
+        <span class="c1">#                                    type(datList[0]) == datetime) :</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">datList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">datetime</span> <span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datList</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datList</span><span class="p">)</span>
 </pre></div>
 
@@ -1077,7 +1105,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">initESSet</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">majMeta</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_loc_point&quot;</span><span class="p">]</span> <span class="p">:</span> <span class="n">loc_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -1203,7 +1231,7 @@ return</p>
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000020983DF5040&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001F8189C4040&gt;&gt;
 )</span>:
     </div>
 
@@ -1302,7 +1330,11 @@ return</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">initESSet</span><span class="p">(</span><span class="n">PropertyValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">majMeta</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">vListType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">vType</span><span class="p">()</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_prp_type&quot;</span><span class="p">]</span> <span class="p">:</span> <span class="n">prp_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -1341,6 +1373,15 @@ return</p>
     
 
                             </div>
+                            <div id="ESSetProperty.vListType" class="classattr">
+                                            <div class="attr variable"><a class="headerlink" href="#ESSetProperty.vListType">#&nbsp;&nbsp</a>
+
+        <span class="name">vListType</span>
+    </div>
+
+    
+
+                            </div>
                             <div id="ESSetProperty.json" class="classattr">
                                         <div class="attr function"><a class="headerlink" href="#ESSetProperty.json">#&nbsp;&nbsp</a>
 
@@ -1372,7 +1413,7 @@ return</p>
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000020983DF5040&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001F8189C4040&gt;&gt;
 )</span>:
     </div>
 
@@ -1447,7 +1488,7 @@ return</p>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1">#return object.__repr__(self) + &#39;\n&#39; + self.json(True, True, True) + &#39;\n&#39;</span>
-        <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vListIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1697,7 +1738,7 @@ return</p>
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000020983DF5040&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001F8189C4040&gt;&gt;,
     ind=&#39;axe&#39;,
     squeeze=True
 )</span>:
