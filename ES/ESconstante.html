@@ -175,13 +175,13 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">:</span>   <span class="bp">self</span><span class="o">.</span><span class="n">prp</span> <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;name for json classES identification &#39;&#39;&#39;</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">mValObs</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mValObs</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
+                        <span class="c1">#self.loc_valName[1]  : self.loc_classES  ,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
+                        <span class="c1">#self.dat_valName  : self.dat_classES  ,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="c1">#self.prp_valName[1]  : self.prp_classES  ,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;assignment of ESValue name to ESObs objects &#39;&#39;&#39;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span><span class="p">]</span>
@@ -377,11 +377,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">obs_typeES</span>       <span class="o">=</span> <span class="s2">&quot;observation&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_typeES</span>       <span class="o">=</span> <span class="s2">&quot;set&quot;</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">dat_boxMin</span>       <span class="o">=</span> <span class="s2">&quot;timeBoxMin&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dat_boxMax</span>       <span class="o">=</span> <span class="s2">&quot;timeBoxMax&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dat_box</span>            <span class="o">=</span> <span class="s2">&quot;timeBox&quot;</span>
+        <span class="c1">#self.dat_boxMax       = &quot;timeBoxMax&quot;</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">loc_boxMin</span>       <span class="o">=</span> <span class="s2">&quot;boudingBoxMin&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loc_boxMax</span>       <span class="o">=</span> <span class="s2">&quot;boudingBoxMax&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loc_box</span>            <span class="o">=</span> <span class="s2">&quot;boudingBox&quot;</span>
+        <span class="c1">#self.loc_boxMax       = &quot;boudingBoxMax&quot;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">prp_propType</span>	    <span class="o">=</span> <span class="s2">&quot;prp&quot;</span><span class="p">;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prp_unit</span>		    <span class="o">=</span> <span class="s2">&quot;unit&quot;</span><span class="p">;</span>
@@ -396,13 +396,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">prp_uncertain</span>    <span class="o">=</span> <span class="s2">&quot;uncertainty&quot;</span><span class="p">;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prp_name</span>         <span class="o">=</span> <span class="s2">&quot;name&quot;</span><span class="p">;</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span>      <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;instant&quot;</span><span class="p">,</span> <span class="s2">&quot;slot&quot;</span><span class="p">]</span>
+        <span class="c1">#self.dat_valName      = [&quot;instant&quot;, &quot;slot&quot;]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span>      <span class="o">=</span> <span class="s2">&quot;datvalue&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dat_valueType</span>    <span class="o">=</span> <span class="s2">&quot;datationValue&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span>      <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;point&quot;</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">]</span>
+        <span class="c1">#self.loc_valName      = [&quot;point&quot;, &quot;shape&quot;]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span>      <span class="o">=</span> <span class="s2">&quot;locvalue&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loc_valueType</span>    <span class="o">=</span> <span class="s2">&quot;locationValue&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span>      <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;prpType&quot;</span><span class="p">,</span> <span class="s2">&quot;characteristic&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span>      <span class="o">=</span> <span class="s2">&quot;prpvalue&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prp_valueType</span>    <span class="o">=</span> <span class="s2">&quot;propertyValue&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span>      <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span>      <span class="o">=</span> <span class="s2">&quot;resvalue&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">res_valueType</span>    <span class="o">=</span> <span class="s2">&quot;resultValue&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">real_valueType</span>   <span class="o">=</span> <span class="s2">&quot;real&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">int_valueType</span>    <span class="o">=</span> <span class="s2">&quot;int&quot;</span>
@@ -480,13 +482,13 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">:</span>   <span class="bp">self</span><span class="o">.</span><span class="n">prp</span> <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;name for json classES identification &#39;&#39;&#39;</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">mValObs</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mValObs</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
+                        <span class="c1">#self.loc_valName[1]  : self.loc_classES  ,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
+                        <span class="c1">#self.dat_valName  : self.dat_classES  ,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="c1">#self.prp_valName[1]  : self.prp_classES  ,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;assignment of ESValue name to ESObs objects &#39;&#39;&#39;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span><span class="p">]</span>
@@ -682,11 +684,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">obs_typeES</span>       <span class="o">=</span> <span class="s2">&quot;observation&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_typeES</span>       <span class="o">=</span> <span class="s2">&quot;set&quot;</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">dat_boxMin</span>       <span class="o">=</span> <span class="s2">&quot;timeBoxMin&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dat_boxMax</span>       <span class="o">=</span> <span class="s2">&quot;timeBoxMax&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dat_box</span>            <span class="o">=</span> <span class="s2">&quot;timeBox&quot;</span>
+        <span class="c1">#self.dat_boxMax       = &quot;timeBoxMax&quot;</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">loc_boxMin</span>       <span class="o">=</span> <span class="s2">&quot;boudingBoxMin&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loc_boxMax</span>       <span class="o">=</span> <span class="s2">&quot;boudingBoxMax&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loc_box</span>            <span class="o">=</span> <span class="s2">&quot;boudingBox&quot;</span>
+        <span class="c1">#self.loc_boxMax       = &quot;boudingBoxMax&quot;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">prp_propType</span>	    <span class="o">=</span> <span class="s2">&quot;prp&quot;</span><span class="p">;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prp_unit</span>		    <span class="o">=</span> <span class="s2">&quot;unit&quot;</span><span class="p">;</span>
@@ -701,13 +703,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">prp_uncertain</span>    <span class="o">=</span> <span class="s2">&quot;uncertainty&quot;</span><span class="p">;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prp_name</span>         <span class="o">=</span> <span class="s2">&quot;name&quot;</span><span class="p">;</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span>      <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;instant&quot;</span><span class="p">,</span> <span class="s2">&quot;slot&quot;</span><span class="p">]</span>
+        <span class="c1">#self.dat_valName      = [&quot;instant&quot;, &quot;slot&quot;]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span>      <span class="o">=</span> <span class="s2">&quot;datvalue&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dat_valueType</span>    <span class="o">=</span> <span class="s2">&quot;datationValue&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span>      <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;point&quot;</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">]</span>
+        <span class="c1">#self.loc_valName      = [&quot;point&quot;, &quot;shape&quot;]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span>      <span class="o">=</span> <span class="s2">&quot;locvalue&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loc_valueType</span>    <span class="o">=</span> <span class="s2">&quot;locationValue&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span>      <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;prpType&quot;</span><span class="p">,</span> <span class="s2">&quot;characteristic&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span>      <span class="o">=</span> <span class="s2">&quot;prpvalue&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prp_valueType</span>    <span class="o">=</span> <span class="s2">&quot;propertyValue&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span>      <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span>      <span class="o">=</span> <span class="s2">&quot;resvalue&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">res_valueType</span>    <span class="o">=</span> <span class="s2">&quot;resultValue&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">real_valueType</span>   <span class="o">=</span> <span class="s2">&quot;real&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">int_valueType</span>    <span class="o">=</span> <span class="s2">&quot;int&quot;</span>
@@ -777,13 +781,13 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">:</span>   <span class="bp">self</span><span class="o">.</span><span class="n">prp</span> <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;name for json classES identification &#39;&#39;&#39;</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">mValObs</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mValObs</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
+                        <span class="c1">#self.loc_valName[1]  : self.loc_classES  ,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
+                        <span class="c1">#self.dat_valName  : self.dat_classES  ,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="c1">#self.prp_valName[1]  : self.prp_classES  ,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;assignment of ESValue name to ESObs objects &#39;&#39;&#39;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span><span class="p">]</span>

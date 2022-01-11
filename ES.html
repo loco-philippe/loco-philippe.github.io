@@ -47,6 +47,12 @@
     <li><a href="#bluetooth-mapping">Bluetooth mapping</a></li>
     <li><a href="#xarray-mapping">Xarray mapping</a></li>
   </ul></li>
+  <li><a href="#getting-started">Getting Started</a>
+  <ul>
+    <li><a href="#first-observation">First Observation</a></li>
+    <li><a href="#more-complex-observation">More complex Observation</a></li>
+    <li><a href="#synthesis">Synthesis</a></li>
+  </ul></li>
   <li><a href="#quick-overview">Quick overview</a>
   <ul>
     <li><a href="#create-an-observation">Create an Observation</a>
@@ -219,27 +225,29 @@ tabular representation which associates temporal, spatial and physical values <b
 
 <h2 id="xarray-mapping">Xarray mapping</h2>
 
+<h1 id="getting-started">Getting Started</h1>
+
+<h2 id="first-observation">First Observation</h2>
+
+<p><img src="./ES/first observation.png" width="800">
+<img src="./ES/first observation2.png" width="800">
+<img src="./ES/first observation carto.png" width="800">
+<img src="./ES/first observation carto2.png" width="800"></p>
+
+<h2 id="more-complex-observation">More complex Observation</h2>
+
+<p><img src="./ES/complex observation.png" width="800">
+<img src="./ES/complex observation2.png" width="800">
+<img src="./ES/complex observation3.png" width="800"></p>
+
+<h2 id="synthesis">Synthesis</h2>
+
+<p><img src="./ES/synthesis.png" width="800">
+<img src="./ES/synthesis2.png" width="800"></p>
+
 <h1 id="quick-overview">Quick overview</h1>
 
 <h2 id="create-an-observation">Create an Observation</h2>
-
-<pre><code>In [173]: ob=Observation()
-
-In [174]: ob
-Out[174]: 
-&lt;ESObservation.Observation object at 0x0000024B1D8B73A0&gt;
-metatype, classES, typeES : ESObject observation observation 
-type : obserror 
-reference : 0 
-ResultTime : null 
-id : null 
-
-In [175]: ob.append('ce matin', 'paris', 'pm10', 'fort')
-
-In [176]: ob.append('ce matin', 'lyon', 'pm25', 'faible')
-
-In [177]: ob.append('ce midi', 'marseille', 'pm1', 'tres fort')
-</code></pre>
 
 <h3 id="measuring-station">Measuring station</h3>
 
@@ -408,26 +416,30 @@ spatial and temporal characteristics associated with measurable or observable
 
 <span class="sd">## Xarray mapping</span>
 
+<span class="sd"># Getting Started</span>
+
+<span class="sd">## First Observation</span>
+
+<span class="sd">&lt;img src=&quot;./ES/first observation.png&quot; width=&quot;800&quot;&gt;</span>
+<span class="sd">&lt;img src=&quot;./ES/first observation2.png&quot; width=&quot;800&quot;&gt;</span>
+<span class="sd">&lt;img src=&quot;./ES/first observation carto.png&quot; width=&quot;800&quot;&gt;</span>
+<span class="sd">&lt;img src=&quot;./ES/first observation carto2.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">## More complex Observation</span>
+
+<span class="sd">&lt;img src=&quot;./ES/complex observation.png&quot; width=&quot;800&quot;&gt;</span>
+<span class="sd">&lt;img src=&quot;./ES/complex observation2.png&quot; width=&quot;800&quot;&gt;</span>
+<span class="sd">&lt;img src=&quot;./ES/complex observation3.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">## Synthesis</span>
+
+<span class="sd">&lt;img src=&quot;./ES/synthesis.png&quot; width=&quot;800&quot;&gt;</span>
+<span class="sd">&lt;img src=&quot;./ES/synthesis2.png&quot; width=&quot;800&quot;&gt;</span>
+
+
 <span class="sd"># Quick overview</span>
 
 <span class="sd">## Create an Observation</span>
-
-<span class="sd">    In [173]: ob=Observation()</span>
-
-<span class="sd">    In [174]: ob</span>
-<span class="sd">    Out[174]: </span>
-<span class="sd">    &lt;ESObservation.Observation object at 0x0000024B1D8B73A0&gt;</span>
-<span class="sd">    metatype, classES, typeES : ESObject observation observation </span>
-<span class="sd">    type : obserror </span>
-<span class="sd">    reference : 0 </span>
-<span class="sd">    ResultTime : null </span>
-<span class="sd">    id : null </span>
-<span class="sd">    </span>
-<span class="sd">    In [175]: ob.append(&#39;ce matin&#39;, &#39;paris&#39;, &#39;pm10&#39;, &#39;fort&#39;)</span>
-
-<span class="sd">    In [176]: ob.append(&#39;ce matin&#39;, &#39;lyon&#39;, &#39;pm25&#39;, &#39;faible&#39;)</span>
-
-<span class="sd">    In [177]: ob.append(&#39;ce midi&#39;, &#39;marseille&#39;, &#39;pm1&#39;, &#39;tres fort&#39;)</span>
 
 <span class="sd">### Measuring station</span>
 

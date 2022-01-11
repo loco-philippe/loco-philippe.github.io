@@ -286,9 +286,10 @@
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_dat_instant&quot;</span><span class="p">]</span> <span class="p">:</span> <span class="n">dat_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="n">dat_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">dat_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="c1">#if option[&quot;json_dat_instant&quot;] : dat_valName = ES.dat_valName</span>
+        <span class="c1">#else : dat_valName = ES.dat_valName</span>
+        <span class="c1">#return self.jsonESSet(dat_valName, option)</span>
 
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
         <span class="n">datList</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
@@ -330,9 +331,10 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_loc_point&quot;</span><span class="p">]</span> <span class="p">:</span> <span class="n">loc_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="n">loc_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">loc_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="c1">#if option[&quot;json_loc_point&quot;] : loc_valName = ES.loc_valName</span>
+        <span class="c1">#else : loc_valName = ES.loc_valName</span>
+        <span class="c1">#return self.jsonESSet(loc_valName, option)</span>
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vListPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -375,9 +377,10 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">vType</span><span class="p">()</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_prp_type&quot;</span><span class="p">]</span> <span class="p">:</span> <span class="n">prp_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="n">prp_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">prp_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="c1">#if option[&quot;json_prp_type&quot;] : prp_valName = ES.prp_valName</span>
+        <span class="c1">#else : prp_valName = ES.prp_valName</span>
+        <span class="c1">#return self.jsonESSet(prp_valName, option)</span>
 
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
@@ -462,7 +465,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(())</span>
     
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">res_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">res_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">getMaxIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">maxInd</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
@@ -886,9 +889,10 @@
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_dat_instant&quot;</span><span class="p">]</span> <span class="p">:</span> <span class="n">dat_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="n">dat_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">dat_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="c1">#if option[&quot;json_dat_instant&quot;] : dat_valName = ES.dat_valName</span>
+        <span class="c1">#else : dat_valName = ES.dat_valName</span>
+        <span class="c1">#return self.jsonESSet(dat_valName, option)</span>
 
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
         <span class="n">datList</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
@@ -974,9 +978,10 @@
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_dat_instant&quot;</span><span class="p">]</span> <span class="p">:</span> <span class="n">dat_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="n">dat_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">dat_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="c1">#if option[&quot;json_dat_instant&quot;] : dat_valName = ES.dat_valName</span>
+        <span class="c1">#else : dat_valName = ES.dat_valName</span>
+        <span class="c1">#return self.jsonESSet(dat_valName, option)</span>
 </pre></div>
 
         </details>
@@ -991,7 +996,7 @@
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001F8189C4040&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000027536F55040&gt;&gt;
 )</span>:
     </div>
 
@@ -1108,9 +1113,10 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_loc_point&quot;</span><span class="p">]</span> <span class="p">:</span> <span class="n">loc_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="n">loc_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">loc_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="c1">#if option[&quot;json_loc_point&quot;] : loc_valName = ES.loc_valName</span>
+        <span class="c1">#else : loc_valName = ES.loc_valName</span>
+        <span class="c1">#return self.jsonESSet(loc_valName, option)</span>
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vListPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1187,9 +1193,10 @@ return</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_loc_point&quot;</span><span class="p">]</span> <span class="p">:</span> <span class="n">loc_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="n">loc_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">loc_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="c1">#if option[&quot;json_loc_point&quot;] : loc_valName = ES.loc_valName</span>
+        <span class="c1">#else : loc_valName = ES.loc_valName</span>
+        <span class="c1">#return self.jsonESSet(loc_valName, option)</span>
 </pre></div>
 
         </details>
@@ -1231,7 +1238,7 @@ return</p>
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001F8189C4040&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000027536F55040&gt;&gt;
 )</span>:
     </div>
 
@@ -1337,9 +1344,10 @@ return</p>
         <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">vType</span><span class="p">()</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_prp_type&quot;</span><span class="p">]</span> <span class="p">:</span> <span class="n">prp_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="n">prp_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">prp_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="c1">#if option[&quot;json_prp_type&quot;] : prp_valName = ES.prp_valName</span>
+        <span class="c1">#else : prp_valName = ES.prp_valName</span>
+        <span class="c1">#return self.jsonESSet(prp_valName, option)</span>
 
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
@@ -1396,9 +1404,10 @@ return</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_prp_type&quot;</span><span class="p">]</span> <span class="p">:</span> <span class="n">prp_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="n">prp_valName</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">prp_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="c1">#if option[&quot;json_prp_type&quot;] : prp_valName = ES.prp_valName</span>
+        <span class="c1">#else : prp_valName = ES.prp_valName</span>
+        <span class="c1">#return self.jsonESSet(prp_valName, option)</span>
 </pre></div>
 
         </details>
@@ -1413,7 +1422,7 @@ return</p>
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001F8189C4040&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000027536F55040&gt;&gt;
 )</span>:
     </div>
 
@@ -1554,7 +1563,7 @@ return</p>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(())</span>
     
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">res_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">res_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">getMaxIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">maxInd</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
@@ -1738,7 +1747,7 @@ return</p>
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001F8189C4040&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000027536F55040&gt;&gt;,
     ind=&#39;axe&#39;,
     squeeze=True
 )</span>:
@@ -1793,7 +1802,7 @@ return</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">res_valName</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">res_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
 </pre></div>
 
         </details>

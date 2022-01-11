@@ -938,9 +938,10 @@
                     <span class="n">userAtt</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">jDat</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c1"># attributs</span>
                 <span class="k">if</span> <span class="n">isESAtt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classES</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">userAtt</span> <span class="ow">and</span> <span class="n">isUserAtt</span><span class="p">(</span><span class="n">k</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-            <span class="k">for</span> <span class="n">vName</span> <span class="ow">in</span> <span class="n">ValueClass</span><span class="o">.</span><span class="n">valName</span><span class="p">:</span>   <span class="c1"># si valeurs simple ou detaillee précisée</span>
-                <span class="k">if</span> <span class="n">vName</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">jDat</span><span class="p">):</span> <span class="n">ESSet</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ValueClass</span><span class="p">,</span> <span class="n">jDat</span><span class="p">[</span><span class="n">vName</span><span class="p">])</span> 
-        <span class="c1">#elif type(jObj) == ValueClass or jObj == None : </span>
+            <span class="c1">#for vName in ValueClass.valName:   # si valeurs simple ou detaillee précisée </span>
+            <span class="c1">#    if vName in list(jDat): ESSet.__init__(self, ValueClass, jDat[vName])</span>
+            <span class="k">if</span> <span class="n">ValueClass</span><span class="o">.</span><span class="n">valName</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">jDat</span><span class="p">):</span>    <span class="c1"># si valeurs simple ou detaillee précisée</span>
+                <span class="n">ESSet</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ValueClass</span><span class="p">,</span> <span class="n">jDat</span><span class="p">[</span><span class="n">ValueClass</span><span class="o">.</span><span class="n">valName</span><span class="p">])</span> <span class="c1"># !!!        #elif type(jObj) == ValueClass or jObj == None : </span>
         <span class="c1">#elif type(jObj) == ValueClass or jObj == None or type(jObj) == list :</span>
         <span class="k">else</span> <span class="p">:</span>
             <span class="n">ESSet</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ValueClass</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
@@ -1012,11 +1013,14 @@
             <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">li</span><span class="p">)</span>
         <span class="k">else</span> <span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;&quot;</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">option</span><span class="p">)</span> 
+            <span class="c1">#if len(self.valueList) == 1 : return self.valueList[0].json(option) </span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> 
             <span class="n">li</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nValue</span><span class="p">):</span> 
                 <span class="k">try</span><span class="p">:</span> <span class="n">li</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">option</span><span class="p">)))</span>
-                <span class="k">except</span><span class="p">:</span> <span class="n">li</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">option</span><span class="p">))</span>    
+                <span class="k">except</span><span class="p">:</span> <span class="n">li</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">option</span><span class="p">))</span>
+                <span class="c1">#try: li.append(json.loads(self.valueList[i].json()))</span>
+                <span class="c1">#except: li.append(self.valueList[i].json())    </span>
             <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">li</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nameES</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">resIndex</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">forma</span> <span class="o">=</span> <span class="s1">&#39;null&#39;</span><span class="p">,</span> <span class="n">prpList</span> <span class="o">=</span> <span class="p">[]):</span>
@@ -1680,7 +1684,7 @@
                             <div id="DatationValue.valName" class="classattr">
                                             <div class="attr variable"><a class="headerlink" href="#DatationValue.valName">#&nbsp;&nbsp</a>
 
-        <span class="name">valName</span><span class="default_value"> = [&#39;instant&#39;, &#39;slot&#39;]</span>
+        <span class="name">valName</span><span class="default_value"> = &#39;datvalue&#39;</span>
     </div>
 
     
@@ -2113,7 +2117,7 @@
                             <div id="LocationValue.valName" class="classattr">
                                             <div class="attr variable"><a class="headerlink" href="#LocationValue.valName">#&nbsp;&nbsp</a>
 
-        <span class="name">valName</span><span class="default_value"> = [&#39;point&#39;, &#39;shape&#39;]</span>
+        <span class="name">valName</span><span class="default_value"> = &#39;locvalue&#39;</span>
     </div>
 
     
@@ -2627,7 +2631,7 @@
                             <div id="PropertyValue.valName" class="classattr">
                                             <div class="attr variable"><a class="headerlink" href="#PropertyValue.valName">#&nbsp;&nbsp</a>
 
-        <span class="name">valName</span><span class="default_value"> = [&#39;prpType&#39;, &#39;characteristic&#39;]</span>
+        <span class="name">valName</span><span class="default_value"> = &#39;prpvalue&#39;</span>
     </div>
 
     
@@ -2959,7 +2963,7 @@
                             <div id="ResultValue.valName" class="classattr">
                                             <div class="attr variable"><a class="headerlink" href="#ResultValue.valName">#&nbsp;&nbsp</a>
 
-        <span class="name">valName</span><span class="default_value"> = [&#39;value&#39;]</span>
+        <span class="name">valName</span><span class="default_value"> = &#39;resvalue&#39;</span>
     </div>
 
     
@@ -3239,9 +3243,10 @@
                     <span class="n">userAtt</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">jDat</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c1"># attributs</span>
                 <span class="k">if</span> <span class="n">isESAtt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classES</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">userAtt</span> <span class="ow">and</span> <span class="n">isUserAtt</span><span class="p">(</span><span class="n">k</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-            <span class="k">for</span> <span class="n">vName</span> <span class="ow">in</span> <span class="n">ValueClass</span><span class="o">.</span><span class="n">valName</span><span class="p">:</span>   <span class="c1"># si valeurs simple ou detaillee précisée</span>
-                <span class="k">if</span> <span class="n">vName</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">jDat</span><span class="p">):</span> <span class="n">ESSet</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ValueClass</span><span class="p">,</span> <span class="n">jDat</span><span class="p">[</span><span class="n">vName</span><span class="p">])</span> 
-        <span class="c1">#elif type(jObj) == ValueClass or jObj == None : </span>
+            <span class="c1">#for vName in ValueClass.valName:   # si valeurs simple ou detaillee précisée </span>
+            <span class="c1">#    if vName in list(jDat): ESSet.__init__(self, ValueClass, jDat[vName])</span>
+            <span class="k">if</span> <span class="n">ValueClass</span><span class="o">.</span><span class="n">valName</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">jDat</span><span class="p">):</span>    <span class="c1"># si valeurs simple ou detaillee précisée</span>
+                <span class="n">ESSet</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ValueClass</span><span class="p">,</span> <span class="n">jDat</span><span class="p">[</span><span class="n">ValueClass</span><span class="o">.</span><span class="n">valName</span><span class="p">])</span> <span class="c1"># !!!        #elif type(jObj) == ValueClass or jObj == None : </span>
         <span class="c1">#elif type(jObj) == ValueClass or jObj == None or type(jObj) == list :</span>
         <span class="k">else</span> <span class="p">:</span>
             <span class="n">ESSet</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ValueClass</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
@@ -3313,11 +3318,14 @@
             <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">li</span><span class="p">)</span>
         <span class="k">else</span> <span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;&quot;</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">option</span><span class="p">)</span> 
+            <span class="c1">#if len(self.valueList) == 1 : return self.valueList[0].json(option) </span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> 
             <span class="n">li</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nValue</span><span class="p">):</span> 
                 <span class="k">try</span><span class="p">:</span> <span class="n">li</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">option</span><span class="p">)))</span>
-                <span class="k">except</span><span class="p">:</span> <span class="n">li</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">option</span><span class="p">))</span>    
+                <span class="k">except</span><span class="p">:</span> <span class="n">li</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">option</span><span class="p">))</span>
+                <span class="c1">#try: li.append(json.loads(self.valueList[i].json()))</span>
+                <span class="c1">#except: li.append(self.valueList[i].json())    </span>
             <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">li</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nameES</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">resIndex</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">forma</span> <span class="o">=</span> <span class="s1">&#39;null&#39;</span><span class="p">,</span> <span class="n">prpList</span> <span class="o">=</span> <span class="p">[]):</span>
@@ -3477,9 +3485,10 @@
                     <span class="n">userAtt</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">jDat</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c1"># attributs</span>
                 <span class="k">if</span> <span class="n">isESAtt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classES</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">userAtt</span> <span class="ow">and</span> <span class="n">isUserAtt</span><span class="p">(</span><span class="n">k</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-            <span class="k">for</span> <span class="n">vName</span> <span class="ow">in</span> <span class="n">ValueClass</span><span class="o">.</span><span class="n">valName</span><span class="p">:</span>   <span class="c1"># si valeurs simple ou detaillee précisée</span>
-                <span class="k">if</span> <span class="n">vName</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">jDat</span><span class="p">):</span> <span class="n">ESSet</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ValueClass</span><span class="p">,</span> <span class="n">jDat</span><span class="p">[</span><span class="n">vName</span><span class="p">])</span> 
-        <span class="c1">#elif type(jObj) == ValueClass or jObj == None : </span>
+            <span class="c1">#for vName in ValueClass.valName:   # si valeurs simple ou detaillee précisée </span>
+            <span class="c1">#    if vName in list(jDat): ESSet.__init__(self, ValueClass, jDat[vName])</span>
+            <span class="k">if</span> <span class="n">ValueClass</span><span class="o">.</span><span class="n">valName</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">jDat</span><span class="p">):</span>    <span class="c1"># si valeurs simple ou detaillee précisée</span>
+                <span class="n">ESSet</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ValueClass</span><span class="p">,</span> <span class="n">jDat</span><span class="p">[</span><span class="n">ValueClass</span><span class="o">.</span><span class="n">valName</span><span class="p">])</span> <span class="c1"># !!!        #elif type(jObj) == ValueClass or jObj == None : </span>
         <span class="c1">#elif type(jObj) == ValueClass or jObj == None or type(jObj) == list :</span>
         <span class="k">else</span> <span class="p">:</span>
             <span class="n">ESSet</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ValueClass</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
@@ -3506,7 +3515,7 @@
             <span class="def">def</span>
             <span class="name">vList</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001F8189C4040&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000027536F55040&gt;&gt;
 )</span>:
     </div>
 
@@ -3681,11 +3690,14 @@ if ValueClass == ResultValue :</p>
             <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">li</span><span class="p">)</span>
         <span class="k">else</span> <span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;&quot;</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">option</span><span class="p">)</span> 
+            <span class="c1">#if len(self.valueList) == 1 : return self.valueList[0].json(option) </span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> 
             <span class="n">li</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nValue</span><span class="p">):</span> 
                 <span class="k">try</span><span class="p">:</span> <span class="n">li</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">option</span><span class="p">)))</span>
-                <span class="k">except</span><span class="p">:</span> <span class="n">li</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">option</span><span class="p">))</span>    
+                <span class="k">except</span><span class="p">:</span> <span class="n">li</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">option</span><span class="p">))</span>
+                <span class="c1">#try: li.append(json.loads(self.valueList[i].json()))</span>
+                <span class="c1">#except: li.append(self.valueList[i].json())    </span>
             <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">li</span><span class="p">)</span>
 </pre></div>
 
