@@ -1108,114 +1108,6 @@
             <span class="n">indTri</span> <span class="o">=</span> <span class="n">order</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">indTri</span><span class="p">)</span>
         
-
-
-<span class="sd">&#39;&#39;&#39;class DatationValue2(ESValue):</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-<span class="sd">    Classe liée à la structure interne</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-<span class="sd">    #nullName    = ES.dat_nullName</span>
-<span class="sd">    valName     = ES.dat_valName</span>
-<span class="sd">    #valueName   = ES.dat_valueName</span>
-<span class="sd">    valueType   = ES.dat_valueType</span>
-
-<span class="sd">    def __init__(self, val = ES.nullDate):</span>
-<span class="sd">        ESValue.__init__(self)</span>
-<span class="sd">        self.slot = [ES.nullDate, ES.nullDate]</span>
-<span class="sd">        self.instant = ES.nullDate</span>
-<span class="sd">        self.init(val)</span>
-<span class="sd">        </span>
-<span class="sd">    def init(self, val = ES.nullDate):</span>
-<span class="sd">        if type(val) == DatationValue :</span>
-<span class="sd">            self.instant = val.instant</span>
-<span class="sd">            self.slot = val.slot</span>
-<span class="sd">            self.name = val.name</span>
-<span class="sd">            return</span>
-<span class="sd">        elif type(val) == dict :</span>
-<span class="sd">            self.name, val = list(val.items())[0]   </span>
-<span class="sd">        slot = self.initSlot(val)</span>
-<span class="sd">        if slot == [ES.nullDate, ES.nullDate] : </span>
-<span class="sd">            if type(val) == str and self.name == ES.nullName : self.name = val</span>
-<span class="sd">        elif slot[0] == slot[1] : self.instant = slot[0]</span>
-<span class="sd">        else : self.slot = slot</span>
-
-<span class="sd">    def initSlot(self, val= ES.nullDate):</span>
-<span class="sd">        if   type(val) == DatationValue:  return val.slot</span>
-<span class="sd">        elif type(val) == list: </span>
-<span class="sd">            if type(val[0]) == datetime : return val</span>
-<span class="sd">            else : return [datetime.fromisoformat(str(val[0])), datetime.fromisoformat(str(val[1]))]</span>
-<span class="sd">        elif type(val) == datetime: return [val, val]</span>
-<span class="sd">        elif type(val) == numpy.datetime64 :</span>
-<span class="sd">            sl = pandas.Timestamp(val).to_pydatetime()</span>
-<span class="sd">            return [sl, sl]                    </span>
-<span class="sd">        elif type(val) == pandas._libs.tslibs.timestamps.Timestamp :</span>
-<span class="sd">            sl = val.to_pydatetime()</span>
-<span class="sd">            return [sl, sl]                    </span>
-<span class="sd">        elif type(val) == str: </span>
-<span class="sd">            try:</span>
-<span class="sd">                sl = datetime.fromisoformat(val)</span>
-<span class="sd">                slo = [sl, sl]</span>
-<span class="sd">            except:</span>
-<span class="sd">                try:</span>
-<span class="sd">                    val2 = json.loads(val)</span>
-<span class="sd">                    slo = [datetime.fromisoformat(val2[0]),</span>
-<span class="sd">                           datetime.fromisoformat(val2[1])]</span>
-<span class="sd">                except:</span>
-<span class="sd">                    sl = ES.nullDate</span>
-<span class="sd">                    slo = [sl, sl]</span>
-<span class="sd">            return slo</span>
-<span class="sd">        else: </span>
-<span class="sd">            sl = ES.nullDate</span>
-<span class="sd">            return [sl, sl]</span>
-<span class="sd">        </span>
-<span class="sd">    def __lt__(self, other): </span>
-<span class="sd">        return self.instant &lt; other.instant</span>
-<span class="sd"> </span>
-<span class="sd">    def __eq__(self, other): </span>
-<span class="sd">        return self.instant == other.instant and self.slot == other.slot and self.name == other.name</span>
-<span class="sd">        #or (self.name[0:3] == self.nullName and other.name[0:3] == self.nullName))</span>
-
-<span class="sd">    def __repr__(self): return self.json()</span>
-
-<span class="sd">    def getInstant(self) : return self.instant</span>
-<span class="sd">    </span>
-<span class="sd">    def getSlot(self) : return self.slot</span>
-
-<span class="sd">    def vSlot(self):</span>
-<span class="sd">        if self.slot != [ES.nullDate, ES.nullDate] : return self.slot</span>
-<span class="sd">        else : return self.initSlot(self.instant)</span>
-<span class="sd">            </span>
-<span class="sd">    def vInstant(self, option = ES.mOption, string = False) : #string=False):  </span>
-<span class="sd">        if self.slot != [ES.nullDate, ES.nullDate] : val = [self.slot[0], self.slot[1]]</span>
-<span class="sd">        else: val =  self.instant</span>
-<span class="sd">        if option[&quot;json_dat_instant&quot;]:</span>
-<span class="sd">            if self.instant != ES.nullDate : val =  self.instant</span>
-<span class="sd">            elif self.slot != [ES.nullDate, ES.nullDate] : </span>
-<span class="sd">                val =  (self.slot[0] + (self.slot[1] - self.slot[0]) / 2)</span>
-<span class="sd">        if   string and type(val) == dict : return [val[0].isoformat(), val[1].isoformat()]</span>
-<span class="sd">        elif string and type(val) != dict : return val.isoformat()</span>
-<span class="sd">        else : return val</span>
-
-<span class="sd">    def json(self, option = ES.mOption): </span>
-<span class="sd">        val = self.vInstant(option, string=True)</span>
-<span class="sd">        if option[&quot;json_dat_name&quot;] and self.name != ES.nullName :</span>
-<span class="sd">            if val != ES.nullDate.isoformat():  return json.dumps({self.name : val})</span>
-<span class="sd">            else :                              return json.dumps(self.name)</span>
-<span class="sd">        else : </span>
-<span class="sd">            if type(val) == str :               return val</span>
-<span class="sd">            else :                              return json.dumps(val)</span>
-
-<span class="sd">    def to_bytes(self):</span>
-<span class="sd">        return struct.pack(&#39;&lt;HBBBBB&#39;, self.instant.year, self.instant.month,</span>
-<span class="sd">                           self.instant.day, self.instant.hour,</span>
-<span class="sd">                           self.instant.minute, self.instant.second)</span>
-<span class="sd">        </span>
-<span class="sd">    def from_bytes(self, byt):</span>
-<span class="sd">        dt = struct.unpack(&#39;&lt;HBBBBB&#39;, byt[0:7])</span>
-<span class="sd">        self.init(datetime(dt[0], dt[1], dt[2], dt[3], dt[4], dt[5]))</span>
-<span class="sd">        return 7</span>
-<span class="sd">&#39;&#39;&#39;</span>
-        
 </pre></div>
 
         </details>
@@ -1867,7 +1759,7 @@
             <span class="def">def</span>
             <span class="name">json</span><span class="signature">(
     self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: True, &#39;json_info_nval&#39;: True, &#39;json_info_box&#39;: True, &#39;json_info_autre&#39;: True, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;},
+    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;},
     string=True
 )</span>:
     </div>
@@ -2238,7 +2130,7 @@
             <span class="def">def</span>
             <span class="name">vCodePlus</span><span class="signature">(
     self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: True, &#39;json_info_nval&#39;: True, &#39;json_info_box&#39;: True, &#39;json_info_autre&#39;: True, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}
+    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}
 )</span>:
     </div>
 
@@ -2396,7 +2288,7 @@
             <span class="def">def</span>
             <span class="name">json</span><span class="signature">(
     self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: True, &#39;json_info_nval&#39;: True, &#39;json_info_box&#39;: True, &#39;json_info_autre&#39;: True, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;},
+    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;},
     string=True
 )</span>:
     </div>
@@ -2713,7 +2605,7 @@
             <span class="def">def</span>
             <span class="name">json</span><span class="signature">(
     self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: True, &#39;json_info_nval&#39;: True, &#39;json_info_box&#39;: True, &#39;json_info_autre&#39;: True, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;},
+    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;},
     string=True
 )</span>:
     </div>
@@ -3066,7 +2958,7 @@
             <span class="def">def</span>
             <span class="name">json</span><span class="signature">(
     self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: True, &#39;json_info_nval&#39;: True, &#39;json_info_box&#39;: True, &#39;json_info_autre&#39;: True, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}
+    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}
 )</span>:
     </div>
 
@@ -3515,7 +3407,7 @@
             <span class="def">def</span>
             <span class="name">vList</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000027536F55040&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001AA1EC06040&gt;&gt;
 )</span>:
     </div>
 

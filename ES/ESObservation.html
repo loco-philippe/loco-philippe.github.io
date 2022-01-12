@@ -1130,19 +1130,27 @@ of Environmental Sensing : <code><a href="#Observation">ES.ESObservation.Observa
             <span class="c1">#plt.legend(obx.coords[&#39;locstr&#39;].to_index().to_list())</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
         
-    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lenres</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span>
+    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lenres</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="p">:</span>
         <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_tab</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">prp</span><span class="p">,</span> <span class="n">lenres</span><span class="p">)</span>
-        <span class="n">separator</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;____________________&#39;</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tab</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> 
+        <span class="n">septab</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="p">:</span> <span class="n">septab</span> <span class="o">+=</span> <span class="n">sep</span>
+        <span class="c1">#separator = [ &#39;____________________&#39; for val in tab[0]] </span>
+        <span class="n">separator</span> <span class="o">=</span> <span class="p">[</span> <span class="n">septab</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tab</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> 
         <span class="n">first</span><span class="o">=</span><span class="kc">True</span>
-        <span class="nb">print</span><span class="p">()</span>
+        <span class="c1">#form = &#39;{:&lt;&#39;+str(width)+&#39;}&#39;</span>
+        <span class="n">forms</span> <span class="o">=</span> <span class="s1">&#39;{:&lt;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">width</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">width</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;}&#39;</span>
+        <span class="n">formf</span> <span class="o">=</span> <span class="s1">&#39;{!s:&lt;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">width</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">width</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;}&#39;</span>
         <span class="k">for</span> <span class="n">lign</span> <span class="ow">in</span> <span class="n">tab</span> <span class="p">:</span>
             <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lign</span> <span class="p">:</span>
-                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">==</span><span class="nb">str</span> <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-                <span class="k">else</span> <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:&lt;20}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+                <span class="c1">#print(form.format(val), end=&#39;&#39;)</span>
+                <span class="c1">#if type(val)==str : print(val[0:width].ljust(width), end=&#39; &#39;)</span>
+                <span class="c1">#else : print(&#39;{:&lt;20}&#39;.format(val), end=&#39; &#39;)</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">==</span><span class="nb">str</span> <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="k">else</span> <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">formf</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">first</span> <span class="p">:</span> 
                 <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">separator</span> <span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">width</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
                 <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
 
@@ -2177,19 +2185,27 @@ of Environmental Sensing : <code><a href="#Observation">ES.ESObservation.Observa
             <span class="c1">#plt.legend(obx.coords[&#39;locstr&#39;].to_index().to_list())</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
         
-    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lenres</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span>
+    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lenres</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="p">:</span>
         <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_tab</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">prp</span><span class="p">,</span> <span class="n">lenres</span><span class="p">)</span>
-        <span class="n">separator</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;____________________&#39;</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tab</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> 
+        <span class="n">septab</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="p">:</span> <span class="n">septab</span> <span class="o">+=</span> <span class="n">sep</span>
+        <span class="c1">#separator = [ &#39;____________________&#39; for val in tab[0]] </span>
+        <span class="n">separator</span> <span class="o">=</span> <span class="p">[</span> <span class="n">septab</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tab</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> 
         <span class="n">first</span><span class="o">=</span><span class="kc">True</span>
-        <span class="nb">print</span><span class="p">()</span>
+        <span class="c1">#form = &#39;{:&lt;&#39;+str(width)+&#39;}&#39;</span>
+        <span class="n">forms</span> <span class="o">=</span> <span class="s1">&#39;{:&lt;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">width</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">width</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;}&#39;</span>
+        <span class="n">formf</span> <span class="o">=</span> <span class="s1">&#39;{!s:&lt;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">width</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">width</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;}&#39;</span>
         <span class="k">for</span> <span class="n">lign</span> <span class="ow">in</span> <span class="n">tab</span> <span class="p">:</span>
             <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lign</span> <span class="p">:</span>
-                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">==</span><span class="nb">str</span> <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-                <span class="k">else</span> <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:&lt;20}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+                <span class="c1">#print(form.format(val), end=&#39;&#39;)</span>
+                <span class="c1">#if type(val)==str : print(val[0:width].ljust(width), end=&#39; &#39;)</span>
+                <span class="c1">#else : print(&#39;{:&lt;20}&#39;.format(val), end=&#39; &#39;)</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">==</span><span class="nb">str</span> <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="k">else</span> <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">formf</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">first</span> <span class="p">:</span> 
                 <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">separator</span> <span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">width</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
                 <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
 
@@ -3396,7 +3412,7 @@ characteristics (e.g. complet, score, dim...) and the index for <code><a href="E
     info=False,
     numeric=False,
     fullAxes=False,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000027536F55040&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001AA1EC06040&gt;&gt;,
     arrayname=&#39;Observation&#39;,
     maxname=20
 )</span>:
@@ -3634,24 +3650,41 @@ marker : Character, optional
 
         
             <span class="def">def</span>
-            <span class="name">view</span><span class="signature">(self, name=True, dat=True, loc=True, prp=True, lenres=0)</span>:
+            <span class="name">view</span><span class="signature">(
+    self,
+    name=True,
+    dat=True,
+    loc=True,
+    prp=True,
+    lenres=0,
+    width=15,
+    sep=&#39;_&#39;
+)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lenres</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lenres</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="p">:</span>
         <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_tab</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">prp</span><span class="p">,</span> <span class="n">lenres</span><span class="p">)</span>
-        <span class="n">separator</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;____________________&#39;</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tab</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> 
+        <span class="n">septab</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="p">:</span> <span class="n">septab</span> <span class="o">+=</span> <span class="n">sep</span>
+        <span class="c1">#separator = [ &#39;____________________&#39; for val in tab[0]] </span>
+        <span class="n">separator</span> <span class="o">=</span> <span class="p">[</span> <span class="n">septab</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tab</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> 
         <span class="n">first</span><span class="o">=</span><span class="kc">True</span>
-        <span class="nb">print</span><span class="p">()</span>
+        <span class="c1">#form = &#39;{:&lt;&#39;+str(width)+&#39;}&#39;</span>
+        <span class="n">forms</span> <span class="o">=</span> <span class="s1">&#39;{:&lt;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">width</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">width</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;}&#39;</span>
+        <span class="n">formf</span> <span class="o">=</span> <span class="s1">&#39;{!s:&lt;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">width</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">width</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;}&#39;</span>
         <span class="k">for</span> <span class="n">lign</span> <span class="ow">in</span> <span class="n">tab</span> <span class="p">:</span>
             <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lign</span> <span class="p">:</span>
-                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">==</span><span class="nb">str</span> <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-                <span class="k">else</span> <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:&lt;20}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+                <span class="c1">#print(form.format(val), end=&#39;&#39;)</span>
+                <span class="c1">#if type(val)==str : print(val[0:width].ljust(width), end=&#39; &#39;)</span>
+                <span class="c1">#else : print(&#39;{:&lt;20}&#39;.format(val), end=&#39; &#39;)</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">==</span><span class="nb">str</span> <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="k">else</span> <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">formf</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">first</span> <span class="p">:</span> 
                 <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">separator</span> <span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">width</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
                 <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
 </pre></div>
@@ -3697,7 +3730,7 @@ marker : Character, optional
     info=False,
     numeric=False,
     fullAxes=False,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000027536F55040&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001AA1EC06040&gt;&gt;,
     arrayname=&#39;Observation&#39;
 )</span>:
     </div>

@@ -50,8 +50,7 @@
   <li><a href="#getting-started">Getting Started</a>
   <ul>
     <li><a href="#first-observation">First Observation</a></li>
-    <li><a href="#more-complex-observation">More complex Observation</a></li>
-    <li><a href="#synthesis">Synthesis</a></li>
+    <li><a href="#observation-for-sensor">Observation for sensor</a></li>
   </ul></li>
   <li><a href="#quick-overview">Quick overview</a>
   <ul>
@@ -209,19 +208,76 @@ with each Observation. They allow processing to be performed on Observations
 without having to know their composition (eg bounding boxes, type of observation,
 volume, etc.).   </p>
 
-<p><em>Note: This “domain range” indexed representation is preferred to an “interleaved”
-tabular representation which associates temporal, spatial and physical values <br />
-​​with each value of the result.</em></p>
-
 <h2 id="index">Index</h2>
+
+<p><img src="./ES/index.png" width="800"></p>
+
+<p>In a Observation, the Result is associated with a Datation, a Location and a Property.
+In the usual tabular representations (like Excel or csv) there is one row for each Result
+and a lot of columns for Datation, Location and Property.
+This representation is simple and readable but it duplicates the information and
+ is not suitable for updates. </p>
+
+<p>In the ES project, we chose the indexed representation suitable for computer 
+processing. Thus, the Result object is made up of its own attributes as well as
+ an index to the Datation, Location and Property objects. </p>
 
 <h2 id="dimension">Dimension</h2>
 
+<p><img src="./ES/dimension.png" width="800"></p>
+
+<p>A result is associated with a property, a location and a date. The Result Object 
+is therefore indexed with three axis (dimension = 3). But there are two cases 
+where the dimension is reduced :</p>
+
+<ul>
+<li>if an axis has only one value</li>
+<li>if two axis are coupled</li>
+</ul>
+
+<p>For example, if on a path we measure a property, the dimension is 1 (Location 
+and Datation are coupled, Property has one value).</p>
+
+<p>This notion is important because it conditions the modes of representation
+ (e.g., plot).</p>
+
 <h2 id="json-interface">Json interface</h2>
+
+<p>The JSON format is used for Observation interchange. The ObsJSON format support
+ the Observation data model. This means that an Observation generated from a 
+ JSON format from another Observation is identical to this one.</p>
+
+<p>This format is defined in the 
+<a href="https://github.com/loco-philippe/Environnemental-Sensing/blob/main/documentation/ObsJSON%20-%20Standard.pdf" 
+target="_blank">ObsJSON document</a>.</p>
 
 <h2 id="binary-interface">Binary interface</h2>
 
+<p>The binary payload is necessary for exchanges with LPWAN networks (e.g. SigFox, 
+LoRaWAN). The payload should be as compact as possible to minimise the Time-on-Air 
+and reduce power consumption (for battery operated) devices. For example, the maximum
+lenght of the payload is 12 bytes for SigFox and between 51 bytes and 222 bytes for LoRaWAN.</p>
+
+<p>To obtain this maximum lenght, limitations are imposed.</p>
+
+<p><img src="./ES/binary.png" width="800"></p>
+
+<p>The diagram above shows the structure of the payload.</p>
+
+<p><em>Note : The right side of the diagram explains the coding of the values. This coding 
+is the same as that used by Bluetooth in the <a href=
+"https://www.bluetooth.com/specifications/specs/environmental-sensing-service-1-0/" 
+target="_blank">Environnemental Sensing Service</a>.</em></p>
+
 <h2 id="bluetooth-mapping">Bluetooth mapping</h2>
+
+<p>The Environnemental Sensing Service is a Bluetooth protocol for sensors. The data 
+exposed in this protocol are compatible and consistent with the Observation data model. 
+Thus, Bluetooth data is automatically converted into Observation data.</p>
+
+<p>The diagram below shows the mapping of the two structures.</p>
+
+<p><img src="./ES/bluetooth.png" width="800"></p>
 
 <h2 id="xarray-mapping">Xarray mapping</h2>
 
@@ -229,21 +285,15 @@ tabular representation which associates temporal, spatial and physical values <b
 
 <h2 id="first-observation">First Observation</h2>
 
-<p><img src="./ES/first observation.png" width="800">
-<img src="./ES/first observation2.png" width="800">
-<img src="./ES/first observation carto.png" width="800">
-<img src="./ES/first observation carto2.png" width="800"></p>
+<p>This chapter explain you 
+<a href="./Example/first observation.html" target="_blank">(see the page here)</a> :
+    - how to create a simple and more complex Observation Object
+    - the different view of the data
+    - how the ObsJSON is structured</p>
 
-<h2 id="more-complex-observation">More complex Observation</h2>
+<p>The Jupyter Notebook of this chapter is in Github </p>
 
-<p><img src="./ES/complex observation.png" width="800">
-<img src="./ES/complex observation2.png" width="800">
-<img src="./ES/complex observation3.png" width="800"></p>
-
-<h2 id="synthesis">Synthesis</h2>
-
-<p><img src="./ES/synthesis.png" width="800">
-<img src="./ES/synthesis2.png" width="800"></p>
+<h2 id="observation-for-sensor">Observation for sensor</h2>
 
 <h1 id="quick-overview">Quick overview</h1>
 
@@ -400,19 +450,74 @@ spatial and temporal characteristics associated with measurable or observable
 <span class="sd">without having to know their composition (eg bounding boxes, type of observation,</span>
 <span class="sd">volume, etc.).   </span>
 
-<span class="sd">*Note: This “domain range” indexed representation is preferred to an “interleaved”</span>
-<span class="sd">tabular representation which associates temporal, spatial and physical values  </span>
-<span class="sd">​​with each value of the result.*</span>
-
 <span class="sd">## Index</span>
+
+<span class="sd">&lt;img src=&quot;./ES/index.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">In a Observation, the Result is associated with a Datation, a Location and a Property.</span>
+<span class="sd">In the usual tabular representations (like Excel or csv) there is one row for each Result</span>
+<span class="sd">and a lot of columns for Datation, Location and Property.</span>
+<span class="sd">This representation is simple and readable but it duplicates the information and</span>
+<span class="sd"> is not suitable for updates. </span>
+<span class="sd"> </span>
+<span class="sd">In the ES project, we chose the indexed representation suitable for computer </span>
+<span class="sd">processing. Thus, the Result object is made up of its own attributes as well as</span>
+<span class="sd"> an index to the Datation, Location and Property objects. </span>
 
 <span class="sd">## Dimension</span>
 
+<span class="sd">&lt;img src=&quot;./ES/dimension.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">A result is associated with a property, a location and a date. The Result Object </span>
+<span class="sd">is therefore indexed with three axis (dimension = 3). But there are two cases </span>
+<span class="sd">where the dimension is reduced :</span>
+<span class="sd">    </span>
+<span class="sd">- if an axis has only one value</span>
+<span class="sd">- if two axis are coupled</span>
+
+<span class="sd">For example, if on a path we measure a property, the dimension is 1 (Location </span>
+<span class="sd">and Datation are coupled, Property has one value).</span>
+
+<span class="sd">This notion is important because it conditions the modes of representation</span>
+<span class="sd"> (e.g., plot).</span>
+
 <span class="sd">## Json interface</span>
+
+<span class="sd">The JSON format is used for Observation interchange. The ObsJSON format support</span>
+<span class="sd"> the Observation data model. This means that an Observation generated from a </span>
+<span class="sd"> JSON format from another Observation is identical to this one.</span>
+
+<span class="sd">This format is defined in the </span>
+<span class="sd">&lt;a href=&quot;https://github.com/loco-philippe/Environnemental-Sensing/blob/main/documentation/ObsJSON%20-%20Standard.pdf&quot; </span>
+<span class="sd">target=&quot;_blank&quot;&gt;ObsJSON document&lt;/a&gt;.</span>
 
 <span class="sd">## Binary interface</span>
 
+<span class="sd">The binary payload is necessary for exchanges with LPWAN networks (e.g. SigFox, </span>
+<span class="sd">LoRaWAN). The payload should be as compact as possible to minimise the Time-on-Air </span>
+<span class="sd">and reduce power consumption (for battery operated) devices. For example, the maximum</span>
+<span class="sd">lenght of the payload is 12 bytes for SigFox and between 51 bytes and 222 bytes for LoRaWAN.</span>
+
+<span class="sd">To obtain this maximum lenght, limitations are imposed.</span>
+
+<span class="sd">&lt;img src=&quot;./ES/binary.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">The diagram above shows the structure of the payload.</span>
+
+<span class="sd">*Note : The right side of the diagram explains the coding of the values. This coding </span>
+<span class="sd">is the same as that used by Bluetooth in the &lt;a href=</span>
+<span class="sd">&quot;https://www.bluetooth.com/specifications/specs/environmental-sensing-service-1-0/&quot; </span>
+<span class="sd">target=&quot;_blank&quot;&gt;Environnemental Sensing Service&lt;/a&gt;.*</span>
+<span class="sd"> </span>
 <span class="sd">## Bluetooth mapping</span>
+
+<span class="sd">The Environnemental Sensing Service is a Bluetooth protocol for sensors. The data </span>
+<span class="sd">exposed in this protocol are compatible and consistent with the Observation data model. </span>
+<span class="sd">Thus, Bluetooth data is automatically converted into Observation data.</span>
+<span class="sd"> </span>
+<span class="sd">The diagram below shows the mapping of the two structures.</span>
+
+<span class="sd">&lt;img src=&quot;./ES/bluetooth.png&quot; width=&quot;800&quot;&gt;</span>
 
 <span class="sd">## Xarray mapping</span>
 
@@ -420,21 +525,15 @@ spatial and temporal characteristics associated with measurable or observable
 
 <span class="sd">## First Observation</span>
 
-<span class="sd">&lt;img src=&quot;./ES/first observation.png&quot; width=&quot;800&quot;&gt;</span>
-<span class="sd">&lt;img src=&quot;./ES/first observation2.png&quot; width=&quot;800&quot;&gt;</span>
-<span class="sd">&lt;img src=&quot;./ES/first observation carto.png&quot; width=&quot;800&quot;&gt;</span>
-<span class="sd">&lt;img src=&quot;./ES/first observation carto2.png&quot; width=&quot;800&quot;&gt;</span>
+<span class="sd">This chapter explain you </span>
+<span class="sd">&lt;a href=&quot;./Example/first observation.html&quot; target=&quot;_blank&quot;&gt;(see the page here)&lt;/a&gt; :</span>
+<span class="sd">    - how to create a simple and more complex Observation Object</span>
+<span class="sd">    - the different view of the data</span>
+<span class="sd">    - how the ObsJSON is structured</span>
+<span class="sd">    </span>
+<span class="sd">The Jupyter Notebook of this chapter is in Github </span>
 
-<span class="sd">## More complex Observation</span>
-
-<span class="sd">&lt;img src=&quot;./ES/complex observation.png&quot; width=&quot;800&quot;&gt;</span>
-<span class="sd">&lt;img src=&quot;./ES/complex observation2.png&quot; width=&quot;800&quot;&gt;</span>
-<span class="sd">&lt;img src=&quot;./ES/complex observation3.png&quot; width=&quot;800&quot;&gt;</span>
-
-<span class="sd">## Synthesis</span>
-
-<span class="sd">&lt;img src=&quot;./ES/synthesis.png&quot; width=&quot;800&quot;&gt;</span>
-<span class="sd">&lt;img src=&quot;./ES/synthesis2.png&quot; width=&quot;800&quot;&gt;</span>
+<span class="sd">## Observation for sensor</span>
 
 
 <span class="sd"># Quick overview</span>
@@ -495,6 +594,33 @@ spatial and temporal characteristics associated with measurable or observable
 <span class="sd">`ES.ESObs.Result`, `ES.ESObs.ESSetLocation`, `ES.ESObs.ESSetDatation`,</span>
 <span class="sd">`ES.ESObs.ESSetProperty`, `ES.ESObs.ESSetResult`, </span>
 <span class="sd">- ESconstante : `ES.ESconstante.Es`.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&lt;img src=&quot;./Example/first observation.png&quot; width=&quot;800&quot;&gt;</span>
+<span class="sd">&lt;img src=&quot;./Example/first observation2.png&quot; width=&quot;800&quot;&gt;</span>
+<span class="sd">&lt;img src=&quot;./Example/first observation carto.png&quot; width=&quot;800&quot;&gt;</span>
+<span class="sd">&lt;img src=&quot;./Example/first observation carto2.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">## More complex Observation</span>
+
+<span class="sd">&lt;img src=&quot;./Example/complex observation.png&quot; width=&quot;800&quot;&gt;</span>
+<span class="sd">&lt;img src=&quot;./Example/complex observation2.png&quot; width=&quot;800&quot;&gt;</span>
+<span class="sd">&lt;img src=&quot;./Example/complex observation3.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">## Synthesis</span>
+
+<span class="sd">&lt;img src=&quot;./Example/synthesis.png&quot; width=&quot;800&quot;&gt;</span>
+<span class="sd">&lt;img src=&quot;./Example/synthesis2.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">*Note: This “domain range” indexed representation is preferred to an “interleaved”</span>
+<span class="sd">tabular representation which associates temporal, spatial and physical values  </span>
+<span class="sd">​​with each value of the result.*</span>
+
+<span class="sd">[ObsJSON ](https://github.com/loco-philippe/Environnemental-Sensing/blob/main/documentation/ObsJSON%20-%20Standard.pdf)</span>
+<span class="sd">document.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 </pre></div>
