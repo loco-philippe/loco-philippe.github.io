@@ -74,6 +74,7 @@
       <li><a href="#aggregation">Aggregation</a></li>
       <li><a href="#numpy-export">Numpy export</a></li>
       <li><a href="#xarray-export">Xarray export</a></li>
+      <li><a href="#storage">Storage</a></li>
     </ul></li>
   </ul></li>
   <li><a href="#developpers-documentation">Developpers documentation</a>
@@ -269,6 +270,11 @@ is the same as that used by Bluetooth in the <a href=
 "https://www.bluetooth.com/specifications/specs/environmental-sensing-service-1-0/" 
 target="_blank">Environnemental Sensing Service</a>.</em></p>
 
+<p>To obtain low payload, a specific process can be used (see below). It allows data
+ to be sent in two stages : first send metadata, second (in operation use) send data.</p>
+
+<p><img src="./ES/sensor.png" width="800"></p>
+
 <h2 id="bluetooth-mapping">Bluetooth mapping</h2>
 
 <p>The Environnemental Sensing Service is a Bluetooth protocol for sensors. The data 
@@ -283,17 +289,33 @@ Thus, Bluetooth data is automatically converted into Observation data.</p>
 
 <h1 id="getting-started">Getting Started</h1>
 
+<p>the code used, the results and the explanations are provided through "Jupyter 
+Notebook" indicated in link in each chapter.
+The Notebook files are 
+<a href="https://github.com/loco-philippe/loco-philippe.github.io/tree/main/Example" target="_blank">
+stored in Github</a> and can be replayed.</p>
+
 <h2 id="first-observation">First Observation</h2>
 
 <p>This chapter explain you 
-<a href="./Example/first observation.html" target="_blank">(see the page here)</a> :
-    - how to create a simple and more complex Observation Object
-    - the different view of the data
-    - how the ObsJSON is structured</p>
+<a href="./Example/first observation.html" target="_blank">(see the page here)</a> :</p>
 
-<p>The Jupyter Notebook of this chapter is in Github </p>
+<ul>
+<li>how to create a simple and more complex Observation Object</li>
+<li>the different view of the data</li>
+<li>how the ObsJSON is structured </li>
+</ul>
 
 <h2 id="observation-for-sensor">Observation for sensor</h2>
+
+<p>The sensors how use TCP/IP send the data with ObsJSON format (see above).
+This chapter is dedicated to binary interface and explain you :
+<a href="./Example/first observation.html" target="_blank">(see the page here)</a> :</p>
+
+<ul>
+<li>how to encode and decode binary data</li>
+<li>the processus to obtain low data</li>
+</ul>
 
 <h1 id="quick-overview">Quick overview</h1>
 
@@ -326,6 +348,8 @@ Thus, Bluetooth data is automatically converted into Observation data.</p>
 <h3 id="numpy-export">Numpy export</h3>
 
 <h3 id="xarray-export">Xarray export</h3>
+
+<h3 id="storage">Storage</h3>
 
 <h1 id="developpers-documentation">Developpers documentation</h1>
 
@@ -508,6 +532,12 @@ spatial and temporal characteristics associated with measurable or observable
 <span class="sd">is the same as that used by Bluetooth in the &lt;a href=</span>
 <span class="sd">&quot;https://www.bluetooth.com/specifications/specs/environmental-sensing-service-1-0/&quot; </span>
 <span class="sd">target=&quot;_blank&quot;&gt;Environnemental Sensing Service&lt;/a&gt;.*</span>
+
+<span class="sd">To obtain low payload, a specific process can be used (see below). It allows data</span>
+<span class="sd"> to be sent in two stages : first send metadata, second (in operation use) send data.</span>
+<span class="sd"> </span>
+<span class="sd">&lt;img src=&quot;./ES/sensor.png&quot; width=&quot;800&quot;&gt;</span>
+
 <span class="sd"> </span>
 <span class="sd">## Bluetooth mapping</span>
 
@@ -523,18 +553,29 @@ spatial and temporal characteristics associated with measurable or observable
 
 <span class="sd"># Getting Started</span>
 
+<span class="sd">the code used, the results and the explanations are provided through &quot;Jupyter </span>
+<span class="sd">Notebook&quot; indicated in link in each chapter.</span>
+<span class="sd">The Notebook files are </span>
+<span class="sd">&lt;a href=&quot;https://github.com/loco-philippe/loco-philippe.github.io/tree/main/Example&quot; target=&quot;_blank&quot;&gt;</span>
+<span class="sd">stored in Github&lt;/a&gt; and can be replayed.</span>
+
 <span class="sd">## First Observation</span>
 
 <span class="sd">This chapter explain you </span>
 <span class="sd">&lt;a href=&quot;./Example/first observation.html&quot; target=&quot;_blank&quot;&gt;(see the page here)&lt;/a&gt; :</span>
-<span class="sd">    - how to create a simple and more complex Observation Object</span>
-<span class="sd">    - the different view of the data</span>
-<span class="sd">    - how the ObsJSON is structured</span>
 <span class="sd">    </span>
-<span class="sd">The Jupyter Notebook of this chapter is in Github </span>
+<span class="sd">- how to create a simple and more complex Observation Object</span>
+<span class="sd">- the different view of the data</span>
+<span class="sd">- how the ObsJSON is structured </span>
 
 <span class="sd">## Observation for sensor</span>
 
+<span class="sd">The sensors how use TCP/IP send the data with ObsJSON format (see above).</span>
+<span class="sd">This chapter is dedicated to binary interface and explain you :</span>
+<span class="sd">&lt;a href=&quot;./Example/first observation.html&quot; target=&quot;_blank&quot;&gt;(see the page here)&lt;/a&gt; :</span>
+<span class="sd">    </span>
+<span class="sd">- how to encode and decode binary data</span>
+<span class="sd">- the processus to obtain low data</span>
 
 <span class="sd"># Quick overview</span>
 
@@ -567,6 +608,8 @@ spatial and temporal characteristics associated with measurable or observable
 <span class="sd">### Numpy export</span>
 
 <span class="sd">### Xarray export</span>
+
+<span class="sd">### Storage</span>
 
 <span class="sd"># Developpers documentation</span>
 
