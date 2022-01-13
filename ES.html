@@ -51,6 +51,7 @@
   <ul>
     <li><a href="#first-observation">First Observation</a></li>
     <li><a href="#observation-for-sensor">Observation for sensor</a></li>
+    <li><a href="#observation-management">Observation management</a></li>
   </ul></li>
   <li><a href="#quick-overview">Quick overview</a>
   <ul>
@@ -287,6 +288,19 @@ Thus, Bluetooth data is automatically converted into Observation data.</p>
 
 <h2 id="xarray-mapping">Xarray mapping</h2>
 
+<p>Xarray is very powerful to analyze and process multi-dimensionnal data. Xarray 
+share the same principle as Observation : indexed multi-dimensionnal data. Thus, 
+it's natural du use Xarray if you want to analyse Observation data.</p>
+
+<p>The difference between Observation and Xarray is that Xarray usesmatrix data and 
+Observation uses only indexed data. Therefore, to transfer Observation data to Xarray 
+we have to complete data with 'nan' value to obtain a complete matrix with the right 
+dimension (1, 2 or 3).</p>
+
+<p>The diagram below shows the mapping of the two structures.</p>
+
+<p><img src="./ES/xarray.png" width="800"></p>
+
 <h1 id="getting-started">Getting Started</h1>
 
 <p>the code used, the results and the explanations are provided through "Jupyter 
@@ -316,6 +330,8 @@ This chapter is dedicated to binary interface and explain you :
 <li>how to encode and decode binary data</li>
 <li>the processus to obtain low data</li>
 </ul>
+
+<h2 id="observation-management">Observation management</h2>
 
 <h1 id="quick-overview">Quick overview</h1>
 
@@ -551,6 +567,19 @@ spatial and temporal characteristics associated with measurable or observable
 
 <span class="sd">## Xarray mapping</span>
 
+<span class="sd">Xarray is very powerful to analyze and process multi-dimensionnal data. Xarray </span>
+<span class="sd">share the same principle as Observation : indexed multi-dimensionnal data. Thus, </span>
+<span class="sd">it&#39;s natural du use Xarray if you want to analyse Observation data.</span>
+
+<span class="sd">The difference between Observation and Xarray is that Xarray usesmatrix data and </span>
+<span class="sd">Observation uses only indexed data. Therefore, to transfer Observation data to Xarray </span>
+<span class="sd">we have to complete data with &#39;nan&#39; value to obtain a complete matrix with the right </span>
+<span class="sd">dimension (1, 2 or 3).</span>
+
+<span class="sd">The diagram below shows the mapping of the two structures.</span>
+
+<span class="sd">&lt;img src=&quot;./ES/xarray.png&quot; width=&quot;800&quot;&gt;</span>
+
 <span class="sd"># Getting Started</span>
 
 <span class="sd">the code used, the results and the explanations are provided through &quot;Jupyter </span>
@@ -576,6 +605,8 @@ spatial and temporal characteristics associated with measurable or observable
 <span class="sd">    </span>
 <span class="sd">- how to encode and decode binary data</span>
 <span class="sd">- the processus to obtain low data</span>
+
+<span class="sd">## Observation management</span>
 
 <span class="sd"># Quick overview</span>
 
