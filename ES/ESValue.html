@@ -290,6 +290,12 @@
                                 <a class="function" href="#ESSet.addValue">addValue</a>
                         </li>
                         <li>
+                                <a class="function" href="#ESSet.indexResLoc">indexResLoc</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#ESSet.indexLoc">indexLoc</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#ESSet.nValue">nValue</a>
                         </li>
                         <li>
@@ -431,20 +437,39 @@
         <span class="c1">#if name != &#39;&#39; : self.name = name</span>
         <span class="k">if</span> <span class="n">nam</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">nam</span>
 
-    <span class="k">def</span> <span class="nf">isEqual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="n">equal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">equal</span> <span class="p">:</span>
-            <span class="k">if</span>   <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">!=</span> <span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span> <span class="p">:</span>
-                <span class="n">equal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">shap</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">DatationValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">!=</span> <span class="n">TimeSlot</span><span class="p">()</span> <span class="p">:</span> 
-                <span class="n">equal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>  <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">slot</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">PropertyValue</span> <span class="ow">and</span> <span class="bp">self</span> <span class="o">!=</span> <span class="n">PropertyValue</span><span class="p">()</span> <span class="p">:</span> 
-                <span class="n">equal</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">val</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">ResultValue</span>   <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="s1">&#39;null&#39;</span> <span class="p">:</span>
-                <span class="n">equal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
-        <span class="k">return</span> <span class="n">equal</span>
+    <span class="k">def</span> <span class="nf">isEqual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">equalName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">nullName</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span>
+        <span class="k">if</span>   <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="p">:</span> 
+            <span class="n">nullValue</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span>
+            <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">shap</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">DatationValue</span> <span class="p">:</span> 
+            <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>  <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">slot</span>
+            <span class="n">nullValue</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>  <span class="o">==</span> <span class="n">TimeSlot</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">PropertyValue</span> <span class="p">:</span> 
+            <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">val</span>
+            <span class="n">nullValue</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">PropertyValue</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">ResultValue</span> <span class="p">:</span>
+            <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">nullValue</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="s1">&#39;null&#39;</span> 
+        <span class="k">else</span> <span class="p">:</span> <span class="n">equalValue</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span>  <span class="p">(</span><span class="n">name</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">equalName</span> <span class="ow">and</span> <span class="n">equalValue</span><span class="p">)</span> <span class="ow">or</span> \
+                <span class="p">(</span><span class="n">name</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">equalName</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">nullName</span><span class="p">)</span> <span class="ow">or</span> \
+                <span class="p">(</span><span class="ow">not</span> <span class="n">name</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">equalValue</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">nullValue</span><span class="p">)</span>
+                <span class="c1">#(not name or (name and equalName)) and (not value or (value and equalValue))</span>
+        <span class="sd">&#39;&#39;&#39;equal = self.name != ES.nullName and self.name == val.name</span>
+<span class="sd">        if not equal :</span>
+<span class="sd">            if   type(self) == LocationValue and self.shap != _gshape(ES.nullCoor) :</span>
+<span class="sd">                equal = self.shap  == val.shap</span>
+<span class="sd">            elif type(self) == DatationValue and self.slot != TimeSlot() : </span>
+<span class="sd">                equal = self.slot  == val.slot</span>
+<span class="sd">            elif type(self) == PropertyValue and self != PropertyValue() : </span>
+<span class="sd">                equal = self == val</span>
+<span class="sd">            elif type(self) == ResultValue   and self.value != &#39;null&#39; :</span>
+<span class="sd">                equal = self.value == val.value</span>
+<span class="sd">        return equal&#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">majValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">simple</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">majValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="k">if</span>   <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">=</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">shap</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">DatationValue</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>  <span class="o">=</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">slot</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">ResultValue</span>   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">ResultValue</span>  <span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
@@ -726,6 +751,18 @@
                 <span class="k">elif</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_EMFId</span>    <span class="o">==</span> <span class="n">k</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EMFId</span>       <span class="o">=</span> <span class="n">v</span>
                 <span class="k">else</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="n">PropertyValue</span> <span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span>           <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pType</span>          <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">pType</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unit</span>           <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">unit</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sampling</span>       <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">sampling</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">application</span>    <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">application</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">period</span>         <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">period</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval</span>       <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">interval</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">uncertain</span>      <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">uncertain</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">EMFId</span>          <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">EMFId</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">detail</span>         <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">detail</span>
+        
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pType</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">pType</span> <span class="ow">and</span> \
         <span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">unit</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampling</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">sampling</span> <span class="ow">and</span> \
@@ -828,6 +865,7 @@
             <span class="k">else</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">))</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setIndValue</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="n">ResultValue</span> <span class="p">:</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">ind</span>
         <span class="k">elif</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">float</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
@@ -966,7 +1004,7 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">listVal</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nValue</span> <span class="p">:</span> <span class="k">return</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nValue</span><span class="p">)</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">majValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="p">(</span><span class="n">listVal</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
         
-    <span class="k">def</span> <span class="nf">addValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">addValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">equal</span> <span class="o">=</span> <span class="s1">&#39;full&#39;</span><span class="p">):</span>
     <span class="c1">#def addValue(self, ValueClass, value):</span>
         <span class="sd">&#39;&#39;&#39;if type(value) == ValueClass : val = value</span>
 <span class="sd">        else: val = ValueClass(value)</span>
@@ -974,20 +1012,44 @@
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span> <span class="p">:</span> <span class="n">val</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">else</span><span class="p">:</span> <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span> <span class="o">==</span> <span class="n">ResultValue</span> <span class="p">:</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexResLoc</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ind</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> <span class="k">return</span> 
+            <span class="sd">&#39;&#39;&#39;if val.ind != ES.nullInd :</span>
+<span class="sd">                for i in range(len(self.valueList)):</span>
+<span class="sd">                    if self.valueList[i].ind == val.ind : return i&#39;&#39;&#39;</span>      
+            <span class="c1">#self.valueList.append(val)</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="n">equal</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">[</span><span class="s2">&quot;unic_index&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">ind</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="k">return</span> <span class="n">ind</span>
+            <span class="sd">&#39;&#39;&#39;for i in range(len(self.valueList)):</span>
+<span class="sd">                #if self.valueList[i] == val and ES.mOption[&quot;unic_index&quot;]: return i</span>
+<span class="sd">                if self.valueList[i].isEqual(val) and ES.mOption[&quot;unic_index&quot;]: return i&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">indexResLoc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span> <span class="o">==</span> <span class="n">ResultValue</span> <span class="p">:</span>
             <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="n">ind</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullInd</span> <span class="p">:</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)):</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">ind</span> <span class="p">:</span> <span class="k">return</span> <span class="n">i</span>                
-            <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="k">else</span> <span class="p">:</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)):</span>
-                <span class="c1">#if self.valueList[i] == val and ES.mOption[&quot;unic_index&quot;]: return i</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isEqual</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">and</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">[</span><span class="s2">&quot;unic_index&quot;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">i</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="c1">#self.nValue = len(self.valueList)</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">ind</span> <span class="p">:</span> <span class="k">return</span> <span class="n">i</span>     
+                    
+    <span class="k">def</span> <span class="nf">indexLoc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;full&#39;</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> 
+                <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;full&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="k">return</span> <span class="n">ind</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> \
+                <span class="ow">and</span> <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> 
+                    <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
+                <span class="ow">and</span> <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> 
+                    <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">return</span> <span class="n">ind</span>
+            <span class="c1">#if self.valueList[i].isEqual(self.ValueClass(val)): return i</span>
+        
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">nValue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span>
-
         
     <span class="k">def</span> <span class="nf">jsonESSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ES_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
@@ -1157,20 +1219,39 @@
         <span class="c1">#if name != &#39;&#39; : self.name = name</span>
         <span class="k">if</span> <span class="n">nam</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">nam</span>
 
-    <span class="k">def</span> <span class="nf">isEqual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="n">equal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">equal</span> <span class="p">:</span>
-            <span class="k">if</span>   <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">!=</span> <span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span> <span class="p">:</span>
-                <span class="n">equal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">shap</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">DatationValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">!=</span> <span class="n">TimeSlot</span><span class="p">()</span> <span class="p">:</span> 
-                <span class="n">equal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>  <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">slot</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">PropertyValue</span> <span class="ow">and</span> <span class="bp">self</span> <span class="o">!=</span> <span class="n">PropertyValue</span><span class="p">()</span> <span class="p">:</span> 
-                <span class="n">equal</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">val</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">ResultValue</span>   <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="s1">&#39;null&#39;</span> <span class="p">:</span>
-                <span class="n">equal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
-        <span class="k">return</span> <span class="n">equal</span>
+    <span class="k">def</span> <span class="nf">isEqual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">equalName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">nullName</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span>
+        <span class="k">if</span>   <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="p">:</span> 
+            <span class="n">nullValue</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span>
+            <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">shap</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">DatationValue</span> <span class="p">:</span> 
+            <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>  <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">slot</span>
+            <span class="n">nullValue</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>  <span class="o">==</span> <span class="n">TimeSlot</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">PropertyValue</span> <span class="p">:</span> 
+            <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">val</span>
+            <span class="n">nullValue</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">PropertyValue</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">ResultValue</span> <span class="p">:</span>
+            <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">nullValue</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="s1">&#39;null&#39;</span> 
+        <span class="k">else</span> <span class="p">:</span> <span class="n">equalValue</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span>  <span class="p">(</span><span class="n">name</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">equalName</span> <span class="ow">and</span> <span class="n">equalValue</span><span class="p">)</span> <span class="ow">or</span> \
+                <span class="p">(</span><span class="n">name</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">equalName</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">nullName</span><span class="p">)</span> <span class="ow">or</span> \
+                <span class="p">(</span><span class="ow">not</span> <span class="n">name</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">equalValue</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">nullValue</span><span class="p">)</span>
+                <span class="c1">#(not name or (name and equalName)) and (not value or (value and equalValue))</span>
+        <span class="sd">&#39;&#39;&#39;equal = self.name != ES.nullName and self.name == val.name</span>
+<span class="sd">        if not equal :</span>
+<span class="sd">            if   type(self) == LocationValue and self.shap != _gshape(ES.nullCoor) :</span>
+<span class="sd">                equal = self.shap  == val.shap</span>
+<span class="sd">            elif type(self) == DatationValue and self.slot != TimeSlot() : </span>
+<span class="sd">                equal = self.slot  == val.slot</span>
+<span class="sd">            elif type(self) == PropertyValue and self != PropertyValue() : </span>
+<span class="sd">                equal = self == val</span>
+<span class="sd">            elif type(self) == ResultValue   and self.value != &#39;null&#39; :</span>
+<span class="sd">                equal = self.value == val.value</span>
+<span class="sd">        return equal&#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">majValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">simple</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">majValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="k">if</span>   <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">=</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">shap</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">DatationValue</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>  <span class="o">=</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">slot</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">ResultValue</span>   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">ResultValue</span>  <span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
@@ -1275,23 +1356,42 @@
 
         
             <span class="def">def</span>
-            <span class="name">isEqual</span><span class="signature">(self, val)</span>:
+            <span class="name">isEqual</span><span class="signature">(self, val, name=True, value=True)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">isEqual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="n">equal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">equal</span> <span class="p">:</span>
-            <span class="k">if</span>   <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">!=</span> <span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span> <span class="p">:</span>
-                <span class="n">equal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">shap</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">DatationValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">!=</span> <span class="n">TimeSlot</span><span class="p">()</span> <span class="p">:</span> 
-                <span class="n">equal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>  <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">slot</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">PropertyValue</span> <span class="ow">and</span> <span class="bp">self</span> <span class="o">!=</span> <span class="n">PropertyValue</span><span class="p">()</span> <span class="p">:</span> 
-                <span class="n">equal</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">val</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">ResultValue</span>   <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="s1">&#39;null&#39;</span> <span class="p">:</span>
-                <span class="n">equal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
-        <span class="k">return</span> <span class="n">equal</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">isEqual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">equalName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">nullName</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span>
+        <span class="k">if</span>   <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="p">:</span> 
+            <span class="n">nullValue</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span>
+            <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">shap</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">DatationValue</span> <span class="p">:</span> 
+            <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>  <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">slot</span>
+            <span class="n">nullValue</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>  <span class="o">==</span> <span class="n">TimeSlot</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">PropertyValue</span> <span class="p">:</span> 
+            <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">val</span>
+            <span class="n">nullValue</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">PropertyValue</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">ResultValue</span> <span class="p">:</span>
+            <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">nullValue</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="s1">&#39;null&#39;</span> 
+        <span class="k">else</span> <span class="p">:</span> <span class="n">equalValue</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span>  <span class="p">(</span><span class="n">name</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">equalName</span> <span class="ow">and</span> <span class="n">equalValue</span><span class="p">)</span> <span class="ow">or</span> \
+                <span class="p">(</span><span class="n">name</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">equalName</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">nullName</span><span class="p">)</span> <span class="ow">or</span> \
+                <span class="p">(</span><span class="ow">not</span> <span class="n">name</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">equalValue</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">nullValue</span><span class="p">)</span>
+                <span class="c1">#(not name or (name and equalName)) and (not value or (value and equalValue))</span>
+        <span class="sd">&#39;&#39;&#39;equal = self.name != ES.nullName and self.name == val.name</span>
+<span class="sd">        if not equal :</span>
+<span class="sd">            if   type(self) == LocationValue and self.shap != _gshape(ES.nullCoor) :</span>
+<span class="sd">                equal = self.shap  == val.shap</span>
+<span class="sd">            elif type(self) == DatationValue and self.slot != TimeSlot() : </span>
+<span class="sd">                equal = self.slot  == val.slot</span>
+<span class="sd">            elif type(self) == PropertyValue and self != PropertyValue() : </span>
+<span class="sd">                equal = self == val</span>
+<span class="sd">            elif type(self) == ResultValue   and self.value != &#39;null&#39; :</span>
+<span class="sd">                equal = self.value == val.value</span>
+<span class="sd">        return equal&#39;&#39;&#39;</span>
 </pre></div>
 
         </details>
@@ -1304,12 +1404,12 @@
 
         
             <span class="def">def</span>
-            <span class="name">majValue</span><span class="signature">(self, val, simple=True)</span>:
+            <span class="name">majValue</span><span class="signature">(self, val)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">majValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">simple</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">majValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="k">if</span>   <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">=</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">shap</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">DatationValue</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>  <span class="o">=</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">slot</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">ResultValue</span>   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">ResultValue</span>  <span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
@@ -1759,7 +1859,7 @@
             <span class="def">def</span>
             <span class="name">json</span><span class="signature">(
     self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;},
+    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;add_equal&#39;: &#39;full&#39;, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;},
     string=True
 )</span>:
     </div>
@@ -2130,7 +2230,7 @@
             <span class="def">def</span>
             <span class="name">vCodePlus</span><span class="signature">(
     self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}
+    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;add_equal&#39;: &#39;full&#39;, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}
 )</span>:
     </div>
 
@@ -2288,7 +2388,7 @@
             <span class="def">def</span>
             <span class="name">json</span><span class="signature">(
     self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;},
+    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;add_equal&#39;: &#39;full&#39;, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;},
     string=True
 )</span>:
     </div>
@@ -2410,6 +2510,18 @@
                 <span class="k">elif</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_EMFId</span>    <span class="o">==</span> <span class="n">k</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EMFId</span>       <span class="o">=</span> <span class="n">v</span>
                 <span class="k">else</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="n">PropertyValue</span> <span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span>           <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pType</span>          <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">pType</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unit</span>           <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">unit</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sampling</span>       <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">sampling</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">application</span>    <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">application</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">period</span>         <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">period</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval</span>       <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">interval</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">uncertain</span>      <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">uncertain</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">EMFId</span>          <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">EMFId</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">detail</span>         <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">detail</span>
+        
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pType</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">pType</span> <span class="ow">and</span> \
         <span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">unit</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampling</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">sampling</span> <span class="ow">and</span> \
@@ -2561,6 +2673,17 @@
                 <span class="k">elif</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_EMFId</span>    <span class="o">==</span> <span class="n">k</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EMFId</span>       <span class="o">=</span> <span class="n">v</span>
                 <span class="k">else</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="n">PropertyValue</span> <span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span>           <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pType</span>          <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">pType</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unit</span>           <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">unit</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sampling</span>       <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">sampling</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">application</span>    <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">application</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">period</span>         <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">period</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval</span>       <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">interval</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">uncertain</span>      <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">uncertain</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">EMFId</span>          <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">EMFId</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">detail</span>         <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">detail</span>
 </pre></div>
 
         </details>
@@ -2605,7 +2728,7 @@
             <span class="def">def</span>
             <span class="name">json</span><span class="signature">(
     self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;},
+    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;add_equal&#39;: &#39;full&#39;, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;},
     string=True
 )</span>:
     </div>
@@ -2751,6 +2874,7 @@
             <span class="k">else</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">))</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setIndValue</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="n">ResultValue</span> <span class="p">:</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">ind</span>
         <span class="k">elif</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">float</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
@@ -2894,6 +3018,7 @@
             <span class="k">else</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">))</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setIndValue</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="n">ResultValue</span> <span class="p">:</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">ind</span>
         <span class="k">elif</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">float</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
@@ -2958,7 +3083,7 @@
             <span class="def">def</span>
             <span class="name">json</span><span class="signature">(
     self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}
+    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;add_equal&#39;: &#39;full&#39;, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}
 )</span>:
     </div>
 
@@ -3163,7 +3288,7 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">listVal</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nValue</span> <span class="p">:</span> <span class="k">return</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nValue</span><span class="p">)</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">majValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="p">(</span><span class="n">listVal</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
         
-    <span class="k">def</span> <span class="nf">addValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">addValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">equal</span> <span class="o">=</span> <span class="s1">&#39;full&#39;</span><span class="p">):</span>
     <span class="c1">#def addValue(self, ValueClass, value):</span>
         <span class="sd">&#39;&#39;&#39;if type(value) == ValueClass : val = value</span>
 <span class="sd">        else: val = ValueClass(value)</span>
@@ -3171,20 +3296,44 @@
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span> <span class="p">:</span> <span class="n">val</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">else</span><span class="p">:</span> <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span> <span class="o">==</span> <span class="n">ResultValue</span> <span class="p">:</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexResLoc</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ind</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> <span class="k">return</span> 
+            <span class="sd">&#39;&#39;&#39;if val.ind != ES.nullInd :</span>
+<span class="sd">                for i in range(len(self.valueList)):</span>
+<span class="sd">                    if self.valueList[i].ind == val.ind : return i&#39;&#39;&#39;</span>      
+            <span class="c1">#self.valueList.append(val)</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="n">equal</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">[</span><span class="s2">&quot;unic_index&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">ind</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="k">return</span> <span class="n">ind</span>
+            <span class="sd">&#39;&#39;&#39;for i in range(len(self.valueList)):</span>
+<span class="sd">                #if self.valueList[i] == val and ES.mOption[&quot;unic_index&quot;]: return i</span>
+<span class="sd">                if self.valueList[i].isEqual(val) and ES.mOption[&quot;unic_index&quot;]: return i&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">indexResLoc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span> <span class="o">==</span> <span class="n">ResultValue</span> <span class="p">:</span>
             <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="n">ind</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullInd</span> <span class="p">:</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)):</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">ind</span> <span class="p">:</span> <span class="k">return</span> <span class="n">i</span>                
-            <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="k">else</span> <span class="p">:</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)):</span>
-                <span class="c1">#if self.valueList[i] == val and ES.mOption[&quot;unic_index&quot;]: return i</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isEqual</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">and</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">[</span><span class="s2">&quot;unic_index&quot;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">i</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="c1">#self.nValue = len(self.valueList)</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">ind</span> <span class="p">:</span> <span class="k">return</span> <span class="n">i</span>     
+                    
+    <span class="k">def</span> <span class="nf">indexLoc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;full&#39;</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> 
+                <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;full&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="k">return</span> <span class="n">ind</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> \
+                <span class="ow">and</span> <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> 
+                    <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
+                <span class="ow">and</span> <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> 
+                    <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">return</span> <span class="n">ind</span>
+            <span class="c1">#if self.valueList[i].isEqual(self.ValueClass(val)): return i</span>
+        
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">nValue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span>
-
         
     <span class="k">def</span> <span class="nf">jsonESSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ES_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
@@ -3407,7 +3556,7 @@
             <span class="def">def</span>
             <span class="name">vList</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000017014156040&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000020D50D35040&gt;&gt;
 )</span>:
     </div>
 
@@ -3488,12 +3637,12 @@
 
         
             <span class="def">def</span>
-            <span class="name">addValue</span><span class="signature">(self, value)</span>:
+            <span class="name">addValue</span><span class="signature">(self, value, equal=&#39;full&#39;)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">addValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">addValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">equal</span> <span class="o">=</span> <span class="s1">&#39;full&#39;</span><span class="p">):</span>
     <span class="c1">#def addValue(self, ValueClass, value):</span>
         <span class="sd">&#39;&#39;&#39;if type(value) == ValueClass : val = value</span>
 <span class="sd">        else: val = ValueClass(value)</span>
@@ -3501,16 +3650,19 @@
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span> <span class="p">:</span> <span class="n">val</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">else</span><span class="p">:</span> <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span> <span class="o">==</span> <span class="n">ResultValue</span> <span class="p">:</span>
-            <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="n">ind</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullInd</span> <span class="p">:</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)):</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">ind</span> <span class="p">:</span> <span class="k">return</span> <span class="n">i</span>                
-            <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexResLoc</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ind</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> <span class="k">return</span> 
+            <span class="sd">&#39;&#39;&#39;if val.ind != ES.nullInd :</span>
+<span class="sd">                for i in range(len(self.valueList)):</span>
+<span class="sd">                    if self.valueList[i].ind == val.ind : return i&#39;&#39;&#39;</span>      
+            <span class="c1">#self.valueList.append(val)</span>
         <span class="k">else</span> <span class="p">:</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)):</span>
-                <span class="c1">#if self.valueList[i] == val and ES.mOption[&quot;unic_index&quot;]: return i</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isEqual</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">and</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">[</span><span class="s2">&quot;unic_index&quot;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">i</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="c1">#self.nValue = len(self.valueList)</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="n">equal</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">[</span><span class="s2">&quot;unic_index&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">ind</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="k">return</span> <span class="n">ind</span>
+            <span class="sd">&#39;&#39;&#39;for i in range(len(self.valueList)):</span>
+<span class="sd">                #if self.valueList[i] == val and ES.mOption[&quot;unic_index&quot;]: return i</span>
+<span class="sd">                if self.valueList[i].isEqual(val) and ES.mOption[&quot;unic_index&quot;]: return i&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 </pre></div>
 
@@ -3521,6 +3673,59 @@ else: val = ValueClass(value)
 if ValueClass == ResultValue :</p>
 </div>
 
+
+                            </div>
+                            <div id="ESSet.indexResLoc" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#ESSet.indexResLoc">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">indexResLoc</span><span class="signature">(self, val)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">indexResLoc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span> <span class="o">==</span> <span class="n">ResultValue</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="n">ind</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullInd</span> <span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)):</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span> <span class="o">==</span> <span class="n">val</span><span class="o">.</span><span class="n">ind</span> <span class="p">:</span> <span class="k">return</span> <span class="n">i</span>     
+</pre></div>
+
+        </details>
+
+    
+
+                            </div>
+                            <div id="ESSet.indexLoc" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#ESSet.indexLoc">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">indexLoc</span><span class="signature">(self, val)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">indexLoc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;full&#39;</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> 
+                <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;full&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="k">return</span> <span class="n">ind</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> \
+                <span class="ow">and</span> <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> 
+                    <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
+                <span class="ow">and</span> <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> 
+                    <span class="n">ind</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">return</span> <span class="n">ind</span>
+            <span class="c1">#if self.valueList[i].isEqual(self.ValueClass(val)): return i</span>
+</pre></div>
+
+        </details>
+
+    
 
                             </div>
                             <div id="ESSet.nValue" class="classattr">
