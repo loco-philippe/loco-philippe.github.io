@@ -74,6 +74,9 @@
                                 <a class="function" href="#Observation.from_bytes">from_bytes</a>
                         </li>
                         <li>
+                                <a class="function" href="#Observation.from_json">from_json</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Observation.full">full</a>
                         </li>
                         <li>
@@ -170,79 +173,6 @@
 
 <p>The <code><a href="">ES.ESObservation</a></code> module contains the main class
 of Environmental Sensing : <code><a href="#Observation">Observation</a></code> class.</p>
-
-<p>The methods defined in this class are : </p>
-
-<p><em>add value</em></p>
-
-<ul>
-<li><code><a href="#Observation.append">Observation.append</a></code></li>
-<li><code><a href="#Observation.appendList">Observation.appendList</a></code></li>
-<li><code><a href="#Observation.addESObs">Observation.addESObs</a></code></li>
-<li><code><a href="#Observation.addAttributes">Observation.addAttributes</a></code></li>
-<li><code><a href="#Observation.addResultValue">Observation.addResultValue</a></code></li>
-<li><code><a href="#Observation.addListResultValue">Observation.addListResultValue</a></code></li>
-<li><code><a href="#Observation.addValue">Observation.addValue</a></code></li>
-<li><code><a href="#Observation.addListValue">Observation.addListValue</a></code></li>
-</ul>
-
-<p><em>majValue</em></p>
-
-<ul>
-<li><code><a href="#Observation.majList">Observation.majList</a></code></li>
-<li><code><a href="#Observation.majType">Observation.majType</a></code></li>
-<li><code><a href="#Observation.majValue">Observation.majValue</a></code></li>
-</ul>
-
-<p><em>property (getters)</em></p>
-
-<ul>
-<li><code><a href="#Observation.setLocation">Observation.setLocation</a></code></li>
-<li><code><a href="#Observation.setDatation">Observation.setDatation</a></code></li>
-<li><code><a href="#Observation.setProperty">Observation.setProperty</a></code></li>
-<li><code><a href="#Observation.setResult">Observation.setResult</a></code></li>
-<li><code><a href="#Observation.bounds">Observation.bounds</a></code></li>
-<li><code><a href="#Observation.jsonFeature">Observation.jsonFeature</a></code></li>
-<li><code><a href="#Observation.typeObs">Observation.typeObs</a></code></li>
-<li><code><a href="#Observation.nValueObs">Observation.nValueObs</a></code></li>
-<li><code><a href="#Observation.json">Observation.json</a></code></li>
-</ul>
-
-<p><em>selecting</em></p>
-
-<ul>
-<li><code><a href="#Observation.indexLoc">Observation.indexLoc</a></code></li>
-<li><code><a href="#Observation.iLoc">Observation.iLoc</a></code></li>
-<li><code><a href="#Observation.loc">Observation.loc</a></code></li>
-</ul>
-
-<p><em>management</em></p>
-
-<ul>
-<li><code><a href="#Observation.extend">Observation.extend</a></code></li>
-<li><code><a href="#Observation.full">Observation.full</a></code></li>
-<li><code><a href="#Observation.sort">Observation.sort</a></code></li>
-</ul>
-
-<p><em>visualization</em></p>
-
-<ul>
-<li><code><a href="#Observation.voxel">Observation.voxel</a></code></li>
-<li><code><a href="#Observation.plot">Observation.plot</a></code></li>
-<li><code><a href="#Observation.view">Observation.view</a></code></li>
-<li><code><a href="#Observation.choropleth">Observation.choropleth</a></code></li>
-</ul>
-
-<p><em>exports - imports</em></p>
-
-<ul>
-<li><code><a href="#Observation.to_csv">Observation.to_csv</a></code></li>
-<li><code><a href="#Observation.to_dataFrame">Observation.to_dataFrame</a></code></li>
-<li><code><a href="#Observation.to_xarray">Observation.to_xarray</a></code></li>
-<li><code><a href="#Observation.to_json">Observation.to_json</a></code></li>
-<li><code><a href="#Observation.to_bytes">Observation.to_bytes</a></code></li>
-<li><code><a href="#Observation.from_bytes">Observation.from_bytes</a></code></li>
-</ul>
 </div>
 
                         <details>
@@ -255,65 +185,6 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 
 <span class="sd">The `ES.ESObservation` module contains the main class</span>
 <span class="sd">of Environmental Sensing : `Observation` class.</span>
-
-<span class="sd">The methods defined in this class are : </span>
-
-<span class="sd">*add value*</span>
-
-<span class="sd">- `Observation.append`</span>
-<span class="sd">- `Observation.appendList`</span>
-<span class="sd">- `Observation.addESObs`</span>
-<span class="sd">- `Observation.addAttributes`</span>
-<span class="sd">- `Observation.addResultValue`</span>
-<span class="sd">- `Observation.addListResultValue`</span>
-<span class="sd">- `Observation.addValue`</span>
-<span class="sd">- `Observation.addListValue`</span>
-
-<span class="sd">*majValue*</span>
-
-<span class="sd">- `Observation.majList`</span>
-<span class="sd">- `Observation.majType`</span>
-<span class="sd">- `Observation.majValue`</span>
-
-<span class="sd">*property (getters)*</span>
-
-<span class="sd">- `Observation.setLocation`</span>
-<span class="sd">- `Observation.setDatation`</span>
-<span class="sd">- `Observation.setProperty`</span>
-<span class="sd">- `Observation.setResult`</span>
-<span class="sd">- `Observation.bounds`</span>
-<span class="sd">- `Observation.jsonFeature`</span>
-<span class="sd">- `Observation.typeObs`</span>
-<span class="sd">- `Observation.nValueObs`</span>
-<span class="sd">- `Observation.json`</span>
-
-<span class="sd">*selecting*</span>
-
-<span class="sd">- `Observation.indexLoc`</span>
-<span class="sd">- `Observation.iLoc`</span>
-<span class="sd">- `Observation.loc`</span>
-
-<span class="sd">*management*</span>
-
-<span class="sd">- `Observation.extend`</span>
-<span class="sd">- `Observation.full`</span>
-<span class="sd">- `Observation.sort`</span>
-
-<span class="sd">*visualization*</span>
-
-<span class="sd">- `Observation.voxel`</span>
-<span class="sd">- `Observation.plot`</span>
-<span class="sd">- `Observation.view`</span>
-<span class="sd">- `Observation.choropleth`</span>
-
-<span class="sd">*exports - imports*</span>
-
-<span class="sd">- `Observation.to_csv`</span>
-<span class="sd">- `Observation.to_dataFrame`</span>
-<span class="sd">- `Observation.to_xarray`</span>
-<span class="sd">- `Observation.to_json`</span>
-<span class="sd">- `Observation.to_bytes`</span>
-<span class="sd">- `Observation.from_bytes`</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">ESObs</span> <span class="kn">import</span> <span class="n">ESSetDatation</span><span class="p">,</span> <span class="n">ESSetLocation</span><span class="p">,</span> <span class="n">ESSetProperty</span><span class="p">,</span> <span class="n">ESSetResult</span>
@@ -358,6 +229,67 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">    - **userAtt** : namedValue dictionnary (inherited from ESElement)</span>
 <span class="sd">    - **parameter** : namedValue dictionnary (inherited from ESElement)</span>
 <span class="sd">    - **mAtt[reference]** : number of the reference Observation used to complete the actual Observation</span>
+
+<span class="sd">    The methods defined in this class are : </span>
+<span class="sd">    </span>
+<span class="sd">    *property (getters)*</span>
+<span class="sd">    </span>
+<span class="sd">    - `Observation.setLocation`</span>
+<span class="sd">    - `Observation.setDatation`</span>
+<span class="sd">    - `Observation.setProperty`</span>
+<span class="sd">    - `Observation.setResult`</span>
+<span class="sd">    - `Observation.bounds`</span>
+<span class="sd">    - `Observation.jsonFeature`</span>
+<span class="sd">    - `Observation.typeObs`</span>
+<span class="sd">    - `Observation.nValueObs`</span>
+<span class="sd">    - `Observation.json`</span>
+<span class="sd">    </span>
+<span class="sd">    *add value*</span>
+<span class="sd">    </span>
+<span class="sd">    - `Observation.append`</span>
+<span class="sd">    - `Observation.appendList`</span>
+<span class="sd">    - `Observation.addESObs`</span>
+<span class="sd">    - `Observation.addAttributes`</span>
+<span class="sd">    - `Observation.addResultValue`</span>
+<span class="sd">    - `Observation.addListResultValue`</span>
+<span class="sd">    - `Observation.addValue`</span>
+<span class="sd">    - `Observation.addListValue`</span>
+<span class="sd">    </span>
+<span class="sd">    *majValue*</span>
+<span class="sd">    </span>
+<span class="sd">    - `Observation.majList`</span>
+<span class="sd">    - `Observation.majType`</span>
+<span class="sd">    - `Observation.majValue`</span>
+<span class="sd">    </span>
+<span class="sd">    *selecting*</span>
+<span class="sd">    </span>
+<span class="sd">    - `Observation.indexLoc`</span>
+<span class="sd">    - `Observation.iLoc`</span>
+<span class="sd">    - `Observation.loc`</span>
+<span class="sd">    </span>
+<span class="sd">    *management*</span>
+<span class="sd">    </span>
+<span class="sd">    - `Observation.extend`</span>
+<span class="sd">    - `Observation.full`</span>
+<span class="sd">    - `Observation.sort`</span>
+<span class="sd">    </span>
+<span class="sd">    *visualization*</span>
+<span class="sd">    </span>
+<span class="sd">    - `Observation.voxel`</span>
+<span class="sd">    - `Observation.plot`</span>
+<span class="sd">    - `Observation.view`</span>
+<span class="sd">    - `Observation.choropleth`</span>
+<span class="sd">    </span>
+<span class="sd">    *exports - imports*</span>
+<span class="sd">    </span>
+<span class="sd">    - `Observation.to_csv`</span>
+<span class="sd">    - `Observation.to_dataFrame`</span>
+<span class="sd">    - `Observation.to_xarray`</span>
+<span class="sd">    - `Observation.to_json`</span>
+<span class="sd">    - `Observation.from_json`</span>
+<span class="sd">    - `Observation.to_bytes`</span>
+<span class="sd">    - `Observation.from_bytes`</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">order</span> <span class="o">=</span> <span class="s1">&#39;dlp&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -454,7 +386,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 
     <span class="k">def</span> <span class="nf">addESObs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">,</span> <span class="n">classES</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Add a new `ES.ESObs` attached to `Observation`. </span>
+<span class="sd">        Add one or more new `ES.ESObs` attached to `Observation`. </span>
 <span class="sd">        The ES.ESObs child class is defined by classES or if None by the js structure.</span>
 
 <span class="sd">        *Parameters*</span>
@@ -568,7 +500,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">:</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">==</span> <span class="nb">int</span> <span class="p">:</span> <span class="n">ind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">else</span> <span class="p">:</span> <span class="n">ind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addValue</span><span class="p">(</span><span class="n">_EsValue</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">equal</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_addValueObservation</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">ind</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_addValueObservation</span><span class="p">(</span><span class="n">ind</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">res</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">majType</span><span class="p">()</span>
         
     <span class="k">def</span> <span class="nf">appendList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listDat</span><span class="p">,</span> <span class="n">listLoc</span><span class="p">,</span> <span class="n">listPrp</span><span class="p">,</span> <span class="n">listVal</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">):</span>
@@ -682,15 +614,31 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">else</span> <span class="p">:</span>
                 <span class="n">idx</span> <span class="o">+=</span> <span class="n">es</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:],</span> <span class="n">propList</span><span class="p">)</span>
     
+    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Complete an `Observation` with json data. </span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **js** : string - ObsJSON data</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **None**</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span> <span class="n">dic</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span> <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initDict</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+                
     <span class="k">def</span> <span class="nf">full</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maj</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allAxes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="p">:</span> 
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Add empty `ES.ESValue.ResultValue` to have a &#39;complete&#39; `Observation`</span>
 
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
-<span class="sd">        - **maj** : boolean, optional (default True) - If True, add value to </span>
+<span class="sd">        - **maj** : boolean (default True) - If True, add value to </span>
 <span class="sd">        Observation, else return valueList. The default is True.</span>
-<span class="sd">        - **allAxes** : boolean, optionnal (default True) - If True, axes are </span>
+<span class="sd">        - **allAxes** : boolean (default True) - If True, axes are </span>
 <span class="sd">        completed with empty ES.ESObs </span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
@@ -746,10 +694,9 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        *Returns*</span>
 
 <span class="sd">        - **dict or string** : {&#39;full&#39; : indFull, &#39;name&#39; : indName, &#39;value&#39; : indValue }</span>
-<span class="sd">        </span>
-<span class="sd">            indFull : integer for the first index value with name and value equality</span>
-<span class="sd">            indName : integer for the first index value with name equality</span>
-<span class="sd">            indFull : integer for the first index value with value equality</span>
+<span class="sd">            - indFull : integer for the first index value with name and value equality</span>
+<span class="sd">            - indName : integer for the first index value with name equality</span>
+<span class="sd">            - indFull : integer for the first index value with value equality</span>
 <span class="sd">        &#39;&#39;&#39;</span>        
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span><span class="o">==</span> <span class="n">PropertyValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span>
@@ -805,9 +752,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        </span>
 <span class="sd">        - **ValueClass** : class ES.ESValue </span>
 <span class="sd">        - **listVal** : list of values</span>
-<span class="sd">        - **name** : boolean (True for &#39;name&#39; and False for &#39;value&#39;), optional, </span>
-<span class="sd">            </span>
-<span class="sd">            Attribute. The default is True. </span>
+<span class="sd">        - **name** : boolean (default True) - True for &#39;name&#39; and False for &#39;value&#39;</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
@@ -876,16 +821,16 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="n">index</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span>   <span class="nb">type</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span><span class="o">==</span> <span class="n">PropertyValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> 
             <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">esValue</span><span class="p">)[</span><span class="n">equal</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">majValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span><span class="o">==</span> <span class="n">LocationValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> 
             <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">esValue</span><span class="p">)[</span><span class="n">equal</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">majValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span><span class="o">==</span> <span class="n">DatationValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> 
             <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">esValue</span><span class="p">)[</span><span class="n">equal</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">majValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span><span class="o">==</span> <span class="n">ResultValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> 
             <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">esValue</span><span class="p">)[</span><span class="n">equal</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">majValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">index</span>
         
     <span class="nd">@property</span> 
@@ -1255,11 +1200,12 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span> <span class="p">:</span>    <span class="c1"># creation à partir d&#39;un dict &quot;key : [liste]&quot;</span>
                 <span class="n">js</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_initDict</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="p">:</span>    <span class="c1"># création à partir d&#39;un jeu de valeur [dat, loc, prp, res]</span>
+            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="p">:</span>    <span class="c1"># création à partir d&#39;un jeu de valeur [[dat], [loc], [prp], [res]]</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span> <span class="p">:</span> 
                     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="p">:</span>
                         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">==</span> <span class="kc">None</span> <span class="p">:</span> <span class="n">_EsObs</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="nb">tuple</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="nb">tuple</span> <span class="p">:</span>   <span class="c1"># creation uniquement d&#39;un jeu de données dat, loc, prp, res</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="p">:</span>
             <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">esObsClass</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="ow">in</span> <span class="n">_EsObs</span><span class="p">:</span> 
                 <span class="bp">self</span><span class="o">.</span><span class="n">addComposant</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
@@ -1275,11 +1221,11 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="bp">self</span><span class="o">.</span><span class="n">addAttributes</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">addESObs</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
     
-    <span class="k">def</span> <span class="nf">_addValueObservation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">idat</span><span class="p">,</span> <span class="n">iloc</span><span class="p">,</span> <span class="n">iprp</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_addValueObservation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idat</span><span class="p">,</span> <span class="n">iloc</span><span class="p">,</span> <span class="n">iprp</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Add a new `ES.ESValue.ResultValue` </span>
-<span class="sd">        **val** : ES.ESValue.ResultValue compatible type</span>
 <span class="sd">        **idat, iloc, iprp** : integer, ES.ESValue.ESIndexValue</span>
+<span class="sd">        **val** : ES.ESValue.ResultValue compatible type</span>
 <span class="sd">        **return** int : last index in the `ES.ESValue.ESSet` valueList.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">ESSetResult</span><span class="p">(</span><span class="n">pObs</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
@@ -1513,6 +1459,67 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">    - **userAtt** : namedValue dictionnary (inherited from ESElement)</span>
 <span class="sd">    - **parameter** : namedValue dictionnary (inherited from ESElement)</span>
 <span class="sd">    - **mAtt[reference]** : number of the reference Observation used to complete the actual Observation</span>
+
+<span class="sd">    The methods defined in this class are : </span>
+<span class="sd">    </span>
+<span class="sd">    *property (getters)*</span>
+<span class="sd">    </span>
+<span class="sd">    - `Observation.setLocation`</span>
+<span class="sd">    - `Observation.setDatation`</span>
+<span class="sd">    - `Observation.setProperty`</span>
+<span class="sd">    - `Observation.setResult`</span>
+<span class="sd">    - `Observation.bounds`</span>
+<span class="sd">    - `Observation.jsonFeature`</span>
+<span class="sd">    - `Observation.typeObs`</span>
+<span class="sd">    - `Observation.nValueObs`</span>
+<span class="sd">    - `Observation.json`</span>
+<span class="sd">    </span>
+<span class="sd">    *add value*</span>
+<span class="sd">    </span>
+<span class="sd">    - `Observation.append`</span>
+<span class="sd">    - `Observation.appendList`</span>
+<span class="sd">    - `Observation.addESObs`</span>
+<span class="sd">    - `Observation.addAttributes`</span>
+<span class="sd">    - `Observation.addResultValue`</span>
+<span class="sd">    - `Observation.addListResultValue`</span>
+<span class="sd">    - `Observation.addValue`</span>
+<span class="sd">    - `Observation.addListValue`</span>
+<span class="sd">    </span>
+<span class="sd">    *majValue*</span>
+<span class="sd">    </span>
+<span class="sd">    - `Observation.majList`</span>
+<span class="sd">    - `Observation.majType`</span>
+<span class="sd">    - `Observation.majValue`</span>
+<span class="sd">    </span>
+<span class="sd">    *selecting*</span>
+<span class="sd">    </span>
+<span class="sd">    - `Observation.indexLoc`</span>
+<span class="sd">    - `Observation.iLoc`</span>
+<span class="sd">    - `Observation.loc`</span>
+<span class="sd">    </span>
+<span class="sd">    *management*</span>
+<span class="sd">    </span>
+<span class="sd">    - `Observation.extend`</span>
+<span class="sd">    - `Observation.full`</span>
+<span class="sd">    - `Observation.sort`</span>
+<span class="sd">    </span>
+<span class="sd">    *visualization*</span>
+<span class="sd">    </span>
+<span class="sd">    - `Observation.voxel`</span>
+<span class="sd">    - `Observation.plot`</span>
+<span class="sd">    - `Observation.view`</span>
+<span class="sd">    - `Observation.choropleth`</span>
+<span class="sd">    </span>
+<span class="sd">    *exports - imports*</span>
+<span class="sd">    </span>
+<span class="sd">    - `Observation.to_csv`</span>
+<span class="sd">    - `Observation.to_dataFrame`</span>
+<span class="sd">    - `Observation.to_xarray`</span>
+<span class="sd">    - `Observation.to_json`</span>
+<span class="sd">    - `Observation.from_json`</span>
+<span class="sd">    - `Observation.to_bytes`</span>
+<span class="sd">    - `Observation.from_bytes`</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">order</span> <span class="o">=</span> <span class="s1">&#39;dlp&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1609,7 +1616,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 
     <span class="k">def</span> <span class="nf">addESObs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">,</span> <span class="n">classES</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Add a new `ES.ESObs` attached to `Observation`. </span>
+<span class="sd">        Add one or more new `ES.ESObs` attached to `Observation`. </span>
 <span class="sd">        The ES.ESObs child class is defined by classES or if None by the js structure.</span>
 
 <span class="sd">        *Parameters*</span>
@@ -1723,7 +1730,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">:</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">==</span> <span class="nb">int</span> <span class="p">:</span> <span class="n">ind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">else</span> <span class="p">:</span> <span class="n">ind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addValue</span><span class="p">(</span><span class="n">_EsValue</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">equal</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_addValueObservation</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">ind</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_addValueObservation</span><span class="p">(</span><span class="n">ind</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">res</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">majType</span><span class="p">()</span>
         
     <span class="k">def</span> <span class="nf">appendList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listDat</span><span class="p">,</span> <span class="n">listLoc</span><span class="p">,</span> <span class="n">listPrp</span><span class="p">,</span> <span class="n">listVal</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">):</span>
@@ -1837,15 +1844,31 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">else</span> <span class="p">:</span>
                 <span class="n">idx</span> <span class="o">+=</span> <span class="n">es</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:],</span> <span class="n">propList</span><span class="p">)</span>
     
+    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Complete an `Observation` with json data. </span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **js** : string - ObsJSON data</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **None**</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span> <span class="n">dic</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span> <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initDict</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+                
     <span class="k">def</span> <span class="nf">full</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maj</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allAxes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="p">:</span> 
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Add empty `ES.ESValue.ResultValue` to have a &#39;complete&#39; `Observation`</span>
 
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
-<span class="sd">        - **maj** : boolean, optional (default True) - If True, add value to </span>
+<span class="sd">        - **maj** : boolean (default True) - If True, add value to </span>
 <span class="sd">        Observation, else return valueList. The default is True.</span>
-<span class="sd">        - **allAxes** : boolean, optionnal (default True) - If True, axes are </span>
+<span class="sd">        - **allAxes** : boolean (default True) - If True, axes are </span>
 <span class="sd">        completed with empty ES.ESObs </span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
@@ -1901,10 +1924,9 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        *Returns*</span>
 
 <span class="sd">        - **dict or string** : {&#39;full&#39; : indFull, &#39;name&#39; : indName, &#39;value&#39; : indValue }</span>
-<span class="sd">        </span>
-<span class="sd">            indFull : integer for the first index value with name and value equality</span>
-<span class="sd">            indName : integer for the first index value with name equality</span>
-<span class="sd">            indFull : integer for the first index value with value equality</span>
+<span class="sd">            - indFull : integer for the first index value with name and value equality</span>
+<span class="sd">            - indName : integer for the first index value with name equality</span>
+<span class="sd">            - indFull : integer for the first index value with value equality</span>
 <span class="sd">        &#39;&#39;&#39;</span>        
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span><span class="o">==</span> <span class="n">PropertyValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span>
@@ -1960,9 +1982,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        </span>
 <span class="sd">        - **ValueClass** : class ES.ESValue </span>
 <span class="sd">        - **listVal** : list of values</span>
-<span class="sd">        - **name** : boolean (True for &#39;name&#39; and False for &#39;value&#39;), optional, </span>
-<span class="sd">            </span>
-<span class="sd">            Attribute. The default is True. </span>
+<span class="sd">        - **name** : boolean (default True) - True for &#39;name&#39; and False for &#39;value&#39;</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
@@ -2031,16 +2051,16 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="n">index</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span>   <span class="nb">type</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span><span class="o">==</span> <span class="n">PropertyValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> 
             <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">esValue</span><span class="p">)[</span><span class="n">equal</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">majValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span><span class="o">==</span> <span class="n">LocationValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> 
             <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">esValue</span><span class="p">)[</span><span class="n">equal</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">majValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span><span class="o">==</span> <span class="n">DatationValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> 
             <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">esValue</span><span class="p">)[</span><span class="n">equal</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">majValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span><span class="o">==</span> <span class="n">ResultValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> 
             <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">esValue</span><span class="p">)[</span><span class="n">equal</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">majValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">index</span>
         
     <span class="nd">@property</span> 
@@ -2410,11 +2430,12 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span> <span class="p">:</span>    <span class="c1"># creation à partir d&#39;un dict &quot;key : [liste]&quot;</span>
                 <span class="n">js</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_initDict</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="p">:</span>    <span class="c1"># création à partir d&#39;un jeu de valeur [dat, loc, prp, res]</span>
+            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="p">:</span>    <span class="c1"># création à partir d&#39;un jeu de valeur [[dat], [loc], [prp], [res]]</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span> <span class="p">:</span> 
                     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="p">:</span>
                         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">==</span> <span class="kc">None</span> <span class="p">:</span> <span class="n">_EsObs</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="nb">tuple</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="nb">tuple</span> <span class="p">:</span>   <span class="c1"># creation uniquement d&#39;un jeu de données dat, loc, prp, res</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="p">:</span>
             <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">esObsClass</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="ow">in</span> <span class="n">_EsObs</span><span class="p">:</span> 
                 <span class="bp">self</span><span class="o">.</span><span class="n">addComposant</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
@@ -2430,11 +2451,11 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="bp">self</span><span class="o">.</span><span class="n">addAttributes</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">addESObs</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
     
-    <span class="k">def</span> <span class="nf">_addValueObservation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">idat</span><span class="p">,</span> <span class="n">iloc</span><span class="p">,</span> <span class="n">iprp</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_addValueObservation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idat</span><span class="p">,</span> <span class="n">iloc</span><span class="p">,</span> <span class="n">iprp</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Add a new `ES.ESValue.ResultValue` </span>
-<span class="sd">        **val** : ES.ESValue.ResultValue compatible type</span>
 <span class="sd">        **idat, iloc, iprp** : integer, ES.ESValue.ESIndexValue</span>
+<span class="sd">        **val** : ES.ESValue.ResultValue compatible type</span>
 <span class="sd">        **return** int : last index in the `ES.ESValue.ESSet` valueList.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">ESSetResult</span><span class="p">(</span><span class="n">pObs</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
@@ -2655,6 +2676,80 @@ several DatationValue (2)</li>
 <li><strong>parameter</strong> : namedValue dictionnary (inherited from ESElement)</li>
 <li><strong>mAtt[reference]</strong> : number of the reference Observation used to complete the actual Observation</li>
 </ul>
+
+<p>The methods defined in this class are : </p>
+
+<p><em>property (getters)</em></p>
+
+<ul>
+<li><code><a href="#Observation.setLocation">Observation.setLocation</a></code></li>
+<li><code><a href="#Observation.setDatation">Observation.setDatation</a></code></li>
+<li><code><a href="#Observation.setProperty">Observation.setProperty</a></code></li>
+<li><code><a href="#Observation.setResult">Observation.setResult</a></code></li>
+<li><code><a href="#Observation.bounds">Observation.bounds</a></code></li>
+<li><code><a href="#Observation.jsonFeature">Observation.jsonFeature</a></code></li>
+<li><code><a href="#Observation.typeObs">Observation.typeObs</a></code></li>
+<li><code><a href="#Observation.nValueObs">Observation.nValueObs</a></code></li>
+<li><code><a href="#Observation.json">Observation.json</a></code></li>
+</ul>
+
+<p><em>add value</em></p>
+
+<ul>
+<li><code><a href="#Observation.append">Observation.append</a></code></li>
+<li><code><a href="#Observation.appendList">Observation.appendList</a></code></li>
+<li><code><a href="#Observation.addESObs">Observation.addESObs</a></code></li>
+<li><code><a href="#Observation.addAttributes">Observation.addAttributes</a></code></li>
+<li><code><a href="#Observation.addResultValue">Observation.addResultValue</a></code></li>
+<li><code><a href="#Observation.addListResultValue">Observation.addListResultValue</a></code></li>
+<li><code><a href="#Observation.addValue">Observation.addValue</a></code></li>
+<li><code><a href="#Observation.addListValue">Observation.addListValue</a></code></li>
+</ul>
+
+<p><em>majValue</em></p>
+
+<ul>
+<li><code><a href="#Observation.majList">Observation.majList</a></code></li>
+<li><code><a href="#Observation.majType">Observation.majType</a></code></li>
+<li><code><a href="#Observation.majValue">Observation.majValue</a></code></li>
+</ul>
+
+<p><em>selecting</em></p>
+
+<ul>
+<li><code><a href="#Observation.indexLoc">Observation.indexLoc</a></code></li>
+<li><code><a href="#Observation.iLoc">Observation.iLoc</a></code></li>
+<li><code><a href="#Observation.loc">Observation.loc</a></code></li>
+</ul>
+
+<p><em>management</em></p>
+
+<ul>
+<li><code><a href="#Observation.extend">Observation.extend</a></code></li>
+<li><code><a href="#Observation.full">Observation.full</a></code></li>
+<li><code><a href="#Observation.sort">Observation.sort</a></code></li>
+</ul>
+
+<p><em>visualization</em></p>
+
+<ul>
+<li><code><a href="#Observation.voxel">Observation.voxel</a></code></li>
+<li><code><a href="#Observation.plot">Observation.plot</a></code></li>
+<li><code><a href="#Observation.view">Observation.view</a></code></li>
+<li><code><a href="#Observation.choropleth">Observation.choropleth</a></code></li>
+</ul>
+
+<p><em>exports - imports</em></p>
+
+<ul>
+<li><code><a href="#Observation.to_csv">Observation.to_csv</a></code></li>
+<li><code><a href="#Observation.to_dataFrame">Observation.to_dataFrame</a></code></li>
+<li><code><a href="#Observation.to_xarray">Observation.to_xarray</a></code></li>
+<li><code><a href="#Observation.to_json">Observation.to_json</a></code></li>
+<li><code><a href="#Observation.from_json">Observation.from_json</a></code></li>
+<li><code><a href="#Observation.to_bytes">Observation.to_bytes</a></code></li>
+<li><code><a href="#Observation.from_bytes">Observation.from_bytes</a></code></li>
+</ul>
 </div>
 
 
@@ -2775,7 +2870,7 @@ several DatationValue (2)</li>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">addESObs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">,</span> <span class="n">classES</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Add a new `ES.ESObs` attached to `Observation`. </span>
+<span class="sd">        Add one or more new `ES.ESObs` attached to `Observation`. </span>
 <span class="sd">        The ES.ESObs child class is defined by classES or if None by the js structure.</span>
 
 <span class="sd">        *Parameters*</span>
@@ -2799,7 +2894,7 @@ several DatationValue (2)</li>
 
         </details>
 
-            <div class="docstring"><p>Add a new <code><a href="ESObs.html">ES.ESObs</a></code> attached to <code><a href="#Observation">Observation</a></code>. 
+            <div class="docstring"><p>Add one or more new <code><a href="ESObs.html">ES.ESObs</a></code> attached to <code><a href="#Observation">Observation</a></code>. 
 The <a href="ESObs.html">ES.ESObs</a> child class is defined by classES or if None by the js structure.</p>
 
 <p><em>Parameters</em></p>
@@ -3044,7 +3139,7 @@ The <a href="ESObs.html">ES.ESObs</a> child class is defined by classES or if No
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">:</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">==</span> <span class="nb">int</span> <span class="p">:</span> <span class="n">ind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">else</span> <span class="p">:</span> <span class="n">ind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addValue</span><span class="p">(</span><span class="n">_EsValue</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">equal</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_addValueObservation</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">ind</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_addValueObservation</span><span class="p">(</span><span class="n">ind</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">res</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">majType</span><span class="p">()</span>
 </pre></div>
 
@@ -3306,6 +3401,52 @@ compatible Value for an existing or a new <code><a href="ESValue.html">ES.ESValu
 
 
                             </div>
+                            <div id="Observation.from_json" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Observation.from_json">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">from_json</span><span class="signature">(self, js)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Complete an `Observation` with json data. </span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **js** : string - ObsJSON data</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **None**</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span> <span class="n">dic</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span> <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initDict</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Complete an <code><a href="#Observation">Observation</a></code> with json data. </p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>js</strong> : string - ObsJSON data</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>None</strong></li>
+</ul>
+</div>
+
+
+                            </div>
                             <div id="Observation.full" class="classattr">
                                         <div class="attr function"><a class="headerlink" href="#Observation.full">#&nbsp;&nbsp</a>
 
@@ -3322,9 +3463,9 @@ compatible Value for an existing or a new <code><a href="ESValue.html">ES.ESValu
 
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
-<span class="sd">        - **maj** : boolean, optional (default True) - If True, add value to </span>
+<span class="sd">        - **maj** : boolean (default True) - If True, add value to </span>
 <span class="sd">        Observation, else return valueList. The default is True.</span>
-<span class="sd">        - **allAxes** : boolean, optionnal (default True) - If True, axes are </span>
+<span class="sd">        - **allAxes** : boolean (default True) - If True, axes are </span>
 <span class="sd">        completed with empty ES.ESObs </span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
@@ -3345,9 +3486,9 @@ compatible Value for an existing or a new <code><a href="ESValue.html">ES.ESValu
 <p><em>Parameters</em></p>
 
 <ul>
-<li><strong>maj</strong> : boolean, optional (default True) - If True, add value to 
+<li><strong>maj</strong> : boolean (default True) - If True, add value to 
 Observation, else return valueList. The default is True.</li>
-<li><strong>allAxes</strong> : boolean, optionnal (default True) - If True, axes are 
+<li><strong>allAxes</strong> : boolean (default True) - If True, axes are 
 completed with empty <a href="ESObs.html">ES.ESObs</a> </li>
 </ul>
 
@@ -3444,10 +3585,9 @@ completed with empty <a href="ESObs.html">ES.ESObs</a> </li>
 <span class="sd">        *Returns*</span>
 
 <span class="sd">        - **dict or string** : {&#39;full&#39; : indFull, &#39;name&#39; : indName, &#39;value&#39; : indValue }</span>
-<span class="sd">        </span>
-<span class="sd">            indFull : integer for the first index value with name and value equality</span>
-<span class="sd">            indName : integer for the first index value with name equality</span>
-<span class="sd">            indFull : integer for the first index value with value equality</span>
+<span class="sd">            - indFull : integer for the first index value with name and value equality</span>
+<span class="sd">            - indName : integer for the first index value with name equality</span>
+<span class="sd">            - indFull : integer for the first index value with value equality</span>
 <span class="sd">        &#39;&#39;&#39;</span>        
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span><span class="o">==</span> <span class="n">PropertyValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span>
@@ -3476,11 +3616,12 @@ completed with empty <a href="ESObs.html">ES.ESObs</a> </li>
 <p><em>Returns</em></p>
 
 <ul>
-<li><p><strong>dict or string</strong> : {'full' : indFull, 'name' : indName, 'value' : indValue }</p>
-
-<p>indFull : integer for the first index value with name and value equality
-indName : integer for the first index value with name equality
-indFull : integer for the first index value with value equality</p></li>
+<li><strong>dict or string</strong> : {'full' : indFull, 'name' : indName, 'value' : indValue }
+<ul>
+<li>indFull : integer for the first index value with name and value equality</li>
+<li>indName : integer for the first index value with name equality</li>
+<li>indFull : integer for the first index value with value equality</li>
+</ul></li>
 </ul>
 </div>
 
@@ -3573,9 +3714,7 @@ indFull : integer for the first index value with value equality</p></li>
 <span class="sd">        </span>
 <span class="sd">        - **ValueClass** : class ES.ESValue </span>
 <span class="sd">        - **listVal** : list of values</span>
-<span class="sd">        - **name** : boolean (True for &#39;name&#39; and False for &#39;value&#39;), optional, </span>
-<span class="sd">            </span>
-<span class="sd">            Attribute. The default is True. </span>
+<span class="sd">        - **name** : boolean (default True) - True for &#39;name&#39; and False for &#39;value&#39;</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
@@ -3600,9 +3739,7 @@ indFull : integer for the first index value with value equality</p></li>
 <ul>
 <li><strong>ValueClass</strong> : class <a href="ESValue.html">ES.ESValue</a> </li>
 <li><strong>listVal</strong> : list of values</li>
-<li><p><strong>name</strong> : boolean (True for 'name' and False for 'value'), optional, </p>
-
-<p>Attribute. The default is True. </p></li>
+<li><strong>name</strong> : boolean (default True) - True for 'name' and False for 'value'</li>
 </ul>
 
 <p><em>Returns</em></p>
@@ -3710,16 +3847,16 @@ The order is define with three letters : l (location), d (datation), p (property
         <span class="n">index</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span>   <span class="nb">type</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span><span class="o">==</span> <span class="n">PropertyValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> 
             <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">esValue</span><span class="p">)[</span><span class="n">equal</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">majValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span><span class="o">==</span> <span class="n">LocationValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> 
             <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">esValue</span><span class="p">)[</span><span class="n">equal</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">majValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span><span class="o">==</span> <span class="n">DatationValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> 
             <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">esValue</span><span class="p">)[</span><span class="n">equal</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">majValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">esValue</span><span class="p">)</span><span class="o">==</span> <span class="n">ResultValue</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> 
             <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">indexLoc</span><span class="p">(</span><span class="n">esValue</span><span class="p">)[</span><span class="n">equal</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">majValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">newEsValue</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">index</span>
 </pre></div>
 
@@ -4079,7 +4216,7 @@ if not sorting follows the list provided.</li>
     info=False,
     numeric=False,
     fullAxes=False,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000020D50D35040&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000023BD49153D0&gt;&gt;,
     arrayname=&#39;Observation&#39;
 )</span>:
     </div>
@@ -4212,7 +4349,7 @@ applied to each <code><a href="ESValue.html#ResultValue">ES.ESValue.ResultValue<
     info=False,
     numeric=False,
     fullAxes=False,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000020D50D35040&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000023BD49153D0&gt;&gt;,
     arrayname=&#39;Observation&#39;,
     maxname=20
 )</span>:

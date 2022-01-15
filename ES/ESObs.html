@@ -210,10 +210,10 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">ESElement</span> <span class="kn">import</span> <span class="n">ESObs</span>
-<span class="c1">#from ESElement import Datation, Location, Property, Result</span>
 <span class="kn">from</span> <span class="nn">ESconstante</span> <span class="kn">import</span> <span class="n">ES</span> <span class="c1">#, identity</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">ESValue</span> <span class="kn">import</span> <span class="n">LocationValue</span><span class="p">,</span> <span class="n">DatationValue</span><span class="p">,</span> <span class="n">ESSet</span><span class="p">,</span> <span class="n">PropertyValue</span><span class="p">,</span> <span class="n">ResultValue</span> <span class="c1">#, gshape</span>
+<span class="kn">from</span> <span class="nn">ESValue</span> <span class="kn">import</span> <span class="n">LocationValue</span><span class="p">,</span> <span class="n">DatationValue</span><span class="p">,</span> <span class="n">PropertyValue</span><span class="p">,</span> <span class="n">ResultValue</span>   <span class="c1">#, ESSet</span>
+<span class="kn">from</span> <span class="nn">ESSet</span> <span class="kn">import</span> <span class="n">ESSet</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 
@@ -287,9 +287,6 @@
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
-        <span class="c1">#if option[&quot;json_dat_instant&quot;] : dat_valName = ES.dat_valName</span>
-        <span class="c1">#else : dat_valName = ES.dat_valName</span>
-        <span class="c1">#return self.jsonESSet(dat_valName, option)</span>
 
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
         <span class="n">datList</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
@@ -859,7 +856,7 @@
 
         
         <span class="def">class</span>
-        <span class="name">ESSetDatation</span><wbr>(<span class="base">ESValue.ESSet</span>, <span class="base"><a href="#Datation">Datation</a></span>):
+        <span class="name">ESSetDatation</span><wbr>(<span class="base">ESSet.ESSet</span>, <span class="base"><a href="#Datation">Datation</a></span>):
     </div>
 
                 <details>
@@ -890,9 +887,6 @@
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
-        <span class="c1">#if option[&quot;json_dat_instant&quot;] : dat_valName = ES.dat_valName</span>
-        <span class="c1">#else : dat_valName = ES.dat_valName</span>
-        <span class="c1">#return self.jsonESSet(dat_valName, option)</span>
 
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
         <span class="n">datList</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
@@ -979,9 +973,6 @@
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
-        <span class="c1">#if option[&quot;json_dat_instant&quot;] : dat_valName = ES.dat_valName</span>
-        <span class="c1">#else : dat_valName = ES.dat_valName</span>
-        <span class="c1">#return self.jsonESSet(dat_valName, option)</span>
 </pre></div>
 
         </details>
@@ -996,7 +987,7 @@
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000020D50D35040&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000023BD49153D0&gt;&gt;
 )</span>:
     </div>
 
@@ -1051,7 +1042,7 @@
                             <div class="inherited">
                                 <h5>Inherited Members</h5>
                                 <dl>
-                                    <div><dt>ESValue.ESSet</dt>
+                                    <div><dt>ESSet.ESSet</dt>
                                 <dd id="ESSetDatation.valueList" class="variable">valueList</dd>
                 <dd id="ESSetDatation.initESSet" class="function">initESSet</dd>
                 <dd id="ESSetDatation.vListName" class="variable">vListName</dd>
@@ -1092,7 +1083,7 @@
 
         
         <span class="def">class</span>
-        <span class="name">ESSetLocation</span><wbr>(<span class="base">ESValue.ESSet</span>, <span class="base"><a href="#Location">Location</a></span>):
+        <span class="name">ESSetLocation</span><wbr>(<span class="base">ESSet.ESSet</span>, <span class="base"><a href="#Location">Location</a></span>):
     </div>
 
                 <details>
@@ -1240,7 +1231,7 @@ return</p>
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000020D50D35040&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000023BD49153D0&gt;&gt;
 )</span>:
     </div>
 
@@ -1284,7 +1275,7 @@ return</p>
                             <div class="inherited">
                                 <h5>Inherited Members</h5>
                                 <dl>
-                                    <div><dt>ESValue.ESSet</dt>
+                                    <div><dt>ESSet.ESSet</dt>
                                 <dd id="ESSetLocation.valueList" class="variable">valueList</dd>
                 <dd id="ESSetLocation.initESSet" class="function">initESSet</dd>
                 <dd id="ESSetLocation.vListName" class="variable">vListName</dd>
@@ -1325,7 +1316,7 @@ return</p>
 
         
         <span class="def">class</span>
-        <span class="name">ESSetProperty</span><wbr>(<span class="base">ESValue.ESSet</span>, <span class="base"><a href="#Property">Property</a></span>):
+        <span class="name">ESSetProperty</span><wbr>(<span class="base">ESSet.ESSet</span>, <span class="base"><a href="#Property">Property</a></span>):
     </div>
 
                 <details>
@@ -1426,7 +1417,7 @@ return</p>
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000020D50D35040&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000023BD49153D0&gt;&gt;
 )</span>:
     </div>
 
@@ -1444,7 +1435,7 @@ return</p>
                             <div class="inherited">
                                 <h5>Inherited Members</h5>
                                 <dl>
-                                    <div><dt>ESValue.ESSet</dt>
+                                    <div><dt>ESSet.ESSet</dt>
                                 <dd id="ESSetProperty.valueList" class="variable">valueList</dd>
                 <dd id="ESSetProperty.initESSet" class="function">initESSet</dd>
                 <dd id="ESSetProperty.vListName" class="variable">vListName</dd>
@@ -1485,7 +1476,7 @@ return</p>
 
         
         <span class="def">class</span>
-        <span class="name">ESSetResult</span><wbr>(<span class="base">ESValue.ESSet</span>, <span class="base"><a href="#Result">Result</a></span>):
+        <span class="name">ESSetResult</span><wbr>(<span class="base">ESSet.ESSet</span>, <span class="base"><a href="#Result">Result</a></span>):
     </div>
 
                 <details>
@@ -1753,7 +1744,7 @@ return</p>
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000020D50D35040&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000023BD49153D0&gt;&gt;,
     ind=&#39;axe&#39;,
     squeeze=True
 )</span>:
@@ -2019,7 +2010,7 @@ return</p>
                             <div class="inherited">
                                 <h5>Inherited Members</h5>
                                 <dl>
-                                    <div><dt>ESValue.ESSet</dt>
+                                    <div><dt>ESSet.ESSet</dt>
                                 <dd id="ESSetResult.valueList" class="variable">valueList</dd>
                 <dd id="ESSetResult.initESSet" class="function">initESSet</dd>
                 <dd id="ESSetResult.vListName" class="variable">vListName</dd>
