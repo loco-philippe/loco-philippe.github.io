@@ -116,37 +116,46 @@
                                 <a class="variable" href="#LocationValue.valueType">valueType</a>
                         </li>
                         <li>
+                                <a class="variable" href="#LocationValue.bounds">bounds</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LocationValue.coorInv">coorInv</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#LocationValue.Cuboid">Cuboid</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#LocationValue.from_bytes">from_bytes</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#LocationValue.getShap">getShap</a>
                         </li>
                         <li>
                                 <a class="function" href="#LocationValue.getPoint">getPoint</a>
                         </li>
                         <li>
-                                <a class="variable" href="#LocationValue.coorInv">coorInv</a>
+                                <a class="function" href="#LocationValue.json">json</a>
                         </li>
                         <li>
-                                <a class="function" href="#LocationValue.vPointInv">vPointInv</a>
-                        </li>
-                        <li>
-                                <a class="function" href="#LocationValue.vCodePlus">vCodePlus</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#LocationValue.bounds">bounds</a>
-                        </li>
-                        <li>
-                                <a class="function" href="#LocationValue.Cuboid">Cuboid</a>
+                                <a class="variable" href="#LocationValue.point">point</a>
                         </li>
                         <li>
                                 <a class="function" href="#LocationValue.Point">Point</a>
                         </li>
                         <li>
+                                <a class="function" href="#LocationValue.to_bytes">to_bytes</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#LocationValue.value">value</a>
                         </li>
                         <li>
-                                <a class="function" href="#LocationValue.vShap">vShap</a>
+                                <a class="function" href="#LocationValue.vCodePlus">vCodePlus</a>
                         </li>
                         <li>
                                 <a class="function" href="#LocationValue.vPoint">vPoint</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#LocationValue.vPointInv">vPointInv</a>
                         </li>
                         <li>
                                 <a class="function" href="#LocationValue.vPointX">vPointX</a>
@@ -155,13 +164,7 @@
                                 <a class="function" href="#LocationValue.vPointY">vPointY</a>
                         </li>
                         <li>
-                                <a class="function" href="#LocationValue.json">json</a>
-                        </li>
-                        <li>
-                                <a class="function" href="#LocationValue.to_bytes">to_bytes</a>
-                        </li>
-                        <li>
-                                <a class="function" href="#LocationValue.from_bytes">from_bytes</a>
+                                <a class="function" href="#LocationValue.vShap">vShap</a>
                         </li>
                 </ul>
 
@@ -293,18 +296,6 @@
 <span class="kn">from</span> <span class="nn">openlocationcode</span> <span class="kn">import</span> <span class="n">encode</span>
 <span class="kn">from</span> <span class="nn">ESSlot</span> <span class="kn">import</span> <span class="n">TimeSlot</span>
 
-<span class="k">def</span> <span class="nf">_gshape</span><span class="p">(</span><span class="n">coord</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; transform a GeoJSON coordinates (list) into a shapely geometry&#39;&#39;&#39;</span>
-    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>  <span class="n">coor</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span> <span class="n">coor</span> <span class="o">=</span> <span class="n">coord</span>
-    <span class="k">else</span><span class="p">:</span> <span class="n">coor</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">tpe</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Point&quot;</span><span class="p">,</span> <span class="s2">&quot;MultiPoint&quot;</span><span class="p">,</span> <span class="s2">&quot;Polygon&quot;</span><span class="p">,</span> <span class="s2">&quot;MultiPolygon&quot;</span><span class="p">]:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">geojson</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;&#39;</span> <span class="o">+</span> <span class="n">tpe</span> <span class="o">+</span> <span class="s1">&#39;&quot;,&quot;coordinates&quot;:&#39;</span> <span class="o">+</span> <span class="n">coor</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span><span class="p">))</span>
-            <span class="k">return</span> <span class="n">s</span>
-        <span class="k">except</span><span class="p">:</span> <span class="n">s</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">return</span> <span class="n">s</span>
-
 <span class="k">class</span> <span class="nc">ESValue</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class is the parent class for each kind of values </span>
@@ -339,7 +330,7 @@
         <span class="n">equalName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
         <span class="n">nullName</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span>
         <span class="k">if</span>   <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="p">:</span> 
-            <span class="n">nullValue</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span>
+            <span class="n">nullValue</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">LocationValue</span><span class="o">.</span><span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span>
             <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">shap</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">DatationValue</span> <span class="p">:</span> 
             <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>  <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">slot</span>
@@ -432,7 +423,7 @@
 <span class="sd">    - `instant`</span>
 <span class="sd">    - `value`</span>
 
-<span class="sd">    *property (getters)*</span>
+<span class="sd">    *getters*</span>
 
 <span class="sd">    - `getInstant`</span>
 <span class="sd">    - `getInterval`</span>
@@ -461,6 +452,10 @@
 <span class="sd">        - DatationValue({name : timeSlot}) where timeSlot is a compatible TimeSlot Object</span>
 <span class="sd">        - DatationValue(timeSlot) where timeSlot is a compatible TimeSlot Object</span>
 <span class="sd">        - DatationValue(name) where name is a string</span>
+<span class="sd">        - DatationValue(datval) where datval is a DatationValue object (copy)</span>
+<span class="sd">        - DatationValue(slot=slot, name=name) where slot is a TimeSlot object </span>
+<span class="sd">        and name is a string</span>
+<span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">ESValue</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">=</span> <span class="n">TimeSlot</span><span class="p">()</span>
@@ -488,11 +483,11 @@
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
-<span class="sd">        - **byt** : binary representation of a DatationValue</span>
+<span class="sd">        - **byt** : binary representation of a DatationValue (datetime)</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
-<span class="sd">        - **None**</span>
+<span class="sd">        - **int** : number of bytes used to decode a dateTime = 7</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">dt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;HBBBBB&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
@@ -519,9 +514,9 @@
         <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="p">[</span><span class="n">arg</span><span class="p">,</span> <span class="n">arg</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;instant&#39;</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">Interval</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">Interval</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;DatationValue built with a compatible TimeSlot [arg1, arg2] (static method)&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="n">TimeSlot</span><span class="p">([</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;interval&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="n">TimeSlot</span><span class="p">([</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;interval&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;</span>
@@ -547,7 +542,7 @@
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
-<span class="sd">        - **bytes** : binary representation of the `DatationValue`</span>
+<span class="sd">        - **bytes** : binary representation of the `DatationValue` (datetime)</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;HBBBBB&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">instant</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">instant</span><span class="o">.</span><span class="n">month</span><span class="p">,</span>
                            <span class="bp">self</span><span class="o">.</span><span class="n">instant</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">instant</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
@@ -558,13 +553,22 @@
         <span class="sd">&#39;&#39;&#39;TimeSlot (@property) : DatationValue slot&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>
 
-    <span class="k">def</span> <span class="nf">vInterval</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
-        <span class="sd">&#39;&#39;&#39;List : [t1, t2] with t1, t2 datetime - Mini, maxi of the DateSlot&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">interval</span>
+    <span class="k">def</span> <span class="nf">vInterval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39;[t1, t2] with t1, t2 - Mini, maxi of the DateSlot (timestamp or datetime). </span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **string** : boolean (default True) - choice for return format (timestamp if True, datetime else)</span>
+<span class="sd">                </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **JSON with timestamp or list with datetime**</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">string</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()])</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">interval</span>
             
     <span class="k">def</span> <span class="nf">vInstant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="p">:</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Middle of the DatationValue slot (timestamp or dattime). </span>
+        <span class="sd">&#39;&#39;&#39;Middle of the DatationValue slot (timestamp or datetime). </span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
@@ -591,46 +595,68 @@
 
     <span class="k">def</span> <span class="nf">_Box</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span> <span class="k">return</span> <span class="n">DatationValue</span><span class="o">.</span><span class="n">Interval</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
     
-<span class="k">class</span> <span class="nc">LocationValue</span><span class="p">(</span><span class="n">ESValue</span><span class="p">):</span>              <span class="c1"># !!! début ESValue</span>
+<span class="k">class</span> <span class="nc">LocationValue</span><span class="p">(</span><span class="n">ESValue</span><span class="p">):</span>              <span class="c1"># !!! début LocationValue</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classe liée à la structure interne</span>
+<span class="sd">    This class represent the Location of an Observation (point, polygon).</span>
+<span class="sd">    </span>
+<span class="sd">    *Attributes (for @property see methods)* :</span>
+<span class="sd">    </span>
+<span class="sd">    - **shap** : Shapely object (instant, interval or list of interval)</span>
+<span class="sd">    - **name** : String</span>
+<span class="sd">     </span>
+<span class="sd">    The methods defined in this class are : </span>
+
+<span class="sd">    *property (getters)*</span>
+
+<span class="sd">    - `bounds`</span>
+<span class="sd">    - `point`</span>
+<span class="sd">    - `value`</span>
+<span class="sd">    - `coorInv`</span>
+
+<span class="sd">    *getters*</span>
+
+<span class="sd">    - `getPoint`</span>
+<span class="sd">    - `getShap`</span>
+<span class="sd">    - `vPoint`</span>
+<span class="sd">    - `vPointInv`</span>
+<span class="sd">    - `vPointX`</span>
+<span class="sd">    - `vPointY`</span>
+<span class="sd">    - `vShap`</span>
+<span class="sd">    - `vCodePlus`</span>
+<span class="sd">    </span>
+<span class="sd">    *conversion (static method)*</span>
+
+<span class="sd">    - `Point`</span>
+<span class="sd">    - `Cuboid`</span>
+
+<span class="sd">    *exports - imports*</span>
+
+<span class="sd">    - `json`</span>
+<span class="sd">    - `from_bytes`</span>
+<span class="sd">    - `to_bytes`</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">valName</span>     <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span>
     <span class="n">valueType</span>   <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valueType</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">,</span> <span class="n">geo</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cart</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Several LocationValue creation modes :</span>
+<span class="sd">        </span>
+<span class="sd">        - LocationValue({name : coord}) where coord is a GeoJSON or list coordinates format</span>
+<span class="sd">        - LocationValue(coord) where coord is a is a GeoJSON or list coordinates format</span>
+<span class="sd">        - LocationValue(name) where name is a string</span>
+<span class="sd">        - LocationValue(locval) where locval is a LocationValue object (copy) </span>
+<span class="sd">        - LocationValue(shape=shape, name=name) where shape is a shapely.geometry.Point </span>
+<span class="sd">        (or Polygon) and name is a string</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">ESValue</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">geod</span> <span class="o">=</span> <span class="n">geo</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">carto</span> <span class="o">=</span> <span class="n">cart</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
     
-    <span class="k">def</span> <span class="nf">_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">shap</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">geod</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">geod</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">carto</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">carto</span>
-            <span class="k">return</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span> <span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>   
-        <span class="n">shap</span> <span class="o">=</span> <span class="n">_gshape</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">shap</span> <span class="o">==</span> <span class="kc">None</span> <span class="p">:</span>
-            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="n">shap</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">==</span> <span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span> <span class="ow">and</span> <span class="n">shape</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="n">shape</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">geod</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">geod</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">carto</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">carto</span> \
-           <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">shap</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">shap</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
     
-    <span class="k">def</span> <span class="nf">getShap</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
-    
-    <span class="k">def</span> <span class="nf">getPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Point</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
-        
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coorInv</span><span class="o">==</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">&lt;</span>  <span class="n">other</span><span class="o">.</span><span class="n">name</span>
@@ -638,50 +664,139 @@
                       <span class="n">distance</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">coorInv</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">distRef</span><span class="p">)</span>
     
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">coorInv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
-    
-    <span class="k">def</span> <span class="nf">vPointInv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
-
-    <span class="k">def</span> <span class="nf">vCodePlus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>  <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="p">:</span> 
-        <span class="k">return</span> <span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">(</span><span class="n">option</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">(</span><span class="n">option</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> 
-    
-    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;tuple (@property) : boundingBox (minx, miny, maxx, maxy)&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">bounds</span>
 
-    <span class="k">def</span> <span class="nf">Cuboid</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_Box</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span> <span class="k">return</span> <span class="n">LocationValue</span><span class="o">.</span><span class="n">Cuboid</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">Point</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;point&#39;</span><span class="p">)</span>
-
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
- 
-    <span class="k">def</span> <span class="nf">vShap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
+    <span class="k">def</span> <span class="nf">coorInv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  
+        <span class="sd">&#39;&#39;&#39;list (@property) : vPoint inverse coordinates [vPoint[1], vPoint[0]]&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
     
-    <span class="k">def</span> <span class="nf">vPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Cuboid</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span><span class="p">,</span> <span class="n">ccw</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;LocationValue built with shapely.geometry.box parameters (static method)&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span><span class="p">,</span> <span class="n">ccw</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">vPointX</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Complete an empty `LocationValue` with binary data (point)</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **byt** : binary representation of a DatationValue (point)</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **int** : number of bytes used to decode a point = 8</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">pt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;ll&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">8</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="nb">list</span><span class="p">((</span><span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span><span class="mi">10</span><span class="o">**-</span><span class="mi">7</span><span class="p">,</span> <span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span><span class="mi">10</span><span class="o">**-</span><span class="mi">7</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="mi">8</span>
+
+    <span class="k">def</span> <span class="nf">getShap</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> 
+        <span class="sd">&#39;&#39;&#39; return self.shap object (shapely.geometry) &#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
     
-    <span class="k">def</span> <span class="nf">vPointY</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
-
+    <span class="k">def</span> <span class="nf">getPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> 
+        <span class="sd">&#39;&#39;&#39; return a list with point coordinates [x, y] if the shape is a point &#39;&#39;&#39;</span> 
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Point</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
+        
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39; Export in Json format (string or dict). </span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **string** : boolean (default True) - choice for return formet (string if True, dict else)</span>
+<span class="sd">                </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **string** : Json string </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="k">else</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()}</span>
         <span class="k">if</span> <span class="n">string</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="n">js</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">point</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39;list (@property) : centroid coordinates for the shape : [x, y]&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Point</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;LocationValue built with a compatible TimeSlot arg (static method)&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;point&#39;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Export in binary format. </span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **bytes** : binary representation of the `LocationValue` (point coordinates)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;ll&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">))</span>
         
-    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
-        <span class="n">pt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;ll&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">8</span><span class="p">]))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="nb">list</span><span class="p">((</span><span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span><span class="mi">10</span><span class="o">**-</span><span class="mi">7</span><span class="p">,</span> <span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span><span class="mi">10</span><span class="o">**-</span><span class="mi">7</span><span class="p">)))</span>
-        <span class="k">return</span> <span class="mi">8</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39; return self.shap attribute&#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
+ 
+    <span class="k">def</span> <span class="nf">vCodePlus</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> 
+        <span class="sd">&#39;&#39;&#39; return CodePlus value (string) of the point property value&#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">(</span><span class="kc">False</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">(</span><span class="kc">False</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> 
+    
+    <span class="k">def</span> <span class="nf">vPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39; return point (property) coordinates in a string format or in a list format [x, y]&#39;&#39;&#39;</span> 
+        <span class="k">if</span> <span class="n">string</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">point</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">point</span>
+
+    <span class="k">def</span> <span class="nf">vPointInv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>  
+        <span class="sd">&#39;&#39;&#39; return point (property) inversed coordinates in a string format or</span>
+<span class="sd">        in a list format [y, x]&#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
+
+    <span class="k">def</span> <span class="nf">vPointX</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> 
+        <span class="sd">&#39;&#39;&#39; return point (property) coordinates x &#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="k">def</span> <span class="nf">vPointY</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> 
+        <span class="sd">&#39;&#39;&#39; return point (property) coordinates y &#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">vShap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39; return self.shap object (shapely.geometry) &#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_Box</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span> <span class="k">return</span> <span class="n">LocationValue</span><span class="o">.</span><span class="n">Cuboid</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_gshape</span><span class="p">(</span><span class="n">coord</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; transform a GeoJSON coordinates (list) into a shapely geometry&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>  <span class="n">coor</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span> <span class="n">coor</span> <span class="o">=</span> <span class="n">coord</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">coor</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">tpe</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Point&quot;</span><span class="p">,</span> <span class="s2">&quot;MultiPoint&quot;</span><span class="p">,</span> <span class="s2">&quot;Polygon&quot;</span><span class="p">,</span> <span class="s2">&quot;MultiPolygon&quot;</span><span class="p">]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">geojson</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;&#39;</span> <span class="o">+</span> <span class="n">tpe</span> <span class="o">+</span> <span class="s1">&#39;&quot;,&quot;coordinates&quot;:&#39;</span> <span class="o">+</span> <span class="n">coor</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span><span class="p">))</span>
+            <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+    
+    <span class="k">def</span> <span class="nf">_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; LocationValue creation &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">shap</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">return</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span> <span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>   
+        <span class="n">shap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gshape</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">shap</span> <span class="o">==</span> <span class="kc">None</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="n">shap</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span> <span class="ow">and</span> <span class="n">shape</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="n">shape</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 
 <span class="k">class</span> <span class="nc">PropertyValue</span><span class="p">(</span><span class="n">ESValue</span><span class="p">):</span>              <span class="c1"># !!! début ESValue</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -932,7 +1047,7 @@
         <span class="n">equalName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
         <span class="n">nullName</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span>
         <span class="k">if</span>   <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="p">:</span> 
-            <span class="n">nullValue</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span>
+            <span class="n">nullValue</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">LocationValue</span><span class="o">.</span><span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span>
             <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">shap</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">DatationValue</span> <span class="p">:</span> 
             <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>  <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">slot</span>
@@ -1071,7 +1186,7 @@
         <span class="n">equalName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
         <span class="n">nullName</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span>
         <span class="k">if</span>   <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="p">:</span> 
-            <span class="n">nullValue</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span>
+            <span class="n">nullValue</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">LocationValue</span><span class="o">.</span><span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span>
             <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>  <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">shap</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">DatationValue</span> <span class="p">:</span> 
             <span class="n">equalValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>  <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">slot</span>
@@ -1273,7 +1388,7 @@
 <span class="sd">    - `instant`</span>
 <span class="sd">    - `value`</span>
 
-<span class="sd">    *property (getters)*</span>
+<span class="sd">    *getters*</span>
 
 <span class="sd">    - `getInstant`</span>
 <span class="sd">    - `getInterval`</span>
@@ -1302,6 +1417,10 @@
 <span class="sd">        - DatationValue({name : timeSlot}) where timeSlot is a compatible TimeSlot Object</span>
 <span class="sd">        - DatationValue(timeSlot) where timeSlot is a compatible TimeSlot Object</span>
 <span class="sd">        - DatationValue(name) where name is a string</span>
+<span class="sd">        - DatationValue(datval) where datval is a DatationValue object (copy)</span>
+<span class="sd">        - DatationValue(slot=slot, name=name) where slot is a TimeSlot object </span>
+<span class="sd">        and name is a string</span>
+<span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">ESValue</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">=</span> <span class="n">TimeSlot</span><span class="p">()</span>
@@ -1329,11 +1448,11 @@
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
-<span class="sd">        - **byt** : binary representation of a DatationValue</span>
+<span class="sd">        - **byt** : binary representation of a DatationValue (datetime)</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
-<span class="sd">        - **None**</span>
+<span class="sd">        - **int** : number of bytes used to decode a dateTime = 7</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">dt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;HBBBBB&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
@@ -1360,9 +1479,9 @@
         <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="p">[</span><span class="n">arg</span><span class="p">,</span> <span class="n">arg</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;instant&#39;</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">Interval</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">Interval</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;DatationValue built with a compatible TimeSlot [arg1, arg2] (static method)&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="n">TimeSlot</span><span class="p">([</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;interval&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="n">TimeSlot</span><span class="p">([</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;interval&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1388,7 +1507,7 @@
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
-<span class="sd">        - **bytes** : binary representation of the `DatationValue`</span>
+<span class="sd">        - **bytes** : binary representation of the `DatationValue` (datetime)</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;HBBBBB&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">instant</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">instant</span><span class="o">.</span><span class="n">month</span><span class="p">,</span>
                            <span class="bp">self</span><span class="o">.</span><span class="n">instant</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">instant</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
@@ -1399,13 +1518,22 @@
         <span class="sd">&#39;&#39;&#39;TimeSlot (@property) : DatationValue slot&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>
 
-    <span class="k">def</span> <span class="nf">vInterval</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
-        <span class="sd">&#39;&#39;&#39;List : [t1, t2] with t1, t2 datetime - Mini, maxi of the DateSlot&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">interval</span>
+    <span class="k">def</span> <span class="nf">vInterval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39;[t1, t2] with t1, t2 - Mini, maxi of the DateSlot (timestamp or datetime). </span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **string** : boolean (default True) - choice for return format (timestamp if True, datetime else)</span>
+<span class="sd">                </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **JSON with timestamp or list with datetime**</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">string</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()])</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">interval</span>
             
     <span class="k">def</span> <span class="nf">vInstant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="p">:</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Middle of the DatationValue slot (timestamp or dattime). </span>
+        <span class="sd">&#39;&#39;&#39;Middle of the DatationValue slot (timestamp or datetime). </span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
@@ -1454,7 +1582,7 @@
 <li><code><a href="#DatationValue.value">value</a></code></li>
 </ul>
 
-<p><em>property (getters)</em></p>
+<p><em>getters</em></p>
 
 <ul>
 <li><code><a href="#DatationValue.getInstant">getInstant</a></code></li>
@@ -1501,6 +1629,10 @@
 <span class="sd">        - DatationValue({name : timeSlot}) where timeSlot is a compatible TimeSlot Object</span>
 <span class="sd">        - DatationValue(timeSlot) where timeSlot is a compatible TimeSlot Object</span>
 <span class="sd">        - DatationValue(name) where name is a string</span>
+<span class="sd">        - DatationValue(datval) where datval is a DatationValue object (copy)</span>
+<span class="sd">        - DatationValue(slot=slot, name=name) where slot is a TimeSlot object </span>
+<span class="sd">        and name is a string</span>
+<span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">ESValue</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">=</span> <span class="n">TimeSlot</span><span class="p">()</span>
@@ -1517,6 +1649,9 @@
 <li>DatationValue({name : timeSlot}) where timeSlot is a compatible TimeSlot Object</li>
 <li>DatationValue(timeSlot) where timeSlot is a compatible TimeSlot Object</li>
 <li>DatationValue(name) where name is a string</li>
+<li>DatationValue(datval) where datval is a DatationValue object (copy)</li>
+<li>DatationValue(slot=slot, name=name) where slot is a TimeSlot object 
+and name is a string</li>
 </ul>
 </div>
 
@@ -1567,11 +1702,11 @@
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
-<span class="sd">        - **byt** : binary representation of a DatationValue</span>
+<span class="sd">        - **byt** : binary representation of a DatationValue (datetime)</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
-<span class="sd">        - **None**</span>
+<span class="sd">        - **int** : number of bytes used to decode a dateTime = 7</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">dt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;HBBBBB&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
@@ -1585,13 +1720,13 @@
 <p><em>Parameters</em></p>
 
 <ul>
-<li><strong>byt</strong> : binary representation of a DatationValue</li>
+<li><strong>byt</strong> : binary representation of a DatationValue (datetime)</li>
 </ul>
 
 <p><em>Returns</em></p>
 
 <ul>
-<li><strong>None</strong></li>
+<li><strong>int</strong> : number of bytes used to decode a dateTime = 7</li>
 </ul>
 </div>
 
@@ -1684,15 +1819,15 @@
                 <div class="decorator">@staticmethod</div>
 
             <span class="def">def</span>
-            <span class="name">Interval</span><span class="signature">(*args)</span>:
+            <span class="name">Interval</span><span class="signature">(arg1, arg2)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">Interval</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">Interval</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;DatationValue built with a compatible TimeSlot [arg1, arg2] (static method)&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="n">TimeSlot</span><span class="p">([</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;interval&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="n">TimeSlot</span><span class="p">([</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;interval&#39;</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -1766,7 +1901,7 @@
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
-<span class="sd">        - **bytes** : binary representation of the `DatationValue`</span>
+<span class="sd">        - **bytes** : binary representation of the `DatationValue` (datetime)</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;HBBBBB&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">instant</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">instant</span><span class="o">.</span><span class="n">month</span><span class="p">,</span>
                            <span class="bp">self</span><span class="o">.</span><span class="n">instant</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">instant</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
@@ -1780,7 +1915,7 @@
 <p><em>Returns</em></p>
 
 <ul>
-<li><strong>bytes</strong> : binary representation of the <code><a href="#DatationValue">DatationValue</a></code></li>
+<li><strong>bytes</strong> : binary representation of the <code><a href="#DatationValue">DatationValue</a></code> (datetime)</li>
 </ul>
 </div>
 
@@ -1802,19 +1937,41 @@
 
         
             <span class="def">def</span>
-            <span class="name">vInterval</span><span class="signature">(self)</span>:
+            <span class="name">vInterval</span><span class="signature">(self, string=True)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vInterval</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
-        <span class="sd">&#39;&#39;&#39;List : [t1, t2] with t1, t2 datetime - Mini, maxi of the DateSlot&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">interval</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vInterval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39;[t1, t2] with t1, t2 - Mini, maxi of the DateSlot (timestamp or datetime). </span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **string** : boolean (default True) - choice for return format (timestamp if True, datetime else)</span>
+<span class="sd">                </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **JSON with timestamp or list with datetime**</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">string</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()])</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">interval</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>List : [t1, t2] with t1, t2 datetime - Mini, maxi of the DateSlot</p>
+            <div class="docstring"><p>[t1, t2] with t1, t2 - Mini, maxi of the DateSlot (timestamp or datetime). </p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>string</strong> : boolean (default True) - choice for return format (timestamp if True, datetime else)</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>JSON with timestamp or list with datetime</strong></li>
+</ul>
 </div>
 
 
@@ -1830,8 +1987,7 @@
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vInstant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="p">:</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Middle of the DatationValue slot (timestamp or dattime). </span>
+        <span class="sd">&#39;&#39;&#39;Middle of the DatationValue slot (timestamp or datetime). </span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
@@ -1847,7 +2003,7 @@
 
         </details>
 
-            <div class="docstring"><p>Middle of the DatationValue slot (timestamp or dattime). </p>
+            <div class="docstring"><p>Middle of the DatationValue slot (timestamp or datetime). </p>
 
 <p><em>Parameters</em></p>
 
@@ -1888,46 +2044,68 @@
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">LocationValue</span><span class="p">(</span><span class="n">ESValue</span><span class="p">):</span>              <span class="c1"># !!! début ESValue</span>
+            <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">LocationValue</span><span class="p">(</span><span class="n">ESValue</span><span class="p">):</span>              <span class="c1"># !!! début LocationValue</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classe liée à la structure interne</span>
+<span class="sd">    This class represent the Location of an Observation (point, polygon).</span>
+<span class="sd">    </span>
+<span class="sd">    *Attributes (for @property see methods)* :</span>
+<span class="sd">    </span>
+<span class="sd">    - **shap** : Shapely object (instant, interval or list of interval)</span>
+<span class="sd">    - **name** : String</span>
+<span class="sd">     </span>
+<span class="sd">    The methods defined in this class are : </span>
+
+<span class="sd">    *property (getters)*</span>
+
+<span class="sd">    - `bounds`</span>
+<span class="sd">    - `point`</span>
+<span class="sd">    - `value`</span>
+<span class="sd">    - `coorInv`</span>
+
+<span class="sd">    *getters*</span>
+
+<span class="sd">    - `getPoint`</span>
+<span class="sd">    - `getShap`</span>
+<span class="sd">    - `vPoint`</span>
+<span class="sd">    - `vPointInv`</span>
+<span class="sd">    - `vPointX`</span>
+<span class="sd">    - `vPointY`</span>
+<span class="sd">    - `vShap`</span>
+<span class="sd">    - `vCodePlus`</span>
+<span class="sd">    </span>
+<span class="sd">    *conversion (static method)*</span>
+
+<span class="sd">    - `Point`</span>
+<span class="sd">    - `Cuboid`</span>
+
+<span class="sd">    *exports - imports*</span>
+
+<span class="sd">    - `json`</span>
+<span class="sd">    - `from_bytes`</span>
+<span class="sd">    - `to_bytes`</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">valName</span>     <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span>
     <span class="n">valueType</span>   <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valueType</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">,</span> <span class="n">geo</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cart</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Several LocationValue creation modes :</span>
+<span class="sd">        </span>
+<span class="sd">        - LocationValue({name : coord}) where coord is a GeoJSON or list coordinates format</span>
+<span class="sd">        - LocationValue(coord) where coord is a is a GeoJSON or list coordinates format</span>
+<span class="sd">        - LocationValue(name) where name is a string</span>
+<span class="sd">        - LocationValue(locval) where locval is a LocationValue object (copy) </span>
+<span class="sd">        - LocationValue(shape=shape, name=name) where shape is a shapely.geometry.Point </span>
+<span class="sd">        (or Polygon) and name is a string</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">ESValue</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">geod</span> <span class="o">=</span> <span class="n">geo</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">carto</span> <span class="o">=</span> <span class="n">cart</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
     
-    <span class="k">def</span> <span class="nf">_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">shap</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">geod</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">geod</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">carto</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">carto</span>
-            <span class="k">return</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span> <span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>   
-        <span class="n">shap</span> <span class="o">=</span> <span class="n">_gshape</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">shap</span> <span class="o">==</span> <span class="kc">None</span> <span class="p">:</span>
-            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="n">shap</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">==</span> <span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span> <span class="ow">and</span> <span class="n">shape</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="n">shape</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">geod</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">geod</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">carto</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">carto</span> \
-           <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">shap</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">shap</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
     
-    <span class="k">def</span> <span class="nf">getShap</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
-    
-    <span class="k">def</span> <span class="nf">getPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Point</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
-        
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coorInv</span><span class="o">==</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">&lt;</span>  <span class="n">other</span><span class="o">.</span><span class="n">name</span>
@@ -1935,55 +2113,190 @@
                       <span class="n">distance</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">coorInv</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">distRef</span><span class="p">)</span>
     
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">coorInv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
-    
-    <span class="k">def</span> <span class="nf">vPointInv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
-
-    <span class="k">def</span> <span class="nf">vCodePlus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>  <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="p">:</span> 
-        <span class="k">return</span> <span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">(</span><span class="n">option</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">(</span><span class="n">option</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> 
-    
-    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;tuple (@property) : boundingBox (minx, miny, maxx, maxy)&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">bounds</span>
 
-    <span class="k">def</span> <span class="nf">Cuboid</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_Box</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span> <span class="k">return</span> <span class="n">LocationValue</span><span class="o">.</span><span class="n">Cuboid</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">Point</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;point&#39;</span><span class="p">)</span>
-
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
- 
-    <span class="k">def</span> <span class="nf">vShap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
+    <span class="k">def</span> <span class="nf">coorInv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  
+        <span class="sd">&#39;&#39;&#39;list (@property) : vPoint inverse coordinates [vPoint[1], vPoint[0]]&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
     
-    <span class="k">def</span> <span class="nf">vPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Cuboid</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span><span class="p">,</span> <span class="n">ccw</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;LocationValue built with shapely.geometry.box parameters (static method)&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span><span class="p">,</span> <span class="n">ccw</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">vPointX</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Complete an empty `LocationValue` with binary data (point)</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **byt** : binary representation of a DatationValue (point)</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **int** : number of bytes used to decode a point = 8</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">pt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;ll&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">8</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="nb">list</span><span class="p">((</span><span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span><span class="mi">10</span><span class="o">**-</span><span class="mi">7</span><span class="p">,</span> <span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span><span class="mi">10</span><span class="o">**-</span><span class="mi">7</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="mi">8</span>
+
+    <span class="k">def</span> <span class="nf">getShap</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> 
+        <span class="sd">&#39;&#39;&#39; return self.shap object (shapely.geometry) &#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
     
-    <span class="k">def</span> <span class="nf">vPointY</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
-
+    <span class="k">def</span> <span class="nf">getPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> 
+        <span class="sd">&#39;&#39;&#39; return a list with point coordinates [x, y] if the shape is a point &#39;&#39;&#39;</span> 
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Point</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
+        
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39; Export in Json format (string or dict). </span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **string** : boolean (default True) - choice for return formet (string if True, dict else)</span>
+<span class="sd">                </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **string** : Json string </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="k">else</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()}</span>
         <span class="k">if</span> <span class="n">string</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="n">js</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">point</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39;list (@property) : centroid coordinates for the shape : [x, y]&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Point</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;LocationValue built with a compatible TimeSlot arg (static method)&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;point&#39;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Export in binary format. </span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **bytes** : binary representation of the `LocationValue` (point coordinates)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;ll&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">))</span>
         
-    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
-        <span class="n">pt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;ll&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">8</span><span class="p">]))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="nb">list</span><span class="p">((</span><span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span><span class="mi">10</span><span class="o">**-</span><span class="mi">7</span><span class="p">,</span> <span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span><span class="mi">10</span><span class="o">**-</span><span class="mi">7</span><span class="p">)))</span>
-        <span class="k">return</span> <span class="mi">8</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39; return self.shap attribute&#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
+ 
+    <span class="k">def</span> <span class="nf">vCodePlus</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> 
+        <span class="sd">&#39;&#39;&#39; return CodePlus value (string) of the point property value&#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">(</span><span class="kc">False</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">(</span><span class="kc">False</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> 
+    
+    <span class="k">def</span> <span class="nf">vPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39; return point (property) coordinates in a string format or in a list format [x, y]&#39;&#39;&#39;</span> 
+        <span class="k">if</span> <span class="n">string</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">point</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">point</span>
+
+    <span class="k">def</span> <span class="nf">vPointInv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>  
+        <span class="sd">&#39;&#39;&#39; return point (property) inversed coordinates in a string format or</span>
+<span class="sd">        in a list format [y, x]&#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
+
+    <span class="k">def</span> <span class="nf">vPointX</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> 
+        <span class="sd">&#39;&#39;&#39; return point (property) coordinates x &#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="k">def</span> <span class="nf">vPointY</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> 
+        <span class="sd">&#39;&#39;&#39; return point (property) coordinates y &#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">vShap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39; return self.shap object (shapely.geometry) &#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_Box</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span> <span class="k">return</span> <span class="n">LocationValue</span><span class="o">.</span><span class="n">Cuboid</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_gshape</span><span class="p">(</span><span class="n">coord</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; transform a GeoJSON coordinates (list) into a shapely geometry&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>  <span class="n">coor</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span> <span class="n">coor</span> <span class="o">=</span> <span class="n">coord</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">coor</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">tpe</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Point&quot;</span><span class="p">,</span> <span class="s2">&quot;MultiPoint&quot;</span><span class="p">,</span> <span class="s2">&quot;Polygon&quot;</span><span class="p">,</span> <span class="s2">&quot;MultiPolygon&quot;</span><span class="p">]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">geojson</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;&#39;</span> <span class="o">+</span> <span class="n">tpe</span> <span class="o">+</span> <span class="s1">&#39;&quot;,&quot;coordinates&quot;:&#39;</span> <span class="o">+</span> <span class="n">coor</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span><span class="p">))</span>
+            <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+    
+    <span class="k">def</span> <span class="nf">_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; LocationValue creation &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">shap</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">return</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span> <span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>   
+        <span class="n">shap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gshape</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">shap</span> <span class="o">==</span> <span class="kc">None</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="n">shap</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span> <span class="ow">and</span> <span class="n">shape</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="n">shape</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>Classe liée à la structure interne</p>
+            <div class="docstring"><p>This class represent the Location of an Observation (point, polygon).</p>
+
+<p><em>Attributes (for @property see methods)</em> :</p>
+
+<ul>
+<li><strong>shap</strong> : Shapely object (instant, interval or list of interval)</li>
+<li><strong>name</strong> : String</li>
+</ul>
+
+<p>The methods defined in this class are : </p>
+
+<p><em>property (getters)</em></p>
+
+<ul>
+<li><code><a href="#LocationValue.bounds">bounds</a></code></li>
+<li><code><a href="#LocationValue.point">point</a></code></li>
+<li><code><a href="#LocationValue.value">value</a></code></li>
+<li><code><a href="#LocationValue.coorInv">coorInv</a></code></li>
+</ul>
+
+<p><em>getters</em></p>
+
+<ul>
+<li><code><a href="#LocationValue.getPoint">getPoint</a></code></li>
+<li><code><a href="#LocationValue.getShap">getShap</a></code></li>
+<li><code><a href="#LocationValue.vPoint">vPoint</a></code></li>
+<li><code><a href="#LocationValue.vPointInv">vPointInv</a></code></li>
+<li><code><a href="#LocationValue.vPointX">vPointX</a></code></li>
+<li><code><a href="#LocationValue.vPointY">vPointY</a></code></li>
+<li><code><a href="#LocationValue.vShap">vShap</a></code></li>
+<li><code><a href="#LocationValue.vCodePlus">vCodePlus</a></code></li>
+</ul>
+
+<p><em>conversion (static method)</em></p>
+
+<ul>
+<li><code><a href="#LocationValue.Point">Point</a></code></li>
+<li><code><a href="#LocationValue.Cuboid">Cuboid</a></code></li>
+</ul>
+
+<p><em>exports - imports</em></p>
+
+<ul>
+<li><code><a href="#LocationValue.json">json</a></code></li>
+<li><code><a href="#LocationValue.from_bytes">from_bytes</a></code></li>
+<li><code><a href="#LocationValue.to_bytes">to_bytes</a></code></li>
+</ul>
 </div>
 
 
@@ -1991,22 +2304,40 @@
                                         <div class="attr function"><a class="headerlink" href="#LocationValue.__init__">#&nbsp;&nbsp</a>
 
         
-            <span class="name">LocationValue</span><span class="signature">(val=[-1, -1], shape=None, name=&#39;&#39;, geo=True, cart=True)</span>
+            <span class="name">LocationValue</span><span class="signature">(val=[-1, -1], shape=None, name=&#39;&#39;)</span>
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">,</span> <span class="n">geo</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cart</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Several LocationValue creation modes :</span>
+<span class="sd">        </span>
+<span class="sd">        - LocationValue({name : coord}) where coord is a GeoJSON or list coordinates format</span>
+<span class="sd">        - LocationValue(coord) where coord is a is a GeoJSON or list coordinates format</span>
+<span class="sd">        - LocationValue(name) where name is a string</span>
+<span class="sd">        - LocationValue(locval) where locval is a LocationValue object (copy) </span>
+<span class="sd">        - LocationValue(shape=shape, name=name) where shape is a shapely.geometry.Point </span>
+<span class="sd">        (or Polygon) and name is a string</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">ESValue</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">geod</span> <span class="o">=</span> <span class="n">geo</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">carto</span> <span class="o">=</span> <span class="n">cart</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 </pre></div>
 
         </details>
 
-    
+            <div class="docstring"><p>Several LocationValue creation modes :</p>
+
+<ul>
+<li>LocationValue({name : coord}) where coord is a GeoJSON or list coordinates format</li>
+<li>LocationValue(coord) where coord is a is a GeoJSON or list coordinates format</li>
+<li>LocationValue(name) where name is a string</li>
+<li>LocationValue(locval) where locval is a LocationValue object (copy) </li>
+<li>LocationValue(shape=shape, name=name) where shape is a shapely.geometry.Point 
+(or Polygon) and name is a string</li>
+</ul>
+</div>
+
 
                             </div>
                             <div id="LocationValue.valName" class="classattr">
@@ -2027,6 +2358,98 @@
     
 
                             </div>
+                            <div id="LocationValue.bounds" class="classattr">
+                                            <div class="attr variable"><a class="headerlink" href="#LocationValue.bounds">#&nbsp;&nbsp</a>
+
+        <span class="name">bounds</span>
+    </div>
+
+            <div class="docstring"><p>tuple (@property) : boundingBox (minx, miny, maxx, maxy)</p>
+</div>
+
+
+                            </div>
+                            <div id="LocationValue.coorInv" class="classattr">
+                                            <div class="attr variable"><a class="headerlink" href="#LocationValue.coorInv">#&nbsp;&nbsp</a>
+
+        <span class="name">coorInv</span>
+    </div>
+
+            <div class="docstring"><p>list (@property) : vPoint inverse coordinates [vPoint[1], vPoint[0]]</p>
+</div>
+
+
+                            </div>
+                            <div id="LocationValue.Cuboid" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#LocationValue.Cuboid">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@staticmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">Cuboid</span><span class="signature">(minx, miny, maxx, maxy, ccw=True)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Cuboid</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span><span class="p">,</span> <span class="n">ccw</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;LocationValue built with shapely.geometry.box parameters (static method)&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span><span class="p">,</span> <span class="n">ccw</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>LocationValue built with shapely.geometry.box parameters (static method)</p>
+</div>
+
+
+                            </div>
+                            <div id="LocationValue.from_bytes" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#LocationValue.from_bytes">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">from_bytes</span><span class="signature">(self, byt)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Complete an empty `LocationValue` with binary data (point)</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **byt** : binary representation of a DatationValue (point)</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **int** : number of bytes used to decode a point = 8</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">pt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;ll&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">8</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="nb">list</span><span class="p">((</span><span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span><span class="mi">10</span><span class="o">**-</span><span class="mi">7</span><span class="p">,</span> <span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span><span class="mi">10</span><span class="o">**-</span><span class="mi">7</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="mi">8</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Complete an empty <code><a href="#LocationValue">LocationValue</a></code> with binary data (point)</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>byt</strong> : binary representation of a DatationValue (point)</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>int</strong> : number of bytes used to decode a point = 8</li>
+</ul>
+</div>
+
+
+                            </div>
                             <div id="LocationValue.getShap" class="classattr">
                                         <div class="attr function"><a class="headerlink" href="#LocationValue.getShap">#&nbsp;&nbsp</a>
 
@@ -2037,12 +2460,16 @@
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">getShap</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">getShap</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> 
+        <span class="sd">&#39;&#39;&#39; return self.shap object (shapely.geometry) &#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
 </pre></div>
 
         </details>
 
-    
+            <div class="docstring"><p>return self.shap object (shapely.geometry)</p>
+</div>
+
 
                             </div>
                             <div id="LocationValue.getPoint" class="classattr">
@@ -2056,189 +2483,15 @@
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">getPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> 
+        <span class="sd">&#39;&#39;&#39; return a list with point coordinates [x, y] if the shape is a point &#39;&#39;&#39;</span> 
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Point</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
 </pre></div>
 
         </details>
 
-    
+            <div class="docstring"><p>return a list with point coordinates [x, y] if the shape is a point</p>
+</div>
 
-                            </div>
-                            <div id="LocationValue.coorInv" class="classattr">
-                                            <div class="attr variable"><a class="headerlink" href="#LocationValue.coorInv">#&nbsp;&nbsp</a>
-
-        <span class="name">coorInv</span>
-    </div>
-
-    
-
-                            </div>
-                            <div id="LocationValue.vPointInv" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#LocationValue.vPointInv">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">vPointInv</span><span class="signature">(self)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vPointInv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
-</pre></div>
-
-        </details>
-
-    
-
-                            </div>
-                            <div id="LocationValue.vCodePlus" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#LocationValue.vCodePlus">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">vCodePlus</span><span class="signature">(
-    self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;add_equal&#39;: &#39;full&#39;, &#39;bytes_res_format&#39;: &#39;null&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}
-)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vCodePlus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>  <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="p">:</span> 
-        <span class="k">return</span> <span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">(</span><span class="n">option</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">(</span><span class="n">option</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> 
-</pre></div>
-
-        </details>
-
-    
-
-                            </div>
-                            <div id="LocationValue.bounds" class="classattr">
-                                            <div class="attr variable"><a class="headerlink" href="#LocationValue.bounds">#&nbsp;&nbsp</a>
-
-        <span class="name">bounds</span>
-    </div>
-
-    
-
-                            </div>
-                            <div id="LocationValue.Cuboid" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#LocationValue.Cuboid">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">Cuboid</span><span class="signature">(*args)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">Cuboid</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
-</pre></div>
-
-        </details>
-
-    
-
-                            </div>
-                            <div id="LocationValue.Point" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#LocationValue.Point">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">Point</span><span class="signature">(*args)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">Point</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;point&#39;</span><span class="p">)</span>
-</pre></div>
-
-        </details>
-
-    
-
-                            </div>
-                            <div id="LocationValue.value" class="classattr">
-                                            <div class="attr variable"><a class="headerlink" href="#LocationValue.value">#&nbsp;&nbsp</a>
-
-        <span class="name">value</span>
-    </div>
-
-    
-
-                            </div>
-                            <div id="LocationValue.vShap" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#LocationValue.vShap">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">vShap</span><span class="signature">(self)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vShap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
-</pre></div>
-
-        </details>
-
-    
-
-                            </div>
-                            <div id="LocationValue.vPoint" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#LocationValue.vPoint">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">vPoint</span><span class="signature">(self)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
-</pre></div>
-
-        </details>
-
-    
-
-                            </div>
-                            <div id="LocationValue.vPointX" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#LocationValue.vPointX">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">vPointX</span><span class="signature">(self)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vPointX</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-
-        </details>
-
-    
-
-                            </div>
-                            <div id="LocationValue.vPointY" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#LocationValue.vPointY">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">vPointY</span><span class="signature">(self)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vPointY</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
-
-        </details>
-
-    
 
                             </div>
                             <div id="LocationValue.json" class="classattr">
@@ -2256,6 +2509,16 @@
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39; Export in Json format (string or dict). </span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **string** : boolean (default True) - choice for return formet (string if True, dict else)</span>
+<span class="sd">                </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **string** : Json string </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="k">else</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()}</span>
@@ -2265,7 +2528,56 @@
 
         </details>
 
-    
+            <div class="docstring"><p>Export in Json format (string or dict). </p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>string</strong> : boolean (default True) - choice for return formet (string if True, dict else)</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>string</strong> : Json string</li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="LocationValue.point" class="classattr">
+                                            <div class="attr variable"><a class="headerlink" href="#LocationValue.point">#&nbsp;&nbsp</a>
+
+        <span class="name">point</span>
+    </div>
+
+            <div class="docstring"><p>list (@property) : centroid coordinates for the shape : [x, y]</p>
+</div>
+
+
+                            </div>
+                            <div id="LocationValue.Point" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#LocationValue.Point">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@staticmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">Point</span><span class="signature">(x, y)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Point</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;LocationValue built with a compatible TimeSlot arg (static method)&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;point&#39;</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>LocationValue built with a compatible TimeSlot arg (static method)</p>
+</div>
+
 
                             </div>
                             <div id="LocationValue.to_bytes" class="classattr">
@@ -2279,33 +2591,172 @@
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Export in binary format. </span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **bytes** : binary representation of the `LocationValue` (point coordinates)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;ll&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">))</span>
 </pre></div>
 
         </details>
 
-    
+            <div class="docstring"><p>Export in binary format. </p>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>bytes</strong> : binary representation of the <code><a href="#LocationValue">LocationValue</a></code> (point coordinates)</li>
+</ul>
+</div>
+
 
                             </div>
-                            <div id="LocationValue.from_bytes" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#LocationValue.from_bytes">#&nbsp;&nbsp</a>
+                            <div id="LocationValue.value" class="classattr">
+                                            <div class="attr variable"><a class="headerlink" href="#LocationValue.value">#&nbsp;&nbsp</a>
+
+        <span class="name">value</span>
+    </div>
+
+            <div class="docstring"><p>return self.shap attribute</p>
+</div>
+
+
+                            </div>
+                            <div id="LocationValue.vCodePlus" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#LocationValue.vCodePlus">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">from_bytes</span><span class="signature">(self, byt)</span>:
+            <span class="name">vCodePlus</span><span class="signature">(self)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
-        <span class="n">pt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;ll&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">8</span><span class="p">]))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="nb">list</span><span class="p">((</span><span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span><span class="mi">10</span><span class="o">**-</span><span class="mi">7</span><span class="p">,</span> <span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span><span class="mi">10</span><span class="o">**-</span><span class="mi">7</span><span class="p">)))</span>
-        <span class="k">return</span> <span class="mi">8</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vCodePlus</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> 
+        <span class="sd">&#39;&#39;&#39; return CodePlus value (string) of the point property value&#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">(</span><span class="kc">False</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">(</span><span class="kc">False</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> 
 </pre></div>
 
         </details>
 
-    
+            <div class="docstring"><p>return CodePlus value (string) of the point property value</p>
+</div>
+
+
+                            </div>
+                            <div id="LocationValue.vPoint" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#LocationValue.vPoint">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">vPoint</span><span class="signature">(self, string=False)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39; return point (property) coordinates in a string format or in a list format [x, y]&#39;&#39;&#39;</span> 
+        <span class="k">if</span> <span class="n">string</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">point</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">point</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>return point (property) coordinates in a string format or in a list format [x, y]</p>
+</div>
+
+
+                            </div>
+                            <div id="LocationValue.vPointInv" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#LocationValue.vPointInv">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">vPointInv</span><span class="signature">(self, string=False)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vPointInv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>  
+        <span class="sd">&#39;&#39;&#39; return point (property) inversed coordinates in a string format or</span>
+<span class="sd">        in a list format [y, x]&#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>return point (property) inversed coordinates in a string format or
+in a list format [y, x]</p>
+</div>
+
+
+                            </div>
+                            <div id="LocationValue.vPointX" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#LocationValue.vPointX">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">vPointX</span><span class="signature">(self)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vPointX</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> 
+        <span class="sd">&#39;&#39;&#39; return point (property) coordinates x &#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>return point (property) coordinates x</p>
+</div>
+
+
+                            </div>
+                            <div id="LocationValue.vPointY" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#LocationValue.vPointY">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">vPointY</span><span class="signature">(self)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vPointY</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> 
+        <span class="sd">&#39;&#39;&#39; return point (property) coordinates y &#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>return point (property) coordinates y</p>
+</div>
+
+
+                            </div>
+                            <div id="LocationValue.vShap" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#LocationValue.vShap">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">vShap</span><span class="signature">(self)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vShap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39; return self.shap object (shapely.geometry) &#39;&#39;&#39;</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>return self.shap object (shapely.geometry)</p>
+</div>
+
 
                             </div>
                             <div class="inherited">
