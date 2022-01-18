@@ -42,6 +42,8 @@
     <li><a href="#data-structure">Data structure</a></li>
     <li><a href="#index">Index</a></li>
     <li><a href="#dimension">Dimension</a></li>
+    <li><a href="#configuration-and-customization">Configuration and customization</a></li>
+    <li><a href="#observation-management">Observation management</a></li>
     <li><a href="#json-interface">Json interface</a></li>
     <li><a href="#binary-interface">Binary interface</a></li>
     <li><a href="#bluetooth-mapping">Bluetooth mapping</a></li>
@@ -51,7 +53,7 @@
   <ul>
     <li><a href="#first-observation">First Observation</a></li>
     <li><a href="#observation-for-sensor">Observation for sensor</a></li>
-    <li><a href="#observation-management">Observation management</a></li>
+    <li><a href="#observation-management-2">Observation management</a></li>
   </ul></li>
   <li><a href="#quick-overview">Quick overview</a>
   <ul>
@@ -244,6 +246,33 @@ and Datation are coupled, Property has one value).</p>
 <p>This notion is important because it conditions the modes of representation
  (e.g., plot).</p>
 
+<h2 id="configuration-and-customization">Configuration and customization</h2>
+
+<p>Parameters and additional information may be added at different levels:</p>
+
+<ul>
+<li>global : At the Observation level, we may add specific informations with specific 
+key / value e.g.:
+<ul>
+<li><em>{ 'type': 'observation' , 'test campaign' : 'first' , 
+'datvalue' : 'morning' , 'locvalue' : 'paris' , 'prpvalue' : ' Temp' , 
+'resvalue' : 'high' }</em></li>
+</ul></li>
+<li>local : We may customize the 'name' attribute e.g.:
+<ul>
+<li><em>'datvalue' : [ { 'first campaign' : '2021-01-01' } , { 'second campaign' : ''2021-03-01' } ]</li>
+<li>'prpvalue' : [ { 'inside' : 'Temp' } , { 'outside' : 'Temp' } ]</em></li>
+</ul></li>
+<li>individual : Each ResultValue may be annotate e.g.:
+<ul>
+<li><em>'resvalue' : { 'first result' : 'high' }</em></li>
+</ul></li>
+</ul>
+
+<p>The PropertyValues are defined in a catalogue which may be specific. </p>
+
+<h2 id="observation-management">Observation management</h2>
+
 <h2 id="json-interface">Json interface</h2>
 
 <p>The JSON format is used for Observation interchange. The ObsJSON format support
@@ -330,10 +359,12 @@ This chapter introduces you to the to binary interface and explain you:
 
 <ul>
 <li>how to encode and decode binary data</li>
-<li>the processes to obtain low data</li>
+<li>the processes to obtain low data as explain in the "Binary interface" chapter</li>
 </ul>
 
-<h2 id="observation-management">Observation management</h2>
+<h2 id="observation-management-2">Observation management</h2>
+
+<p>How to manage </p>
 
 <h1 id="quick-overview">Quick overview</h1>
 
@@ -523,6 +554,28 @@ spatial and temporal characteristics associated with measurable or observable
 <span class="sd">This notion is important because it conditions the modes of representation</span>
 <span class="sd"> (e.g., plot).</span>
 
+<span class="sd">## Configuration and customization</span>
+
+<span class="sd">Parameters and additional information may be added at different levels:</span>
+<span class="sd">    </span>
+<span class="sd">- global : At the Observation level, we may add specific informations with specific </span>
+<span class="sd">key / value e.g.:</span>
+<span class="sd">    - *{ &#39;type&#39;: &#39;observation&#39; , &#39;test campaign&#39; : &#39;first&#39; , </span>
+<span class="sd">       &#39;datvalue&#39; : &#39;morning&#39; , &#39;locvalue&#39; : &#39;paris&#39; , &#39;prpvalue&#39; : &#39; Temp&#39; , </span>
+<span class="sd">       &#39;resvalue&#39; : &#39;high&#39; }*</span>
+<span class="sd">- local : We may customize the &#39;name&#39; attribute e.g.:</span>
+<span class="sd">    - *&#39;datvalue&#39; : [ { &#39;first campaign&#39; : &#39;2021-01-01&#39; } , { &#39;second campaign&#39; : &#39;&#39;2021-03-01&#39; } ]</span>
+<span class="sd">    - &#39;prpvalue&#39; : [ { &#39;inside&#39; : &#39;Temp&#39; } , { &#39;outside&#39; : &#39;Temp&#39; } ]*</span>
+<span class="sd">- individual : Each ResultValue may be annotate e.g.:</span>
+<span class="sd">    - *&#39;resvalue&#39; : { &#39;first result&#39; : &#39;high&#39; }*</span>
+
+<span class="sd">The PropertyValues are defined in a catalogue which may be specific. </span>
+
+<span class="sd">## Observation management</span>
+
+
+
+
 <span class="sd">## Json interface</span>
 
 <span class="sd">The JSON format is used for Observation interchange. The ObsJSON format support</span>
@@ -607,9 +660,11 @@ spatial and temporal characteristics associated with measurable or observable
 <span class="sd">&lt;a href=&quot;./Example/sensor_observation.html&quot; target=&quot;_blank&quot;&gt;(see the page here)&lt;/a&gt; :</span>
 <span class="sd">    </span>
 <span class="sd">- how to encode and decode binary data</span>
-<span class="sd">- the processes to obtain low data</span>
+<span class="sd">- the processes to obtain low data as explain in the &quot;Binary interface&quot; chapter</span>
 
 <span class="sd">## Observation management</span>
+
+<span class="sd">How to manage </span>
 
 <span class="sd"># Quick overview</span>
 
