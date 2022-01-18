@@ -313,7 +313,7 @@ stored in Github</a> and can be replayed.</p>
 <h2 id="first-observation">First Observation</h2>
 
 <p>This chapter explain you 
-<a href="./Example/first observation.html" target="_blank">(see the page here)</a> :</p>
+<a href="./Example/first_observation.html" target="_blank">(see the page here)</a> :</p>
 
 <ul>
 <li>how to create a simple and more complex Observation Object</li>
@@ -323,9 +323,10 @@ stored in Github</a> and can be replayed.</p>
 
 <h2 id="observation-for-sensor">Observation for sensor</h2>
 
-<p>The sensors how use TCP/IP send the data with ObsJSON format (see above).
-This chapter is dedicated to binary interface and explain you:
-<a href="./Example/first observation.html" target="_blank">(see the page here)</a> :</p>
+<p>A sensor sends data to a server with a specific protocol. The server stores and processes the data.
+The sensor how use TCP/IP sends the data with ObsJSON format (see above).
+This chapter introduces you to the to binary interface and explain you:
+<a href="./Example/sensor_observation.html" target="_blank">(see the page here)</a> :</p>
 
 <ul>
 <li>how to encode and decode binary data</li>
@@ -386,15 +387,14 @@ spatial and temporal characteristics associated with measurable or observable
 <p>Modules contain the following classes:</p>
 
 <ul>
-<li>ESObservation : <code><a href="ES/ESObservation.html#Observation">ES.ESObservation.Observation</a></code>, </li>
+<li>ESObservation : <code><a href="ES/ESObservation.html#Observation">ES.ESObservation.Observation</a></code></li>
 <li>ESValue : <code><a href="ES/ESValue.html#DatationValue">ES.ESValue.DatationValue</a></code>, <code><a href="ES/ESValue.html#LocationValue">ES.ESValue.LocationValue</a></code>, 
-<code><a href="ES/ESValue.html#PropertyValue">ES.ESValue.PropertyValue</a></code>, <code><a href="ES/ESValue.html#ResultValue">ES.ESValue.ResultValue</a></code>, <code><a href="ES/ESValue.html#ESValue">ES.ESValue.ESValue</a></code>, 
-<code><a href="ES/ESValue.html#ESIndexValue">ES.ESValue.ESIndexValue</a></code></li>
+<code><a href="ES/ESValue.html#PropertyValue">ES.ESValue.PropertyValue</a></code>, <code><a href="ES/ESValue.html#ResultValue">ES.ESValue.ResultValue</a></code>, <code><a href="ES/ESValue.html#ESValue">ES.ESValue.ESValue</a></code></li>
 <li>ESSet : <code><a href="ES/ESValue.html#ESSet">ES.ESValue.ESSet</a></code></li>
-<li>ESElement : <code><a href="ES/ESElement.html#ESElement">ES.ESElement.ESElement</a></code>, <code><a href="ES/ESElement.html#ESObs">ES.ESElement.ESObs</a></code>, <code><a href="ES/ESElement.html#ESObject">ES.ESElement.ESObject</a></code>.</li>
+<li>ESElement : <code><a href="ES/ESElement.html#ESElement">ES.ESElement.ESElement</a></code>, <code><a href="ES/ESElement.html#ESObs">ES.ESElement.ESObs</a></code>, <code><a href="ES/ESElement.html#ESObject">ES.ESElement.ESObject</a></code></li>
 <li>ESObs : <code><a href="ES/ESObs.html#Location">ES.ESObs.Location</a></code>, <code><a href="ES/ESObs.html#Datation">ES.ESObs.Datation</a></code>, <code><a href="ES/ESObs.html#Property">ES.ESObs.Property</a></code>,
 <code><a href="ES/ESObs.html#Result">ES.ESObs.Result</a></code>, <code><a href="ES/ESObs.html#ESSetLocation">ES.ESObs.ESSetLocation</a></code>, <code><a href="ES/ESObs.html#ESSetDatation">ES.ESObs.ESSetDatation</a></code>,
-<code><a href="ES/ESObs.html#ESSetProperty">ES.ESObs.ESSetProperty</a></code>, <code><a href="ES/ESObs.html#ESSetResult">ES.ESObs.ESSetResult</a></code>, </li>
+<code><a href="ES/ESObs.html#ESSetProperty">ES.ESObs.ESSetProperty</a></code>, <code><a href="ES/ESObs.html#ESSetResult">ES.ESObs.ESSetResult</a></code></li>
 <li>ESconstante : <code><a href="ES/ESconstante.html#Es">ES.ESconstante.Es</a></code>.</li>
 </ul>
 </div>
@@ -593,7 +593,7 @@ spatial and temporal characteristics associated with measurable or observable
 <span class="sd">## First Observation</span>
 
 <span class="sd">This chapter explain you </span>
-<span class="sd">&lt;a href=&quot;./Example/first observation.html&quot; target=&quot;_blank&quot;&gt;(see the page here)&lt;/a&gt; :</span>
+<span class="sd">&lt;a href=&quot;./Example/first_observation.html&quot; target=&quot;_blank&quot;&gt;(see the page here)&lt;/a&gt; :</span>
 <span class="sd">    </span>
 <span class="sd">- how to create a simple and more complex Observation Object</span>
 <span class="sd">- the different view of the data</span>
@@ -601,9 +601,10 @@ spatial and temporal characteristics associated with measurable or observable
 
 <span class="sd">## Observation for sensor</span>
 
-<span class="sd">The sensors how use TCP/IP send the data with ObsJSON format (see above).</span>
-<span class="sd">This chapter is dedicated to binary interface and explain you:</span>
-<span class="sd">&lt;a href=&quot;./Example/first observation.html&quot; target=&quot;_blank&quot;&gt;(see the page here)&lt;/a&gt; :</span>
+<span class="sd">A sensor sends data to a server with a specific protocol. The server stores and processes the data.</span>
+<span class="sd">The sensor how use TCP/IP sends the data with ObsJSON format (see above).</span>
+<span class="sd">This chapter introduces you to the to binary interface and explain you:</span>
+<span class="sd">&lt;a href=&quot;./Example/sensor_observation.html&quot; target=&quot;_blank&quot;&gt;(see the page here)&lt;/a&gt; :</span>
 <span class="sd">    </span>
 <span class="sd">- how to encode and decode binary data</span>
 <span class="sd">- the processes to obtain low data</span>
@@ -661,15 +662,14 @@ spatial and temporal characteristics associated with measurable or observable
 
 <span class="sd">Modules contain the following classes:</span>
 <span class="sd">    </span>
-<span class="sd">- ESObservation : `ES.ESObservation.Observation`, </span>
+<span class="sd">- ESObservation : `ES.ESObservation.Observation`</span>
 <span class="sd">- ESValue : `ES.ESValue.DatationValue`, `ES.ESValue.LocationValue`, </span>
-<span class="sd">`ES.ESValue.PropertyValue`, `ES.ESValue.ResultValue`, `ES.ESValue.ESValue`, </span>
-<span class="sd">`ES.ESValue.ESIndexValue`</span>
+<span class="sd">`ES.ESValue.PropertyValue`, `ES.ESValue.ResultValue`, `ES.ESValue.ESValue`</span>
 <span class="sd">- ESSet : `ES.ESValue.ESSet`</span>
-<span class="sd">- ESElement : `ES.ESElement.ESElement`, `ES.ESElement.ESObs`, `ES.ESElement.ESObject`.</span>
+<span class="sd">- ESElement : `ES.ESElement.ESElement`, `ES.ESElement.ESObs`, `ES.ESElement.ESObject`</span>
 <span class="sd">- ESObs : `ES.ESObs.Location`, `ES.ESObs.Datation`, `ES.ESObs.Property`,</span>
 <span class="sd">`ES.ESObs.Result`, `ES.ESObs.ESSetLocation`, `ES.ESObs.ESSetDatation`,</span>
-<span class="sd">`ES.ESObs.ESSetProperty`, `ES.ESObs.ESSetResult`, </span>
+<span class="sd">`ES.ESObs.ESSetProperty`, `ES.ESObs.ESSetResult`</span>
 <span class="sd">- ESconstante : `ES.ESconstante.Es`.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>

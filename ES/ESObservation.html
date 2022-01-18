@@ -303,7 +303,8 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        - Observation(datation=ESSetDatation, location=ESSetLocation,</span>
 <span class="sd">                      property=ESSetProperty, result=ESSetResult)</span>
 <span class="sd">        </span>
-<span class="sd">        *Note : the parameter &#39;order&#39; is used only when an ESSetResult without IndexValue is in arguments.*</span>
+<span class="sd">        *Note : the parameter &#39;order&#39; is used only when an ESSetResult without Index is in arguments. </span>
+<span class="sd">        It indicates the order for the Index creation (&#39;d&#39; for Datation, &#39;l&#39; for Location, &#39;p&#39; for Property).*</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">ESObject</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -574,13 +575,15 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">classES</span><span class="p">)</span> <span class="o">==</span> <span class="kc">None</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addComposant</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">majType</span><span class="p">()</span>    
         
-    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;dlp&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Complete an empty `Observation` with binary data. </span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
 <span class="sd">        - **byt** : binary representation of an Observation</span>
+<span class="sd">        - **order** : string - indicates the order for the Index creation </span>
+<span class="sd">        (&#39;d&#39; for Datation, &#39;l&#39; for Location, &#39;p&#39; for Property).*</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
@@ -599,28 +602,41 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">elif</span> <span class="n">code_el</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
                 <span class="n">es</span> <span class="o">=</span> <span class="n">ESSetResult</span><span class="p">(</span><span class="n">pObs</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">code_el</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span> 
-                    <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pType</span> 
-                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span>
+                        <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pType</span> 
+                                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+                    <span class="k">else</span> <span class="p">:</span> <span class="n">propList</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="c1">#propList = [self.setProperty.valueList[i].pType </span>
+                    <span class="c1">#        for i in range(self.setProperty.nValue)]</span>
                 <span class="k">else</span> <span class="p">:</span>
+                    <span class="p">[</span><span class="n">nPrp</span><span class="p">,</span> <span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nRes</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nValueObs</span>
                     <span class="n">es</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:],</span> <span class="p">[])</span>
-                    <span class="n">es</span><span class="o">.</span><span class="n">majIndex</span><span class="p">(</span><span class="n">es</span><span class="o">.</span><span class="n">nValue</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">,</span> 
-                            <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="o">.</span><span class="n">nValue</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">nValue</span><span class="p">)</span>
-                    <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">es</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">pType</span>
-                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">es</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+                    <span class="n">es</span><span class="o">.</span><span class="n">majIndex</span><span class="p">(</span><span class="n">es</span><span class="o">.</span><span class="n">nValue</span><span class="p">,</span> <span class="n">nPrp</span><span class="p">,</span> <span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">)</span>
+                    <span class="c1">#es.majIndex(es.nValue, self.setProperty.nValue, </span>
+                    <span class="c1">#        self.setDatation.nValue, self.setLocation.nValue)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span>
+                        <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">es</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">pType</span> 
+                                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+                    <span class="k">else</span> <span class="p">:</span> <span class="n">propList</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="c1">#propList = [self.setProperty.valueList[es.valueList[i].ind[2]].pType</span>
+                    <span class="c1">#        for i in range(es.nValue)]</span>
                     <span class="n">es</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span> <span class="k">return</span>
             <span class="k">if</span> <span class="n">code_el</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="p">:</span> 
                 <span class="n">idx</span> <span class="o">+=</span> <span class="n">es</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:])</span>
             <span class="k">else</span> <span class="p">:</span>
                 <span class="n">idx</span> <span class="o">+=</span> <span class="n">es</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:],</span> <span class="n">propList</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">majType</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
     
-    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;dlp&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Complete an `Observation` with json data. </span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
 <span class="sd">        - **js** : string - ObsJSON data</span>
+<span class="sd">        - **order** : string - indicates the order for the Index creation </span>
+<span class="sd">        (&#39;d&#39; for Datation, &#39;l&#39; for Location, &#39;p&#39; for Property).*</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
@@ -629,6 +645,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="k">try</span><span class="p">:</span> <span class="n">dic</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">except</span><span class="p">:</span> <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initDict</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">majType</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
                 
     <span class="k">def</span> <span class="nf">full</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maj</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allAxes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="p">:</span> 
         <span class="sd">&#39;&#39;&#39;</span>
@@ -967,15 +984,17 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="n">byt</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">()</span>
         <span class="n">code_el</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">classES</span><span class="p">]</span> 
         <span class="n">byt</span> <span class="o">+=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">code_el</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_reference</span><span class="p">])</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
-            <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_prp_name&quot;</span><span class="p">])</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
-            <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_loc_name&quot;</span><span class="p">])</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
             <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_dat_name&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
+            <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_loc_name&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
+            <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_prp_name&quot;</span><span class="p">])</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
-            <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pType</span> 
-                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span>
+                <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pType</span> 
+                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+            <span class="k">else</span> <span class="p">:</span> <span class="n">propList</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_res_index&quot;</span><span class="p">],</span> 
                                            <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;bytes_res_format&quot;</span><span class="p">],</span> <span class="n">propList</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">byt</span>
@@ -1032,7 +1051,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
                                   <span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">arrayname</span><span class="p">)</span>
         <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Export in Json format. </span>
 <span class="sd">        </span>
@@ -1040,6 +1059,8 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        </span>
 <span class="sd">        - **string** : Json string </span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="s1">&#39;storage&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;storage&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span>
+            
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_elt_type&quot;</span><span class="p">]:</span> <span class="n">option_type</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span> <span class="n">option_type</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">js</span> <span class="o">=</span><span class="s2">&quot;&quot;</span>
@@ -1053,8 +1074,10 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">if</span> <span class="n">js</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;,&#39;</span><span class="p">:</span> <span class="n">js</span> <span class="o">+=</span> <span class="s2">&quot;,&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_param&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">!=</span> <span class="s2">&quot;null&quot;</span><span class="p">:</span> 
             <span class="n">js</span> <span class="o">+=</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">ES</span><span class="o">.</span><span class="n">parameter</span> <span class="o">+</span><span class="s1">&#39;&quot;:&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span>
-        <span class="n">jsInfo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_type&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_nval&quot;</span><span class="p">],</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_box&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_autre&quot;</span><span class="p">])</span>
+        <span class="n">jsInfo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">info</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_type&quot;</span><span class="p">],</span> 
+                            <span class="n">info</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_nval&quot;</span><span class="p">],</span>
+                            <span class="n">info</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_box&quot;</span><span class="p">],</span> 
+                            <span class="n">info</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_autre&quot;</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">jsInfo</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="p">:</span> <span class="n">js</span> <span class="o">+=</span>  <span class="n">jsInfo</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span>
         <span class="k">if</span> <span class="n">js</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;,&#39;</span><span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="n">js</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_obs_attrib&quot;</span><span class="p">]:</span> <span class="n">js</span> <span class="o">+=</span> <span class="s2">&quot;}&quot;</span>
@@ -1186,8 +1209,6 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="n">ax</span><span class="o">.</span><span class="n">set_zticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">))</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;dat (index)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;loc (index)&#39;</span><span class="p">,</span> <span class="n">zlabel</span><span class="o">=</span><span class="s1">&#39;prp (index)&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-
 
     <span class="k">def</span> <span class="nf">_initESObs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>     <span class="c1"># !!! methodes internes</span>
         <span class="sd">&#39;&#39;&#39; ESObs creation &#39;&#39;&#39;</span>
@@ -1533,7 +1554,8 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        - Observation(datation=ESSetDatation, location=ESSetLocation,</span>
 <span class="sd">                      property=ESSetProperty, result=ESSetResult)</span>
 <span class="sd">        </span>
-<span class="sd">        *Note : the parameter &#39;order&#39; is used only when an ESSetResult without IndexValue is in arguments.*</span>
+<span class="sd">        *Note : the parameter &#39;order&#39; is used only when an ESSetResult without Index is in arguments. </span>
+<span class="sd">        It indicates the order for the Index creation (&#39;d&#39; for Datation, &#39;l&#39; for Location, &#39;p&#39; for Property).*</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">ESObject</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -1804,13 +1826,15 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">classES</span><span class="p">)</span> <span class="o">==</span> <span class="kc">None</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addComposant</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">majType</span><span class="p">()</span>    
         
-    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;dlp&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Complete an empty `Observation` with binary data. </span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
 <span class="sd">        - **byt** : binary representation of an Observation</span>
+<span class="sd">        - **order** : string - indicates the order for the Index creation </span>
+<span class="sd">        (&#39;d&#39; for Datation, &#39;l&#39; for Location, &#39;p&#39; for Property).*</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
@@ -1829,28 +1853,41 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">elif</span> <span class="n">code_el</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
                 <span class="n">es</span> <span class="o">=</span> <span class="n">ESSetResult</span><span class="p">(</span><span class="n">pObs</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">code_el</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span> 
-                    <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pType</span> 
-                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span>
+                        <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pType</span> 
+                                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+                    <span class="k">else</span> <span class="p">:</span> <span class="n">propList</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="c1">#propList = [self.setProperty.valueList[i].pType </span>
+                    <span class="c1">#        for i in range(self.setProperty.nValue)]</span>
                 <span class="k">else</span> <span class="p">:</span>
+                    <span class="p">[</span><span class="n">nPrp</span><span class="p">,</span> <span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nRes</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nValueObs</span>
                     <span class="n">es</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:],</span> <span class="p">[])</span>
-                    <span class="n">es</span><span class="o">.</span><span class="n">majIndex</span><span class="p">(</span><span class="n">es</span><span class="o">.</span><span class="n">nValue</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">,</span> 
-                            <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="o">.</span><span class="n">nValue</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">nValue</span><span class="p">)</span>
-                    <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">es</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">pType</span>
-                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">es</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+                    <span class="n">es</span><span class="o">.</span><span class="n">majIndex</span><span class="p">(</span><span class="n">es</span><span class="o">.</span><span class="n">nValue</span><span class="p">,</span> <span class="n">nPrp</span><span class="p">,</span> <span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">)</span>
+                    <span class="c1">#es.majIndex(es.nValue, self.setProperty.nValue, </span>
+                    <span class="c1">#        self.setDatation.nValue, self.setLocation.nValue)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span>
+                        <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">es</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">pType</span> 
+                                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+                    <span class="k">else</span> <span class="p">:</span> <span class="n">propList</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="c1">#propList = [self.setProperty.valueList[es.valueList[i].ind[2]].pType</span>
+                    <span class="c1">#        for i in range(es.nValue)]</span>
                     <span class="n">es</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span> <span class="k">return</span>
             <span class="k">if</span> <span class="n">code_el</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="p">:</span> 
                 <span class="n">idx</span> <span class="o">+=</span> <span class="n">es</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:])</span>
             <span class="k">else</span> <span class="p">:</span>
                 <span class="n">idx</span> <span class="o">+=</span> <span class="n">es</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:],</span> <span class="n">propList</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">majType</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
     
-    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;dlp&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Complete an `Observation` with json data. </span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
 <span class="sd">        - **js** : string - ObsJSON data</span>
+<span class="sd">        - **order** : string - indicates the order for the Index creation </span>
+<span class="sd">        (&#39;d&#39; for Datation, &#39;l&#39; for Location, &#39;p&#39; for Property).*</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
@@ -1859,6 +1896,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="k">try</span><span class="p">:</span> <span class="n">dic</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">except</span><span class="p">:</span> <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initDict</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">majType</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
                 
     <span class="k">def</span> <span class="nf">full</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maj</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allAxes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="p">:</span> 
         <span class="sd">&#39;&#39;&#39;</span>
@@ -2197,15 +2235,17 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="n">byt</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">()</span>
         <span class="n">code_el</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">classES</span><span class="p">]</span> 
         <span class="n">byt</span> <span class="o">+=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">code_el</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_reference</span><span class="p">])</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
-            <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_prp_name&quot;</span><span class="p">])</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
-            <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_loc_name&quot;</span><span class="p">])</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
             <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_dat_name&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
+            <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_loc_name&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
+            <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_prp_name&quot;</span><span class="p">])</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
-            <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pType</span> 
-                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span>
+                <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pType</span> 
+                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+            <span class="k">else</span> <span class="p">:</span> <span class="n">propList</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_res_index&quot;</span><span class="p">],</span> 
                                            <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;bytes_res_format&quot;</span><span class="p">],</span> <span class="n">propList</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">byt</span>
@@ -2262,7 +2302,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
                                   <span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">arrayname</span><span class="p">)</span>
         <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Export in Json format. </span>
 <span class="sd">        </span>
@@ -2270,6 +2310,8 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        </span>
 <span class="sd">        - **string** : Json string </span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="s1">&#39;storage&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;storage&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span>
+            
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_elt_type&quot;</span><span class="p">]:</span> <span class="n">option_type</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span> <span class="n">option_type</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">js</span> <span class="o">=</span><span class="s2">&quot;&quot;</span>
@@ -2283,8 +2325,10 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">if</span> <span class="n">js</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;,&#39;</span><span class="p">:</span> <span class="n">js</span> <span class="o">+=</span> <span class="s2">&quot;,&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_param&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">!=</span> <span class="s2">&quot;null&quot;</span><span class="p">:</span> 
             <span class="n">js</span> <span class="o">+=</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">ES</span><span class="o">.</span><span class="n">parameter</span> <span class="o">+</span><span class="s1">&#39;&quot;:&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span>
-        <span class="n">jsInfo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_type&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_nval&quot;</span><span class="p">],</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_box&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_autre&quot;</span><span class="p">])</span>
+        <span class="n">jsInfo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">info</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_type&quot;</span><span class="p">],</span> 
+                            <span class="n">info</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_nval&quot;</span><span class="p">],</span>
+                            <span class="n">info</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_box&quot;</span><span class="p">],</span> 
+                            <span class="n">info</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_autre&quot;</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">jsInfo</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="p">:</span> <span class="n">js</span> <span class="o">+=</span>  <span class="n">jsInfo</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span>
         <span class="k">if</span> <span class="n">js</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;,&#39;</span><span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="n">js</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_obs_attrib&quot;</span><span class="p">]:</span> <span class="n">js</span> <span class="o">+=</span> <span class="s2">&quot;}&quot;</span>
@@ -2416,8 +2460,6 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="n">ax</span><span class="o">.</span><span class="n">set_zticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">))</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;dat (index)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;loc (index)&#39;</span><span class="p">,</span> <span class="n">zlabel</span><span class="o">=</span><span class="s1">&#39;prp (index)&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-
 
     <span class="k">def</span> <span class="nf">_initESObs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>     <span class="c1"># !!! methodes internes</span>
         <span class="sd">&#39;&#39;&#39; ESObs creation &#39;&#39;&#39;</span>
@@ -2774,7 +2816,8 @@ several DatationValue (2)</li>
 <span class="sd">        - Observation(datation=ESSetDatation, location=ESSetLocation,</span>
 <span class="sd">                      property=ESSetProperty, result=ESSetResult)</span>
 <span class="sd">        </span>
-<span class="sd">        *Note : the parameter &#39;order&#39; is used only when an ESSetResult without IndexValue is in arguments.*</span>
+<span class="sd">        *Note : the parameter &#39;order&#39; is used only when an ESSetResult without Index is in arguments. </span>
+<span class="sd">        It indicates the order for the Index creation (&#39;d&#39; for Datation, &#39;l&#39; for Location, &#39;p&#39; for Property).*</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">ESObject</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -2804,7 +2847,8 @@ several DatationValue (2)</li>
           property=ESSetProperty, result=ESSetResult)</li>
 </ul>
 
-<p><em>Note : the parameter 'order' is used only when an ESSetResult without IndexValue is in arguments.</em></p>
+<p><em>Note : the parameter 'order' is used only when an ESSetResult without Index is in arguments. 
+It indicates the order for the Index creation ('d' for Datation, 'l' for Location, 'p' for Property).</em></p>
 </div>
 
 
@@ -3336,18 +3380,20 @@ compatible Value for an existing or a new <code><a href="ESValue.html">ES.ESValu
 
         
             <span class="def">def</span>
-            <span class="name">from_bytes</span><span class="signature">(self, byt)</span>:
+            <span class="name">from_bytes</span><span class="signature">(self, byt, order=&#39;dlp&#39;)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;dlp&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Complete an empty `Observation` with binary data. </span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
 <span class="sd">        - **byt** : binary representation of an Observation</span>
+<span class="sd">        - **order** : string - indicates the order for the Index creation </span>
+<span class="sd">        (&#39;d&#39; for Datation, &#39;l&#39; for Location, &#39;p&#39; for Property).*</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
@@ -3366,20 +3412,31 @@ compatible Value for an existing or a new <code><a href="ESValue.html">ES.ESValu
             <span class="k">elif</span> <span class="n">code_el</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
                 <span class="n">es</span> <span class="o">=</span> <span class="n">ESSetResult</span><span class="p">(</span><span class="n">pObs</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">code_el</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span> 
-                    <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pType</span> 
-                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span>
+                        <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pType</span> 
+                                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+                    <span class="k">else</span> <span class="p">:</span> <span class="n">propList</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="c1">#propList = [self.setProperty.valueList[i].pType </span>
+                    <span class="c1">#        for i in range(self.setProperty.nValue)]</span>
                 <span class="k">else</span> <span class="p">:</span>
+                    <span class="p">[</span><span class="n">nPrp</span><span class="p">,</span> <span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nRes</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nValueObs</span>
                     <span class="n">es</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:],</span> <span class="p">[])</span>
-                    <span class="n">es</span><span class="o">.</span><span class="n">majIndex</span><span class="p">(</span><span class="n">es</span><span class="o">.</span><span class="n">nValue</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">,</span> 
-                            <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="o">.</span><span class="n">nValue</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">nValue</span><span class="p">)</span>
-                    <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">es</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">pType</span>
-                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">es</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+                    <span class="n">es</span><span class="o">.</span><span class="n">majIndex</span><span class="p">(</span><span class="n">es</span><span class="o">.</span><span class="n">nValue</span><span class="p">,</span> <span class="n">nPrp</span><span class="p">,</span> <span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">)</span>
+                    <span class="c1">#es.majIndex(es.nValue, self.setProperty.nValue, </span>
+                    <span class="c1">#        self.setDatation.nValue, self.setLocation.nValue)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span>
+                        <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">es</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">pType</span> 
+                                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+                    <span class="k">else</span> <span class="p">:</span> <span class="n">propList</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="c1">#propList = [self.setProperty.valueList[es.valueList[i].ind[2]].pType</span>
+                    <span class="c1">#        for i in range(es.nValue)]</span>
                     <span class="n">es</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span> <span class="k">return</span>
             <span class="k">if</span> <span class="n">code_el</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="p">:</span> 
                 <span class="n">idx</span> <span class="o">+=</span> <span class="n">es</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:])</span>
             <span class="k">else</span> <span class="p">:</span>
                 <span class="n">idx</span> <span class="o">+=</span> <span class="n">es</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:],</span> <span class="n">propList</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">majType</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -3390,6 +3447,8 @@ compatible Value for an existing or a new <code><a href="ESValue.html">ES.ESValu
 
 <ul>
 <li><strong>byt</strong> : binary representation of an Observation</li>
+<li><strong>order</strong> : string - indicates the order for the Index creation 
+('d' for Datation, 'l' for Location, 'p' for Property).*</li>
 </ul>
 
 <p><em>Returns</em></p>
@@ -3406,18 +3465,20 @@ compatible Value for an existing or a new <code><a href="ESValue.html">ES.ESValu
 
         
             <span class="def">def</span>
-            <span class="name">from_json</span><span class="signature">(self, js)</span>:
+            <span class="name">from_json</span><span class="signature">(self, js, order=&#39;dlp&#39;)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">):</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;dlp&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Complete an `Observation` with json data. </span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
 <span class="sd">        - **js** : string - ObsJSON data</span>
+<span class="sd">        - **order** : string - indicates the order for the Index creation </span>
+<span class="sd">        (&#39;d&#39; for Datation, &#39;l&#39; for Location, &#39;p&#39; for Property).*</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
@@ -3426,6 +3487,7 @@ compatible Value for an existing or a new <code><a href="ESValue.html">ES.ESValu
         <span class="k">try</span><span class="p">:</span> <span class="n">dic</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">except</span><span class="p">:</span> <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initDict</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">majType</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -3436,6 +3498,8 @@ compatible Value for an existing or a new <code><a href="ESValue.html">ES.ESValu
 
 <ul>
 <li><strong>js</strong> : string - ObsJSON data</li>
+<li><strong>order</strong> : string - indicates the order for the Index creation 
+('d' for Datation, 'l' for Location, 'p' for Property).*</li>
 </ul>
 
 <p><em>Returns</em></p>
@@ -4118,15 +4182,17 @@ if not sorting follows the list provided.</li>
         <span class="n">byt</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">()</span>
         <span class="n">code_el</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">classES</span><span class="p">]</span> 
         <span class="n">byt</span> <span class="o">+=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">code_el</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_reference</span><span class="p">])</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
-            <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_prp_name&quot;</span><span class="p">])</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
-            <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_loc_name&quot;</span><span class="p">])</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
             <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_dat_name&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
+            <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_loc_name&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
+            <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_prp_name&quot;</span><span class="p">])</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
-            <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pType</span> 
-                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span>
+                <span class="n">propList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pType</span> 
+                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span><span class="p">)]</span>
+            <span class="k">else</span> <span class="p">:</span> <span class="n">propList</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_res_index&quot;</span><span class="p">],</span> 
                                            <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;bytes_res_format&quot;</span><span class="p">],</span> <span class="n">propList</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">byt</span>
@@ -4216,7 +4282,7 @@ if not sorting follows the list provided.</li>
     info=False,
     numeric=False,
     fullAxes=False,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001FE9B185040&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001533E6B6220&gt;&gt;,
     arrayname=&#39;Observation&#39;
 )</span>:
     </div>
@@ -4287,12 +4353,12 @@ applied to each <code><a href="ESValue.html#ResultValue">ES.ESValue.ResultValue<
 
         
             <span class="def">def</span>
-            <span class="name">to_json</span><span class="signature">(self)</span>:
+            <span class="name">to_json</span><span class="signature">(self, **kwargs)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Export in Json format. </span>
 <span class="sd">        </span>
@@ -4300,6 +4366,8 @@ applied to each <code><a href="ESValue.html#ResultValue">ES.ESValue.ResultValue<
 <span class="sd">        </span>
 <span class="sd">        - **string** : Json string </span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="s1">&#39;storage&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;storage&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span>
+            
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_elt_type&quot;</span><span class="p">]:</span> <span class="n">option_type</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span> <span class="n">option_type</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">js</span> <span class="o">=</span><span class="s2">&quot;&quot;</span>
@@ -4313,8 +4381,10 @@ applied to each <code><a href="ESValue.html#ResultValue">ES.ESValue.ResultValue<
             <span class="k">if</span> <span class="n">js</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;,&#39;</span><span class="p">:</span> <span class="n">js</span> <span class="o">+=</span> <span class="s2">&quot;,&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_param&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">!=</span> <span class="s2">&quot;null&quot;</span><span class="p">:</span> 
             <span class="n">js</span> <span class="o">+=</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">ES</span><span class="o">.</span><span class="n">parameter</span> <span class="o">+</span><span class="s1">&#39;&quot;:&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span>
-        <span class="n">jsInfo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_type&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_nval&quot;</span><span class="p">],</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_box&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_autre&quot;</span><span class="p">])</span>
+        <span class="n">jsInfo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">info</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_type&quot;</span><span class="p">],</span> 
+                            <span class="n">info</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_nval&quot;</span><span class="p">],</span>
+                            <span class="n">info</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_box&quot;</span><span class="p">],</span> 
+                            <span class="n">info</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_info_autre&quot;</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">jsInfo</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="p">:</span> <span class="n">js</span> <span class="o">+=</span>  <span class="n">jsInfo</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span>
         <span class="k">if</span> <span class="n">js</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;,&#39;</span><span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="n">js</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_obs_attrib&quot;</span><span class="p">]:</span> <span class="n">js</span> <span class="o">+=</span> <span class="s2">&quot;}&quot;</span>
@@ -4349,7 +4419,7 @@ applied to each <code><a href="ESValue.html#ResultValue">ES.ESValue.ResultValue<
     info=False,
     numeric=False,
     fullAxes=False,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001FE9B185040&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001533E6B6220&gt;&gt;,
     arrayname=&#39;Observation&#39;,
     maxname=20
 )</span>:
