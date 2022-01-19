@@ -65,15 +65,6 @@
 
             </li>
             <li>
-                    <a class="class" href="#ESObject">ESObject</a>
-                            <ul class="memberlist">
-                        <li>
-                                <a class="function" href="#ESObject.__init__">ESObject</a>
-                        </li>
-                </ul>
-
-            </li>
-            <li>
                     <a class="class" href="#ESObs">ESObs</a>
                             <ul class="memberlist">
                         <li>
@@ -223,15 +214,15 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">att</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">att</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span>
 
-<span class="k">class</span> <span class="nc">ESObject</span><span class="p">(</span><span class="n">ESElement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&#39;&#39;&#39;class ESObject(ESElement):</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 <span class="sd">    Classe liée à la structure interne</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">ESElement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metaType</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">obj_metaType</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;observtion du &quot;</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
-        
+<span class="sd">    def __init__(self):</span>
+<span class="sd">        ESElement.__init__(self)</span>
+<span class="sd">        self.metaType = ES.obj_metaType</span>
+<span class="sd">        self.name = &quot;observtion du &quot; + datetime.now().isoformat()</span>
+<span class="sd">&#39;&#39;&#39;</span>        
 <span class="k">class</span> <span class="nc">ESObs</span><span class="p">(</span><span class="n">ESElement</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Classe mère des objets Datation, Location et Property.</span>
@@ -239,7 +230,6 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">ESElement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metaType</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_metaType</span>
-        <span class="c1">#self.nValue = 0</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">pObs</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span> <span class="n">pObs</span><span class="o">.</span><span class="n">addComposant</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="nd">@property</span>
@@ -543,67 +533,6 @@
 
                             </div>
                 </section>
-                <section id="ESObject">
-                                <div class="attr class">
-        <a class="headerlink" href="#ESObject">#&nbsp;&nbsp</a>
-
-        
-        <span class="def">class</span>
-        <span class="name">ESObject</span><wbr>(<span class="base"><a href="#ESElement">ESElement</a></span>):
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ESObject</span><span class="p">(</span><span class="n">ESElement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classe liée à la structure interne</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">ESElement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metaType</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">obj_metaType</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;observtion du &quot;</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
-</pre></div>
-
-        </details>
-
-            <div class="docstring"><p>Classe liée à la structure interne</p>
-</div>
-
-
-                            <div id="ESObject.__init__" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#ESObject.__init__">#&nbsp;&nbsp</a>
-
-        
-            <span class="name">ESObject</span><span class="signature">()</span>
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">ESElement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metaType</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">obj_metaType</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;observtion du &quot;</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
-</pre></div>
-
-        </details>
-
-    
-
-                            </div>
-                            <div class="inherited">
-                                <h5>Inherited Members</h5>
-                                <dl>
-                                    <div><dt><a href="#ESElement">ESElement</a></dt>
-                                <dd id="ESObject.setAtt" class="function"><a href="#ESElement.setAtt">setAtt</a></dd>
-                <dd id="ESObject.getAttAll" class="function"><a href="#ESElement.getAttAll">getAttAll</a></dd>
-                <dd id="ESObject.addComposant" class="function"><a href="#ESElement.addComposant">addComposant</a></dd>
-                <dd id="ESObject.element" class="function"><a href="#ESElement.element">element</a></dd>
-                <dd id="ESObject.majMeta" class="function"><a href="#ESElement.majMeta">majMeta</a></dd>
-
-            </div>
-                                </dl>
-                            </div>
-                </section>
                 <section id="ESObs">
                                 <div class="attr class">
         <a class="headerlink" href="#ESObs">#&nbsp;&nbsp</a>
@@ -622,7 +551,6 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">ESElement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metaType</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_metaType</span>
-        <span class="c1">#self.nValue = 0</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">pObs</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span> <span class="n">pObs</span><span class="o">.</span><span class="n">addComposant</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="nd">@property</span>
@@ -650,7 +578,6 @@
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">ESElement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metaType</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_metaType</span>
-        <span class="c1">#self.nValue = 0</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">pObs</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span> <span class="n">pObs</span><span class="o">.</span><span class="n">addComposant</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
