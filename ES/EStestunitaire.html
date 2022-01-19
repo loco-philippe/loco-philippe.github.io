@@ -37,6 +37,9 @@
                         <li>
                                 <a class="function" href="#TestExemples.test_first_observation">test_first_observation</a>
                         </li>
+                        <li>
+                                <a class="function" href="#TestExemples.test_observation_for_sensor">test_observation_for_sensor</a>
+                        </li>
                 </ul>
 
             </li>
@@ -345,39 +348,90 @@ Environmental Sensing functions.</p>
         <span class="n">ob</span><span class="o">=</span><span class="n">Observation</span><span class="p">((</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39; Temp&#39;</span><span class="p">,</span> <span class="s1">&#39;high&#39;</span><span class="p">))</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;lyon&#39;</span><span class="p">,</span> <span class="s1">&#39; Temp&#39;</span><span class="p">,</span> <span class="s1">&#39;low&#39;</span><span class="p">)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;marseille&#39;</span><span class="p">,</span> <span class="s1">&#39; Temp&#39;</span><span class="p">,</span> <span class="s1">&#39;very high&#39;</span><span class="p">)</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">voxel</span><span class="p">()</span>
+        <span class="c1">#ob.view(True, False, False, False)</span>
+        <span class="c1">#ob.voxel()</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">majList</span><span class="p">(</span><span class="n">ResultValue</span><span class="p">,</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">35</span><span class="p">])</span> 
-        <span class="n">ob</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+        <span class="c1">#ob.plot()</span>
         <span class="c1"># valeur numériques + choropleth</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">setLocation</span><span class="p">)</span>
+        <span class="c1">#print(ob.setLocation)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">majList</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">,</span> <span class="p">[</span><span class="n">lyon</span><span class="p">,</span> <span class="n">marseille</span><span class="p">,</span> <span class="n">paris</span><span class="p">])</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="c1">#ob.view(True, False, True, False)</span>
         <span class="n">choro</span> <span class="o">=</span> <span class="n">ob</span><span class="o">.</span><span class="n">choropleth</span><span class="p">()</span>
-        <span class="n">choro</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;test.html&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">setLocation</span><span class="p">)</span>
+        <span class="c1">#choro.save(&quot;test.html&quot;)</span>
+        <span class="c1">#print(ob.setLocation)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">majList</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">,</span> <span class="p">[</span><span class="n">pol75</span><span class="p">,</span> <span class="n">pol69</span><span class="p">,</span> <span class="n">pol13</span><span class="p">])</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="c1">#ob.view(True, False, True, False)</span>
         <span class="n">choro</span> <span class="o">=</span> <span class="n">ob</span><span class="o">.</span><span class="n">choropleth</span><span class="p">()</span>
-        <span class="n">choro</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;test.html&quot;</span><span class="p">)</span>
+        <span class="c1">#choro.save(&quot;test.html&quot;)</span>
         <span class="c1"># ajout dimension 2, infos globales</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39;Humidity&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;marseille&#39;</span><span class="p">,</span> <span class="s1">&#39;Humidity&#39;</span><span class="p">,</span> <span class="s1">&#39;60&#39;</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">voxel</span><span class="p">()</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+        <span class="c1">#ob.view(True, False, False, False)</span>
+        <span class="c1">#ob.voxel()</span>
+        <span class="c1">#ob.plot()</span>
         <span class="c1"># ajout dimension 3 + export dataarray, dataframe</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;afternoon&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39; Temp&#39;</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;afternoon&#39;</span><span class="p">,</span> <span class="s1">&#39;lyon&#39;</span><span class="p">,</span> <span class="s1">&#39; Temp&#39;</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">majList</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">,</span> <span class="p">[</span><span class="n">lyon</span><span class="p">,</span> <span class="n">marseille</span><span class="p">,</span> <span class="n">paris</span><span class="p">])</span>   <span class="c1"># i.e. paris = [2.35, 48.87]</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">setDatation</span><span class="p">)</span>
+        <span class="c1">#print(ob.setDatation)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">majList</span><span class="p">(</span><span class="n">DatationValue</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;2021-05-05T10&quot;</span><span class="p">,</span> <span class="s2">&quot;2021-05-05T16&quot;</span><span class="p">])</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">prp</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">voxel</span><span class="p">()</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>       
         <span class="nb">print</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-        <span class="n">pprint</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">json</span><span class="p">),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">_info</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1">#pprint(json.loads(ob.json), indent=2)</span>
+        <span class="c1">#ob._info(string=False)</span>
+
+    <span class="k">def</span> <span class="nf">test_observation_for_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
+         
+        <span class="c1">#Case 1: Simple sensor</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="s2">&quot;2021-05-05T10:08&quot;</span>
+        <span class="n">coord</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.35</span><span class="p">,</span> <span class="mf">48.87</span><span class="p">]</span>
+        <span class="n">prop</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;prp&quot;</span><span class="p">:</span><span class="s2">&quot;Temp&quot;</span><span class="p">}</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="mf">25.0</span>
+        <span class="c1"># Observation creation and encoding to Json or to binary data in the sensor</span>
+        <span class="n">ob_sensor</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">((</span><span class="n">time</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">prop</span><span class="p">,</span> <span class="n">res</span><span class="p">))</span>
+        <span class="n">payload1</span> <span class="o">=</span> <span class="n">ob_sensor</span><span class="o">.</span><span class="n">json</span>           <span class="c1"># if the payload is character payload</span>
+        <span class="c1">#print(len(payload1), payload1)</span>
+        <span class="n">payload2</span> <span class="o">=</span> <span class="n">ob_sensor</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">()</span>     <span class="c1"># if the payload is binary payload</span>
+        <span class="c1">#print(len(payload2), payload2)</span>
+        <span class="c1"># data decoding in the server</span>
+        <span class="n">ob_receive1</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">()</span>
+        <span class="n">ob_receive1</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">payload1</span><span class="p">)</span>
+        <span class="n">ob_receive2</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">()</span>
+        <span class="n">ob_receive2</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">payload2</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">ob_receive2</span><span class="o">.</span><span class="n">json</span> <span class="o">==</span> <span class="n">ob_receive1</span><span class="o">.</span><span class="n">json</span> <span class="o">==</span> <span class="n">ob_sensor</span><span class="o">.</span><span class="n">json</span><span class="p">)</span>   <span class="c1"># it&#39;s True !!</span>
+        <span class="c1"># and store it in the database (example with NoSQL DataBase)</span>
+        <span class="n">jsonStore</span> <span class="o">=</span> <span class="n">ob_receive1</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>    <span class="c1"># add &#39;information&#39; in the json to facilitate the research in the database</span>
+        <span class="c1">#pprint(json.loads(jsonStore))</span>
+        <span class="c1">#url = &quot;https://webhooks.mongodb-realm.com/api/client/v2.0/app/observation_app-wsjge/service/postObs/incoming_webhook/api?secret=10minutes&quot;</span>
+        <span class="c1">#r = rq.post(url, data=jsonStore)  </span>
+        <span class="c1">#print(&quot;réponse : &quot;, r.status_code, &quot;\n&quot;)</span>
+        
+        <span class="c1">#case 2 : minimize data in operation</span>
+        <span class="c1"># initialization phase (sensor or server) -&gt; once</span>
+        <span class="n">coord</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.35</span><span class="p">,</span> <span class="mf">48.87</span><span class="p">]</span>
+        <span class="n">prop</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;prp&quot;</span><span class="p">:</span><span class="s2">&quot;Temp&quot;</span><span class="p">}</span>
+        <span class="n">ob_init</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">coord</span><span class="p">,</span> <span class="nb">property</span><span class="o">=</span><span class="n">prop</span><span class="p">)</span>
+        <span class="c1">#print(ob_init.json)</span>
+        <span class="c1"># operation phase (sensor) -&gt; regularly</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="mf">25.0</span>
+        <span class="n">ob_operat</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">res</span><span class="p">)</span>
+        <span class="n">payload1</span> <span class="o">=</span> <span class="n">ob_operat</span><span class="o">.</span><span class="n">json</span>           <span class="c1"># if the payload is character payload</span>
+        <span class="c1">#print(len(payload1), payload1)</span>
+        <span class="n">payload2</span> <span class="o">=</span> <span class="n">ob_operat</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">()</span>     <span class="c1"># if the payload is binary payload</span>
+        <span class="c1">#print(len(payload2), payload2)      # the payload is only 4 bytes long !!</span>
+        <span class="c1"># data decoding in the server</span>
+        <span class="n">ob_receive1</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">()</span>
+        <span class="n">ob_receive1</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">payload1</span><span class="p">)</span>
+        <span class="n">ob_receive2</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">()</span>
+        <span class="n">ob_receive2</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">payload2</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">ob_receive1</span><span class="o">.</span><span class="n">json</span> <span class="o">==</span> <span class="n">ob_receive2</span><span class="o">.</span><span class="n">json</span> <span class="o">==</span> <span class="n">ob_operat</span><span class="o">.</span><span class="n">json</span><span class="p">)</span>   <span class="c1"># it&#39;s True !!</span>
+        <span class="c1"># complete observation</span>
+        <span class="n">ob_receive2</span><span class="o">.</span><span class="n">addValue</span><span class="p">(</span><span class="n">DatationValue</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span>
+        <span class="n">ob_receive2</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ob_init</span><span class="p">)</span>
+        <span class="c1">#print(ob_receive2.json)</span>
+
 
 <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipIf</span><span class="p">(</span><span class="n">simple</span><span class="p">,</span> <span class="s2">&quot;test unitaire&quot;</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">TestObsUnitaire</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -1093,39 +1147,89 @@ Environmental Sensing functions.</p>
         <span class="n">ob</span><span class="o">=</span><span class="n">Observation</span><span class="p">((</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39; Temp&#39;</span><span class="p">,</span> <span class="s1">&#39;high&#39;</span><span class="p">))</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;lyon&#39;</span><span class="p">,</span> <span class="s1">&#39; Temp&#39;</span><span class="p">,</span> <span class="s1">&#39;low&#39;</span><span class="p">)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;marseille&#39;</span><span class="p">,</span> <span class="s1">&#39; Temp&#39;</span><span class="p">,</span> <span class="s1">&#39;very high&#39;</span><span class="p">)</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">voxel</span><span class="p">()</span>
+        <span class="c1">#ob.view(True, False, False, False)</span>
+        <span class="c1">#ob.voxel()</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">majList</span><span class="p">(</span><span class="n">ResultValue</span><span class="p">,</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">35</span><span class="p">])</span> 
-        <span class="n">ob</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+        <span class="c1">#ob.plot()</span>
         <span class="c1"># valeur numériques + choropleth</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">setLocation</span><span class="p">)</span>
+        <span class="c1">#print(ob.setLocation)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">majList</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">,</span> <span class="p">[</span><span class="n">lyon</span><span class="p">,</span> <span class="n">marseille</span><span class="p">,</span> <span class="n">paris</span><span class="p">])</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="c1">#ob.view(True, False, True, False)</span>
         <span class="n">choro</span> <span class="o">=</span> <span class="n">ob</span><span class="o">.</span><span class="n">choropleth</span><span class="p">()</span>
-        <span class="n">choro</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;test.html&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">setLocation</span><span class="p">)</span>
+        <span class="c1">#choro.save(&quot;test.html&quot;)</span>
+        <span class="c1">#print(ob.setLocation)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">majList</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">,</span> <span class="p">[</span><span class="n">pol75</span><span class="p">,</span> <span class="n">pol69</span><span class="p">,</span> <span class="n">pol13</span><span class="p">])</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="c1">#ob.view(True, False, True, False)</span>
         <span class="n">choro</span> <span class="o">=</span> <span class="n">ob</span><span class="o">.</span><span class="n">choropleth</span><span class="p">()</span>
-        <span class="n">choro</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;test.html&quot;</span><span class="p">)</span>
+        <span class="c1">#choro.save(&quot;test.html&quot;)</span>
         <span class="c1"># ajout dimension 2, infos globales</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39;Humidity&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;marseille&#39;</span><span class="p">,</span> <span class="s1">&#39;Humidity&#39;</span><span class="p">,</span> <span class="s1">&#39;60&#39;</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">voxel</span><span class="p">()</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+        <span class="c1">#ob.view(True, False, False, False)</span>
+        <span class="c1">#ob.voxel()</span>
+        <span class="c1">#ob.plot()</span>
         <span class="c1"># ajout dimension 3 + export dataarray, dataframe</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;afternoon&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39; Temp&#39;</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;afternoon&#39;</span><span class="p">,</span> <span class="s1">&#39;lyon&#39;</span><span class="p">,</span> <span class="s1">&#39; Temp&#39;</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">majList</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">,</span> <span class="p">[</span><span class="n">lyon</span><span class="p">,</span> <span class="n">marseille</span><span class="p">,</span> <span class="n">paris</span><span class="p">])</span>   <span class="c1"># i.e. paris = [2.35, 48.87]</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">setDatation</span><span class="p">)</span>
+        <span class="c1">#print(ob.setDatation)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">majList</span><span class="p">(</span><span class="n">DatationValue</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;2021-05-05T10&quot;</span><span class="p">,</span> <span class="s2">&quot;2021-05-05T16&quot;</span><span class="p">])</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">prp</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">voxel</span><span class="p">()</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>       
         <span class="nb">print</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-        <span class="n">pprint</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">json</span><span class="p">),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">_info</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1">#pprint(json.loads(ob.json), indent=2)</span>
+        <span class="c1">#ob._info(string=False)</span>
+
+    <span class="k">def</span> <span class="nf">test_observation_for_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
+         
+        <span class="c1">#Case 1: Simple sensor</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="s2">&quot;2021-05-05T10:08&quot;</span>
+        <span class="n">coord</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.35</span><span class="p">,</span> <span class="mf">48.87</span><span class="p">]</span>
+        <span class="n">prop</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;prp&quot;</span><span class="p">:</span><span class="s2">&quot;Temp&quot;</span><span class="p">}</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="mf">25.0</span>
+        <span class="c1"># Observation creation and encoding to Json or to binary data in the sensor</span>
+        <span class="n">ob_sensor</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">((</span><span class="n">time</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">prop</span><span class="p">,</span> <span class="n">res</span><span class="p">))</span>
+        <span class="n">payload1</span> <span class="o">=</span> <span class="n">ob_sensor</span><span class="o">.</span><span class="n">json</span>           <span class="c1"># if the payload is character payload</span>
+        <span class="c1">#print(len(payload1), payload1)</span>
+        <span class="n">payload2</span> <span class="o">=</span> <span class="n">ob_sensor</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">()</span>     <span class="c1"># if the payload is binary payload</span>
+        <span class="c1">#print(len(payload2), payload2)</span>
+        <span class="c1"># data decoding in the server</span>
+        <span class="n">ob_receive1</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">()</span>
+        <span class="n">ob_receive1</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">payload1</span><span class="p">)</span>
+        <span class="n">ob_receive2</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">()</span>
+        <span class="n">ob_receive2</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">payload2</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">ob_receive2</span><span class="o">.</span><span class="n">json</span> <span class="o">==</span> <span class="n">ob_receive1</span><span class="o">.</span><span class="n">json</span> <span class="o">==</span> <span class="n">ob_sensor</span><span class="o">.</span><span class="n">json</span><span class="p">)</span>   <span class="c1"># it&#39;s True !!</span>
+        <span class="c1"># and store it in the database (example with NoSQL DataBase)</span>
+        <span class="n">jsonStore</span> <span class="o">=</span> <span class="n">ob_receive1</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>    <span class="c1"># add &#39;information&#39; in the json to facilitate the research in the database</span>
+        <span class="c1">#pprint(json.loads(jsonStore))</span>
+        <span class="c1">#url = &quot;https://webhooks.mongodb-realm.com/api/client/v2.0/app/observation_app-wsjge/service/postObs/incoming_webhook/api?secret=10minutes&quot;</span>
+        <span class="c1">#r = rq.post(url, data=jsonStore)  </span>
+        <span class="c1">#print(&quot;réponse : &quot;, r.status_code, &quot;\n&quot;)</span>
+        
+        <span class="c1">#case 2 : minimize data in operation</span>
+        <span class="c1"># initialization phase (sensor or server) -&gt; once</span>
+        <span class="n">coord</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.35</span><span class="p">,</span> <span class="mf">48.87</span><span class="p">]</span>
+        <span class="n">prop</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;prp&quot;</span><span class="p">:</span><span class="s2">&quot;Temp&quot;</span><span class="p">}</span>
+        <span class="n">ob_init</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">coord</span><span class="p">,</span> <span class="nb">property</span><span class="o">=</span><span class="n">prop</span><span class="p">)</span>
+        <span class="c1">#print(ob_init.json)</span>
+        <span class="c1"># operation phase (sensor) -&gt; regularly</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="mf">25.0</span>
+        <span class="n">ob_operat</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">res</span><span class="p">)</span>
+        <span class="n">payload1</span> <span class="o">=</span> <span class="n">ob_operat</span><span class="o">.</span><span class="n">json</span>           <span class="c1"># if the payload is character payload</span>
+        <span class="c1">#print(len(payload1), payload1)</span>
+        <span class="n">payload2</span> <span class="o">=</span> <span class="n">ob_operat</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">()</span>     <span class="c1"># if the payload is binary payload</span>
+        <span class="c1">#print(len(payload2), payload2)      # the payload is only 4 bytes long !!</span>
+        <span class="c1"># data decoding in the server</span>
+        <span class="n">ob_receive1</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">()</span>
+        <span class="n">ob_receive1</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">payload1</span><span class="p">)</span>
+        <span class="n">ob_receive2</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">()</span>
+        <span class="n">ob_receive2</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">payload2</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">ob_receive1</span><span class="o">.</span><span class="n">json</span> <span class="o">==</span> <span class="n">ob_receive2</span><span class="o">.</span><span class="n">json</span> <span class="o">==</span> <span class="n">ob_operat</span><span class="o">.</span><span class="n">json</span><span class="p">)</span>   <span class="c1"># it&#39;s True !!</span>
+        <span class="c1"># complete observation</span>
+        <span class="n">ob_receive2</span><span class="o">.</span><span class="n">addValue</span><span class="p">(</span><span class="n">DatationValue</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span>
+        <span class="n">ob_receive2</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ob_init</span><span class="p">)</span>
+        <span class="c1">#print(ob_receive2.json)</span>
 </pre></div>
 
         </details>
@@ -1181,39 +1285,105 @@ attribute so can be configured by individual tests if required.</li>
         <span class="n">ob</span><span class="o">=</span><span class="n">Observation</span><span class="p">((</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39; Temp&#39;</span><span class="p">,</span> <span class="s1">&#39;high&#39;</span><span class="p">))</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;lyon&#39;</span><span class="p">,</span> <span class="s1">&#39; Temp&#39;</span><span class="p">,</span> <span class="s1">&#39;low&#39;</span><span class="p">)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;marseille&#39;</span><span class="p">,</span> <span class="s1">&#39; Temp&#39;</span><span class="p">,</span> <span class="s1">&#39;very high&#39;</span><span class="p">)</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">voxel</span><span class="p">()</span>
+        <span class="c1">#ob.view(True, False, False, False)</span>
+        <span class="c1">#ob.voxel()</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">majList</span><span class="p">(</span><span class="n">ResultValue</span><span class="p">,</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">35</span><span class="p">])</span> 
-        <span class="n">ob</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+        <span class="c1">#ob.plot()</span>
         <span class="c1"># valeur numériques + choropleth</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">setLocation</span><span class="p">)</span>
+        <span class="c1">#print(ob.setLocation)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">majList</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">,</span> <span class="p">[</span><span class="n">lyon</span><span class="p">,</span> <span class="n">marseille</span><span class="p">,</span> <span class="n">paris</span><span class="p">])</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="c1">#ob.view(True, False, True, False)</span>
         <span class="n">choro</span> <span class="o">=</span> <span class="n">ob</span><span class="o">.</span><span class="n">choropleth</span><span class="p">()</span>
-        <span class="n">choro</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;test.html&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">setLocation</span><span class="p">)</span>
+        <span class="c1">#choro.save(&quot;test.html&quot;)</span>
+        <span class="c1">#print(ob.setLocation)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">majList</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">,</span> <span class="p">[</span><span class="n">pol75</span><span class="p">,</span> <span class="n">pol69</span><span class="p">,</span> <span class="n">pol13</span><span class="p">])</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="c1">#ob.view(True, False, True, False)</span>
         <span class="n">choro</span> <span class="o">=</span> <span class="n">ob</span><span class="o">.</span><span class="n">choropleth</span><span class="p">()</span>
-        <span class="n">choro</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;test.html&quot;</span><span class="p">)</span>
+        <span class="c1">#choro.save(&quot;test.html&quot;)</span>
         <span class="c1"># ajout dimension 2, infos globales</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39;Humidity&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;marseille&#39;</span><span class="p">,</span> <span class="s1">&#39;Humidity&#39;</span><span class="p">,</span> <span class="s1">&#39;60&#39;</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">voxel</span><span class="p">()</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+        <span class="c1">#ob.view(True, False, False, False)</span>
+        <span class="c1">#ob.voxel()</span>
+        <span class="c1">#ob.plot()</span>
         <span class="c1"># ajout dimension 3 + export dataarray, dataframe</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;afternoon&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39; Temp&#39;</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;afternoon&#39;</span><span class="p">,</span> <span class="s1">&#39;lyon&#39;</span><span class="p">,</span> <span class="s1">&#39; Temp&#39;</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">majList</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">,</span> <span class="p">[</span><span class="n">lyon</span><span class="p">,</span> <span class="n">marseille</span><span class="p">,</span> <span class="n">paris</span><span class="p">])</span>   <span class="c1"># i.e. paris = [2.35, 48.87]</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">setDatation</span><span class="p">)</span>
+        <span class="c1">#print(ob.setDatation)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">majList</span><span class="p">(</span><span class="n">DatationValue</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;2021-05-05T10&quot;</span><span class="p">,</span> <span class="s2">&quot;2021-05-05T16&quot;</span><span class="p">])</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">prp</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">voxel</span><span class="p">()</span>
         <span class="n">ob</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>       
         <span class="nb">print</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-        <span class="n">pprint</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">ob</span><span class="o">.</span><span class="n">json</span><span class="p">),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">ob</span><span class="o">.</span><span class="n">_info</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1">#pprint(json.loads(ob.json), indent=2)</span>
+        <span class="c1">#ob._info(string=False)</span>
+</pre></div>
+
+        </details>
+
+    
+
+                            </div>
+                            <div id="TestExemples.test_observation_for_sensor" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#TestExemples.test_observation_for_sensor">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">test_observation_for_sensor</span><span class="signature">(self)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">test_observation_for_sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
+         
+        <span class="c1">#Case 1: Simple sensor</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="s2">&quot;2021-05-05T10:08&quot;</span>
+        <span class="n">coord</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.35</span><span class="p">,</span> <span class="mf">48.87</span><span class="p">]</span>
+        <span class="n">prop</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;prp&quot;</span><span class="p">:</span><span class="s2">&quot;Temp&quot;</span><span class="p">}</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="mf">25.0</span>
+        <span class="c1"># Observation creation and encoding to Json or to binary data in the sensor</span>
+        <span class="n">ob_sensor</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">((</span><span class="n">time</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">prop</span><span class="p">,</span> <span class="n">res</span><span class="p">))</span>
+        <span class="n">payload1</span> <span class="o">=</span> <span class="n">ob_sensor</span><span class="o">.</span><span class="n">json</span>           <span class="c1"># if the payload is character payload</span>
+        <span class="c1">#print(len(payload1), payload1)</span>
+        <span class="n">payload2</span> <span class="o">=</span> <span class="n">ob_sensor</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">()</span>     <span class="c1"># if the payload is binary payload</span>
+        <span class="c1">#print(len(payload2), payload2)</span>
+        <span class="c1"># data decoding in the server</span>
+        <span class="n">ob_receive1</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">()</span>
+        <span class="n">ob_receive1</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">payload1</span><span class="p">)</span>
+        <span class="n">ob_receive2</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">()</span>
+        <span class="n">ob_receive2</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">payload2</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">ob_receive2</span><span class="o">.</span><span class="n">json</span> <span class="o">==</span> <span class="n">ob_receive1</span><span class="o">.</span><span class="n">json</span> <span class="o">==</span> <span class="n">ob_sensor</span><span class="o">.</span><span class="n">json</span><span class="p">)</span>   <span class="c1"># it&#39;s True !!</span>
+        <span class="c1"># and store it in the database (example with NoSQL DataBase)</span>
+        <span class="n">jsonStore</span> <span class="o">=</span> <span class="n">ob_receive1</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>    <span class="c1"># add &#39;information&#39; in the json to facilitate the research in the database</span>
+        <span class="c1">#pprint(json.loads(jsonStore))</span>
+        <span class="c1">#url = &quot;https://webhooks.mongodb-realm.com/api/client/v2.0/app/observation_app-wsjge/service/postObs/incoming_webhook/api?secret=10minutes&quot;</span>
+        <span class="c1">#r = rq.post(url, data=jsonStore)  </span>
+        <span class="c1">#print(&quot;réponse : &quot;, r.status_code, &quot;\n&quot;)</span>
+        
+        <span class="c1">#case 2 : minimize data in operation</span>
+        <span class="c1"># initialization phase (sensor or server) -&gt; once</span>
+        <span class="n">coord</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.35</span><span class="p">,</span> <span class="mf">48.87</span><span class="p">]</span>
+        <span class="n">prop</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;prp&quot;</span><span class="p">:</span><span class="s2">&quot;Temp&quot;</span><span class="p">}</span>
+        <span class="n">ob_init</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">coord</span><span class="p">,</span> <span class="nb">property</span><span class="o">=</span><span class="n">prop</span><span class="p">)</span>
+        <span class="c1">#print(ob_init.json)</span>
+        <span class="c1"># operation phase (sensor) -&gt; regularly</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="mf">25.0</span>
+        <span class="n">ob_operat</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">res</span><span class="p">)</span>
+        <span class="n">payload1</span> <span class="o">=</span> <span class="n">ob_operat</span><span class="o">.</span><span class="n">json</span>           <span class="c1"># if the payload is character payload</span>
+        <span class="c1">#print(len(payload1), payload1)</span>
+        <span class="n">payload2</span> <span class="o">=</span> <span class="n">ob_operat</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">()</span>     <span class="c1"># if the payload is binary payload</span>
+        <span class="c1">#print(len(payload2), payload2)      # the payload is only 4 bytes long !!</span>
+        <span class="c1"># data decoding in the server</span>
+        <span class="n">ob_receive1</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">()</span>
+        <span class="n">ob_receive1</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">payload1</span><span class="p">)</span>
+        <span class="n">ob_receive2</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">()</span>
+        <span class="n">ob_receive2</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">payload2</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">ob_receive1</span><span class="o">.</span><span class="n">json</span> <span class="o">==</span> <span class="n">ob_receive2</span><span class="o">.</span><span class="n">json</span> <span class="o">==</span> <span class="n">ob_operat</span><span class="o">.</span><span class="n">json</span><span class="p">)</span>   <span class="c1"># it&#39;s True !!</span>
+        <span class="c1"># complete observation</span>
+        <span class="n">ob_receive2</span><span class="o">.</span><span class="n">addValue</span><span class="p">(</span><span class="n">DatationValue</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span>
+        <span class="n">ob_receive2</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ob_init</span><span class="p">)</span>
+        <span class="c1">#print(ob_receive2.json)</span>
 </pre></div>
 
         </details>

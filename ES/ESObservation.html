@@ -71,6 +71,9 @@
                                 <a class="function" href="#Observation.extend">extend</a>
                         </li>
                         <li>
+                                <a class="function" href="#Observation.find">find</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Observation.from_bytes">from_bytes</a>
                         </li>
                         <li>
@@ -272,6 +275,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">    - `Observation.extend`</span>
 <span class="sd">    - `Observation.full`</span>
 <span class="sd">    - `Observation.sort`</span>
+<span class="sd">    - `Observation.find`</span>
 <span class="sd">    </span>
 <span class="sd">    *visualization*</span>
 <span class="sd">    </span>
@@ -488,7 +492,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        - **dat, loc, prp** :</span>
 <span class="sd">        </span>
 <span class="sd">            integer for the index of an existant `ES.ESValue.ESIndexValue`  </span>
-<span class="sd">            compatible Value for an existing or a new `ES.ESValue`</span>
+<span class="sd">            or compatible Value for an existing or a new `ES.ESValue`</span>
 <span class="sd">            </span>
 <span class="sd">        - **res** : new `ES.ESValue.ResultValue`</span>
 <span class="sd">        </span>
@@ -575,6 +579,20 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">classES</span><span class="p">)</span> <span class="o">==</span> <span class="kc">None</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addComposant</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">majType</span><span class="p">()</span>    
         
+    <span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crit</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Finds `ES.ESValue` that meets a given criteria.</span>
+
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **crit** : to be define.</span>
+<span class="sd">         </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **Observation** : New Observation</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    
     <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;dlp&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Complete an empty `Observation` with binary data. </span>
@@ -861,7 +879,8 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="n">nPrp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">nPrp</span><span class="p">,</span> <span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nRes</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">switch</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">line</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">switch</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">line</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> 
+             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">maxname</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function visualize an `Observation` with line or colormesh.</span>
 <span class="sd">        </span>
@@ -872,13 +891,14 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        - **sort** : Boolean (defaut True) - Sort along an axis or not.</span>
 <span class="sd">        - **size** : Int (default 5) - Size of the figure to plot.</span>
 <span class="sd">        - **marker** : Char (default &#39;o&#39;) - Symbol for each point.</span>
+<span class="sd">        - **maxname** : String (default 20) - maximum length for string</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
 <span class="sd">        - **None**</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">getMaxIndex</span><span class="p">()</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="k">return</span>
-        <span class="n">obx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">complet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="n">sort</span><span class="p">)</span>
+        <span class="n">obx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">complet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="n">sort</span><span class="p">,</span> <span class="n">maxname</span><span class="o">=</span><span class="n">maxname</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">obx</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -893,10 +913,14 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
                               <span class="n">xticks</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;str&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> 
                               <span class="n">hue</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">+</span><span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span> 
-                <span class="n">obx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">y</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> 
+                <span class="k">try</span> <span class="p">:</span> 
+                    <span class="n">obx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">y</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> 
                          <span class="n">xticks</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]]]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> 
                          <span class="n">yticks</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]]]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> 
                          <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span>
+                <span class="k">except</span> <span class="p">:</span>
+                    <span class="n">obx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+                    
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>       
             <span class="k">if</span> <span class="n">line</span> <span class="p">:</span>
                 <span class="n">obx</span> <span class="o">=</span> <span class="n">obx</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">prp</span> <span class="o">=</span> <span class="s2">&quot;prpstr&quot;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;locstr&quot;</span><span class="p">)</span>
@@ -1290,9 +1314,9 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
     <span class="k">def</span> <span class="nf">_infoBox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Add box informations&#39;s key-value to dict dcinf&#39;&#39;&#39;</span>
         <span class="n">dcinf</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">nValue</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">dcinf</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">loc_box</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">boundingBox</span><span class="p">()</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="o">.</span><span class="n">nValue</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">dcinf</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_box</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="o">.</span><span class="n">boundingBox</span><span class="p">()</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dcinf</span>
     
@@ -1364,7 +1388,8 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="n">xList</span><span class="p">[</span><span class="s1">&#39;resval&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">squeeze</span><span class="o">=</span><span class="n">squeeze</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">ind</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="n">ResultValue</span><span class="o">.</span><span class="n">to_float</span><span class="p">)</span>
             <span class="n">xList</span><span class="p">[</span><span class="s1">&#39;resstr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">squeeze</span><span class="o">=</span><span class="n">squeeze</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">ind</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="n">ResultValue</span><span class="o">.</span><span class="n">json</span><span class="p">)</span>
             <span class="n">xList</span><span class="p">[</span><span class="s1">&#39;resnam&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">squeeze</span><span class="o">=</span><span class="n">squeeze</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">ind</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="n">ResultValue</span><span class="o">.</span><span class="n">vName</span><span class="p">)</span>
-            <span class="n">xList</span><span class="p">[</span><span class="s1">&#39;resran&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xList</span><span class="p">[</span><span class="s1">&#39;res&#39;</span><span class="p">]))</span>
+            <span class="n">xList</span><span class="p">[</span><span class="s1">&#39;resran&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">squeeze</span><span class="o">=</span><span class="n">squeeze</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">ind</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="s1">&#39;index&#39;</span><span class="p">)</span>
+            <span class="c1">#xList[&#39;resran&#39;] = np.arange(len(xList[&#39;res&#39;]))</span>
         <span class="k">if</span> <span class="n">maxname</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">lis</span> <span class="ow">in</span> <span class="n">xList</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="p">:</span>
                 <span class="k">if</span> <span class="n">key</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="s1">&#39;nam&#39;</span><span class="p">,</span> <span class="s1">&#39;typ&#39;</span><span class="p">]:</span>
@@ -1523,6 +1548,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">    - `Observation.extend`</span>
 <span class="sd">    - `Observation.full`</span>
 <span class="sd">    - `Observation.sort`</span>
+<span class="sd">    - `Observation.find`</span>
 <span class="sd">    </span>
 <span class="sd">    *visualization*</span>
 <span class="sd">    </span>
@@ -1739,7 +1765,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        - **dat, loc, prp** :</span>
 <span class="sd">        </span>
 <span class="sd">            integer for the index of an existant `ES.ESValue.ESIndexValue`  </span>
-<span class="sd">            compatible Value for an existing or a new `ES.ESValue`</span>
+<span class="sd">            or compatible Value for an existing or a new `ES.ESValue`</span>
 <span class="sd">            </span>
 <span class="sd">        - **res** : new `ES.ESValue.ResultValue`</span>
 <span class="sd">        </span>
@@ -1826,6 +1852,20 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">classES</span><span class="p">)</span> <span class="o">==</span> <span class="kc">None</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">addComposant</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">majType</span><span class="p">()</span>    
         
+    <span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crit</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Finds `ES.ESValue` that meets a given criteria.</span>
+
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **crit** : to be define.</span>
+<span class="sd">         </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **Observation** : New Observation</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    
     <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;dlp&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Complete an empty `Observation` with binary data. </span>
@@ -2112,7 +2152,8 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="n">nPrp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="o">.</span><span class="n">nValue</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">nPrp</span><span class="p">,</span> <span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">nRes</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">switch</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">line</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">switch</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">line</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> 
+             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">maxname</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function visualize an `Observation` with line or colormesh.</span>
 <span class="sd">        </span>
@@ -2123,13 +2164,14 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        - **sort** : Boolean (defaut True) - Sort along an axis or not.</span>
 <span class="sd">        - **size** : Int (default 5) - Size of the figure to plot.</span>
 <span class="sd">        - **marker** : Char (default &#39;o&#39;) - Symbol for each point.</span>
+<span class="sd">        - **maxname** : String (default 20) - maximum length for string</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
 <span class="sd">        - **None**</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">getMaxIndex</span><span class="p">()</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="k">return</span>
-        <span class="n">obx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">complet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="n">sort</span><span class="p">)</span>
+        <span class="n">obx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">complet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="n">sort</span><span class="p">,</span> <span class="n">maxname</span><span class="o">=</span><span class="n">maxname</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">obx</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -2144,10 +2186,14 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
                               <span class="n">xticks</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;str&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> 
                               <span class="n">hue</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">+</span><span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span> 
-                <span class="n">obx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">y</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> 
+                <span class="k">try</span> <span class="p">:</span> 
+                    <span class="n">obx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">y</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> 
                          <span class="n">xticks</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]]]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> 
                          <span class="n">yticks</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]]]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> 
                          <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span>
+                <span class="k">except</span> <span class="p">:</span>
+                    <span class="n">obx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+                    
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>       
             <span class="k">if</span> <span class="n">line</span> <span class="p">:</span>
                 <span class="n">obx</span> <span class="o">=</span> <span class="n">obx</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">prp</span> <span class="o">=</span> <span class="s2">&quot;prpstr&quot;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;locstr&quot;</span><span class="p">)</span>
@@ -2541,9 +2587,9 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
     <span class="k">def</span> <span class="nf">_infoBox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Add box informations&#39;s key-value to dict dcinf&#39;&#39;&#39;</span>
         <span class="n">dcinf</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">nValue</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">dcinf</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">loc_box</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">boundingBox</span><span class="p">()</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="o">.</span><span class="n">nValue</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">dcinf</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_box</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="o">.</span><span class="n">boundingBox</span><span class="p">()</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dcinf</span>
     
@@ -2615,7 +2661,8 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="n">xList</span><span class="p">[</span><span class="s1">&#39;resval&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">squeeze</span><span class="o">=</span><span class="n">squeeze</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">ind</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="n">ResultValue</span><span class="o">.</span><span class="n">to_float</span><span class="p">)</span>
             <span class="n">xList</span><span class="p">[</span><span class="s1">&#39;resstr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">squeeze</span><span class="o">=</span><span class="n">squeeze</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">ind</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="n">ResultValue</span><span class="o">.</span><span class="n">json</span><span class="p">)</span>
             <span class="n">xList</span><span class="p">[</span><span class="s1">&#39;resnam&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">squeeze</span><span class="o">=</span><span class="n">squeeze</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">ind</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="n">ResultValue</span><span class="o">.</span><span class="n">vName</span><span class="p">)</span>
-            <span class="n">xList</span><span class="p">[</span><span class="s1">&#39;resran&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xList</span><span class="p">[</span><span class="s1">&#39;res&#39;</span><span class="p">]))</span>
+            <span class="n">xList</span><span class="p">[</span><span class="s1">&#39;resran&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">squeeze</span><span class="o">=</span><span class="n">squeeze</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">ind</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="s1">&#39;index&#39;</span><span class="p">)</span>
+            <span class="c1">#xList[&#39;resran&#39;] = np.arange(len(xList[&#39;res&#39;]))</span>
         <span class="k">if</span> <span class="n">maxname</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">lis</span> <span class="ow">in</span> <span class="n">xList</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="p">:</span>
                 <span class="k">if</span> <span class="n">key</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="s1">&#39;nam&#39;</span><span class="p">,</span> <span class="s1">&#39;typ&#39;</span><span class="p">]:</span>
@@ -2770,6 +2817,7 @@ several DatationValue (2)</li>
 <li><code><a href="#Observation.extend">Observation.extend</a></code></li>
 <li><code><a href="#Observation.full">Observation.full</a></code></li>
 <li><code><a href="#Observation.sort">Observation.sort</a></code></li>
+<li><code><a href="#Observation.find">Observation.find</a></code></li>
 </ul>
 
 <p><em>visualization</em></p>
@@ -3170,7 +3218,7 @@ The <a href="ESObs.html">ES.ESObs</a> child class is defined by classES or if No
 <span class="sd">        - **dat, loc, prp** :</span>
 <span class="sd">        </span>
 <span class="sd">            integer for the index of an existant `ES.ESValue.ESIndexValue`  </span>
-<span class="sd">            compatible Value for an existing or a new `ES.ESValue`</span>
+<span class="sd">            or compatible Value for an existing or a new `ES.ESValue`</span>
 <span class="sd">            </span>
 <span class="sd">        - **res** : new `ES.ESValue.ResultValue`</span>
 <span class="sd">        </span>
@@ -3197,7 +3245,7 @@ The <a href="ESObs.html">ES.ESObs</a> child class is defined by classES or if No
 <li><p><strong>dat, loc, prp</strong> :</p>
 
 <p>integer for the index of an existant <code><a href="ESValue.html#ESIndexValue">ES.ESValue.ESIndexValue</a></code> <br />
-compatible Value for an existing or a new <code><a href="ESValue.html">ES.ESValue</a></code></p></li>
+or compatible Value for an existing or a new <code><a href="ESValue.html">ES.ESValue</a></code></p></li>
 <li><p><strong>res</strong> : new <code><a href="ESValue.html#ResultValue">ES.ESValue.ResultValue</a></code></p></li>
 </ul>
 
@@ -3370,6 +3418,50 @@ compatible Value for an existing or a new <code><a href="ESValue.html">ES.ESValu
 
 <ul>
 <li><strong>None</strong></li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="Observation.find" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Observation.find">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">find</span><span class="signature">(self, crit=None)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crit</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Finds `ES.ESValue` that meets a given criteria.</span>
+
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **crit** : to be define.</span>
+<span class="sd">         </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **Observation** : New Observation</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Finds <code><a href="ESValue.html">ES.ESValue</a></code> that meets a given criteria.</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>crit</strong> : to be define.</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>Observation</strong> : New Observation</li>
 </ul>
 </div>
 
@@ -3961,12 +4053,21 @@ The order is define with three letters : l (location), d (datation), p (property
 
         
             <span class="def">def</span>
-            <span class="name">plot</span><span class="signature">(self, switch=False, line=True, sort=True, size=5, marker=&#39;o&#39;)</span>:
+            <span class="name">plot</span><span class="signature">(
+    self,
+    switch=False,
+    line=True,
+    sort=True,
+    size=5,
+    marker=&#39;o&#39;,
+    maxname=20
+)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">switch</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">line</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">):</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">switch</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">line</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> 
+             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">maxname</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function visualize an `Observation` with line or colormesh.</span>
 <span class="sd">        </span>
@@ -3977,13 +4078,14 @@ The order is define with three letters : l (location), d (datation), p (property
 <span class="sd">        - **sort** : Boolean (defaut True) - Sort along an axis or not.</span>
 <span class="sd">        - **size** : Int (default 5) - Size of the figure to plot.</span>
 <span class="sd">        - **marker** : Char (default &#39;o&#39;) - Symbol for each point.</span>
+<span class="sd">        - **maxname** : String (default 20) - maximum length for string</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
 <span class="sd">        - **None**</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span><span class="o">.</span><span class="n">getMaxIndex</span><span class="p">()</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="k">return</span>
-        <span class="n">obx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">complet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="n">sort</span><span class="p">)</span>
+        <span class="n">obx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">complet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="n">sort</span><span class="p">,</span> <span class="n">maxname</span><span class="o">=</span><span class="n">maxname</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">obx</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -3998,10 +4100,14 @@ The order is define with three letters : l (location), d (datation), p (property
                               <span class="n">xticks</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;str&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> 
                               <span class="n">hue</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">+</span><span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span> 
-                <span class="n">obx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">y</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> 
+                <span class="k">try</span> <span class="p">:</span> 
+                    <span class="n">obx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">y</span><span class="o">=</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> 
                          <span class="n">xticks</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">0</span><span class="p">]]]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> 
                          <span class="n">yticks</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">+</span><span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="mi">1</span><span class="p">]]]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> 
                          <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span>
+                <span class="k">except</span> <span class="p">:</span>
+                    <span class="n">obx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+                    
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>       
             <span class="k">if</span> <span class="n">line</span> <span class="p">:</span>
                 <span class="n">obx</span> <span class="o">=</span> <span class="n">obx</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">prp</span> <span class="o">=</span> <span class="s2">&quot;prpstr&quot;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;locstr&quot;</span><span class="p">)</span>
@@ -4030,6 +4136,7 @@ The order is define with three letters : l (location), d (datation), p (property
 <li><strong>sort</strong> : Boolean (defaut True) - Sort along an axis or not.</li>
 <li><strong>size</strong> : Int (default 5) - Size of the figure to plot.</li>
 <li><strong>marker</strong> : Char (default 'o') - Symbol for each point.</li>
+<li><strong>maxname</strong> : String (default 20) - maximum length for string</li>
 </ul>
 
 <p><em>Returns</em></p>
@@ -4282,7 +4389,7 @@ if not sorting follows the list provided.</li>
     info=False,
     numeric=False,
     fullAxes=False,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x00000271B9316220&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000021C946F6220&gt;&gt;,
     arrayname=&#39;Observation&#39;
 )</span>:
     </div>
@@ -4419,7 +4526,7 @@ applied to each <code><a href="ESValue.html#ResultValue">ES.ESValue.ResultValue<
     info=False,
     numeric=False,
     fullAxes=False,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x00000271B9316220&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000021C946F6220&gt;&gt;,
     arrayname=&#39;Observation&#39;,
     maxname=20
 )</span>:

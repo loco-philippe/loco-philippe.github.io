@@ -53,6 +53,7 @@
   <ul>
     <li><a href="#first-observation">First Observation</a></li>
     <li><a href="#observation-for-sensor">Observation for sensor</a></li>
+    <li><a href="#dimension-concept">Dimension concept</a></li>
     <li><a href="#observation-management-2">Observation management</a></li>
   </ul></li>
   <li><a href="#quick-overview">Quick overview</a>
@@ -73,8 +74,12 @@
     </ul></li>
     <li><a href="#managing-observations">Managing Observations</a>
     <ul>
+      <li><a href="#add">Add</a></li>
       <li><a href="#sort">Sort</a></li>
       <li><a href="#aggregation">Aggregation</a></li>
+    </ul></li>
+    <li><a href="#interface">Interface</a>
+    <ul>
       <li><a href="#numpy-export">Numpy export</a></li>
       <li><a href="#xarray-export">Xarray export</a></li>
       <li><a href="#storage">Storage</a></li>
@@ -186,7 +191,7 @@ by ensuring convergence:    </p>
 
 <h2 id="data-structure">Data structure</h2>
 
-<p>An Observation is characterized by:</p>
+<p>In the ISO-19156 standard, an Observation is characterized by:</p>
 
 <ul>
 <li>"observed property": the observed property,</li>
@@ -203,7 +208,10 @@ by ensuring convergence:    </p>
 <li>physical (observed property)</li>
 </ul>
 
-<p>It can be converted into a 3-dimensional matrix, each result being indexed by 
+<p>In the ES project, the three dimensions are respected. An Observation object consists
+of five components : a Datation Object, a Location Object, a Property Object, a Result Object
+and a Parameter object.
+It can be converted into a 3-dimensional matrix, each result being indexed by 
 temporal, spatial and physical values.</p>
 
 <p><img src="./ES/structure.png" width="800"></p>
@@ -254,7 +262,7 @@ and Datation are coupled, Property has one value).</p>
 <li>global : At the Observation level, we may add specific informations with specific 
 key / value e.g.:
 <ul>
-<li><em>{ 'type': 'observation' , 'test campaign' : 'first' , 
+<li><em>{ 'type' : 'observation' , 'test campaign' : 'first' , 
 'datvalue' : 'morning' , 'locvalue' : 'paris' , 'prpvalue' : ' Temp' , 
 'resvalue' : 'high' }</em></li>
 </ul></li>
@@ -266,12 +274,42 @@ key / value e.g.:
 <li>individual : Each ResultValue may be annotate e.g.:
 <ul>
 <li><em>'resvalue' : { 'first result' : 'high' }</em></li>
+<li><em>'resvalue' : { 'https://loco-philippe.github.io/ES.html' : 'high' }</em></li>
 </ul></li>
 </ul>
 
 <p>The PropertyValues are defined in a catalogue which may be specific. </p>
 
 <h2 id="observation-management">Observation management</h2>
+
+<p>Some operations are available for Observation objects</p>
+
+<ul>
+<li><p>between two Observation :</p>
+
+<ul>
+<li>Addition function : The ResultValues are added</li>
+<li>Extend function : The ESObs are added (e.g. template Observation)</li>
+<li>Append function : An Observation is included as a ResultValue (e.g. tree structure)</li>
+</ul></li>
+</ul>
+
+<p><img src="./ES/extension.png" width="800"></p>
+
+<ul>
+<li><p>for one Observation :</p>
+
+<ul>
+<li>Sort function : changing the order of data according to the ESObs order</li>
+<li>Find function : selecting some data </li>
+<li>Full function : add empty ResultValue to complete an Observation</li>
+</ul></li>
+</ul>
+
+<p><img src="./ES/extraction.png" width="800"></p>
+
+<p>These operations make it possible to cut, group, restructure and classify the 
+Observations.</p>
 
 <h2 id="json-interface">Json interface</h2>
 
@@ -362,9 +400,17 @@ This chapter introduces you to the to binary interface and explain you:
 <li>the processes to obtain low data as explain in the "Binary interface" chapter</li>
 </ul>
 
-<h2 id="observation-management-2">Observation management</h2>
+<h2 id="dimension-concept">Dimension concept</h2>
 
-<p>How to manage </p>
+<p>The dimension is an important concept to understand (see chapter above). </p>
+
+<p>In this example, we show you Observations with differents dimensions (1 to 3).</p>
+
+<p>We also present how ResultValue without index can be loaded with the 'order'parameter.</p>
+
+<p><a href="./Example/dimension.html" target="_blank">(see the page here)</a> :</p>
+
+<h2 id="observation-management-2">Observation management</h2>
 
 <h1 id="quick-overview">Quick overview</h1>
 
@@ -390,9 +436,13 @@ This chapter introduces you to the to binary interface and explain you:
 
 <h2 id="managing-observations">Managing Observations</h2>
 
+<h3 id="add">Add</h3>
+
 <h3 id="sort">Sort</h3>
 
 <h3 id="aggregation">Aggregation</h3>
+
+<h2 id="interface">Interface</h2>
 
 <h3 id="numpy-export">Numpy export</h3>
 
@@ -500,7 +550,7 @@ spatial and temporal characteristics associated with measurable or observable
 
 <span class="sd">## Data structure</span>
 
-<span class="sd">An Observation is characterized by:</span>
+<span class="sd">In the ISO-19156 standard, an Observation is characterized by:</span>
 
 <span class="sd">- &quot;observed property&quot;: the observed property,</span>
 <span class="sd">- &quot;feature of interest&quot;: the object (most often a location) of the observation,</span>
@@ -513,6 +563,9 @@ spatial and temporal characteristics associated with measurable or observable
 <span class="sd">- spatial,</span>
 <span class="sd">- physical (observed property)</span>
 
+<span class="sd">In the ES project, the three dimensions are respected. An Observation object consists</span>
+<span class="sd">of five components : a Datation Object, a Location Object, a Property Object, a Result Object</span>
+<span class="sd">and a Parameter object.</span>
 <span class="sd">It can be converted into a 3-dimensional matrix, each result being indexed by </span>
 <span class="sd">temporal, spatial and physical values.</span>
 
@@ -560,7 +613,7 @@ spatial and temporal characteristics associated with measurable or observable
 <span class="sd">    </span>
 <span class="sd">- global : At the Observation level, we may add specific informations with specific </span>
 <span class="sd">key / value e.g.:</span>
-<span class="sd">    - *{ &#39;type&#39;: &#39;observation&#39; , &#39;test campaign&#39; : &#39;first&#39; , </span>
+<span class="sd">    - *{ &#39;type&#39; : &#39;observation&#39; , &#39;test campaign&#39; : &#39;first&#39; , </span>
 <span class="sd">       &#39;datvalue&#39; : &#39;morning&#39; , &#39;locvalue&#39; : &#39;paris&#39; , &#39;prpvalue&#39; : &#39; Temp&#39; , </span>
 <span class="sd">       &#39;resvalue&#39; : &#39;high&#39; }*</span>
 <span class="sd">- local : We may customize the &#39;name&#39; attribute e.g.:</span>
@@ -568,13 +621,32 @@ spatial and temporal characteristics associated with measurable or observable
 <span class="sd">    - &#39;prpvalue&#39; : [ { &#39;inside&#39; : &#39;Temp&#39; } , { &#39;outside&#39; : &#39;Temp&#39; } ]*</span>
 <span class="sd">- individual : Each ResultValue may be annotate e.g.:</span>
 <span class="sd">    - *&#39;resvalue&#39; : { &#39;first result&#39; : &#39;high&#39; }*</span>
+<span class="sd">    - *&#39;resvalue&#39; : { &#39;https://loco-philippe.github.io/ES.html&#39; : &#39;high&#39; }*</span>
 
 <span class="sd">The PropertyValues are defined in a catalogue which may be specific. </span>
 
 <span class="sd">## Observation management</span>
 
+<span class="sd">Some operations are available for Observation objects</span>
 
+<span class="sd">- between two Observation :</span>
+<span class="sd">    </span>
+<span class="sd">    - Addition function : The ResultValues are added</span>
+<span class="sd">    - Extend function : The ESObs are added (e.g. template Observation)</span>
+<span class="sd">    - Append function : An Observation is included as a ResultValue (e.g. tree structure)</span>
 
+<span class="sd">&lt;img src=&quot;./ES/extension.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">- for one Observation :</span>
+<span class="sd">    </span>
+<span class="sd">    - Sort function : changing the order of data according to the ESObs order</span>
+<span class="sd">    - Find function : selecting some data </span>
+<span class="sd">    - Full function : add empty ResultValue to complete an Observation</span>
+
+<span class="sd">&lt;img src=&quot;./ES/extraction.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">These operations make it possible to cut, group, restructure and classify the </span>
+<span class="sd">Observations.</span>
 
 <span class="sd">## Json interface</span>
 
@@ -662,9 +734,19 @@ spatial and temporal characteristics associated with measurable or observable
 <span class="sd">- how to encode and decode binary data</span>
 <span class="sd">- the processes to obtain low data as explain in the &quot;Binary interface&quot; chapter</span>
 
+<span class="sd">## Dimension concept</span>
+
+<span class="sd">The dimension is an important concept to understand (see chapter above). </span>
+
+<span class="sd">In this example, we show you Observations with differents dimensions (1 to 3).</span>
+
+<span class="sd">We also present how ResultValue without index can be loaded with the &#39;order&#39;parameter.</span>
+
+<span class="sd">&lt;a href=&quot;./Example/dimension.html&quot; target=&quot;_blank&quot;&gt;(see the page here)&lt;/a&gt; :</span>
+<span class="sd">    </span>
 <span class="sd">## Observation management</span>
 
-<span class="sd">How to manage </span>
+
 
 <span class="sd"># Quick overview</span>
 
@@ -690,9 +772,13 @@ spatial and temporal characteristics associated with measurable or observable
 
 <span class="sd">## Managing Observations</span>
 
+<span class="sd">### Add</span>
+
 <span class="sd">### Sort</span>
 
 <span class="sd">### Aggregation</span>
+
+<span class="sd">## Interface</span>
 
 <span class="sd">### Numpy export</span>
 
