@@ -64,18 +64,6 @@
                 </ul>
 
             </li>
-            <li>
-                    <a class="class" href="#ESObs">ESObs</a>
-                            <ul class="memberlist">
-                        <li>
-                                <a class="function" href="#ESObs.__init__">ESObs</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#ESObs.observation">observation</a>
-                        </li>
-                </ul>
-
-            </li>
     </ul>
 
 
@@ -114,6 +102,7 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">ESconstante</span> <span class="kn">import</span> <span class="n">ES</span>
+<span class="c1">#from ESSet import ESSet</span>
 <span class="c1">#from ESValue import LocationValue, DatationValue, ESSet, PropertyValue, ResultValue #, gshape</span>
 <span class="c1">#from ESObs import Datation, Location, Property, Result</span>
 
@@ -153,14 +142,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classES</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metaType</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
+        <span class="c1">#self.metaType = &quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pContenant</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">txt</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
-        <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;metatype, classES, typeES : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">metaType</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classES</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">typeES</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="c1">#txt += f&quot;metatype, classES, typeES : {self.metaType} {self.classES} {self.typeES} \n&quot;</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;classES, typeES : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classES</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">typeES</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;nombre de composants </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pContenant</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;nombre de contenants </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pContenant</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -189,7 +179,8 @@
 
     <span class="k">def</span> <span class="nf">element</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comp</span><span class="p">)</span> <span class="p">:</span>
         <span class="k">for</span> <span class="n">cp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">:</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">typeES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">classES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">metaType</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">==</span> <span class="n">comp</span><span class="p">):</span>
+            <span class="c1">#if (cp.typeES == comp or cp.classES == comp or cp.metaType == comp or cp.mAtt[ES.type] == comp):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">typeES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">classES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">==</span> <span class="n">comp</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">cp</span>
             <span class="k">elif</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span> <span class="k">return</span> <span class="n">cp</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -213,31 +204,6 @@
             <span class="c1">#if k[0] == &#39;$&#39; and v != &quot;null&quot;: att[k] = v</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">att</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">att</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span>
-
-<span class="sd">&#39;&#39;&#39;class ESObject(ESElement):</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-<span class="sd">    Classe liée à la structure interne</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-<span class="sd">    def __init__(self):</span>
-<span class="sd">        ESElement.__init__(self)</span>
-<span class="sd">        self.metaType = ES.obj_metaType</span>
-<span class="sd">        self.name = &quot;observtion du &quot; + datetime.now().isoformat()</span>
-<span class="sd">&#39;&#39;&#39;</span>        
-<span class="k">class</span> <span class="nc">ESObs</span><span class="p">(</span><span class="n">ESElement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classe mère des objets Datation, Location et Property.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">ESElement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metaType</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_metaType</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">pObs</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span> <span class="n">pObs</span><span class="o">.</span><span class="n">addComposant</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">observation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">cont</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pContenant</span> <span class="p">:</span>
-            <span class="k">if</span> <span class="n">cont</span><span class="o">.</span><span class="n">classES</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_classES</span> <span class="p">:</span> <span class="k">return</span> <span class="n">cont</span>
-        <span class="k">return</span> <span class="kc">None</span>
-    
 </pre></div>
 
         </details>
@@ -334,14 +300,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classES</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metaType</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
+        <span class="c1">#self.metaType = &quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pContenant</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">txt</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
-        <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;metatype, classES, typeES : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">metaType</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classES</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">typeES</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="c1">#txt += f&quot;metatype, classES, typeES : {self.metaType} {self.classES} {self.typeES} \n&quot;</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;classES, typeES : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classES</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">typeES</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;nombre de composants </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pContenant</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;nombre de contenants </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pContenant</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -370,7 +337,8 @@
 
     <span class="k">def</span> <span class="nf">element</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comp</span><span class="p">)</span> <span class="p">:</span>
         <span class="k">for</span> <span class="n">cp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">:</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">typeES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">classES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">metaType</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">==</span> <span class="n">comp</span><span class="p">):</span>
+            <span class="c1">#if (cp.typeES == comp or cp.classES == comp or cp.metaType == comp or cp.mAtt[ES.type] == comp):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">typeES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">classES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">==</span> <span class="n">comp</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">cp</span>
             <span class="k">elif</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span> <span class="k">return</span> <span class="n">cp</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -416,7 +384,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classES</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metaType</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
+        <span class="c1">#self.metaType = &quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pContenant</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -500,7 +468,8 @@
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">element</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comp</span><span class="p">)</span> <span class="p">:</span>
         <span class="k">for</span> <span class="n">cp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">:</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">typeES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">classES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">metaType</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">==</span> <span class="n">comp</span><span class="p">):</span>
+            <span class="c1">#if (cp.typeES == comp or cp.classES == comp or cp.metaType == comp or cp.mAtt[ES.type] == comp):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">typeES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">classES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">==</span> <span class="n">comp</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">cp</span>
             <span class="k">elif</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span> <span class="k">return</span> <span class="n">cp</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -531,82 +500,6 @@
 
     
 
-                            </div>
-                </section>
-                <section id="ESObs">
-                                <div class="attr class">
-        <a class="headerlink" href="#ESObs">#&nbsp;&nbsp</a>
-
-        
-        <span class="def">class</span>
-        <span class="name">ESObs</span><wbr>(<span class="base"><a href="#ESElement">ESElement</a></span>):
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ESObs</span><span class="p">(</span><span class="n">ESElement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classe mère des objets Datation, Location et Property.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">ESElement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metaType</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_metaType</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">pObs</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span> <span class="n">pObs</span><span class="o">.</span><span class="n">addComposant</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">observation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">cont</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pContenant</span> <span class="p">:</span>
-            <span class="k">if</span> <span class="n">cont</span><span class="o">.</span><span class="n">classES</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_classES</span> <span class="p">:</span> <span class="k">return</span> <span class="n">cont</span>
-        <span class="k">return</span> <span class="kc">None</span>
-</pre></div>
-
-        </details>
-
-            <div class="docstring"><p>Classe mère des objets Datation, Location et Property.</p>
-</div>
-
-
-                            <div id="ESObs.__init__" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#ESObs.__init__">#&nbsp;&nbsp</a>
-
-        
-            <span class="name">ESObs</span><span class="signature">(pObs=None)</span>
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">ESElement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metaType</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_metaType</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">pObs</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span> <span class="n">pObs</span><span class="o">.</span><span class="n">addComposant</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-</pre></div>
-
-        </details>
-
-    
-
-                            </div>
-                            <div id="ESObs.observation" class="classattr">
-                                            <div class="attr variable"><a class="headerlink" href="#ESObs.observation">#&nbsp;&nbsp</a>
-
-        <span class="name">observation</span>
-    </div>
-
-    
-
-                            </div>
-                            <div class="inherited">
-                                <h5>Inherited Members</h5>
-                                <dl>
-                                    <div><dt><a href="#ESElement">ESElement</a></dt>
-                                <dd id="ESObs.setAtt" class="function"><a href="#ESElement.setAtt">setAtt</a></dd>
-                <dd id="ESObs.getAttAll" class="function"><a href="#ESElement.getAttAll">getAttAll</a></dd>
-                <dd id="ESObs.addComposant" class="function"><a href="#ESElement.addComposant">addComposant</a></dd>
-                <dd id="ESObs.element" class="function"><a href="#ESElement.element">element</a></dd>
-                <dd id="ESObs.majMeta" class="function"><a href="#ESElement.majMeta">majMeta</a></dd>
-
-            </div>
-                                </dl>
                             </div>
                 </section>
     </main>
