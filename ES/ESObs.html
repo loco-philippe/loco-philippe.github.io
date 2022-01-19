@@ -228,10 +228,10 @@
 <p>and the child classes :</p>
 
 <ul>
-<li><code>ESSEtDatation</code>,</li>
-<li><code>ESSEtLocation</code>,</li>
-<li><code>ESSEtProperty</code>,</li>
-<li><code>ESSEtResult</code></li>
+<li><code><a href="#ESSetDatation">ESSetDatation</a></code>,</li>
+<li><code><a href="#ESSetLocation">ESSetLocation</a></code>,</li>
+<li><code><a href="#ESSetProperty">ESSetProperty</a></code>,</li>
+<li><code><a href="#ESSetResult">ESSetResult</a></code></li>
 </ul>
 </div>
 
@@ -255,10 +255,10 @@
 
 <span class="sd">and the child classes :</span>
 <span class="sd">    </span>
-<span class="sd">- `ESSEtDatation`,</span>
-<span class="sd">- `ESSEtLocation`,</span>
-<span class="sd">- `ESSEtProperty`,</span>
-<span class="sd">- `ESSEtResult`  </span>
+<span class="sd">- `ESSetDatation`,</span>
+<span class="sd">- `ESSetLocation`,</span>
+<span class="sd">- `ESSetProperty`,</span>
+<span class="sd">- `ESSetResult`  </span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -281,7 +281,7 @@
 <span class="sd">     </span>
 <span class="sd">    The methods defined in this class are : </span>
 
-<span class="sd">    - `observation` (@property) Observation linked to `ESObs`</span>
+<span class="sd">    - `observation`(@property) : Observation linked to `ESObs`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; This method initialize the link with the `ES.ESObservation.Observation` &#39;&#39;&#39;</span>
@@ -356,9 +356,9 @@
             
 <span class="k">class</span> <span class="nc">ESSetDatation</span><span class="p">(</span><span class="n">ESSet</span><span class="p">,</span> <span class="n">Datation</span><span class="p">):</span>   <span class="c1"># !!! début ESSet</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class represent the list of DatationValues.</span>
+<span class="sd">    This class represent the list of `ES.ESValue.DatationValue`</span>
 <span class="sd">    </span>
-<span class="sd">    *Attributes * : None (inherited from parent classes)</span>
+<span class="sd">    *Attributes* : None (inherited from parent classes)</span>
 <span class="sd">     </span>
 <span class="sd">    The methods defined in this class are : </span>
 
@@ -383,11 +383,11 @@
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="k">def</span> <span class="nf">analyse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; not implemnted&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; not implemented&#39;&#39;&#39;</span>
         <span class="k">pass</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;call `ESSet.ESSet.jsonESSet` &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;call `ES.ESSet.ESSet.jsonESSet` &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
@@ -410,9 +410,9 @@
         
 <span class="k">class</span> <span class="nc">ESSetLocation</span><span class="p">(</span><span class="n">ESSet</span><span class="p">,</span> <span class="n">Location</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class represent the list of LocationValues.</span>
+<span class="sd">    This class represent the list of `ES.ESValue.LocationValue`</span>
 <span class="sd">    </span>
-<span class="sd">    *Attributes * : None (inherited from parent classes)</span>
+<span class="sd">    *Attributes* : None (inherited from parent classes)</span>
 <span class="sd">     </span>
 <span class="sd">    The methods defined in this class are : </span>
 
@@ -437,7 +437,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="k">def</span> <span class="nf">analyse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; not implemnted&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; not implemented&#39;&#39;&#39;</span>
         <span class="k">pass</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
@@ -461,9 +461,9 @@
 
 <span class="k">class</span> <span class="nc">ESSetProperty</span><span class="p">(</span><span class="n">ESSet</span><span class="p">,</span> <span class="n">Property</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class represent the list of PropertyValues.</span>
+<span class="sd">    This class represent the list of `ES.ESValue.PropertyValue`</span>
 <span class="sd">    </span>
-<span class="sd">    *Attributes * : None (inherited from parent classes)</span>
+<span class="sd">    *Attributes* : None (inherited from parent classes)</span>
 <span class="sd">     </span>
 <span class="sd">    The methods defined in this class are : </span>
 
@@ -497,22 +497,21 @@
 
 <span class="k">class</span> <span class="nc">ESSetResult</span><span class="p">(</span><span class="n">ESSet</span><span class="p">,</span> <span class="n">Result</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class represent the list of PropertyValues.</span>
+<span class="sd">    This class represent the list of `ES.ESValue.ResultValue`.</span>
 <span class="sd">    </span>
-<span class="sd">    *Attributes * : None (inherited from parent classes)</span>
+<span class="sd">    *Attributes* : None (inherited from parent classes)</span>
 <span class="sd">     </span>
 <span class="sd">    The methods defined in this class are : </span>
 
 <span class="sd">    *property (getters)*</span>
 
-<span class="sd">    - `vListType`</span>
-<span class="sd">    - `vListIndex`</span>
-<span class="sd">    - `maxIndex`</span>
-<span class="sd">    - `isIndex`</span>
-<span class="sd">    - `measureRate`</span>
-<span class="sd">    - `nMax`</span>
 <span class="sd">    - `dim`</span>
+<span class="sd">    - `isIndex`</span>
+<span class="sd">    - `maxIndex`</span>
+<span class="sd">    - `measureRate`</span>
 <span class="sd">    - `nInd`</span>
+<span class="sd">    - `nMax`</span>
+<span class="sd">    - `vListIndex`</span>
 
 <span class="sd">    *add update manage*</span>
 
@@ -760,7 +759,7 @@
 <span class="sd">     </span>
 <span class="sd">    The methods defined in this class are : </span>
 
-<span class="sd">    - `observation` (@property) Observation linked to `ESObs`</span>
+<span class="sd">    - `observation`(@property) : Observation linked to `ESObs`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; This method initialize the link with the `ES.ESObservation.Observation` &#39;&#39;&#39;</span>
@@ -804,7 +803,7 @@
 <p>The methods defined in this class are : </p>
 
 <ul>
-<li><code><a href="#ESObs.observation">observation</a></code> (@property) Observation linked to <code><a href="#ESObs">ESObs</a></code></li>
+<li><code><a href="#ESObs.observation">observation</a></code>(@property) : Observation linked to <code><a href="#ESObs">ESObs</a></code></li>
 </ul>
 </div>
 
@@ -1153,9 +1152,9 @@
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ESSetDatation</span><span class="p">(</span><span class="n">ESSet</span><span class="p">,</span> <span class="n">Datation</span><span class="p">):</span>   <span class="c1"># !!! début ESSet</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class represent the list of DatationValues.</span>
+<span class="sd">    This class represent the list of `ES.ESValue.DatationValue`</span>
 <span class="sd">    </span>
-<span class="sd">    *Attributes * : None (inherited from parent classes)</span>
+<span class="sd">    *Attributes* : None (inherited from parent classes)</span>
 <span class="sd">     </span>
 <span class="sd">    The methods defined in this class are : </span>
 
@@ -1180,11 +1179,11 @@
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="k">def</span> <span class="nf">analyse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; not implemnted&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; not implemented&#39;&#39;&#39;</span>
         <span class="k">pass</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;call `ESSet.ESSet.jsonESSet` &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;call `ES.ESSet.ESSet.jsonESSet` &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
@@ -1207,9 +1206,9 @@
 
         </details>
 
-            <div class="docstring"><p>This class represent the list of DatationValues.</p>
+            <div class="docstring"><p>This class represent the list of <code><a href="ESValue.html#DatationValue">ES.ESValue.DatationValue</a></code></p>
 
-<p>*Attributes * : None (inherited from parent classes)</p>
+<p><em>Attributes</em> : None (inherited from parent classes)</p>
 
 <p>The methods defined in this class are : </p>
 
@@ -1264,13 +1263,13 @@
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">analyse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; not implemnted&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; not implemented&#39;&#39;&#39;</span>
         <span class="k">pass</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>not implemnted</p>
+            <div class="docstring"><p>not implemented</p>
 </div>
 
 
@@ -1289,13 +1288,13 @@
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;call `ESSet.ESSet.jsonESSet` &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;call `ES.ESSet.ESSet.jsonESSet` &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>call <code>ESSet.ESSet.jsonESSet</code></p>
+            <div class="docstring"><p>call <code><a href="ESSet.html#ESSet.jsonESSet">ES.ESSet.ESSet.jsonESSet</a></code></p>
 </div>
 
 
@@ -1307,7 +1306,7 @@
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x00000121C0685190&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000025B7B215190&gt;&gt;
 )</span>:
     </div>
 
@@ -1393,9 +1392,9 @@
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ESSetLocation</span><span class="p">(</span><span class="n">ESSet</span><span class="p">,</span> <span class="n">Location</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class represent the list of LocationValues.</span>
+<span class="sd">    This class represent the list of `ES.ESValue.LocationValue`</span>
 <span class="sd">    </span>
-<span class="sd">    *Attributes * : None (inherited from parent classes)</span>
+<span class="sd">    *Attributes* : None (inherited from parent classes)</span>
 <span class="sd">     </span>
 <span class="sd">    The methods defined in this class are : </span>
 
@@ -1420,7 +1419,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="k">def</span> <span class="nf">analyse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; not implemnted&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; not implemented&#39;&#39;&#39;</span>
         <span class="k">pass</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
@@ -1445,9 +1444,9 @@
 
         </details>
 
-            <div class="docstring"><p>This class represent the list of LocationValues.</p>
+            <div class="docstring"><p>This class represent the list of <code><a href="ESValue.html#LocationValue">ES.ESValue.LocationValue</a></code></p>
 
-<p>*Attributes * : None (inherited from parent classes)</p>
+<p><em>Attributes</em> : None (inherited from parent classes)</p>
 
 <p>The methods defined in this class are : </p>
 
@@ -1503,13 +1502,13 @@
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">analyse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; not implemnted&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; not implemented&#39;&#39;&#39;</span>
         <span class="k">pass</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>not implemnted</p>
+            <div class="docstring"><p>not implemented</p>
 </div>
 
 
@@ -1546,7 +1545,7 @@
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x00000121C0685190&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000025B7B215190&gt;&gt;
 )</span>:
     </div>
 
@@ -1635,9 +1634,9 @@
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ESSetProperty</span><span class="p">(</span><span class="n">ESSet</span><span class="p">,</span> <span class="n">Property</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class represent the list of PropertyValues.</span>
+<span class="sd">    This class represent the list of `ES.ESValue.PropertyValue`</span>
 <span class="sd">    </span>
-<span class="sd">    *Attributes * : None (inherited from parent classes)</span>
+<span class="sd">    *Attributes* : None (inherited from parent classes)</span>
 <span class="sd">     </span>
 <span class="sd">    The methods defined in this class are : </span>
 
@@ -1672,9 +1671,9 @@
 
         </details>
 
-            <div class="docstring"><p>This class represent the list of PropertyValues.</p>
+            <div class="docstring"><p>This class represent the list of <code><a href="ESValue.html#PropertyValue">ES.ESValue.PropertyValue</a></code></p>
 
-<p>*Attributes * : None (inherited from parent classes)</p>
+<p><em>Attributes</em> : None (inherited from parent classes)</p>
 
 <p>The methods defined in this class are : </p>
 
@@ -1746,7 +1745,7 @@
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x00000121C0685190&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000025B7B215190&gt;&gt;
 )</span>:
     </div>
 
@@ -1817,22 +1816,21 @@
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ESSetResult</span><span class="p">(</span><span class="n">ESSet</span><span class="p">,</span> <span class="n">Result</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class represent the list of PropertyValues.</span>
+<span class="sd">    This class represent the list of `ES.ESValue.ResultValue`.</span>
 <span class="sd">    </span>
-<span class="sd">    *Attributes * : None (inherited from parent classes)</span>
+<span class="sd">    *Attributes* : None (inherited from parent classes)</span>
 <span class="sd">     </span>
 <span class="sd">    The methods defined in this class are : </span>
 
 <span class="sd">    *property (getters)*</span>
 
-<span class="sd">    - `vListType`</span>
-<span class="sd">    - `vListIndex`</span>
-<span class="sd">    - `maxIndex`</span>
-<span class="sd">    - `isIndex`</span>
-<span class="sd">    - `measureRate`</span>
-<span class="sd">    - `nMax`</span>
 <span class="sd">    - `dim`</span>
+<span class="sd">    - `isIndex`</span>
+<span class="sd">    - `maxIndex`</span>
+<span class="sd">    - `measureRate`</span>
 <span class="sd">    - `nInd`</span>
+<span class="sd">    - `nMax`</span>
+<span class="sd">    - `vListIndex`</span>
 
 <span class="sd">    *add update manage*</span>
 
@@ -2056,23 +2054,22 @@
 
         </details>
 
-            <div class="docstring"><p>This class represent the list of PropertyValues.</p>
+            <div class="docstring"><p>This class represent the list of <code><a href="ESValue.html#ResultValue">ES.ESValue.ResultValue</a></code>.</p>
 
-<p>*Attributes * : None (inherited from parent classes)</p>
+<p><em>Attributes</em> : None (inherited from parent classes)</p>
 
 <p>The methods defined in this class are : </p>
 
 <p><em>property (getters)</em></p>
 
 <ul>
-<li><code>vListType</code></li>
-<li><code><a href="#ESSetResult.vListIndex">vListIndex</a></code></li>
-<li><code><a href="#ESSetResult.maxIndex">maxIndex</a></code></li>
-<li><code><a href="#ESSetResult.isIndex">isIndex</a></code></li>
-<li><code><a href="#ESSetResult.measureRate">measureRate</a></code></li>
-<li><code><a href="#ESSetResult.nMax">nMax</a></code></li>
 <li><code><a href="#ESSetResult.dim">dim</a></code></li>
+<li><code><a href="#ESSetResult.isIndex">isIndex</a></code></li>
+<li><code><a href="#ESSetResult.maxIndex">maxIndex</a></code></li>
+<li><code><a href="#ESSetResult.measureRate">measureRate</a></code></li>
 <li><code><a href="#ESSetResult.nInd">nInd</a></code></li>
+<li><code><a href="#ESSetResult.nMax">nMax</a></code></li>
+<li><code><a href="#ESSetResult.vListIndex">vListIndex</a></code></li>
 </ul>
 
 <p><em>add update manage</em></p>
@@ -2338,7 +2335,7 @@
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x00000121C0685190&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000025B7B215190&gt;&gt;,
     ind=&#39;axe&#39;,
     squeeze=True
 )</span>:
