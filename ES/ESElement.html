@@ -22,7 +22,7 @@
   <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
 </svg>                            &nbsp;ES</a>
 
-                        <img src="https://loco-philippe.github.io/ES/logo_loco.png" class="logo" alt="project logo"/>
+                        <img src="C:\Users\a179227\OneDrive - Alliance\perso Wx\ES standard\python ESstandard\documentation\ES\logo_loco.png" class="logo" alt="project logo"/>
 
                         <input type="search" placeholder="Search..." role="searchbox" aria-label="search"
                                pattern=".+" required>
@@ -32,25 +32,10 @@
                     <h2>API Documentation</h2>
                         <ul class="memberlist">
             <li>
-                    <a class="function" href="#isESObs">isESObs</a>
-            </li>
-            <li>
-                    <a class="function" href="#isESAtt">isESAtt</a>
-            </li>
-            <li>
-                    <a class="function" href="#isUserAtt">isUserAtt</a>
-            </li>
-            <li>
                     <a class="class" href="#ESElement">ESElement</a>
                             <ul class="memberlist">
                         <li>
                                 <a class="function" href="#ESElement.__init__">ESElement</a>
-                        </li>
-                        <li>
-                                <a class="function" href="#ESElement.setAtt">setAtt</a>
-                        </li>
-                        <li>
-                                <a class="function" href="#ESElement.getAttAll">getAttAll</a>
                         </li>
                         <li>
                                 <a class="function" href="#ESElement.addComposant">addComposant</a>
@@ -59,7 +44,16 @@
                                 <a class="function" href="#ESElement.element">element</a>
                         </li>
                         <li>
-                                <a class="function" href="#ESElement.majMeta">majMeta</a>
+                                <a class="function" href="#ESElement.getAttAll">getAttAll</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#ESElement.isESObs">isESObs</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#ESElement.isESAtt">isESAtt</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#ESElement.isUserAtt">isUserAtt</a>
                         </li>
                 </ul>
 
@@ -84,8 +78,8 @@
 
 <p>@author: philippe@loco-labs.io</p>
 
-<p>This module contains the parent classes of the classes of the <code><a href="ESObs.html">ES.ESObs</a></code> and
-<code><a href="ESObservation.html">ES.ESObservation</a></code> modules.</p>
+<p>This module contains the <code><a href="#ESElement">ESElement</a></code> parent class of the <code><a href="ESObs.html#ESObs">ES.ESObs.ESObs</a></code> and
+<code><a href="ESObservation.html#Observation">ES.ESObservation.Observation</a></code> classes.</p>
 </div>
 
                         <details>
@@ -96,101 +90,158 @@
 
 <span class="sd">@author: philippe@loco-labs.io</span>
 
-<span class="sd">This module contains the parent classes of the classes of the `ES.ESObs` and</span>
-<span class="sd">`ES.ESObservation` modules.</span>
+<span class="sd">This module contains the `ESElement` parent class of the `ES.ESObs.ESObs` and</span>
+<span class="sd">`ES.ESObservation.Observation` classes. </span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">ESconstante</span> <span class="kn">import</span> <span class="n">ES</span>
-<span class="c1">#from ESSet import ESSet</span>
-<span class="c1">#from ESValue import LocationValue, DatationValue, ESSet, PropertyValue, ResultValue #, gshape</span>
-<span class="c1">#from ESObs import Datation, Location, Property, Result</span>
 
-<span class="k">def</span> <span class="nf">isESObs</span><span class="p">(</span><span class="n">esClass</span><span class="p">,</span> <span class="n">jObj</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">jObj</span><span class="p">)</span> <span class="o">==</span> <span class="n">esClass</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">jObj</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">dict</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">jObj</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">esClass</span><span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">classES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mValObs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">val</span> <span class="ow">and</span> <span class="n">esClass</span> <span class="o">==</span> <span class="n">classES</span><span class="p">:</span>  <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">classES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">val</span> <span class="ow">and</span> <span class="n">esClass</span> <span class="o">==</span> <span class="n">classES</span><span class="p">:</span>  <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">return</span> <span class="kc">False</span>
-
-
-<span class="k">def</span> <span class="nf">isESAtt</span><span class="p">(</span><span class="n">esClass</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">esClass</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">return</span> <span class="kc">False</span>
-
-<span class="k">def</span> <span class="nf">isUserAtt</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mValObs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">return</span> <span class="kc">True</span>
-
-<span class="sd">&#39;&#39;&#39;def deserialize(jsonStr):</span>
-<span class="sd">    return json.loads(jsonStr)</span>
-<span class="sd">&#39;&#39;&#39;</span>
 <span class="k">class</span> <span class="nc">ESElement</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classe liée à la structure interne</span>
+<span class="sd">    </span>
+<span class="sd">    *Attributes* :</span>
+<span class="sd">    </span>
+<span class="sd">    - **mAtt** : dict with properties of an instance</span>
+<span class="sd">    - **typeES** : String, define the nature of an `ESElement`</span>
+<span class="sd">    - **classES** : String, define the level of class</span>
+<span class="sd">    - **pComposant** : list of `ESElement` included in the `ESElement`</span>
+<span class="sd">    - **pContenant** : list of `ESElement` containing the `ESElement`</span>
+<span class="sd">    </span>
+<span class="sd">    The methods defined in this class are : </span>
+
+<span class="sd">    - `addComposant`</span>
+<span class="sd">    - `element`</span>
+<span class="sd">    - `getAttAll`</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    - `isESAtt`(@staticmethod)</span>
+<span class="sd">    - `isESObs`(@staticmethod)</span>
+<span class="sd">    - `isUserAtt`(@staticmethod)</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classES</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
-        <span class="c1">#self.metaType = &quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pContenant</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">txt</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
-        <span class="c1">#txt += f&quot;metatype, classES, typeES : {self.metaType} {self.classES} {self.typeES} \n&quot;</span>
         <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;classES, typeES : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classES</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">typeES</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;nombre de composants </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pContenant</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;nombre de contenants </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pContenant</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">return</span> <span class="n">txt</span>
     
-    <span class="k">def</span> <span class="nf">setAtt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-    
-    <span class="sd">&#39;&#39;&#39;        </span>
-<span class="sd">    def getAtt(self, key):</span>
-<span class="sd">        if self.isAtt(key): return  self.mAtt[key]</span>
-<span class="sd">        else: return &quot;null&quot;</span>
-<span class="sd">    </span>
-<span class="sd">    def isAtt(self, key):</span>
-<span class="sd">        return key in self.mAtt</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="nf">getAttAll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isAtt</span><span class="p">(</span><span class="n">key</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">key</span><span class="p">];</span>
-        <span class="k">for</span> <span class="n">compo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">:</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">compo</span><span class="o">.</span><span class="n">getAttAll</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;null&quot;</span><span class="p">):</span> <span class="k">return</span> <span class="n">compo</span><span class="o">.</span><span class="n">getAttAll</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s2">&quot;null&quot;</span><span class="p">;</span>
-
     <span class="k">def</span> <span class="nf">addComposant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pCompos</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Link two `ESElement` </span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **pCompos** : `ESElement` to include</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **None**</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pCompos</span><span class="p">)</span>
         <span class="n">pCompos</span><span class="o">.</span><span class="n">pContenant</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">element</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comp</span><span class="p">)</span> <span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `ESElement` included with a specific &#39;classES&#39; or &#39;typeES&#39;</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **comp** : string to search</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **ESElement found**</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">cp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">:</span>
-            <span class="c1">#if (cp.typeES == comp or cp.classES == comp or cp.metaType == comp or cp.mAtt[ES.type] == comp):</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">typeES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">classES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">==</span> <span class="n">comp</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">cp</span>
             <span class="k">elif</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span> <span class="k">return</span> <span class="n">cp</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">majMeta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1">#for ct in self.pContenant:</span>
-            <span class="c1">#if (ct.typeES == ES.obs_typeES): ct.majType()</span>
-        <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">getAttAll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return mAtt value in a global hierachy</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **key** : string to search</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **value found**</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isAtt</span><span class="p">(</span><span class="n">key</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">key</span><span class="p">];</span>
+        <span class="k">for</span> <span class="n">compo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">compo</span><span class="o">.</span><span class="n">getAttAll</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;null&quot;</span><span class="p">):</span> <span class="k">return</span> <span class="n">compo</span><span class="o">.</span><span class="n">getAttAll</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;null&quot;</span><span class="p">;</span>
 
-    <span class="k">def</span> <span class="nf">_jsonAtt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elt_type_nb</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isESObs</span><span class="p">(</span><span class="n">esClass</span><span class="p">,</span> <span class="n">jObj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Identify if &#39;jObj&#39; include &#39;esClass&#39; keys</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **jObj** : dict to be evaluated</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **Boolean**</span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">jObj</span><span class="p">)</span> <span class="o">==</span> <span class="n">esClass</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">jObj</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">dict</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">jObj</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">esClass</span><span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">classES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mValObs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">val</span> <span class="ow">and</span> <span class="n">esClass</span> <span class="o">==</span> <span class="n">classES</span><span class="p">:</span>  <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">classES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">val</span> <span class="ow">and</span> <span class="n">esClass</span> <span class="o">==</span> <span class="n">classES</span><span class="p">:</span>  <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isESAtt</span><span class="p">(</span><span class="n">esClass</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;identify if &#39;key&#39; is included in &#39;esClass&#39;</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **esClass** : string for an ESClass attribute</span>
+<span class="sd">        - **key** : string to search</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **Boolean**</span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">esClass</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isUserAtt</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;identify if &#39;key&#39; is included in any `ESElement` attribute</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **key** : string to search</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **Boolean**</span>
+<span class="sd">        &quot;&quot;&quot;</span>                
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mValObs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_jsonAtt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elt_type_nb</span><span class="p">):</span>    <span class="c1"># !!!</span>
         <span class="n">att</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">!=</span> <span class="s2">&quot;null&quot;</span><span class="p">:</span>
@@ -201,7 +252,6 @@
                     <span class="k">elif</span> <span class="n">elt_type_nb</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="n">att</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
                     <span class="k">elif</span> <span class="n">elt_type_nb</span> <span class="o">==</span> <span class="o">-</span><span class="mi">2</span> <span class="p">:</span> <span class="n">att</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">multi</span> <span class="o">+</span> <span class="n">v</span>
             <span class="k">elif</span> <span class="n">v</span> <span class="o">!=</span> <span class="s2">&quot;null&quot;</span><span class="p">:</span> <span class="n">att</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-            <span class="c1">#if k[0] == &#39;$&#39; and v != &quot;null&quot;: att[k] = v</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">att</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">att</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span>
 </pre></div>
@@ -209,77 +259,6 @@
         </details>
 
             </section>
-                <section id="isESObs">
-                            <div class="attr function"><a class="headerlink" href="#isESObs">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">isESObs</span><span class="signature">(esClass, jObj)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">isESObs</span><span class="p">(</span><span class="n">esClass</span><span class="p">,</span> <span class="n">jObj</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">jObj</span><span class="p">)</span> <span class="o">==</span> <span class="n">esClass</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">jObj</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">dict</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">jObj</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">esClass</span><span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">classES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mValObs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">val</span> <span class="ow">and</span> <span class="n">esClass</span> <span class="o">==</span> <span class="n">classES</span><span class="p">:</span>  <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">classES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">val</span> <span class="ow">and</span> <span class="n">esClass</span> <span class="o">==</span> <span class="n">classES</span><span class="p">:</span>  <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">return</span> <span class="kc">False</span>
-</pre></div>
-
-        </details>
-
-    
-
-                </section>
-                <section id="isESAtt">
-                            <div class="attr function"><a class="headerlink" href="#isESAtt">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">isESAtt</span><span class="signature">(esClass, key)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">isESAtt</span><span class="p">(</span><span class="n">esClass</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">esClass</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">return</span> <span class="kc">False</span>
-</pre></div>
-
-        </details>
-
-    
-
-                </section>
-                <section id="isUserAtt">
-                            <div class="attr function"><a class="headerlink" href="#isUserAtt">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">isUserAtt</span><span class="signature">(key)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">isUserAtt</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mValObs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">return</span> <span class="kc">True</span>
-</pre></div>
-
-        </details>
-
-    
-
-                </section>
                 <section id="ESElement">
                                 <div class="attr class">
         <a class="headerlink" href="#ESElement">#&nbsp;&nbsp</a>
@@ -293,62 +272,150 @@
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ESElement</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classe liée à la structure interne</span>
+<span class="sd">    </span>
+<span class="sd">    *Attributes* :</span>
+<span class="sd">    </span>
+<span class="sd">    - **mAtt** : dict with properties of an instance</span>
+<span class="sd">    - **typeES** : String, define the nature of an `ESElement`</span>
+<span class="sd">    - **classES** : String, define the level of class</span>
+<span class="sd">    - **pComposant** : list of `ESElement` included in the `ESElement`</span>
+<span class="sd">    - **pContenant** : list of `ESElement` containing the `ESElement`</span>
+<span class="sd">    </span>
+<span class="sd">    The methods defined in this class are : </span>
+
+<span class="sd">    - `addComposant`</span>
+<span class="sd">    - `element`</span>
+<span class="sd">    - `getAttAll`</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    - `isESAtt`(@staticmethod)</span>
+<span class="sd">    - `isESObs`(@staticmethod)</span>
+<span class="sd">    - `isUserAtt`(@staticmethod)</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classES</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
-        <span class="c1">#self.metaType = &quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pContenant</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">txt</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
-        <span class="c1">#txt += f&quot;metatype, classES, typeES : {self.metaType} {self.classES} {self.typeES} \n&quot;</span>
         <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;classES, typeES : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classES</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">typeES</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;nombre de composants </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pContenant</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;nombre de contenants </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pContenant</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">return</span> <span class="n">txt</span>
     
-    <span class="k">def</span> <span class="nf">setAtt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-    
-    <span class="sd">&#39;&#39;&#39;        </span>
-<span class="sd">    def getAtt(self, key):</span>
-<span class="sd">        if self.isAtt(key): return  self.mAtt[key]</span>
-<span class="sd">        else: return &quot;null&quot;</span>
-<span class="sd">    </span>
-<span class="sd">    def isAtt(self, key):</span>
-<span class="sd">        return key in self.mAtt</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="nf">getAttAll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isAtt</span><span class="p">(</span><span class="n">key</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">key</span><span class="p">];</span>
-        <span class="k">for</span> <span class="n">compo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">:</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">compo</span><span class="o">.</span><span class="n">getAttAll</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;null&quot;</span><span class="p">):</span> <span class="k">return</span> <span class="n">compo</span><span class="o">.</span><span class="n">getAttAll</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s2">&quot;null&quot;</span><span class="p">;</span>
-
     <span class="k">def</span> <span class="nf">addComposant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pCompos</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Link two `ESElement` </span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **pCompos** : `ESElement` to include</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **None**</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pCompos</span><span class="p">)</span>
         <span class="n">pCompos</span><span class="o">.</span><span class="n">pContenant</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">element</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comp</span><span class="p">)</span> <span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `ESElement` included with a specific &#39;classES&#39; or &#39;typeES&#39;</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **comp** : string to search</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **ESElement found**</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">cp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">:</span>
-            <span class="c1">#if (cp.typeES == comp or cp.classES == comp or cp.metaType == comp or cp.mAtt[ES.type] == comp):</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">typeES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">classES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">==</span> <span class="n">comp</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">cp</span>
             <span class="k">elif</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span> <span class="k">return</span> <span class="n">cp</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">majMeta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1">#for ct in self.pContenant:</span>
-            <span class="c1">#if (ct.typeES == ES.obs_typeES): ct.majType()</span>
-        <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">getAttAll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return mAtt value in a global hierachy</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **key** : string to search</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **value found**</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isAtt</span><span class="p">(</span><span class="n">key</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">key</span><span class="p">];</span>
+        <span class="k">for</span> <span class="n">compo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">compo</span><span class="o">.</span><span class="n">getAttAll</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;null&quot;</span><span class="p">):</span> <span class="k">return</span> <span class="n">compo</span><span class="o">.</span><span class="n">getAttAll</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;null&quot;</span><span class="p">;</span>
 
-    <span class="k">def</span> <span class="nf">_jsonAtt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elt_type_nb</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isESObs</span><span class="p">(</span><span class="n">esClass</span><span class="p">,</span> <span class="n">jObj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Identify if &#39;jObj&#39; include &#39;esClass&#39; keys</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **jObj** : dict to be evaluated</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **Boolean**</span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">jObj</span><span class="p">)</span> <span class="o">==</span> <span class="n">esClass</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">jObj</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">dict</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">jObj</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">esClass</span><span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">classES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mValObs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">val</span> <span class="ow">and</span> <span class="n">esClass</span> <span class="o">==</span> <span class="n">classES</span><span class="p">:</span>  <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">classES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">val</span> <span class="ow">and</span> <span class="n">esClass</span> <span class="o">==</span> <span class="n">classES</span><span class="p">:</span>  <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isESAtt</span><span class="p">(</span><span class="n">esClass</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;identify if &#39;key&#39; is included in &#39;esClass&#39;</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **esClass** : string for an ESClass attribute</span>
+<span class="sd">        - **key** : string to search</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **Boolean**</span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">esClass</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isUserAtt</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;identify if &#39;key&#39; is included in any `ESElement` attribute</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **key** : string to search</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **Boolean**</span>
+<span class="sd">        &quot;&quot;&quot;</span>                
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mValObs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_jsonAtt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elt_type_nb</span><span class="p">):</span>    <span class="c1"># !!!</span>
         <span class="n">att</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">!=</span> <span class="s2">&quot;null&quot;</span><span class="p">:</span>
@@ -359,14 +426,32 @@
                     <span class="k">elif</span> <span class="n">elt_type_nb</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="n">att</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
                     <span class="k">elif</span> <span class="n">elt_type_nb</span> <span class="o">==</span> <span class="o">-</span><span class="mi">2</span> <span class="p">:</span> <span class="n">att</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">multi</span> <span class="o">+</span> <span class="n">v</span>
             <span class="k">elif</span> <span class="n">v</span> <span class="o">!=</span> <span class="s2">&quot;null&quot;</span><span class="p">:</span> <span class="n">att</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-            <span class="c1">#if k[0] == &#39;$&#39; and v != &quot;null&quot;: att[k] = v</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">att</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">att</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>Classe liée à la structure interne</p>
+            <div class="docstring"><p><em>Attributes</em> :</p>
+
+<ul>
+<li><strong>mAtt</strong> : dict with properties of an instance</li>
+<li><strong>typeES</strong> : String, define the nature of an <code><a href="#ESElement">ESElement</a></code></li>
+<li><strong>classES</strong> : String, define the level of class</li>
+<li><strong>pComposant</strong> : list of <code><a href="#ESElement">ESElement</a></code> included in the <code><a href="#ESElement">ESElement</a></code></li>
+<li><strong>pContenant</strong> : list of <code><a href="#ESElement">ESElement</a></code> containing the <code><a href="#ESElement">ESElement</a></code></li>
+</ul>
+
+<p>The methods defined in this class are : </p>
+
+<ul>
+<li><code><a href="#ESElement.addComposant">addComposant</a></code></li>
+<li><code><a href="#ESElement.element">element</a></code></li>
+<li><p><code><a href="#ESElement.getAttAll">getAttAll</a></code></p></li>
+<li><p><code><a href="#ESElement.isESAtt">isESAtt</a></code>(@staticmethod)</p></li>
+<li><code><a href="#ESElement.isESObs">isESObs</a></code>(@staticmethod)</li>
+<li><code><a href="#ESElement.isUserAtt">isUserAtt</a></code>(@staticmethod)</li>
+</ul>
 </div>
 
 
@@ -384,51 +469,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classES</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
-        <span class="c1">#self.metaType = &quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pContenant</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-</pre></div>
-
-        </details>
-
-    
-
-                            </div>
-                            <div id="ESElement.setAtt" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#ESElement.setAtt">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">setAtt</span><span class="signature">(self, key, value)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">setAtt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-</pre></div>
-
-        </details>
-
-    
-
-                            </div>
-                            <div id="ESElement.getAttAll" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#ESElement.getAttAll">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">getAttAll</span><span class="signature">(self, key)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">getAttAll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isAtt</span><span class="p">(</span><span class="n">key</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">key</span><span class="p">];</span>
-        <span class="k">for</span> <span class="n">compo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">:</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">compo</span><span class="o">.</span><span class="n">getAttAll</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;null&quot;</span><span class="p">):</span> <span class="k">return</span> <span class="n">compo</span><span class="o">.</span><span class="n">getAttAll</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s2">&quot;null&quot;</span><span class="p">;</span>
 </pre></div>
 
         </details>
@@ -447,13 +490,37 @@
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">addComposant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pCompos</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Link two `ESElement` </span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **pCompos** : `ESElement` to include</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **None**</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pCompos</span><span class="p">)</span>
         <span class="n">pCompos</span><span class="o">.</span><span class="n">pContenant</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
         </details>
 
-    
+            <div class="docstring"><p>Link two <code><a href="#ESElement">ESElement</a></code> </p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>pCompos</strong> : <code><a href="#ESElement">ESElement</a></code> to include</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>None</strong></li>
+</ul>
+</div>
+
 
                             </div>
                             <div id="ESElement.element" class="classattr">
@@ -467,8 +534,17 @@
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">element</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comp</span><span class="p">)</span> <span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `ESElement` included with a specific &#39;classES&#39; or &#39;typeES&#39;</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **comp** : string to search</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **ESElement found**</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">cp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">:</span>
-            <span class="c1">#if (cp.typeES == comp or cp.classES == comp or cp.metaType == comp or cp.mAtt[ES.type] == comp):</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">typeES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">classES</span> <span class="o">==</span> <span class="n">comp</span> <span class="ow">or</span> <span class="n">cp</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">==</span> <span class="n">comp</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">cp</span>
             <span class="k">elif</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span> <span class="k">return</span> <span class="n">cp</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
@@ -477,28 +553,218 @@
 
         </details>
 
-    
+            <div class="docstring"><p>Return <code><a href="#ESElement">ESElement</a></code> included with a specific 'classES' or 'typeES'</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>comp</strong> : string to search</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>ESElement found</strong></li>
+</ul>
+</div>
+
 
                             </div>
-                            <div id="ESElement.majMeta" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#ESElement.majMeta">#&nbsp;&nbsp</a>
+                            <div id="ESElement.getAttAll" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#ESElement.getAttAll">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">majMeta</span><span class="signature">(self)</span>:
+            <span class="name">getAttAll</span><span class="signature">(self, key)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">majMeta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1">#for ct in self.pContenant:</span>
-            <span class="c1">#if (ct.typeES == ES.obs_typeES): ct.majType()</span>
-        <span class="k">pass</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">getAttAll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return mAtt value in a global hierachy</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **key** : string to search</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **value found**</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isAtt</span><span class="p">(</span><span class="n">key</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">key</span><span class="p">];</span>
+        <span class="k">for</span> <span class="n">compo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pComposant</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">compo</span><span class="o">.</span><span class="n">getAttAll</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;null&quot;</span><span class="p">):</span> <span class="k">return</span> <span class="n">compo</span><span class="o">.</span><span class="n">getAttAll</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;null&quot;</span><span class="p">;</span>
 </pre></div>
 
         </details>
 
-    
+            <div class="docstring"><p>Return mAtt value in a global hierachy</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>key</strong> : string to search</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>value found</strong></li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="ESElement.isESObs" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#ESElement.isESObs">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@staticmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">isESObs</span><span class="signature">(esClass, jObj)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isESObs</span><span class="p">(</span><span class="n">esClass</span><span class="p">,</span> <span class="n">jObj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Identify if &#39;jObj&#39; include &#39;esClass&#39; keys</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **jObj** : dict to be evaluated</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **Boolean**</span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">jObj</span><span class="p">)</span> <span class="o">==</span> <span class="n">esClass</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">jObj</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">dict</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">jObj</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">esClass</span><span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">classES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mValObs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">val</span> <span class="ow">and</span> <span class="n">esClass</span> <span class="o">==</span> <span class="n">classES</span><span class="p">:</span>  <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">classES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">val</span> <span class="ow">and</span> <span class="n">esClass</span> <span class="o">==</span> <span class="n">classES</span><span class="p">:</span>  <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Identify if 'jObj' include 'esClass' keys</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>jObj</strong> : dict to be evaluated</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>Boolean</strong></li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="ESElement.isESAtt" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#ESElement.isESAtt">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@staticmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">isESAtt</span><span class="signature">(esClass, key)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isESAtt</span><span class="p">(</span><span class="n">esClass</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;identify if &#39;key&#39; is included in &#39;esClass&#39;</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **esClass** : string for an ESClass attribute</span>
+<span class="sd">        - **key** : string to search</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **Boolean**</span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">esClass</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>identify if 'key' is included in 'esClass'</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>esClass</strong> : string for an ESClass attribute</li>
+<li><strong>key</strong> : string to search</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>Boolean</strong></li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="ESElement.isUserAtt" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#ESElement.isUserAtt">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@staticmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">isUserAtt</span><span class="signature">(key)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isUserAtt</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;identify if &#39;key&#39; is included in any `ESElement` attribute</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **key** : string to search</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **Boolean**</span>
+<span class="sd">        &quot;&quot;&quot;</span>                
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">mValObs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>identify if 'key' is included in any <code><a href="#ESElement">ESElement</a></code> attribute</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>key</strong> : string to search</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>Boolean</strong></li>
+</ul>
+</div>
+
 
                             </div>
                 </section>

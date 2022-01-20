@@ -22,7 +22,7 @@
   <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
 </svg>                            &nbsp;ES</a>
 
-                        <img src="https://loco-philippe.github.io/ES/logo_loco.png" class="logo" alt="project logo"/>
+                        <img src="C:\Users\a179227\OneDrive - Alliance\perso Wx\ES standard\python ESstandard\documentation\ES\logo_loco.png" class="logo" alt="project logo"/>
 
                         <input type="search" placeholder="Search..." role="searchbox" aria-label="search"
                                pattern=".+" required>
@@ -261,10 +261,8 @@
 <span class="sd">- `ESSetResult`  </span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="c1">#from ESElement import ESObs</span>
-<span class="kn">from</span> <span class="nn">ESElement</span> <span class="kn">import</span> <span class="n">ESElement</span><span class="p">,</span> <span class="n">isESAtt</span><span class="p">,</span> <span class="n">isUserAtt</span>
-<span class="kn">from</span> <span class="nn">ESconstante</span> <span class="kn">import</span> <span class="n">ES</span> <span class="c1">#, identity</span>
+<span class="kn">from</span> <span class="nn">ESElement</span> <span class="kn">import</span> <span class="n">ESElement</span>
+<span class="kn">from</span> <span class="nn">ESconstante</span> <span class="kn">import</span> <span class="n">ES</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">ESValue</span> <span class="kn">import</span> <span class="n">LocationValue</span><span class="p">,</span> <span class="n">DatationValue</span><span class="p">,</span> <span class="n">PropertyValue</span><span class="p">,</span> <span class="n">ResultValue</span>   <span class="c1">#, ESSet</span>
 <span class="kn">from</span> <span class="nn">ESSet</span> <span class="kn">import</span> <span class="n">ESSet</span>
@@ -305,7 +303,8 @@
                     <span class="n">jDat</span> <span class="o">=</span> <span class="n">v</span>
                     <span class="n">userAtt</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">jDat</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c1"># attributs</span>
-                <span class="k">if</span> <span class="n">isESAtt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classES</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">userAtt</span> <span class="ow">and</span> <span class="n">isUserAtt</span><span class="p">(</span><span class="n">k</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+                <span class="k">if</span> <span class="n">ESElement</span><span class="o">.</span><span class="n">isESAtt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classES</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="ow">or</span> \
+                    <span class="p">(</span><span class="n">userAtt</span> <span class="ow">and</span> <span class="n">ESElement</span><span class="o">.</span><span class="n">isUserAtt</span><span class="p">(</span><span class="n">k</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
             <span class="k">if</span> <span class="n">ValueClass</span><span class="o">.</span><span class="n">valName</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">jDat</span><span class="p">):</span>    <span class="c1"># si valeurs simple ou detaillee précisée</span>
                     <span class="n">ESSet</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ValueClass</span><span class="p">,</span> <span class="n">jDat</span><span class="p">[</span><span class="n">ValueClass</span><span class="o">.</span><span class="n">valName</span><span class="p">])</span> 
             <span class="k">else</span> <span class="p">:</span>  <span class="n">ESSet</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ValueClass</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
@@ -375,9 +374,10 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jObj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pObs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">Datation</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">set_typeES</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_valueType</span>
+        <span class="c1">#self.mAtt[ES.type] = ES.dat_valueType</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initESSet</span><span class="p">(</span><span class="n">DatationValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">majMeta</span><span class="p">()</span>
+        <span class="c1">#self.majMeta()</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
@@ -386,9 +386,10 @@
         <span class="sd">&#39;&#39;&#39; not implemented&#39;&#39;&#39;</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
+    <span class="c1">#def json(self, option = ES.mOption):</span>
         <span class="sd">&#39;&#39;&#39;call `ES.ESSet.ESSet.jsonESSet` &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
         <span class="n">datList</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
@@ -430,9 +431,10 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jObj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pObs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">Location</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">set_typeES</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valueType</span>
+        <span class="c1">#self.mAtt[ES.type] = ES.loc_valueType</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initESSet</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">majMeta</span><span class="p">()</span>
+        <span class="c1">#self.majMeta()</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
@@ -440,9 +442,10 @@
         <span class="sd">&#39;&#39;&#39; not implemented&#39;&#39;&#39;</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
+    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>       
+    <span class="c1">#def json(self, option = ES.mOption):       </span>
         <span class="sd">&#39;&#39;&#39;call `ESSet.ESSet.jsonESSet` &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
@@ -479,14 +482,16 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jObj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pObs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">Property</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">set_typeES</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_valueType</span>
+        <span class="c1">#self.mAtt[ES.type] = ES.prp_valueType</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initESSet</span><span class="p">(</span><span class="n">PropertyValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">majMeta</span><span class="p">()</span>
+        <span class="c1">#self.majMeta()</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
-    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>       
+    <span class="c1">#def json(self, option = ES.mOption):       </span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
@@ -527,9 +532,10 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jObj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pObs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">Result</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">set_typeES</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">res_valueType</span>
+        <span class="c1">#self.mAtt[ES.type] = ES.res_valueType</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">res_valName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initESSet</span><span class="p">(</span><span class="n">ResultValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">majMeta</span><span class="p">()</span>
+        <span class="c1">#self.majMeta()</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
@@ -597,8 +603,9 @@
             <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">ind</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">res_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
+    <span class="c1">#def json(self, option = ES.mOption):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">res_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">majIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nRes</span><span class="p">,</span> <span class="n">nPrp</span><span class="p">,</span> <span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">order</span> <span class="o">=</span> <span class="s1">&#39;dlp&#39;</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxIndex</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="k">return</span>
@@ -783,7 +790,8 @@
                     <span class="n">jDat</span> <span class="o">=</span> <span class="n">v</span>
                     <span class="n">userAtt</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">jDat</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c1"># attributs</span>
-                <span class="k">if</span> <span class="n">isESAtt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classES</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">userAtt</span> <span class="ow">and</span> <span class="n">isUserAtt</span><span class="p">(</span><span class="n">k</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+                <span class="k">if</span> <span class="n">ESElement</span><span class="o">.</span><span class="n">isESAtt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classES</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="ow">or</span> \
+                    <span class="p">(</span><span class="n">userAtt</span> <span class="ow">and</span> <span class="n">ESElement</span><span class="o">.</span><span class="n">isUserAtt</span><span class="p">(</span><span class="n">k</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
             <span class="k">if</span> <span class="n">ValueClass</span><span class="o">.</span><span class="n">valName</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">jDat</span><span class="p">):</span>    <span class="c1"># si valeurs simple ou detaillee précisée</span>
                     <span class="n">ESSet</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ValueClass</span><span class="p">,</span> <span class="n">jDat</span><span class="p">[</span><span class="n">ValueClass</span><span class="o">.</span><span class="n">valName</span><span class="p">])</span> 
             <span class="k">else</span> <span class="p">:</span>  <span class="n">ESSet</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ValueClass</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
@@ -845,11 +853,12 @@
                                 <h5>Inherited Members</h5>
                                 <dl>
                                     <div><dt>ESElement.ESElement</dt>
-                                <dd id="ESObs.setAtt" class="function">setAtt</dd>
-                <dd id="ESObs.getAttAll" class="function">getAttAll</dd>
-                <dd id="ESObs.addComposant" class="function">addComposant</dd>
+                                <dd id="ESObs.addComposant" class="function">addComposant</dd>
                 <dd id="ESObs.element" class="function">element</dd>
-                <dd id="ESObs.majMeta" class="function">majMeta</dd>
+                <dd id="ESObs.getAttAll" class="function">getAttAll</dd>
+                <dd id="ESObs.isESObs" class="function">isESObs</dd>
+                <dd id="ESObs.isESAtt" class="function">isESAtt</dd>
+                <dd id="ESObs.isUserAtt" class="function">isUserAtt</dd>
 
             </div>
                                 </dl>
@@ -912,11 +921,12 @@
 
             </div>
             <div><dt>ESElement.ESElement</dt>
-                                <dd id="Datation.setAtt" class="function">setAtt</dd>
-                <dd id="Datation.getAttAll" class="function">getAttAll</dd>
-                <dd id="Datation.addComposant" class="function">addComposant</dd>
+                                <dd id="Datation.addComposant" class="function">addComposant</dd>
                 <dd id="Datation.element" class="function">element</dd>
-                <dd id="Datation.majMeta" class="function">majMeta</dd>
+                <dd id="Datation.getAttAll" class="function">getAttAll</dd>
+                <dd id="Datation.isESObs" class="function">isESObs</dd>
+                <dd id="Datation.isESAtt" class="function">isESAtt</dd>
+                <dd id="Datation.isUserAtt" class="function">isUserAtt</dd>
 
             </div>
                                 </dl>
@@ -977,11 +987,12 @@
 
             </div>
             <div><dt>ESElement.ESElement</dt>
-                                <dd id="Location.setAtt" class="function">setAtt</dd>
-                <dd id="Location.getAttAll" class="function">getAttAll</dd>
-                <dd id="Location.addComposant" class="function">addComposant</dd>
+                                <dd id="Location.addComposant" class="function">addComposant</dd>
                 <dd id="Location.element" class="function">element</dd>
-                <dd id="Location.majMeta" class="function">majMeta</dd>
+                <dd id="Location.getAttAll" class="function">getAttAll</dd>
+                <dd id="Location.isESObs" class="function">isESObs</dd>
+                <dd id="Location.isESAtt" class="function">isESAtt</dd>
+                <dd id="Location.isUserAtt" class="function">isUserAtt</dd>
 
             </div>
                                 </dl>
@@ -1042,11 +1053,12 @@
 
             </div>
             <div><dt>ESElement.ESElement</dt>
-                                <dd id="Property.setAtt" class="function">setAtt</dd>
-                <dd id="Property.getAttAll" class="function">getAttAll</dd>
-                <dd id="Property.addComposant" class="function">addComposant</dd>
+                                <dd id="Property.addComposant" class="function">addComposant</dd>
                 <dd id="Property.element" class="function">element</dd>
-                <dd id="Property.majMeta" class="function">majMeta</dd>
+                <dd id="Property.getAttAll" class="function">getAttAll</dd>
+                <dd id="Property.isESObs" class="function">isESObs</dd>
+                <dd id="Property.isESAtt" class="function">isESAtt</dd>
+                <dd id="Property.isUserAtt" class="function">isUserAtt</dd>
 
             </div>
                                 </dl>
@@ -1129,11 +1141,12 @@
 
             </div>
             <div><dt>ESElement.ESElement</dt>
-                                <dd id="Result.setAtt" class="function">setAtt</dd>
-                <dd id="Result.getAttAll" class="function">getAttAll</dd>
-                <dd id="Result.addComposant" class="function">addComposant</dd>
+                                <dd id="Result.addComposant" class="function">addComposant</dd>
                 <dd id="Result.element" class="function">element</dd>
-                <dd id="Result.majMeta" class="function">majMeta</dd>
+                <dd id="Result.getAttAll" class="function">getAttAll</dd>
+                <dd id="Result.isESObs" class="function">isESObs</dd>
+                <dd id="Result.isESAtt" class="function">isESAtt</dd>
+                <dd id="Result.isUserAtt" class="function">isUserAtt</dd>
 
             </div>
                                 </dl>
@@ -1171,9 +1184,10 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jObj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pObs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">Datation</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">set_typeES</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_valueType</span>
+        <span class="c1">#self.mAtt[ES.type] = ES.dat_valueType</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initESSet</span><span class="p">(</span><span class="n">DatationValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">majMeta</span><span class="p">()</span>
+        <span class="c1">#self.majMeta()</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
@@ -1182,9 +1196,10 @@
         <span class="sd">&#39;&#39;&#39; not implemented&#39;&#39;&#39;</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
+    <span class="c1">#def json(self, option = ES.mOption):</span>
         <span class="sd">&#39;&#39;&#39;call `ES.ESSet.ESSet.jsonESSet` &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
         <span class="n">datList</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
@@ -1240,9 +1255,10 @@
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jObj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pObs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">Datation</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">set_typeES</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_valueType</span>
+        <span class="c1">#self.mAtt[ES.type] = ES.dat_valueType</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initESSet</span><span class="p">(</span><span class="n">DatationValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">majMeta</span><span class="p">()</span>
+        <span class="c1">#self.majMeta()</span>
 </pre></div>
 
         </details>
@@ -1279,17 +1295,15 @@
 
         
             <span class="def">def</span>
-            <span class="name">json</span><span class="signature">(
-    self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;add_equal&#39;: &#39;full&#39;, &#39;bytes_res_format&#39;: &#39;-&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}
-)</span>:
+            <span class="name">json</span><span class="signature">(self, **option)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
+    <span class="c1">#def json(self, option = ES.mOption):</span>
         <span class="sd">&#39;&#39;&#39;call `ES.ESSet.ESSet.jsonESSet` &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -1306,7 +1320,7 @@
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000025B7B215190&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x00000255797E2E20&gt;&gt;
 )</span>:
     </div>
 
@@ -1369,11 +1383,12 @@
 
             </div>
             <div><dt>ESElement.ESElement</dt>
-                                <dd id="ESSetDatation.setAtt" class="function">setAtt</dd>
-                <dd id="ESSetDatation.getAttAll" class="function">getAttAll</dd>
-                <dd id="ESSetDatation.addComposant" class="function">addComposant</dd>
+                                <dd id="ESSetDatation.addComposant" class="function">addComposant</dd>
                 <dd id="ESSetDatation.element" class="function">element</dd>
-                <dd id="ESSetDatation.majMeta" class="function">majMeta</dd>
+                <dd id="ESSetDatation.getAttAll" class="function">getAttAll</dd>
+                <dd id="ESSetDatation.isESObs" class="function">isESObs</dd>
+                <dd id="ESSetDatation.isESAtt" class="function">isESAtt</dd>
+                <dd id="ESSetDatation.isUserAtt" class="function">isUserAtt</dd>
 
             </div>
                                 </dl>
@@ -1412,9 +1427,10 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jObj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pObs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">Location</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">set_typeES</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valueType</span>
+        <span class="c1">#self.mAtt[ES.type] = ES.loc_valueType</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initESSet</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">majMeta</span><span class="p">()</span>
+        <span class="c1">#self.majMeta()</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
@@ -1422,9 +1438,10 @@
         <span class="sd">&#39;&#39;&#39; not implemented&#39;&#39;&#39;</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
+    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>       
+    <span class="c1">#def json(self, option = ES.mOption):       </span>
         <span class="sd">&#39;&#39;&#39;call `ESSet.ESSet.jsonESSet` &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
@@ -1479,9 +1496,10 @@
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jObj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pObs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">Location</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">set_typeES</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valueType</span>
+        <span class="c1">#self.mAtt[ES.type] = ES.loc_valueType</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initESSet</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">majMeta</span><span class="p">()</span>
+        <span class="c1">#self.majMeta()</span>
 </pre></div>
 
         </details>
@@ -1518,17 +1536,15 @@
 
         
             <span class="def">def</span>
-            <span class="name">json</span><span class="signature">(
-    self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;add_equal&#39;: &#39;full&#39;, &#39;bytes_res_format&#39;: &#39;-&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}
-)</span>:
+            <span class="name">json</span><span class="signature">(self, **option)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>       
+    <span class="c1">#def json(self, option = ES.mOption):       </span>
         <span class="sd">&#39;&#39;&#39;call `ESSet.ESSet.jsonESSet` &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -1545,7 +1561,7 @@
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000025B7B215190&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x00000255797E2E20&gt;&gt;
 )</span>:
     </div>
 
@@ -1611,11 +1627,12 @@
 
             </div>
             <div><dt>ESElement.ESElement</dt>
-                                <dd id="ESSetLocation.setAtt" class="function">setAtt</dd>
-                <dd id="ESSetLocation.getAttAll" class="function">getAttAll</dd>
-                <dd id="ESSetLocation.addComposant" class="function">addComposant</dd>
+                                <dd id="ESSetLocation.addComposant" class="function">addComposant</dd>
                 <dd id="ESSetLocation.element" class="function">element</dd>
-                <dd id="ESSetLocation.majMeta" class="function">majMeta</dd>
+                <dd id="ESSetLocation.getAttAll" class="function">getAttAll</dd>
+                <dd id="ESSetLocation.isESObs" class="function">isESObs</dd>
+                <dd id="ESSetLocation.isESAtt" class="function">isESAtt</dd>
+                <dd id="ESSetLocation.isUserAtt" class="function">isUserAtt</dd>
 
             </div>
                                 </dl>
@@ -1652,14 +1669,16 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jObj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pObs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">Property</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">set_typeES</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_valueType</span>
+        <span class="c1">#self.mAtt[ES.type] = ES.prp_valueType</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initESSet</span><span class="p">(</span><span class="n">PropertyValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">majMeta</span><span class="p">()</span>
+        <span class="c1">#self.majMeta()</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
-    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>       
+    <span class="c1">#def json(self, option = ES.mOption):       </span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vList</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
@@ -1704,9 +1723,10 @@
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jObj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pObs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">Property</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">set_typeES</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_valueType</span>
+        <span class="c1">#self.mAtt[ES.type] = ES.prp_valueType</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initESSet</span><span class="p">(</span><span class="n">PropertyValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">majMeta</span><span class="p">()</span>
+        <span class="c1">#self.majMeta()</span>
 </pre></div>
 
         </details>
@@ -1721,16 +1741,14 @@
 
         
             <span class="def">def</span>
-            <span class="name">json</span><span class="signature">(
-    self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;add_equal&#39;: &#39;full&#39;, &#39;bytes_res_format&#39;: &#39;-&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}
-)</span>:
+            <span class="name">json</span><span class="signature">(self, **option)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>       
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>       
+    <span class="c1">#def json(self, option = ES.mOption):       </span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -1745,7 +1763,7 @@
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000025B7B215190&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x00000255797E2E20&gt;&gt;
 )</span>:
     </div>
 
@@ -1793,11 +1811,12 @@
 
             </div>
             <div><dt>ESElement.ESElement</dt>
-                                <dd id="ESSetProperty.setAtt" class="function">setAtt</dd>
-                <dd id="ESSetProperty.getAttAll" class="function">getAttAll</dd>
-                <dd id="ESSetProperty.addComposant" class="function">addComposant</dd>
+                                <dd id="ESSetProperty.addComposant" class="function">addComposant</dd>
                 <dd id="ESSetProperty.element" class="function">element</dd>
-                <dd id="ESSetProperty.majMeta" class="function">majMeta</dd>
+                <dd id="ESSetProperty.getAttAll" class="function">getAttAll</dd>
+                <dd id="ESSetProperty.isESObs" class="function">isESObs</dd>
+                <dd id="ESSetProperty.isESAtt" class="function">isESAtt</dd>
+                <dd id="ESSetProperty.isUserAtt" class="function">isUserAtt</dd>
 
             </div>
                                 </dl>
@@ -1846,9 +1865,10 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jObj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pObs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">Result</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">set_typeES</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">res_valueType</span>
+        <span class="c1">#self.mAtt[ES.type] = ES.res_valueType</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">res_valName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initESSet</span><span class="p">(</span><span class="n">ResultValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">majMeta</span><span class="p">()</span>
+        <span class="c1">#self.majMeta()</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
@@ -1916,8 +1936,9 @@
             <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">ind</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">res_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
+    <span class="c1">#def json(self, option = ES.mOption):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">res_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">majIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nRes</span><span class="p">,</span> <span class="n">nPrp</span><span class="p">,</span> <span class="n">nDat</span><span class="p">,</span> <span class="n">nLoc</span><span class="p">,</span> <span class="n">order</span> <span class="o">=</span> <span class="s1">&#39;dlp&#39;</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxIndex</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="k">return</span>
@@ -2101,9 +2122,10 @@
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jObj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pObs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">Result</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pObs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">set_typeES</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">res_valueType</span>
+        <span class="c1">#self.mAtt[ES.type] = ES.res_valueType</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">res_valName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initESSet</span><span class="p">(</span><span class="n">ResultValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">majMeta</span><span class="p">()</span>
+        <span class="c1">#self.majMeta()</span>
 </pre></div>
 
         </details>
@@ -2224,16 +2246,14 @@
 
         
             <span class="def">def</span>
-            <span class="name">json</span><span class="signature">(
-    self,
-    option={&#39;json_res_index&#39;: False, &#39;json_prp_type&#39;: True, &#39;json_prp_name&#39;: False, &#39;json_dat_instant&#39;: True, &#39;json_dat_name&#39;: False, &#39;json_loc_point&#39;: True, &#39;json_loc_name&#39;: False, &#39;json_ESobs_class&#39;: False, &#39;json_elt_type&#39;: False, &#39;json_obs_val&#39;: True, &#39;json_obs_attrib&#39;: False, &#39;json_param&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_autre&#39;: False, &#39;unic_index&#39;: True, &#39;add_equal&#39;: &#39;full&#39;, &#39;bytes_res_format&#39;: &#39;-&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}
-)</span>:
+            <span class="name">json</span><span class="signature">(self, **option)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">res_valName</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
+    <span class="c1">#def json(self, option = ES.mOption):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">res_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -2335,7 +2355,7 @@
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000025B7B215190&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x00000255797E2E20&gt;&gt;,
     ind=&#39;axe&#39;,
     squeeze=True
 )</span>:
@@ -2417,11 +2437,12 @@
 
             </div>
             <div><dt>ESElement.ESElement</dt>
-                                <dd id="ESSetResult.setAtt" class="function">setAtt</dd>
-                <dd id="ESSetResult.getAttAll" class="function">getAttAll</dd>
-                <dd id="ESSetResult.addComposant" class="function">addComposant</dd>
+                                <dd id="ESSetResult.addComposant" class="function">addComposant</dd>
                 <dd id="ESSetResult.element" class="function">element</dd>
-                <dd id="ESSetResult.majMeta" class="function">majMeta</dd>
+                <dd id="ESSetResult.getAttAll" class="function">getAttAll</dd>
+                <dd id="ESSetResult.isESObs" class="function">isESObs</dd>
+                <dd id="ESSetResult.isESAtt" class="function">isESAtt</dd>
+                <dd id="ESSetResult.isUserAtt" class="function">isUserAtt</dd>
 
             </div>
                                 </dl>
