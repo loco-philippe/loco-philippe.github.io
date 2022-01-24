@@ -146,28 +146,19 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mOption</span> <span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span>
                       <span class="s2">&quot;json_string&quot;</span>         <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># sortie string ou dict</span>
                       <span class="s2">&quot;json_res_index&quot;</span>      <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche index</span>
-                      <span class="s2">&quot;json_prp_type&quot;</span>       <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># affiche name ou property</span>
                       <span class="s2">&quot;json_prp_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou property</span>
-                      <span class="s2">&quot;json_dat_instant&quot;</span>    <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># affiche instant (ou mean de slot)</span>
                       <span class="s2">&quot;json_dat_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou instant/slot</span>
-                      <span class="s2">&quot;json_loc_point&quot;</span>      <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># affiche point (ou shape.centroid)</span>
                       <span class="s2">&quot;json_loc_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou instant/slot</span>
-                      <span class="s2">&quot;json_ESobs_class&quot;</span>    <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># json des ESobs</span>
-                      <span class="s2">&quot;json_elt_type&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># jsonAtt avec type xxxx</span>
-                      <span class="s2">&quot;json_obs_val&quot;</span>        <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1">#key:val ou val</span>
-                      <span class="s2">&quot;json_obs_attrib&quot;</span>     <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># avec key = attributes</span>
                       <span class="s2">&quot;json_param&quot;</span>          <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># ok</span>
                       <span class="s2">&quot;json_info&quot;</span>           <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># si True, ok pour tous les info_</span>
                       <span class="s2">&quot;json_info_type&quot;</span>      <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="s2">&quot;json_info_nval&quot;</span>      <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="s2">&quot;json_info_box&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-                      <span class="s2">&quot;json_info_autre&quot;</span>     <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                      <span class="s2">&quot;json_info_other&quot;</span>     <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="s2">&quot;unic_index&quot;</span>          <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># dans ESSet</span>
                       <span class="s2">&quot;add_equal&quot;</span>           <span class="p">:</span> <span class="s2">&quot;full&quot;</span><span class="p">,</span>  <span class="c1"># sinon &quot;value ou &quot;name&quot; pour les comparaisons</span>
                       <span class="s2">&quot;bytes_res_format&quot;</span>    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span><span class="p">,</span> <span class="c1"># calculé à partir de propperty si &quot;null&quot;</span>
-                      <span class="c1">#&quot;maj_reset_index&quot;     : False, # dans majtype</span>
                       <span class="s2">&quot;sort_order&quot;</span>          <span class="p">:</span> <span class="s1">&#39;dlp&#39;</span>
-                      <span class="c1">#&quot;sort_order&quot;          : [0,1,2]</span>
                       <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39; Default options for `ES.ESObservation.Observation`&#39;&#39;&#39;</span>
         
@@ -179,11 +170,8 @@
         <span class="sd">&#39;&#39;&#39;name for json classES identification &#39;&#39;&#39;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">mValObs</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
-                        <span class="c1">#self.loc_valName[1]  : self.loc_classES  ,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
-                        <span class="c1">#self.dat_valName  : self.dat_classES  ,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="c1">#self.prp_valName[1]  : self.prp_classES  ,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;assignment of ESValue name to ESObs objects &#39;&#39;&#39;</span>
         
@@ -194,6 +182,7 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">information</span>     <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nul_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">obs_resultTime</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">obs_reference</span>   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">obs_id</span>          <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
                         <span class="s2">&quot;ResultQuality&quot;</span>      <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">,</span>            
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_propType</span>	    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_unit</span>		    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
@@ -282,6 +271,7 @@
                           <span class="s1">&#39;Temp&#39;</span>        <span class="p">:</span> <span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;°C&#39;</span>         <span class="p">),</span>
                           <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span> <span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span><span class="p">)}</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property codification (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">invProp</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_invnum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prop</span><span class="p">)</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property codification (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
         
@@ -294,6 +284,7 @@
                                <span class="s1">&#39;accumulated&#39;</span>        <span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
                                <span class="s1">&#39;count&#39;</span>              <span class="p">:</span> <span class="mi">7</span><span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property sampling mode (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">invSampling</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampling</span><span class="p">)</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property sampling mode (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
 
@@ -306,6 +297,7 @@
                        <span class="s1">&#39;map database&#39;</span>                   <span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
                        <span class="s1">&#39;barometric elevation source&#39;</span>    <span class="p">:</span> <span class="mi">7</span><span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property application (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">invApplication</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="p">)</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property application (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
         
@@ -404,10 +396,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">nullDate</span>         <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">1970</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nullCoor</span>         <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nullInd</span>          <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nullAtt</span>          <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nullName</span>         <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span>         <span class="o">=</span> <span class="s2">&quot;-&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nullName</span>         <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nullVal</span>          <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nullValues</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nullDate</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullInd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullName</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">nullAtt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullVal</span><span class="p">)</span>
 
 <span class="n">ES</span> <span class="o">=</span> <span class="n">Es</span><span class="p">()</span>
 </pre></div>
@@ -444,28 +439,19 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mOption</span> <span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span>
                       <span class="s2">&quot;json_string&quot;</span>         <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># sortie string ou dict</span>
                       <span class="s2">&quot;json_res_index&quot;</span>      <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche index</span>
-                      <span class="s2">&quot;json_prp_type&quot;</span>       <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># affiche name ou property</span>
                       <span class="s2">&quot;json_prp_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou property</span>
-                      <span class="s2">&quot;json_dat_instant&quot;</span>    <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># affiche instant (ou mean de slot)</span>
                       <span class="s2">&quot;json_dat_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou instant/slot</span>
-                      <span class="s2">&quot;json_loc_point&quot;</span>      <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># affiche point (ou shape.centroid)</span>
                       <span class="s2">&quot;json_loc_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou instant/slot</span>
-                      <span class="s2">&quot;json_ESobs_class&quot;</span>    <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># json des ESobs</span>
-                      <span class="s2">&quot;json_elt_type&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># jsonAtt avec type xxxx</span>
-                      <span class="s2">&quot;json_obs_val&quot;</span>        <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1">#key:val ou val</span>
-                      <span class="s2">&quot;json_obs_attrib&quot;</span>     <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># avec key = attributes</span>
                       <span class="s2">&quot;json_param&quot;</span>          <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># ok</span>
                       <span class="s2">&quot;json_info&quot;</span>           <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># si True, ok pour tous les info_</span>
                       <span class="s2">&quot;json_info_type&quot;</span>      <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="s2">&quot;json_info_nval&quot;</span>      <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="s2">&quot;json_info_box&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-                      <span class="s2">&quot;json_info_autre&quot;</span>     <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                      <span class="s2">&quot;json_info_other&quot;</span>     <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="s2">&quot;unic_index&quot;</span>          <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># dans ESSet</span>
                       <span class="s2">&quot;add_equal&quot;</span>           <span class="p">:</span> <span class="s2">&quot;full&quot;</span><span class="p">,</span>  <span class="c1"># sinon &quot;value ou &quot;name&quot; pour les comparaisons</span>
                       <span class="s2">&quot;bytes_res_format&quot;</span>    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span><span class="p">,</span> <span class="c1"># calculé à partir de propperty si &quot;null&quot;</span>
-                      <span class="c1">#&quot;maj_reset_index&quot;     : False, # dans majtype</span>
                       <span class="s2">&quot;sort_order&quot;</span>          <span class="p">:</span> <span class="s1">&#39;dlp&#39;</span>
-                      <span class="c1">#&quot;sort_order&quot;          : [0,1,2]</span>
                       <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39; Default options for `ES.ESObservation.Observation`&#39;&#39;&#39;</span>
         
@@ -477,11 +463,8 @@
         <span class="sd">&#39;&#39;&#39;name for json classES identification &#39;&#39;&#39;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">mValObs</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
-                        <span class="c1">#self.loc_valName[1]  : self.loc_classES  ,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
-                        <span class="c1">#self.dat_valName  : self.dat_classES  ,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="c1">#self.prp_valName[1]  : self.prp_classES  ,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;assignment of ESValue name to ESObs objects &#39;&#39;&#39;</span>
         
@@ -492,6 +475,7 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">information</span>     <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nul_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">obs_resultTime</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">obs_reference</span>   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">obs_id</span>          <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
                         <span class="s2">&quot;ResultQuality&quot;</span>      <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">,</span>            
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_propType</span>	    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_unit</span>		    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
@@ -580,6 +564,7 @@
                           <span class="s1">&#39;Temp&#39;</span>        <span class="p">:</span> <span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;°C&#39;</span>         <span class="p">),</span>
                           <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span> <span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span><span class="p">)}</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property codification (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">invProp</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_invnum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prop</span><span class="p">)</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property codification (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
         
@@ -592,6 +577,7 @@
                                <span class="s1">&#39;accumulated&#39;</span>        <span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
                                <span class="s1">&#39;count&#39;</span>              <span class="p">:</span> <span class="mi">7</span><span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property sampling mode (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">invSampling</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampling</span><span class="p">)</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property sampling mode (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
 
@@ -604,6 +590,7 @@
                        <span class="s1">&#39;map database&#39;</span>                   <span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
                        <span class="s1">&#39;barometric elevation source&#39;</span>    <span class="p">:</span> <span class="mi">7</span><span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property application (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">invApplication</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="p">)</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property application (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
         
@@ -702,10 +689,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">nullDate</span>         <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">1970</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nullCoor</span>         <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nullInd</span>          <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nullAtt</span>          <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nullName</span>         <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span>         <span class="o">=</span> <span class="s2">&quot;-&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nullName</span>         <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nullVal</span>          <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nullValues</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nullDate</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullInd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullName</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">nullAtt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullVal</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -734,28 +724,19 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mOption</span> <span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span>
                       <span class="s2">&quot;json_string&quot;</span>         <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># sortie string ou dict</span>
                       <span class="s2">&quot;json_res_index&quot;</span>      <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche index</span>
-                      <span class="s2">&quot;json_prp_type&quot;</span>       <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># affiche name ou property</span>
                       <span class="s2">&quot;json_prp_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou property</span>
-                      <span class="s2">&quot;json_dat_instant&quot;</span>    <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># affiche instant (ou mean de slot)</span>
                       <span class="s2">&quot;json_dat_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou instant/slot</span>
-                      <span class="s2">&quot;json_loc_point&quot;</span>      <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># affiche point (ou shape.centroid)</span>
                       <span class="s2">&quot;json_loc_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou instant/slot</span>
-                      <span class="s2">&quot;json_ESobs_class&quot;</span>    <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># json des ESobs</span>
-                      <span class="s2">&quot;json_elt_type&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># jsonAtt avec type xxxx</span>
-                      <span class="s2">&quot;json_obs_val&quot;</span>        <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1">#key:val ou val</span>
-                      <span class="s2">&quot;json_obs_attrib&quot;</span>     <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># avec key = attributes</span>
                       <span class="s2">&quot;json_param&quot;</span>          <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># ok</span>
                       <span class="s2">&quot;json_info&quot;</span>           <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># si True, ok pour tous les info_</span>
                       <span class="s2">&quot;json_info_type&quot;</span>      <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="s2">&quot;json_info_nval&quot;</span>      <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="s2">&quot;json_info_box&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-                      <span class="s2">&quot;json_info_autre&quot;</span>     <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                      <span class="s2">&quot;json_info_other&quot;</span>     <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="s2">&quot;unic_index&quot;</span>          <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># dans ESSet</span>
                       <span class="s2">&quot;add_equal&quot;</span>           <span class="p">:</span> <span class="s2">&quot;full&quot;</span><span class="p">,</span>  <span class="c1"># sinon &quot;value ou &quot;name&quot; pour les comparaisons</span>
                       <span class="s2">&quot;bytes_res_format&quot;</span>    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span><span class="p">,</span> <span class="c1"># calculé à partir de propperty si &quot;null&quot;</span>
-                      <span class="c1">#&quot;maj_reset_index&quot;     : False, # dans majtype</span>
                       <span class="s2">&quot;sort_order&quot;</span>          <span class="p">:</span> <span class="s1">&#39;dlp&#39;</span>
-                      <span class="c1">#&quot;sort_order&quot;          : [0,1,2]</span>
                       <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39; Default options for `ES.ESObservation.Observation`&#39;&#39;&#39;</span>
         
@@ -767,11 +748,8 @@
         <span class="sd">&#39;&#39;&#39;name for json classES identification &#39;&#39;&#39;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">mValObs</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
-                        <span class="c1">#self.loc_valName[1]  : self.loc_classES  ,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
-                        <span class="c1">#self.dat_valName  : self.dat_classES  ,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="c1">#self.prp_valName[1]  : self.prp_classES  ,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;assignment of ESValue name to ESObs objects &#39;&#39;&#39;</span>
         
@@ -782,6 +760,7 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">information</span>     <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nul_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">obs_resultTime</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">obs_reference</span>   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">obs_id</span>          <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
                         <span class="s2">&quot;ResultQuality&quot;</span>      <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">,</span>            
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_propType</span>	    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_unit</span>		    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
@@ -870,6 +849,7 @@
                           <span class="s1">&#39;Temp&#39;</span>        <span class="p">:</span> <span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;°C&#39;</span>         <span class="p">),</span>
                           <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span> <span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span><span class="p">)}</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property codification (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">invProp</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_invnum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prop</span><span class="p">)</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property codification (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
         
@@ -882,6 +862,7 @@
                                <span class="s1">&#39;accumulated&#39;</span>        <span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
                                <span class="s1">&#39;count&#39;</span>              <span class="p">:</span> <span class="mi">7</span><span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property sampling mode (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">invSampling</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampling</span><span class="p">)</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property sampling mode (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
 
@@ -894,6 +875,7 @@
                        <span class="s1">&#39;map database&#39;</span>                   <span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
                        <span class="s1">&#39;barometric elevation source&#39;</span>    <span class="p">:</span> <span class="mi">7</span><span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property application (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">invApplication</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="p">)</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for property application (BLE - Environnemental Sensing Service) &#39;&#39;&#39;</span>
         
