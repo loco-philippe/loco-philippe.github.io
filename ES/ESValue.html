@@ -113,6 +113,9 @@
                                 <a class="variable" href="#LocationValue.bounds">bounds</a>
                         </li>
                         <li>
+                                <a class="variable" href="#LocationValue.coords">coords</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#LocationValue.coorInv">coorInv</a>
                         </li>
                         <li>
@@ -498,9 +501,9 @@
         <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="p">[</span><span class="n">arg</span><span class="p">,</span> <span class="n">arg</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;instant&#39;</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">Interval</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">Interval</span><span class="p">(</span><span class="n">minMax</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;DatationValue built with a compatible TimeSlot [arg1, arg2] (static method)&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="n">TimeSlot</span><span class="p">([</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;interval&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="n">TimeSlot</span><span class="p">([</span><span class="n">minMax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">minMax</span><span class="p">[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;interval&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;</span>
@@ -578,7 +581,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">==</span> <span class="n">TimeSlot</span><span class="p">()</span> <span class="p">:</span> 
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span>
 
-    <span class="k">def</span> <span class="nf">_Box</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span> <span class="k">return</span> <span class="n">DatationValue</span><span class="o">.</span><span class="n">Interval</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_Box</span><span class="p">(</span><span class="n">minMax</span><span class="p">):</span> <span class="k">return</span> <span class="n">DatationValue</span><span class="o">.</span><span class="n">Interval</span><span class="p">(</span><span class="n">minMax</span><span class="p">)</span>
     
 <span class="k">class</span> <span class="nc">LocationValue</span><span class="p">(</span><span class="n">ESValue</span><span class="p">):</span>              <span class="c1"># !!! début LocationValue</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -593,6 +596,7 @@
 
 <span class="sd">    *property (getters)*</span>
 
+<span class="sd">    - `coords`</span>
 <span class="sd">    - `bounds`</span>
 <span class="sd">    - `point`</span>
 <span class="sd">    - `value`</span>
@@ -658,14 +662,27 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">bounds</span>
 
     <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">coords</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; return geoJson coordinates&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">polygon</span><span class="o">.</span><span class="n">Polygon</span><span class="p">:</span>  
+            <span class="n">coords</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">coords</span><span class="p">)]</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Point</span><span class="p">:</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">coords</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">linestring</span><span class="o">.</span><span class="n">LineString</span><span class="p">:</span>  
+            <span class="n">coords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="n">coords</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">coords</span><span class="p">))</span>
+    
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">coorInv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  
         <span class="sd">&#39;&#39;&#39;list (@property) : vPoint inverse coordinates [vPoint[1], vPoint[0]]&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
     
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">Cuboid</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span><span class="p">,</span> <span class="n">ccw</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">Cuboid</span><span class="p">(</span><span class="n">minMax</span><span class="p">,</span> <span class="n">ccw</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;LocationValue built with shapely.geometry.box parameters (static method)&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span><span class="p">,</span> <span class="n">ccw</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
+        <span class="c1">#return LocationValue(shape=shapely.geometry.box(minx, miny, maxx, maxy, ccw), name=&#39;box&#39;)</span>
+        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="o">*</span><span class="n">minMax</span><span class="p">,</span> <span class="n">ccw</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -696,16 +713,17 @@
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
-<span class="sd">        - **json_string** : boolean (default True) - choice for return formet (string if True, dict else)</span>
+<span class="sd">        - **json_string** : boolean (default True) - choice for return format (string if True, dict else)</span>
 <span class="sd">                </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
 <span class="sd">        - **string or dict**</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span> <span class="o">|</span> <span class="n">kwargs</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()}</span>
+        <span class="c1">#if self.name == ES.nullName : js = self.vPoint()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="p">}</span>
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;json_string&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="n">js</span>
 
@@ -760,7 +778,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
     
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_Box</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span> <span class="k">return</span> <span class="n">LocationValue</span><span class="o">.</span><span class="n">Cuboid</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_Box</span><span class="p">(</span><span class="n">minMax</span><span class="p">):</span> <span class="k">return</span> <span class="n">LocationValue</span><span class="o">.</span><span class="n">Cuboid</span><span class="p">(</span><span class="n">minMax</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_gshape</span><span class="p">(</span><span class="n">coord</span><span class="p">):</span>
@@ -772,7 +790,7 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">geojson</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;&#39;</span> <span class="o">+</span> <span class="n">tpe</span> <span class="o">+</span> <span class="s1">&#39;&quot;,&quot;coordinates&quot;:&#39;</span> <span class="o">+</span> <span class="n">coor</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span><span class="p">))</span>
             <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
-    
+
     <span class="k">def</span> <span class="nf">_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; LocationValue creation &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="p">:</span>
@@ -833,7 +851,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">application</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">application</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">EMFId</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">EMFId</span> <span class="ow">and</span> \
         <span class="bp">self</span><span class="o">.</span><span class="n">detail</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">detail</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pType</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">pType</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
 
@@ -959,14 +977,14 @@
 <span class="sd">        where &#39;resval&#39; is a ResultValue(copy), &#39;value&#39; is a &#39;result&#39; or [&#39;result&#39;, &#39;ind&#39;],</span>
 <span class="sd">        &#39;result&#39; is an Object, &#39;ind&#39; is a list with three integer and &#39;name&#39; is a string.        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">=</span> <span class="n">ind</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullInd</span>
         <span class="n">ESValue</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="p">:</span> 
             <span class="k">try</span><span class="p">:</span> <span class="n">val</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="ow">and</span> <span class="n">ind</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullInd</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullInd</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">=</span> <span class="n">ind</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 
         
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span>
@@ -978,7 +996,9 @@
               <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">&lt;</span>  <span class="n">other</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span> <span class="ow">or</span> \
               <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span>  <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullInd</span> <span class="p">:</span> <span class="k">return</span>  <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">json_res_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="k">return</span>  <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">json_res_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">resInd</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">prp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullDict</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1068,8 +1088,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span>
 
     <span class="k">def</span> <span class="nf">_jsonValInd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optIndex</span><span class="p">)</span> <span class="p">:</span> 
-        <span class="k">if</span> <span class="n">optIndex</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span><span class="p">]</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> 
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span> <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> 
+        <span class="k">else</span> <span class="p">:</span> <span class="n">val</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">optIndex</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span><span class="p">]</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="n">val</span> 
         
 </pre></div>
 
@@ -1557,9 +1579,9 @@
         <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="p">[</span><span class="n">arg</span><span class="p">,</span> <span class="n">arg</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;instant&#39;</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">Interval</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">Interval</span><span class="p">(</span><span class="n">minMax</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;DatationValue built with a compatible TimeSlot [arg1, arg2] (static method)&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="n">TimeSlot</span><span class="p">([</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;interval&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="n">TimeSlot</span><span class="p">([</span><span class="n">minMax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">minMax</span><span class="p">[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;interval&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1637,7 +1659,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">==</span> <span class="n">TimeSlot</span><span class="p">()</span> <span class="p">:</span> 
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span>
 
-    <span class="k">def</span> <span class="nf">_Box</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span> <span class="k">return</span> <span class="n">DatationValue</span><span class="o">.</span><span class="n">Interval</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_Box</span><span class="p">(</span><span class="n">minMax</span><span class="p">):</span> <span class="k">return</span> <span class="n">DatationValue</span><span class="o">.</span><span class="n">Interval</span><span class="p">(</span><span class="n">minMax</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -1892,15 +1914,15 @@ and name is a string</li>
                 <div class="decorator">@staticmethod</div>
 
             <span class="def">def</span>
-            <span class="name">Interval</span><span class="signature">(arg1, arg2)</span>:
+            <span class="name">Interval</span><span class="signature">(minMax)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">Interval</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">Interval</span><span class="p">(</span><span class="n">minMax</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;DatationValue built with a compatible TimeSlot [arg1, arg2] (static method)&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="n">TimeSlot</span><span class="p">([</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;interval&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="n">TimeSlot</span><span class="p">([</span><span class="n">minMax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">minMax</span><span class="p">[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;interval&#39;</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -2131,6 +2153,7 @@ and name is a string</li>
 
 <span class="sd">    *property (getters)*</span>
 
+<span class="sd">    - `coords`</span>
 <span class="sd">    - `bounds`</span>
 <span class="sd">    - `point`</span>
 <span class="sd">    - `value`</span>
@@ -2196,14 +2219,27 @@ and name is a string</li>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">bounds</span>
 
     <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">coords</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; return geoJson coordinates&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">polygon</span><span class="o">.</span><span class="n">Polygon</span><span class="p">:</span>  
+            <span class="n">coords</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">coords</span><span class="p">)]</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Point</span><span class="p">:</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">coords</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">linestring</span><span class="o">.</span><span class="n">LineString</span><span class="p">:</span>  
+            <span class="n">coords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shap</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="n">coords</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">coords</span><span class="p">))</span>
+    
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">coorInv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  
         <span class="sd">&#39;&#39;&#39;list (@property) : vPoint inverse coordinates [vPoint[1], vPoint[0]]&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
     
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">Cuboid</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span><span class="p">,</span> <span class="n">ccw</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">Cuboid</span><span class="p">(</span><span class="n">minMax</span><span class="p">,</span> <span class="n">ccw</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;LocationValue built with shapely.geometry.box parameters (static method)&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span><span class="p">,</span> <span class="n">ccw</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
+        <span class="c1">#return LocationValue(shape=shapely.geometry.box(minx, miny, maxx, maxy, ccw), name=&#39;box&#39;)</span>
+        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="o">*</span><span class="n">minMax</span><span class="p">,</span> <span class="n">ccw</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -2234,16 +2270,17 @@ and name is a string</li>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
-<span class="sd">        - **json_string** : boolean (default True) - choice for return formet (string if True, dict else)</span>
+<span class="sd">        - **json_string** : boolean (default True) - choice for return format (string if True, dict else)</span>
 <span class="sd">                </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
 <span class="sd">        - **string or dict**</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span> <span class="o">|</span> <span class="n">kwargs</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()}</span>
+        <span class="c1">#if self.name == ES.nullName : js = self.vPoint()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="p">}</span>
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;json_string&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="n">js</span>
 
@@ -2298,7 +2335,7 @@ and name is a string</li>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap</span>
     
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_Box</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span> <span class="k">return</span> <span class="n">LocationValue</span><span class="o">.</span><span class="n">Cuboid</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_Box</span><span class="p">(</span><span class="n">minMax</span><span class="p">):</span> <span class="k">return</span> <span class="n">LocationValue</span><span class="o">.</span><span class="n">Cuboid</span><span class="p">(</span><span class="n">minMax</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_gshape</span><span class="p">(</span><span class="n">coord</span><span class="p">):</span>
@@ -2310,7 +2347,7 @@ and name is a string</li>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">geojson</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;{&quot;type&quot;:&quot;&#39;</span> <span class="o">+</span> <span class="n">tpe</span> <span class="o">+</span> <span class="s1">&#39;&quot;,&quot;coordinates&quot;:&#39;</span> <span class="o">+</span> <span class="n">coor</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span><span class="p">))</span>
             <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
-    
+
     <span class="k">def</span> <span class="nf">_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; LocationValue creation &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocationValue</span> <span class="p">:</span>
@@ -2341,6 +2378,7 @@ and name is a string</li>
 <p><em>property (getters)</em></p>
 
 <ul>
+<li><code><a href="#LocationValue.coords">coords</a></code></li>
 <li><code><a href="#LocationValue.bounds">bounds</a></code></li>
 <li><code><a href="#LocationValue.point">point</a></code></li>
 <li><code><a href="#LocationValue.value">value</a></code></li>
@@ -2442,6 +2480,17 @@ and name is a string</li>
 
 
                             </div>
+                            <div id="LocationValue.coords" class="classattr">
+                                            <div class="attr variable"><a class="headerlink" href="#LocationValue.coords">#&nbsp;&nbsp</a>
+
+        <span class="name">coords</span>
+    </div>
+
+            <div class="docstring"><p>return geoJson coordinates</p>
+</div>
+
+
+                            </div>
                             <div id="LocationValue.coorInv" class="classattr">
                                             <div class="attr variable"><a class="headerlink" href="#LocationValue.coorInv">#&nbsp;&nbsp</a>
 
@@ -2459,15 +2508,16 @@ and name is a string</li>
                 <div class="decorator">@staticmethod</div>
 
             <span class="def">def</span>
-            <span class="name">Cuboid</span><span class="signature">(minx, miny, maxx, maxy, ccw=True)</span>:
+            <span class="name">Cuboid</span><span class="signature">(minMax, ccw=True)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">Cuboid</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span><span class="p">,</span> <span class="n">ccw</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">Cuboid</span><span class="p">(</span><span class="n">minMax</span><span class="p">,</span> <span class="n">ccw</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;LocationValue built with shapely.geometry.box parameters (static method)&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span><span class="p">,</span> <span class="n">ccw</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
+        <span class="c1">#return LocationValue(shape=shapely.geometry.box(minx, miny, maxx, maxy, ccw), name=&#39;box&#39;)</span>
+        <span class="k">return</span> <span class="n">LocationValue</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="o">*</span><span class="n">minMax</span><span class="p">,</span> <span class="n">ccw</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -2582,16 +2632,17 @@ and name is a string</li>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
-<span class="sd">        - **json_string** : boolean (default True) - choice for return formet (string if True, dict else)</span>
+<span class="sd">        - **json_string** : boolean (default True) - choice for return format (string if True, dict else)</span>
 <span class="sd">                </span>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
 <span class="sd">        - **string or dict**</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span> <span class="o">|</span> <span class="n">kwargs</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vPoint</span><span class="p">()}</span>
+        <span class="c1">#if self.name == ES.nullName : js = self.vPoint()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="p">}</span>
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;json_string&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="n">js</span>
 </pre></div>
@@ -2603,7 +2654,7 @@ and name is a string</li>
 <p><em>Parameters</em></p>
 
 <ul>
-<li><strong>json_string</strong> : boolean (default True) - choice for return formet (string if True, dict else)</li>
+<li><strong>json_string</strong> : boolean (default True) - choice for return format (string if True, dict else)</li>
 </ul>
 
 <p><em>Returns</em></p>
@@ -2900,7 +2951,7 @@ in a list format [y, x]</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">application</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">application</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">EMFId</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">EMFId</span> <span class="ow">and</span> \
         <span class="bp">self</span><span class="o">.</span><span class="n">detail</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">detail</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pType</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">pType</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
 
@@ -3242,14 +3293,14 @@ in a list format [y, x]</p>
 <span class="sd">        where &#39;resval&#39; is a ResultValue(copy), &#39;value&#39; is a &#39;result&#39; or [&#39;result&#39;, &#39;ind&#39;],</span>
 <span class="sd">        &#39;result&#39; is an Object, &#39;ind&#39; is a list with three integer and &#39;name&#39; is a string.        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">=</span> <span class="n">ind</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullInd</span>
         <span class="n">ESValue</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="p">:</span> 
             <span class="k">try</span><span class="p">:</span> <span class="n">val</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="ow">and</span> <span class="n">ind</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullInd</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullInd</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">=</span> <span class="n">ind</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 
         
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span>
@@ -3261,7 +3312,9 @@ in a list format [y, x]</p>
               <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">&lt;</span>  <span class="n">other</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span> <span class="ow">or</span> \
               <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">ind</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span>  <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullInd</span> <span class="p">:</span> <span class="k">return</span>  <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">json_res_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="k">return</span>  <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">json_res_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">resInd</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">prp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullDict</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -3351,8 +3404,10 @@ in a list format [y, x]</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span>
 
     <span class="k">def</span> <span class="nf">_jsonValInd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optIndex</span><span class="p">)</span> <span class="p">:</span> 
-        <span class="k">if</span> <span class="n">optIndex</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span><span class="p">]</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> 
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span> <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> 
+        <span class="k">else</span> <span class="p">:</span> <span class="n">val</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">optIndex</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span><span class="p">]</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="n">val</span> 
 </pre></div>
 
         </details>
@@ -3408,14 +3463,14 @@ in a list format [y, x]</p>
 <span class="sd">        where &#39;resval&#39; is a ResultValue(copy), &#39;value&#39; is a &#39;result&#39; or [&#39;result&#39;, &#39;ind&#39;],</span>
 <span class="sd">        &#39;result&#39; is an Object, &#39;ind&#39; is a list with three integer and &#39;name&#39; is a string.        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">=</span> <span class="n">ind</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullInd</span>
         <span class="n">ESValue</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="p">:</span> 
             <span class="k">try</span><span class="p">:</span> <span class="n">val</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="ow">and</span> <span class="n">ind</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullInd</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullInd</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">=</span> <span class="n">ind</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 </pre></div>
 
         </details>

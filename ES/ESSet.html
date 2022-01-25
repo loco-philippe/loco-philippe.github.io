@@ -207,7 +207,7 @@
     <span class="k">def</span> <span class="nf">boundingBox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">val</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nValue</span><span class="p">):</span> <span class="n">val</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="o">.</span><span class="n">_Box</span><span class="p">(</span><span class="o">*</span><span class="n">val</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="o">.</span><span class="n">_Box</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">prpList</span> <span class="o">=</span> <span class="p">[]):</span>  <span class="c1">#prplist complète si sans index</span>
         <span class="n">code_ES</span> <span class="o">=</span>  <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b00001111</span>
@@ -258,6 +258,19 @@
         <span class="k">return</span> <span class="n">ind</span>
 
     <span class="k">def</span> <span class="nf">jsonESSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ES_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Export in Json format</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **ES_valName**              : String  - name of the ESValue</span>
+<span class="sd">        - **json_string (option)**    : Boolean - return format (string or dict)</span>
+<span class="sd">        - **json_res_index (option)** : Boolean - include index for ResultValue</span>
+
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **string or dict** : Json string or dict</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">else</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="p">{</span><span class="n">ES_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jsonSet</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span>
         <span class="k">if</span> <span class="s1">&#39;json_string&#39;</span> <span class="ow">in</span> <span class="n">option</span> <span class="ow">and</span>  <span class="n">option</span><span class="p">[</span><span class="s1">&#39;json_string&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
@@ -417,7 +430,7 @@
     <span class="k">def</span> <span class="nf">boundingBox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">val</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nValue</span><span class="p">):</span> <span class="n">val</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="o">.</span><span class="n">_Box</span><span class="p">(</span><span class="o">*</span><span class="n">val</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="o">.</span><span class="n">_Box</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">prpList</span> <span class="o">=</span> <span class="p">[]):</span>  <span class="c1">#prplist complète si sans index</span>
         <span class="n">code_ES</span> <span class="o">=</span>  <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b00001111</span>
@@ -468,6 +481,19 @@
         <span class="k">return</span> <span class="n">ind</span>
 
     <span class="k">def</span> <span class="nf">jsonESSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ES_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Export in Json format</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **ES_valName**              : String  - name of the ESValue</span>
+<span class="sd">        - **json_string (option)**    : Boolean - return format (string or dict)</span>
+<span class="sd">        - **json_res_index (option)** : Boolean - include index for ResultValue</span>
+
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **string or dict** : Json string or dict</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">else</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="p">{</span><span class="n">ES_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jsonSet</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span>
         <span class="k">if</span> <span class="s1">&#39;json_string&#39;</span> <span class="ow">in</span> <span class="n">option</span> <span class="ow">and</span>  <span class="n">option</span><span class="p">[</span><span class="s1">&#39;json_string&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
@@ -742,6 +768,19 @@
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">jsonESSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ES_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Export in Json format</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **ES_valName**              : String  - name of the ESValue</span>
+<span class="sd">        - **json_string (option)**    : Boolean - return format (string or dict)</span>
+<span class="sd">        - **json_res_index (option)** : Boolean - include index for ResultValue</span>
+
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **string or dict** : Json string or dict</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valueList</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">else</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="p">{</span><span class="n">ES_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jsonSet</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span>
         <span class="k">if</span> <span class="s1">&#39;json_string&#39;</span> <span class="ow">in</span> <span class="n">option</span> <span class="ow">and</span>  <span class="n">option</span><span class="p">[</span><span class="s1">&#39;json_string&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
@@ -750,7 +789,23 @@
 
         </details>
 
-    
+            <div class="docstring"><p>Export in Json format</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>ES_valName</strong>              : String  - name of the ESValue</li>
+<li><strong>json_string (option)</strong>    : Boolean - return format (string or dict)</li>
+<li><strong>json_res_index (option)</strong> : Boolean - include index for ResultValue</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>string or dict</strong> : Json string or dict</li>
+</ul>
+</div>
+
 
                             </div>
                             <div id="ESSet.majList" class="classattr">
@@ -902,7 +957,7 @@
             <span class="def">def</span>
             <span class="name">vList</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001881DE02EB0&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000022A28E32EB0&gt;&gt;
 )</span>:
     </div>
 

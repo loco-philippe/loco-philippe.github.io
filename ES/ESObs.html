@@ -293,7 +293,7 @@
     <span class="k">def</span> <span class="nf">boundingBox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">val</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nValue</span><span class="p">):</span> <span class="n">val</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="o">.</span><span class="n">_Box</span><span class="p">(</span><span class="o">*</span><span class="n">val</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="o">.</span><span class="n">_Box</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">observation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -442,14 +442,23 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initESSet</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
    
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="k">def</span> <span class="nf">analyse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; not implemented&#39;&#39;&#39;</span>
         <span class="k">pass</span>
     
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;call `ESSet.ESSet.jsonESSet`&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;Export in Json format (call `ESSet.ESSet.jsonESSet`)</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters (optional)*</span>
+<span class="sd">        </span>
+<span class="sd">        - **json_string**    : Boolean - return format (string or dict)</span>
+<span class="sd">        - **json_res_index** : Boolean - include index for ResultValue</span>
+
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **string or dict** : Json string or dict&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
@@ -776,7 +785,7 @@
     <span class="k">def</span> <span class="nf">boundingBox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">val</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nValue</span><span class="p">):</span> <span class="n">val</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valueList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="o">.</span><span class="n">_Box</span><span class="p">(</span><span class="o">*</span><span class="n">val</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ValueClass</span><span class="o">.</span><span class="n">_Box</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">observation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1331,7 +1340,7 @@
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001881DE02EB0&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000022A28E32EB0&gt;&gt;
 )</span>:
     </div>
 
@@ -1440,14 +1449,23 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">typeES</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initESSet</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">,</span> <span class="n">jObj</span><span class="p">)</span>
    
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">ES</span><span class="o">.</span><span class="n">mOption</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="k">def</span> <span class="nf">analyse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; not implemented&#39;&#39;&#39;</span>
         <span class="k">pass</span>
     
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;call `ESSet.ESSet.jsonESSet`&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;Export in Json format (call `ESSet.ESSet.jsonESSet`)</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters (optional)*</span>
+<span class="sd">        </span>
+<span class="sd">        - **json_string**    : Boolean - return format (string or dict)</span>
+<span class="sd">        - **json_res_index** : Boolean - include index for ResultValue</span>
+
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **string or dict** : Json string or dict&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">):</span>
@@ -1546,13 +1564,35 @@
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;call `ESSet.ESSet.jsonESSet`&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;Export in Json format (call `ESSet.ESSet.jsonESSet`)</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters (optional)*</span>
+<span class="sd">        </span>
+<span class="sd">        - **json_string**    : Boolean - return format (string or dict)</span>
+<span class="sd">        - **json_res_index** : Boolean - include index for ResultValue</span>
+
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **string or dict** : Json string or dict&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonESSet</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">loc_valName</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>call <code>ESSet.ESSet.jsonESSet</code></p>
+            <div class="docstring"><p>Export in Json format (call <code>ESSet.ESSet.jsonESSet</code>)</p>
+
+<p><em>Parameters (optional)</em></p>
+
+<ul>
+<li><strong>json_string</strong>    : Boolean - return format (string or dict)</li>
+<li><strong>json_res_index</strong> : Boolean - include index for ResultValue</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>string or dict</strong> : Json string or dict</li>
+</ul>
 </div>
 
 
@@ -1564,7 +1604,7 @@
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001881DE02EB0&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000022A28E32EB0&gt;&gt;
 )</span>:
     </div>
 
@@ -1762,7 +1802,7 @@
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001881DE02EB0&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000022A28E32EB0&gt;&gt;
 )</span>:
     </div>
 
@@ -2350,7 +2390,7 @@
             <span class="def">def</span>
             <span class="name">to_numpy</span><span class="signature">(
     self,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001881DE02EB0&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000022A28E32EB0&gt;&gt;,
     ind=&#39;axe&#39;,
     squeeze=True
 )</span>:

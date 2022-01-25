@@ -62,6 +62,9 @@
                                 <a class="function" href="#Observation.appendList">appendList</a>
                         </li>
                         <li>
+                                <a class="function" href="#Observation.appendObs">appendObs</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#Observation.bounds">bounds</a>
                         </li>
                         <li>
@@ -253,6 +256,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">    </span>
 <span class="sd">    - `Observation.append`</span>
 <span class="sd">    - `Observation.appendList`</span>
+<span class="sd">    - `Observation.appendObs`</span>
 <span class="sd">    - `Observation.addESObs`</span>
 <span class="sd">    - `Observation.addAttributes`</span>
 <span class="sd">    - `Observation.addResultValue`</span>
@@ -528,11 +532,37 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">listVal</span><span class="p">))</span> <span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">listDat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">listLoc</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">listPrp</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">listVal</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 
+    <span class="k">def</span> <span class="nf">appendObs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">)</span> <span class="p">:</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Add an `Observation` as a new `ES.ESValue.ResultValue` with other `ES.ESValue`</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **obs** : Observation</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **int** : last index in the `ES.ESValue.ESSet` valueList.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1">#arg = [obs.setDatation.boundingBox, obs.setLocation.boundingBox, </span>
+        <span class="c1">#       obs.setProperty[0]]</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">arg</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">bounds</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">==</span> <span class="nb">int</span> <span class="p">:</span> <span class="n">ind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">else</span> <span class="p">:</span> <span class="n">ind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addValue</span><span class="p">(</span><span class="n">_EsValue</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">equal</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_addValueObservation</span><span class="p">(</span><span class="n">ind</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">obs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">majType</span><span class="p">()</span>
+        
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;tuple (@property) : Observation boundingBox (xmin, ymin, xmax, ymax).&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="p">:</span> <span class="k">return</span> <span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">bounds</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">bound</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="c1">#if self.setLocation : return shape(self).bounds</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span> <span class="p">:</span> <span class="n">bound</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="o">.</span><span class="n">boundingBox</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="p">:</span> <span class="n">bound</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">boundingBox</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="p">:</span> <span class="n">bound</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">bound</span>
 
     <span class="k">def</span> <span class="nf">choropleth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;choropleth&quot;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1538,6 +1568,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">    </span>
 <span class="sd">    - `Observation.append`</span>
 <span class="sd">    - `Observation.appendList`</span>
+<span class="sd">    - `Observation.appendObs`</span>
 <span class="sd">    - `Observation.addESObs`</span>
 <span class="sd">    - `Observation.addAttributes`</span>
 <span class="sd">    - `Observation.addResultValue`</span>
@@ -1813,11 +1844,37 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">listVal</span><span class="p">))</span> <span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">listDat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">listLoc</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">listPrp</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">listVal</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 
+    <span class="k">def</span> <span class="nf">appendObs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">)</span> <span class="p">:</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Add an `Observation` as a new `ES.ESValue.ResultValue` with other `ES.ESValue`</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **obs** : Observation</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **int** : last index in the `ES.ESValue.ESSet` valueList.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1">#arg = [obs.setDatation.boundingBox, obs.setLocation.boundingBox, </span>
+        <span class="c1">#       obs.setProperty[0]]</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">arg</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">bounds</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">==</span> <span class="nb">int</span> <span class="p">:</span> <span class="n">ind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">else</span> <span class="p">:</span> <span class="n">ind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addValue</span><span class="p">(</span><span class="n">_EsValue</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">equal</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_addValueObservation</span><span class="p">(</span><span class="n">ind</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">obs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">majType</span><span class="p">()</span>
+        
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;tuple (@property) : Observation boundingBox (xmin, ymin, xmax, ymax).&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="p">:</span> <span class="k">return</span> <span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">bounds</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">bound</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="c1">#if self.setLocation : return shape(self).bounds</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span> <span class="p">:</span> <span class="n">bound</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="o">.</span><span class="n">boundingBox</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="p">:</span> <span class="n">bound</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="o">.</span><span class="n">boundingBox</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span> <span class="p">:</span> <span class="n">bound</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">bound</span>
 
     <span class="k">def</span> <span class="nf">choropleth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;choropleth&quot;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -2813,6 +2870,7 @@ the number of LocationValue, DatationValue and PropertyValue</li>
 <ul>
 <li><code><a href="#Observation.append">Observation.append</a></code></li>
 <li><code><a href="#Observation.appendList">Observation.appendList</a></code></li>
+<li><code><a href="#Observation.appendObs">Observation.appendObs</a></code></li>
 <li><code><a href="#Observation.addESObs">Observation.addESObs</a></code></li>
 <li><code><a href="#Observation.addAttributes">Observation.addAttributes</a></code></li>
 <li><code><a href="#Observation.addResultValue">Observation.addResultValue</a></code></li>
@@ -3328,6 +3386,58 @@ or compatible Value for an existing or a new <code><a href="ESValue.html">ES.ESV
 
 <ul>
 <li><strong>None</strong></li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="Observation.appendObs" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Observation.appendObs">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">appendObs</span><span class="signature">(self, obs, equal=&#39;full&#39;)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">appendObs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">)</span> <span class="p">:</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Add an `Observation` as a new `ES.ESValue.ResultValue` with other `ES.ESValue`</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **obs** : Observation</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **int** : last index in the `ES.ESValue.ESSet` valueList.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1">#arg = [obs.setDatation.boundingBox, obs.setLocation.boundingBox, </span>
+        <span class="c1">#       obs.setProperty[0]]</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">arg</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">bounds</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">==</span> <span class="nb">int</span> <span class="p">:</span> <span class="n">ind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">else</span> <span class="p">:</span> <span class="n">ind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addValue</span><span class="p">(</span><span class="n">_EsValue</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">arg</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">equal</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_addValueObservation</span><span class="p">(</span><span class="n">ind</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ind</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">obs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">majType</span><span class="p">()</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Add an <code><a href="#Observation">Observation</a></code> as a new <code><a href="ESValue.html#ResultValue">ES.ESValue.ResultValue</a></code> with other <code><a href="ESValue.html">ES.ESValue</a></code></p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>obs</strong> : Observation</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>int</strong> : last index in the <code><a href="ESValue.html#ESSet">ES.ESValue.ESSet</a></code> valueList.</li>
 </ul>
 </div>
 
@@ -4423,7 +4533,7 @@ if not sorting follows the list provided.</li>
     info=False,
     numeric=False,
     fullAxes=False,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001881DE02EB0&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000022A28E32EB0&gt;&gt;,
     arrayname=&#39;Observation&#39;
 )</span>:
     </div>
@@ -4572,7 +4682,7 @@ applied to each <code><a href="ESValue.html#ResultValue">ES.ESValue.ResultValue<
     info=False,
     numeric=False,
     fullAxes=False,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001881DE02EB0&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000022A28E32EB0&gt;&gt;,
     arrayname=&#39;Observation&#39;,
     maxname=20
 )</span>:
