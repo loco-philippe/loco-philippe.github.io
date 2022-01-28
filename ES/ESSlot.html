@@ -109,8 +109,6 @@
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">list</span> <span class="p">:</span> 
                 <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">val</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initInterval</span><span class="p">(</span><span class="n">interv</span><span class="p">)</span>
             <span class="k">else</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initInterval</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="c1">#elif type(val) == DatationValue:</span>
-        <span class="c1">#    self.slot = val.slot.slot</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="n">TimeSlot</span> <span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">slot</span>
         <span class="k">else</span> <span class="p">:</span> 
@@ -232,8 +230,6 @@
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">list</span> <span class="p">:</span> 
                 <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">val</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initInterval</span><span class="p">(</span><span class="n">interv</span><span class="p">)</span>
             <span class="k">else</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initInterval</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="c1">#elif type(val) == DatationValue:</span>
-        <span class="c1">#    self.slot = val.slot.slot</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="n">TimeSlot</span> <span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">slot</span>
         <span class="k">else</span> <span class="p">:</span> 
@@ -353,8 +349,6 @@
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">list</span> <span class="p">:</span> 
                 <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">val</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initInterval</span><span class="p">(</span><span class="n">interv</span><span class="p">)</span>
             <span class="k">else</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initInterval</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="c1">#elif type(val) == DatationValue:</span>
-        <span class="c1">#    self.slot = val.slot.slot</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="n">TimeSlot</span> <span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">slot</span>
         <span class="k">else</span> <span class="p">:</span> 
