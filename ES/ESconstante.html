@@ -44,7 +44,10 @@
                                 <a class="variable" href="#Es.vName">vName</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Es.mValObs">mValObs</a>
+                                <a class="variable" href="#Es.json_type">json_type</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Es.json_nval">json_nval</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Es.esObsClass">esObsClass</a>
@@ -155,7 +158,7 @@
                       <span class="s2">&quot;json_info_nval&quot;</span>      <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="s2">&quot;json_info_box&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="s2">&quot;json_info_other&quot;</span>     <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-                      <span class="s2">&quot;unic_index&quot;</span>          <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># dans ESSet</span>
+                      <span class="c1">#&quot;unic_index&quot;          : True,  # dans ESSet</span>
                       <span class="s2">&quot;add_equal&quot;</span>           <span class="p">:</span> <span class="s2">&quot;full&quot;</span><span class="p">,</span>  <span class="c1"># sinon &quot;value ou &quot;name&quot; pour les comparaisons</span>
                       <span class="s2">&quot;bytes_res_format&quot;</span>    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span><span class="p">,</span> <span class="c1"># calculé à partir de propperty si &quot;null&quot;</span>
                       <span class="s2">&quot;sort_order&quot;</span>          <span class="p">:</span> <span class="s1">&#39;dlp&#39;</span>
@@ -169,14 +172,23 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">:</span>   <span class="bp">self</span><span class="o">.</span><span class="n">prp</span> <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;name for json classES identification &#39;&#39;&#39;</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">mValObs</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">}</span>
-        <span class="sd">&#39;&#39;&#39;assignment of ESValue name to ESObs objects &#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;self.mValObs: Dict = {self.loc_valName  : self.loc_classES  ,</span>
+<span class="sd">                        self.dat_valName  : self.dat_classES  ,</span>
+<span class="sd">                        self.prp_valName  : self.prp_classES  ,</span>
+<span class="sd">                        self.res_valName  : self.res_classES  }</span>
+<span class="sd">        &#39;&#39;&#39;assignment of ESValue name to ESObs objects &#39;&#39;&#39;&quot;&quot;&quot;</span>
         
+        <span class="bp">self</span><span class="o">.</span><span class="n">json_type</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">json_type_dat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_type_loc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_type_prp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_type_res</span><span class="p">]</span>
+        <span class="sd">&#39;&#39;&#39;ordered list for json_type &#39;&#39;&#39;</span>  
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">json_nval</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">json_nval_dat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_loc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_prp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_res</span><span class="p">]</span>
+        <span class="sd">&#39;&#39;&#39;ordered list for json_type &#39;&#39;&#39;</span>  
+
         <span class="bp">self</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span><span class="p">]</span>
         <span class="sd">&#39;&#39;&#39;ordered list for classES &#39;&#39;&#39;</span>  
+
+        <span class="sd">&quot;&quot;&quot;self.esObsId: dict = { self.dat_classES : 0, self.loc_classES : 1, self.prp_classES : 2, self.res_classES : 3}</span>
+<span class="sd">        &#39;&#39;&#39;ordered dict value for classES &#39;&#39;&#39;  &quot;&quot;&quot;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span><span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span>            <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">information</span>     <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nul_classES</span>  <span class="p">,</span>
@@ -184,19 +196,19 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">obs_reference</span>   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">obs_id</span>          <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
                         <span class="s2">&quot;ResultQuality&quot;</span>      <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">,</span>            
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_type</span>	    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_unit</span>		    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_sampling</span>	    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_type</span>        <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_unit</span>		   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_sampling</span>	   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_appli</span>       <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_EMFId</span>		    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_EMFId</span>		   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_sensorType</span>	<span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_upperValue</span>	<span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_lowerValue</span>	<span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_period</span>	    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_interval</span>	    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_period</span>	   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_interval</span>	   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_uncertain</span>   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="s2">&quot;EMFType &quot;</span>          <span class="p">:</span> <span class="s2">&quot;ObservingEMF&quot;</span>  <span class="p">,</span>
-                        <span class="s2">&quot;ResultNature &quot;</span>     <span class="p">:</span> <span class="s2">&quot;ObservingEMF&quot;</span>  <span class="p">}</span>        
+                        <span class="s2">&quot;EMFType &quot;</span>           <span class="p">:</span> <span class="s2">&quot;ObservingEMF&quot;</span>  <span class="p">,</span>
+                        <span class="s2">&quot;ResultNature &quot;</span>      <span class="p">:</span> <span class="s2">&quot;ObservingEMF&quot;</span>  <span class="p">}</span>        
         <span class="sd">&#39;&#39;&#39; Assignment of attributes to ESObs objects &#39;&#39;&#39;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">obsCat</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span>
@@ -321,7 +333,72 @@
                      <span class="s1">&#39;dat&#39;</span> <span class="p">:</span> <span class="p">{</span>                     <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span><span class="s2">&quot;horodatage&quot;</span><span class="p">},</span>
                      <span class="s1">&#39;prp&#39;</span> <span class="p">:</span> <span class="p">{</span>                     <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span><span class="s2">&quot;property&quot;</span><span class="p">}}</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for Xarray attrs informations &#39;&#39;&#39;</span>
-
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">reserved</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_loc</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_dat</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_res</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_prp</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_type_loc</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_type_obs</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_type_dat</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_type_res</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_type_prp</span><span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span>    <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">information</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type</span>         <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">multi</span>        <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs</span>          <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dat</span>          <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loc</span>          <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp</span>          <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">res</span>          <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span>  <span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">nul_classES</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_attributes</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_id</span>       <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_resultTime</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_complet</span>   <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_reference</span> <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_score</span>     <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_order</span>     <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_idxref</span>    <span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_mRate</span>     <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_nEch</span>      <span class="p">,</span>   
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_dim</span>       <span class="p">,</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_axes</span>      <span class="p">,</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_nValue</span>    <span class="p">,</span> 
+                  
+            <span class="bp">self</span><span class="o">.</span><span class="n">dat_box</span>       <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loc_box</span>       <span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_type</span>	   <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_unit</span>		<span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_sampling</span>	<span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_appli</span>		<span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_EMFId</span>		<span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_sensorType</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_upperValue</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_lowerValue</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_period</span>	   <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_interval</span>	<span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_uncertain</span> <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_name</span>      <span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span>   <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span>   <span class="p">,</span>   
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span>   <span class="p">,</span>   
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span>   <span class="p">]</span>
+        
     <span class="k">def</span> <span class="nf">_initName</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>    
         <span class="sd">&#39;&#39;&#39; Name initialization (string) &#39;&#39;&#39;</span>        
         <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_loc</span>    <span class="o">=</span> <span class="s2">&quot;nvalloc&quot;</span> 
@@ -358,16 +435,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">obs_complet</span>      <span class="o">=</span> <span class="s2">&quot;complet&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">obs_reference</span>    <span class="o">=</span> <span class="s2">&quot;reference&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">obs_score</span>        <span class="o">=</span> <span class="s2">&quot;score&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obs_order</span>        <span class="o">=</span> <span class="s2">&quot;order&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obs_idxref</span>       <span class="o">=</span> <span class="s2">&quot;idxref&quot;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">res_mRate</span>        <span class="o">=</span> <span class="s2">&quot;measureRate&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">res_sRate</span>        <span class="o">=</span> <span class="s2">&quot;samplingRate&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">res_nEch</span>         <span class="o">=</span> <span class="s2">&quot;nEch&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">res_dim</span>          <span class="o">=</span> <span class="s2">&quot;dim&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">res_axes</span>         <span class="o">=</span> <span class="s2">&quot;axes&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_nValue</span>       <span class="o">=</span> <span class="s2">&quot;nval&quot;</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">obs_typeES</span>       <span class="o">=</span> <span class="s2">&quot;observation&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_typeES</span>       <span class="o">=</span> <span class="s2">&quot;set&quot;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">dat_box</span>            <span class="o">=</span> <span class="s2">&quot;timeBox&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loc_box</span>            <span class="o">=</span> <span class="s2">&quot;boudingBox&quot;</span>
@@ -448,7 +523,7 @@
                       <span class="s2">&quot;json_info_nval&quot;</span>      <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="s2">&quot;json_info_box&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="s2">&quot;json_info_other&quot;</span>     <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-                      <span class="s2">&quot;unic_index&quot;</span>          <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># dans ESSet</span>
+                      <span class="c1">#&quot;unic_index&quot;          : True,  # dans ESSet</span>
                       <span class="s2">&quot;add_equal&quot;</span>           <span class="p">:</span> <span class="s2">&quot;full&quot;</span><span class="p">,</span>  <span class="c1"># sinon &quot;value ou &quot;name&quot; pour les comparaisons</span>
                       <span class="s2">&quot;bytes_res_format&quot;</span>    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span><span class="p">,</span> <span class="c1"># calculé à partir de propperty si &quot;null&quot;</span>
                       <span class="s2">&quot;sort_order&quot;</span>          <span class="p">:</span> <span class="s1">&#39;dlp&#39;</span>
@@ -462,14 +537,23 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">:</span>   <span class="bp">self</span><span class="o">.</span><span class="n">prp</span> <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;name for json classES identification &#39;&#39;&#39;</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">mValObs</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">}</span>
-        <span class="sd">&#39;&#39;&#39;assignment of ESValue name to ESObs objects &#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;self.mValObs: Dict = {self.loc_valName  : self.loc_classES  ,</span>
+<span class="sd">                        self.dat_valName  : self.dat_classES  ,</span>
+<span class="sd">                        self.prp_valName  : self.prp_classES  ,</span>
+<span class="sd">                        self.res_valName  : self.res_classES  }</span>
+<span class="sd">        &#39;&#39;&#39;assignment of ESValue name to ESObs objects &#39;&#39;&#39;&quot;&quot;&quot;</span>
         
+        <span class="bp">self</span><span class="o">.</span><span class="n">json_type</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">json_type_dat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_type_loc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_type_prp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_type_res</span><span class="p">]</span>
+        <span class="sd">&#39;&#39;&#39;ordered list for json_type &#39;&#39;&#39;</span>  
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">json_nval</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">json_nval_dat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_loc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_prp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_res</span><span class="p">]</span>
+        <span class="sd">&#39;&#39;&#39;ordered list for json_type &#39;&#39;&#39;</span>  
+
         <span class="bp">self</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span><span class="p">]</span>
         <span class="sd">&#39;&#39;&#39;ordered list for classES &#39;&#39;&#39;</span>  
+
+        <span class="sd">&quot;&quot;&quot;self.esObsId: dict = { self.dat_classES : 0, self.loc_classES : 1, self.prp_classES : 2, self.res_classES : 3}</span>
+<span class="sd">        &#39;&#39;&#39;ordered dict value for classES &#39;&#39;&#39;  &quot;&quot;&quot;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span><span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span>            <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">information</span>     <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nul_classES</span>  <span class="p">,</span>
@@ -477,19 +561,19 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">obs_reference</span>   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">obs_id</span>          <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
                         <span class="s2">&quot;ResultQuality&quot;</span>      <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">,</span>            
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_type</span>	    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_unit</span>		    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_sampling</span>	    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_type</span>        <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_unit</span>		   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_sampling</span>	   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_appli</span>       <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_EMFId</span>		    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_EMFId</span>		   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_sensorType</span>	<span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_upperValue</span>	<span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_lowerValue</span>	<span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_period</span>	    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_interval</span>	    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_period</span>	   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_interval</span>	   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_uncertain</span>   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="s2">&quot;EMFType &quot;</span>          <span class="p">:</span> <span class="s2">&quot;ObservingEMF&quot;</span>  <span class="p">,</span>
-                        <span class="s2">&quot;ResultNature &quot;</span>     <span class="p">:</span> <span class="s2">&quot;ObservingEMF&quot;</span>  <span class="p">}</span>        
+                        <span class="s2">&quot;EMFType &quot;</span>           <span class="p">:</span> <span class="s2">&quot;ObservingEMF&quot;</span>  <span class="p">,</span>
+                        <span class="s2">&quot;ResultNature &quot;</span>      <span class="p">:</span> <span class="s2">&quot;ObservingEMF&quot;</span>  <span class="p">}</span>        
         <span class="sd">&#39;&#39;&#39; Assignment of attributes to ESObs objects &#39;&#39;&#39;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">obsCat</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span>
@@ -614,7 +698,72 @@
                      <span class="s1">&#39;dat&#39;</span> <span class="p">:</span> <span class="p">{</span>                     <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span><span class="s2">&quot;horodatage&quot;</span><span class="p">},</span>
                      <span class="s1">&#39;prp&#39;</span> <span class="p">:</span> <span class="p">{</span>                     <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span><span class="s2">&quot;property&quot;</span><span class="p">}}</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for Xarray attrs informations &#39;&#39;&#39;</span>
-
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">reserved</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_loc</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_dat</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_res</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_prp</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_type_loc</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_type_obs</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_type_dat</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_type_res</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_type_prp</span><span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span>    <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">information</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type</span>         <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">multi</span>        <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs</span>          <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dat</span>          <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loc</span>          <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp</span>          <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">res</span>          <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span>  <span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">nul_classES</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_attributes</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_id</span>       <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_resultTime</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_complet</span>   <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_reference</span> <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_score</span>     <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_order</span>     <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_idxref</span>    <span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_mRate</span>     <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_nEch</span>      <span class="p">,</span>   
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_dim</span>       <span class="p">,</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_axes</span>      <span class="p">,</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_nValue</span>    <span class="p">,</span> 
+                  
+            <span class="bp">self</span><span class="o">.</span><span class="n">dat_box</span>       <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loc_box</span>       <span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_type</span>	   <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_unit</span>		<span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_sampling</span>	<span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_appli</span>		<span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_EMFId</span>		<span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_sensorType</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_upperValue</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_lowerValue</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_period</span>	   <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_interval</span>	<span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_uncertain</span> <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_name</span>      <span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span>   <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span>   <span class="p">,</span>   
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span>   <span class="p">,</span>   
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span>   <span class="p">]</span>
+        
     <span class="k">def</span> <span class="nf">_initName</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>    
         <span class="sd">&#39;&#39;&#39; Name initialization (string) &#39;&#39;&#39;</span>        
         <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_loc</span>    <span class="o">=</span> <span class="s2">&quot;nvalloc&quot;</span> 
@@ -651,16 +800,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">obs_complet</span>      <span class="o">=</span> <span class="s2">&quot;complet&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">obs_reference</span>    <span class="o">=</span> <span class="s2">&quot;reference&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">obs_score</span>        <span class="o">=</span> <span class="s2">&quot;score&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obs_order</span>        <span class="o">=</span> <span class="s2">&quot;order&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obs_idxref</span>       <span class="o">=</span> <span class="s2">&quot;idxref&quot;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">res_mRate</span>        <span class="o">=</span> <span class="s2">&quot;measureRate&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">res_sRate</span>        <span class="o">=</span> <span class="s2">&quot;samplingRate&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">res_nEch</span>         <span class="o">=</span> <span class="s2">&quot;nEch&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">res_dim</span>          <span class="o">=</span> <span class="s2">&quot;dim&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">res_axes</span>         <span class="o">=</span> <span class="s2">&quot;axes&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_nValue</span>       <span class="o">=</span> <span class="s2">&quot;nval&quot;</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">obs_typeES</span>       <span class="o">=</span> <span class="s2">&quot;observation&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_typeES</span>       <span class="o">=</span> <span class="s2">&quot;set&quot;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">dat_box</span>            <span class="o">=</span> <span class="s2">&quot;timeBox&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loc_box</span>            <span class="o">=</span> <span class="s2">&quot;boudingBox&quot;</span>
@@ -733,7 +880,7 @@
                       <span class="s2">&quot;json_info_nval&quot;</span>      <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="s2">&quot;json_info_box&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="s2">&quot;json_info_other&quot;</span>     <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-                      <span class="s2">&quot;unic_index&quot;</span>          <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># dans ESSet</span>
+                      <span class="c1">#&quot;unic_index&quot;          : True,  # dans ESSet</span>
                       <span class="s2">&quot;add_equal&quot;</span>           <span class="p">:</span> <span class="s2">&quot;full&quot;</span><span class="p">,</span>  <span class="c1"># sinon &quot;value ou &quot;name&quot; pour les comparaisons</span>
                       <span class="s2">&quot;bytes_res_format&quot;</span>    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span><span class="p">,</span> <span class="c1"># calculé à partir de propperty si &quot;null&quot;</span>
                       <span class="s2">&quot;sort_order&quot;</span>          <span class="p">:</span> <span class="s1">&#39;dlp&#39;</span>
@@ -747,14 +894,23 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">:</span>   <span class="bp">self</span><span class="o">.</span><span class="n">prp</span> <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39;name for json classES identification &#39;&#39;&#39;</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">mValObs</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">}</span>
-        <span class="sd">&#39;&#39;&#39;assignment of ESValue name to ESObs objects &#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;self.mValObs: Dict = {self.loc_valName  : self.loc_classES  ,</span>
+<span class="sd">                        self.dat_valName  : self.dat_classES  ,</span>
+<span class="sd">                        self.prp_valName  : self.prp_classES  ,</span>
+<span class="sd">                        self.res_valName  : self.res_classES  }</span>
+<span class="sd">        &#39;&#39;&#39;assignment of ESValue name to ESObs objects &#39;&#39;&#39;&quot;&quot;&quot;</span>
         
+        <span class="bp">self</span><span class="o">.</span><span class="n">json_type</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">json_type_dat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_type_loc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_type_prp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_type_res</span><span class="p">]</span>
+        <span class="sd">&#39;&#39;&#39;ordered list for json_type &#39;&#39;&#39;</span>  
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">json_nval</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">json_nval_dat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_loc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_prp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_res</span><span class="p">]</span>
+        <span class="sd">&#39;&#39;&#39;ordered list for json_type &#39;&#39;&#39;</span>  
+
         <span class="bp">self</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span><span class="p">]</span>
         <span class="sd">&#39;&#39;&#39;ordered list for classES &#39;&#39;&#39;</span>  
+
+        <span class="sd">&quot;&quot;&quot;self.esObsId: dict = { self.dat_classES : 0, self.loc_classES : 1, self.prp_classES : 2, self.res_classES : 3}</span>
+<span class="sd">        &#39;&#39;&#39;ordered dict value for classES &#39;&#39;&#39;  &quot;&quot;&quot;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">mTypeAtt</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span><span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span>            <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">information</span>     <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nul_classES</span>  <span class="p">,</span>
@@ -762,19 +918,19 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">obs_reference</span>   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">obs_id</span>          <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
                         <span class="s2">&quot;ResultQuality&quot;</span>      <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">,</span>            
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_type</span>	    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_unit</span>		    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_sampling</span>	    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_type</span>        <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_unit</span>		   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_sampling</span>	   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_appli</span>       <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_EMFId</span>		    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_EMFId</span>		   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_sensorType</span>	<span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_upperValue</span>	<span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_lowerValue</span>	<span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_period</span>	    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_interval</span>	    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_period</span>	   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prp_interval</span>	   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">prp_uncertain</span>   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
-                        <span class="s2">&quot;EMFType &quot;</span>          <span class="p">:</span> <span class="s2">&quot;ObservingEMF&quot;</span>  <span class="p">,</span>
-                        <span class="s2">&quot;ResultNature &quot;</span>     <span class="p">:</span> <span class="s2">&quot;ObservingEMF&quot;</span>  <span class="p">}</span>        
+                        <span class="s2">&quot;EMFType &quot;</span>           <span class="p">:</span> <span class="s2">&quot;ObservingEMF&quot;</span>  <span class="p">,</span>
+                        <span class="s2">&quot;ResultNature &quot;</span>      <span class="p">:</span> <span class="s2">&quot;ObservingEMF&quot;</span>  <span class="p">}</span>        
         <span class="sd">&#39;&#39;&#39; Assignment of attributes to ESObs objects &#39;&#39;&#39;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">obsCat</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span>
@@ -899,6 +1055,71 @@
                      <span class="s1">&#39;dat&#39;</span> <span class="p">:</span> <span class="p">{</span>                     <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span><span class="s2">&quot;horodatage&quot;</span><span class="p">},</span>
                      <span class="s1">&#39;prp&#39;</span> <span class="p">:</span> <span class="p">{</span>                     <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span><span class="s2">&quot;property&quot;</span><span class="p">}}</span>
         <span class="sd">&#39;&#39;&#39;Dictionnary for Xarray attrs informations &#39;&#39;&#39;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">reserved</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_loc</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_dat</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_res</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_nval_prp</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_type_loc</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_type_obs</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_type_dat</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_type_res</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_type_prp</span><span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span>    <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">information</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type</span>         <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">multi</span>        <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs</span>          <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dat</span>          <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loc</span>          <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp</span>          <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">res</span>          <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span>  <span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">nul_classES</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_classES</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span>  <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span>  <span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_attributes</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_id</span>       <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_resultTime</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_complet</span>   <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_reference</span> <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_score</span>     <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_order</span>     <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obs_idxref</span>    <span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_mRate</span>     <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_nEch</span>      <span class="p">,</span>   
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_dim</span>       <span class="p">,</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_axes</span>      <span class="p">,</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_nValue</span>    <span class="p">,</span> 
+                  
+            <span class="bp">self</span><span class="o">.</span><span class="n">dat_box</span>       <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loc_box</span>       <span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_type</span>	   <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_unit</span>		<span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_sampling</span>	<span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_appli</span>		<span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_EMFId</span>		<span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_sensorType</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_upperValue</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_lowerValue</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_period</span>	   <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_interval</span>	<span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_uncertain</span> <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_name</span>      <span class="p">,</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">dat_valName</span>   <span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loc_valName</span>   <span class="p">,</span>   
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_valName</span>   <span class="p">,</span>   
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_valName</span>   <span class="p">]</span>
 </pre></div>
 
         </details>
@@ -928,13 +1149,24 @@
 
 
                             </div>
-                            <div id="Es.mValObs" class="classattr">
-                                            <div class="attr variable"><a class="headerlink" href="#Es.mValObs">#&nbsp;&nbsp</a>
+                            <div id="Es.json_type" class="classattr">
+                                            <div class="attr variable"><a class="headerlink" href="#Es.json_type">#&nbsp;&nbsp</a>
 
-        <span class="name">mValObs</span><span class="annotation">: Dict</span>
+        <span class="name">json_type</span><span class="annotation">: list</span>
     </div>
 
-            <div class="docstring"><p>assignment of ESValue name to ESObs objects</p>
+            <div class="docstring"><p>ordered list for json_type</p>
+</div>
+
+
+                            </div>
+                            <div id="Es.json_nval" class="classattr">
+                                            <div class="attr variable"><a class="headerlink" href="#Es.json_nval">#&nbsp;&nbsp</a>
+
+        <span class="name">json_nval</span><span class="annotation">: list</span>
+    </div>
+
+            <div class="docstring"><p>ordered list for json_type</p>
 </div>
 
 
