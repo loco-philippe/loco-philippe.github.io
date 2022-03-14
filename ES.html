@@ -58,32 +58,10 @@
   </ul></li>
   <li><a href="#quick-overview">Quick overview</a>
   <ul>
-    <li><a href="#create-an-observation">Create an Observation</a>
-    <ul>
-      <li><a href="#measuring-station">Measuring station</a></li>
-      <li><a href="#mobile-sensor">Mobile sensor</a></li>
-      <li><a href="#simulation">Simulation</a></li>
-      <li><a href="#access-information">Access information</a></li>
-      <li><a href="#visualize-an-observation">Visualize an Observation</a></li>
-    </ul></li>
-    <li><a href="#generate-an-exchange-format">Generate an Exchange format</a>
-    <ul>
-      <li><a href="#binary-format">Binary format</a></li>
-      <li><a href="#json-format">Json format</a></li>
-      <li><a href="#no-sql-format">No SQL format</a></li>
-    </ul></li>
-    <li><a href="#managing-observations">Managing Observations</a>
-    <ul>
-      <li><a href="#add">Add</a></li>
-      <li><a href="#sort">Sort</a></li>
-      <li><a href="#aggregation">Aggregation</a></li>
-    </ul></li>
-    <li><a href="#interface">Interface</a>
-    <ul>
-      <li><a href="#numpy-export">Numpy export</a></li>
-      <li><a href="#xarray-export">Xarray export</a></li>
-      <li><a href="#storage">Storage</a></li>
-    </ul></li>
+    <li><a href="#create-an-observation">Create an Observation</a></li>
+    <li><a href="#generate-an-exchange-format">Generate an Exchange format</a></li>
+    <li><a href="#managing-observations">Managing Observations</a></li>
+    <li><a href="#interface">Interface</a></li>
   </ul></li>
   <li><a href="#developers-documentation">Developers documentation</a>
   <ul>
@@ -409,43 +387,53 @@ This chapter introduces you to the to binary interface and explain you:
 
 <h2 id="observation-management-2">Observation management</h2>
 
+<p><em>Under construction</em></p>
+
 <h1 id="quick-overview">Quick overview</h1>
+
+<p><em>Under construction</em></p>
 
 <h2 id="create-an-observation">Create an Observation</h2>
 
-<h3 id="measuring-station">Measuring station</h3>
+<p><em>Under construction</em></p>
 
-<h3 id="mobile-sensor">Mobile sensor</h3>
-
-<h3 id="simulation">Simulation</h3>
-
-<h3 id="access-information">Access information</h3>
-
-<h3 id="visualize-an-observation">Visualize an Observation</h3>
+<ul>
+<li>Measuring station</li>
+<li>Mobile sensor</li>
+<li>Simulation</li>
+<li>Access information</li>
+<li>Visualize an Observation</li>
+</ul>
 
 <h2 id="generate-an-exchange-format">Generate an Exchange format</h2>
 
-<h3 id="binary-format">Binary format</h3>
+<p><em>Under construction</em></p>
 
-<h3 id="json-format">Json format</h3>
-
-<h3 id="no-sql-format">No SQL format</h3>
+<ul>
+<li>Binary format</li>
+<li>Json format</li>
+<li>No SQL format</li>
+</ul>
 
 <h2 id="managing-observations">Managing Observations</h2>
 
-<h3 id="add">Add</h3>
+<p><em>Under construction</em></p>
 
-<h3 id="sort">Sort</h3>
-
-<h3 id="aggregation">Aggregation</h3>
+<ul>
+<li>Add</li>
+<li>Sort</li>
+<li>Aggregation</li>
+</ul>
 
 <h2 id="interface">Interface</h2>
 
-<h3 id="numpy-export">Numpy export</h3>
+<p><em>Under construction</em></p>
 
-<h3 id="xarray-export">Xarray export</h3>
-
-<h3 id="storage">Storage</h3>
+<ul>
+<li>Numpy export</li>
+<li>Xarray export</li>
+<li>File storage</li>
+</ul>
 
 <h1 id="developers-documentation">Developers documentation</h1>
 
@@ -453,19 +441,43 @@ This chapter introduces you to the to binary interface and explain you:
 
 <p>An <code>ESObservation.Observation</code> is an object representing a set of information having
 spatial and temporal characteristics associated with measurable or observable
- properties.
-The ES functions are divided according to the class below:</p>
+ properties.</p>
+
+<p>The Observation Object is built around three main bricks :</p>
+
+<ul>
+<li>Ilist Object which deal with indexing,</li>
+<li>ESValue Object which integrate the specificities of environmental data,</li>
+<li>Tools dedicated to particular domains (Shapely for location, TimeSlot for Datation)</li>
+</ul>
+
+<p>The ES functions are divided according to the class below:</p>
 
 <p><img src="./ES/EShierarchie.png" width="800"></p>
 
 <p>Modules contain the following classes:</p>
 
 <ul>
-<li>ESObservation : <code><a href="ES/ESObservation.html#Observation">ES.ESObservation.Observation</a></code></li>
-<li>ESValue : <code><a href="ES/ESValue.html#DatationValue">ES.ESValue.DatationValue</a></code>, <code><a href="ES/ESValue.html#LocationValue">ES.ESValue.LocationValue</a></code>, 
-<code><a href="ES/ESValue.html#PropertyValue">ES.ESValue.PropertyValue</a></code>, <code><a href="ES/ESValue.html#ResultValue">ES.ESValue.ResultValue</a></code>, <code><a href="ES/ESValue.html#ESValue">ES.ESValue.ESValue</a></code></li>
-<li>Ilist : <code><a href="ES/ilist.html#Ilist">ES.ilist.Ilist</a></code></li>
-<li>ESconstante : <code><a href="ES/ESconstante.html#Es">ES.ESconstante.Es</a></code>.</li>
+<li><p>ESObservation : </p>
+
+<ul>
+<li><code><a href="ES/ESObservation.html#Observation">ES.ESObservation.Observation</a></code></li>
+</ul></li>
+<li><p>ESValue : </p>
+
+<ul>
+<li><code><a href="ES/ESValue.html#DatationValue">ES.ESValue.DatationValue</a></code>, <code><a href="ES/ESValue.html#LocationValue">ES.ESValue.LocationValue</a></code>, <code><a href="ES/ESValue.html#PropertyValue">ES.ESValue.PropertyValue</a></code>, <code><a href="ES/ESValue.html#ResultValue">ES.ESValue.ResultValue</a></code>, <code><a href="ES/ESValue.html#ESValue">ES.ESValue.ESValue</a></code></li>
+</ul></li>
+<li><p>Ilist : </p>
+
+<ul>
+<li><code><a href="ES/ilist.html#Ilist">ES.ilist.Ilist</a></code></li>
+</ul></li>
+<li><p>ESconstante : </p>
+
+<ul>
+<li><code><a href="ES/ESconstante.html#Es">ES.ESconstante.Es</a></code>.</li>
+</ul></li>
 </ul>
 </div>
 
@@ -734,45 +746,45 @@ The ES functions are divided according to the class below:</p>
 <span class="sd">    </span>
 <span class="sd">## Observation management</span>
 
-
+<span class="sd">*Under construction*</span>
 
 <span class="sd"># Quick overview</span>
 
+<span class="sd">*Under construction*</span>
+
 <span class="sd">## Create an Observation</span>
 
-<span class="sd">### Measuring station</span>
+<span class="sd">*Under construction*</span>
 
-<span class="sd">### Mobile sensor</span>
-
-<span class="sd">### Simulation</span>
-
-<span class="sd">### Access information</span>
-
-<span class="sd">### Visualize an Observation</span>
+<span class="sd">- Measuring station</span>
+<span class="sd">- Mobile sensor</span>
+<span class="sd">- Simulation</span>
+<span class="sd">- Access information</span>
+<span class="sd">- Visualize an Observation</span>
 
 <span class="sd">## Generate an Exchange format</span>
 
-<span class="sd">### Binary format</span>
+<span class="sd">*Under construction*</span>
 
-<span class="sd">### Json format</span>
-
-<span class="sd">### No SQL format</span>
+<span class="sd">- Binary format</span>
+<span class="sd">- Json format</span>
+<span class="sd">- No SQL format</span>
 
 <span class="sd">## Managing Observations</span>
 
-<span class="sd">### Add</span>
+<span class="sd">*Under construction*</span>
 
-<span class="sd">### Sort</span>
-
-<span class="sd">### Aggregation</span>
+<span class="sd">- Add</span>
+<span class="sd">- Sort</span>
+<span class="sd">- Aggregation</span>
 
 <span class="sd">## Interface</span>
 
-<span class="sd">### Numpy export</span>
+<span class="sd">*Under construction*</span>
 
-<span class="sd">### Xarray export</span>
-
-<span class="sd">### Storage</span>
+<span class="sd">- Numpy export</span>
+<span class="sd">- Xarray export</span>
+<span class="sd">- File storage</span>
 
 <span class="sd"># Developers documentation</span>
 
@@ -781,17 +793,34 @@ The ES functions are divided according to the class below:</p>
 <span class="sd">An `ESObservation.Observation` is an object representing a set of information having</span>
 <span class="sd">spatial and temporal characteristics associated with measurable or observable</span>
 <span class="sd"> properties.</span>
+<span class="sd"> </span>
+<span class="sd">The Observation Object is built around three main bricks :</span>
+<span class="sd">    </span>
+<span class="sd">- Ilist Object which deal with indexing,</span>
+<span class="sd">- ESValue Object which integrate the specificities of environmental data,</span>
+<span class="sd">- Tools dedicated to particular domains (Shapely for location, TimeSlot for Datation)</span>
+<span class="sd">    </span>
 <span class="sd">The ES functions are divided according to the class below:</span>
 <span class="sd"> </span>
 <span class="sd">&lt;img src=&quot;./ES/EShierarchie.png&quot; width=&quot;800&quot;&gt;</span>
 
 <span class="sd">Modules contain the following classes:</span>
 <span class="sd">    </span>
-<span class="sd">- ESObservation : `ES.ESObservation.Observation`</span>
-<span class="sd">- ESValue : `ES.ESValue.DatationValue`, `ES.ESValue.LocationValue`, </span>
-<span class="sd">`ES.ESValue.PropertyValue`, `ES.ESValue.ResultValue`, `ES.ESValue.ESValue`</span>
-<span class="sd">- Ilist : `ES.ilist.Ilist`</span>
-<span class="sd">- ESconstante : `ES.ESconstante.Es`.</span>
+<span class="sd">- ESObservation : </span>
+<span class="sd">    </span>
+<span class="sd">    - `ES.ESObservation.Observation`</span>
+<span class="sd">    </span>
+<span class="sd">- ESValue : </span>
+<span class="sd">    </span>
+<span class="sd">    - `ES.ESValue.DatationValue`, `ES.ESValue.LocationValue`, `ES.ESValue.PropertyValue`, `ES.ESValue.ResultValue`, `ES.ESValue.ESValue`</span>
+<span class="sd">    </span>
+<span class="sd">- Ilist : </span>
+<span class="sd">    </span>
+<span class="sd">    - `ES.ilist.Ilist`</span>
+<span class="sd">    </span>
+<span class="sd">- ESconstante : </span>
+<span class="sd">    </span>
+<span class="sd">    - `ES.ESconstante.Es`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 </pre></div>
 
