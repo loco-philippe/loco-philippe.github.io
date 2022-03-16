@@ -73,13 +73,15 @@
                     <h2>Submodules</h2>
                     <ul>
                             <li><a href="ES/ESObservation.html">ES.ESObservation</a></li>
-                            <li><a href="ES/ESSlot.html">ES.ESSlot</a></li>
                             <li><a href="ES/ESValue.html">ES.ESValue</a></li>
                             <li><a href="ES/ESconstante.html">ES.ESconstante</a></li>
-                            <li><a href="ES/EStestunitaire.html">ES.EStestunitaire</a></li>
                             <li><a href="ES/ilist.html">ES.ilist</a></li>
                             <li><a href="ES/openlocationcode.html">ES.openlocationcode</a></li>
+                            <li><a href="ES/test_esvalue.html">ES.test_esvalue</a></li>
                             <li><a href="ES/test_ilist.html">ES.test_ilist</a></li>
+                            <li><a href="ES/test_observation.html">ES.test_observation</a></li>
+                            <li><a href="ES/test_slot.html">ES.test_slot</a></li>
+                            <li><a href="ES/timeslot.html">ES.timeslot</a></li>
                     </ul>
 
 
@@ -448,7 +450,8 @@ spatial and temporal characteristics associated with measurable or observable
 <ul>
 <li>Ilist Object which deal with indexing,</li>
 <li>ESValue Object which integrate the specificities of environmental data,</li>
-<li>Tools dedicated to particular domains (Shapely for location, TimeSlot for Datation)</li>
+<li>Tools dedicated to particular domains (<a href="https://shapely.readthedocs.io/en/stable/manual.html">Shapely</a> 
+for location, TimeSlot for Datation)</li>
 </ul>
 
 <p>The ES functions are divided according to the class below:</p>
@@ -461,22 +464,28 @@ spatial and temporal characteristics associated with measurable or observable
 <li><p>ESObservation : </p>
 
 <ul>
-<li><code><a href="ES/ESObservation.html#Observation">ES.ESObservation.Observation</a></code></li>
+<li><code><a href="ES/ESObservation.html">ES.ESObservation</a></code></li>
 </ul></li>
 <li><p>ESValue : </p>
 
 <ul>
-<li><code><a href="ES/ESValue.html#DatationValue">ES.ESValue.DatationValue</a></code>, <code><a href="ES/ESValue.html#LocationValue">ES.ESValue.LocationValue</a></code>, <code><a href="ES/ESValue.html#PropertyValue">ES.ESValue.PropertyValue</a></code>, <code><a href="ES/ESValue.html#ResultValue">ES.ESValue.ResultValue</a></code>, <code><a href="ES/ESValue.html#ESValue">ES.ESValue.ESValue</a></code></li>
+<li><code><a href="ES/ESValue.html">ES.ESValue</a></code>(<code><a href="ES/ESValue.html#DatationValue">ES.ESValue.DatationValue</a></code>, <code><a href="ES/ESValue.html#LocationValue">ES.ESValue.LocationValue</a></code>, <code><a href="ES/ESValue.html#PropertyValue">ES.ESValue.PropertyValue</a></code>,
+<code><a href="ES/ESValue.html#ResultValue">ES.ESValue.ResultValue</a></code>, <code><a href="ES/ESValue.html#ESValue">ES.ESValue.ESValue</a></code>)</li>
 </ul></li>
 <li><p>Ilist : </p>
 
 <ul>
-<li><code><a href="ES/ilist.html#Ilist">ES.ilist.Ilist</a></code></li>
+<li><code><a href="ES/ilist.html">ES.ilist</a></code></li>
+</ul></li>
+<li><p>TimeSlot : </p>
+
+<ul>
+<li><code><a href="ES/timeslot.html">ES.timeslot</a></code></li>
 </ul></li>
 <li><p>ESconstante : </p>
 
 <ul>
-<li><code><a href="ES/ESconstante.html#Es">ES.ESconstante.Es</a></code>.</li>
+<li><code><a href="ES/ESconstante.html">ES.ESconstante</a></code>.</li>
 </ul></li>
 </ul>
 </div>
@@ -798,7 +807,8 @@ spatial and temporal characteristics associated with measurable or observable
 <span class="sd">    </span>
 <span class="sd">- Ilist Object which deal with indexing,</span>
 <span class="sd">- ESValue Object which integrate the specificities of environmental data,</span>
-<span class="sd">- Tools dedicated to particular domains (Shapely for location, TimeSlot for Datation)</span>
+<span class="sd">- Tools dedicated to particular domains ([Shapely](https://shapely.readthedocs.io/en/stable/manual.html) </span>
+<span class="sd">for location, TimeSlot for Datation)</span>
 <span class="sd">    </span>
 <span class="sd">The ES functions are divided according to the class below:</span>
 <span class="sd"> </span>
@@ -808,19 +818,24 @@ spatial and temporal characteristics associated with measurable or observable
 <span class="sd">    </span>
 <span class="sd">- ESObservation : </span>
 <span class="sd">    </span>
-<span class="sd">    - `ES.ESObservation.Observation`</span>
+<span class="sd">    - `ES.ESObservation`</span>
 <span class="sd">    </span>
 <span class="sd">- ESValue : </span>
 <span class="sd">    </span>
-<span class="sd">    - `ES.ESValue.DatationValue`, `ES.ESValue.LocationValue`, `ES.ESValue.PropertyValue`, `ES.ESValue.ResultValue`, `ES.ESValue.ESValue`</span>
+<span class="sd">    - `ES.ESValue`(`ES.ESValue.DatationValue`, `ES.ESValue.LocationValue`, `ES.ESValue.PropertyValue`,</span>
+<span class="sd">    `ES.ESValue.ResultValue`, `ES.ESValue.ESValue`)</span>
 <span class="sd">    </span>
 <span class="sd">- Ilist : </span>
 <span class="sd">    </span>
-<span class="sd">    - `ES.ilist.Ilist`</span>
+<span class="sd">    - `ES.ilist`</span>
 <span class="sd">    </span>
+<span class="sd">- TimeSlot : </span>
+<span class="sd">    </span>
+<span class="sd">    - `ES.timeslot`</span>
+
 <span class="sd">- ESconstante : </span>
 <span class="sd">    </span>
-<span class="sd">    - `ES.ESconstante.Es`.</span>
+<span class="sd">    - `ES.ESconstante`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 </pre></div>
 

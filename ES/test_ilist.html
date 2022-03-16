@@ -124,7 +124,10 @@
 
                         <div class="docstring"><p>Created on Sat Jan 29 22:44:05 2022</p>
 
-<p>@author: a179227</p>
+<p>@author: Philippe@loco-labs.io</p>
+
+<p>The <code><a href="">ES.test_ilist</a></code> module contains the unit tests (class unittest) for the 
+<code>Ilist</code> functions.</p>
 </div>
 
                         <details>
@@ -133,14 +136,17 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Created on Sat Jan 29 22:44:05 2022</span>
 
-<span class="sd">@author: a179227</span>
+<span class="sd">@author: Philippe@loco-labs.io</span>
+
+<span class="sd">The `ES.test_ilist` module contains the unit tests (class unittest) for the </span>
+<span class="sd">`Ilist` functions.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">unittest</span>
 <span class="kn">from</span> <span class="nn">ilist</span> <span class="kn">import</span> <span class="n">Ilist</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
 <span class="kn">import</span> <span class="nn">csv</span><span class="o">,</span> <span class="nn">os</span>
 <span class="c1">#os.chdir(&#39;C:/Users/a179227/OneDrive - Alliance/perso Wx/ES standard/python ESstandard/ES&#39;)</span>
-<span class="kn">from</span> <span class="nn">EStestunitaire</span> <span class="kn">import</span> <span class="n">obs_1</span><span class="p">,</span> <span class="n">dat3</span><span class="p">,</span> <span class="n">loc3</span><span class="p">,</span> <span class="n">prop2</span><span class="p">,</span> <span class="n">_res</span>
+<span class="kn">from</span> <span class="nn">test_observation</span> <span class="kn">import</span> <span class="n">obs_1</span><span class="p">,</span> <span class="n">dat3</span><span class="p">,</span> <span class="n">loc3</span><span class="p">,</span> <span class="n">prop2</span><span class="p">,</span> <span class="n">_res</span>
 <span class="c1">#from ESObservation import Observation</span>
 <span class="kn">from</span> <span class="nn">ESValue</span> <span class="kn">import</span> <span class="n">ResultValue</span><span class="p">,</span> <span class="n">DatationValue</span><span class="p">,</span> <span class="n">LocationValue</span><span class="p">,</span> <span class="n">PropertyValue</span><span class="p">,</span> <span class="n">ESValue</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
@@ -381,7 +387,7 @@
                 <section id="il">
                                 <div class="attr variable"><a class="headerlink" href="#il">#&nbsp;&nbsp</a>
 
-        <span class="name">il</span><span class="default_value"> = [1, 0, 1, 2]
+        <span class="name">il</span><span class="default_value"> = [1, 2, 1, 0]
 
 [0, 1, 0, 1]
 [2, 0, 1, 3]</span>

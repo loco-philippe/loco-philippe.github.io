@@ -339,7 +339,7 @@ measurable properties) and groups common properties and concepts  :</p>
 <span class="kn">from</span> <span class="nn">geopy</span> <span class="kn">import</span> <span class="n">distance</span>
 <span class="c1">#import os</span>
 <span class="c1">#os.chdir(&#39;C:/Users/a179227/OneDrive - Alliance/perso Wx/ES standard/python ESstandard/Slot&#39;)</span>
-<span class="kn">from</span> <span class="nn">ESSlot</span> <span class="kn">import</span> <span class="n">TimeSlot</span>
+<span class="kn">from</span> <span class="nn">timeslot</span> <span class="kn">import</span> <span class="n">TimeSlot</span>
 <span class="c1">#os.chdir(&#39;C:/Users/a179227/OneDrive - Alliance/perso Wx/ES standard/python ESstandard/openLocationCode&#39;)</span>
 <span class="kn">from</span> <span class="nn">openlocationcode</span> <span class="kn">import</span> <span class="n">encode</span>
 <span class="c1">#os.chdir(&#39;C:/Users/a179227/OneDrive - Alliance/perso Wx/ES standard/python ESstandard/ES&#39;)</span>
@@ -399,13 +399,13 @@ measurable properties) and groups common properties and concepts  :</p>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;list or tuple (@property) </span>
-<span class="sd">            DatationValue : datetime.isoformat boundingBox [tmin, tmax]</span>
+<span class="sd">            DatationValue : datetime.isoformat boundingBox (tmin, tmax)</span>
 <span class="sd">            LocationValue : boundingBox (minx, miny, maxx, maxy)</span>
-<span class="sd">            Other ESValue : [] &#39;&#39;&#39;</span>        
+<span class="sd">            Other ESValue : () &#39;&#39;&#39;</span>        
         <span class="k">try</span> <span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">bounds</span>
         <span class="k">except</span> <span class="p">:</span>
-            <span class="k">return</span> <span class="p">[]</span>
+            <span class="k">return</span> <span class="p">()</span>
     
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">cast</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">ValueClass</span><span class="p">):</span>
@@ -625,7 +625,8 @@ measurable properties) and groups common properties and concepts  :</p>
         <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="n">TimeSlot</span><span class="p">([</span><span class="n">minMax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">minMax</span><span class="p">[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;interval&#39;</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">nullValue</span><span class="p">()</span> <span class="p">:</span> <span class="k">return</span> <span class="n">TimeSlot</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">nullValue</span><span class="p">()</span> <span class="p">:</span> <span class="k">return</span> <span class="n">TimeSlot</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullDate</span><span class="p">)</span>
+    <span class="c1">#def nullValue() : return TimeSlot()</span>
     
     <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -670,6 +671,7 @@ measurable properties) and groups common properties and concepts  :</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">TimeSlot</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">TimeSlot</span><span class="p">()</span> <span class="p">:</span> 
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">TimeSlot</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullDate</span><span class="p">)</span> <span class="c1">#!!!!!</span>
 
     <span class="k">def</span> <span class="nf">_jsonValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     
@@ -1164,13 +1166,13 @@ implement default like this::</p>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;list or tuple (@property) </span>
-<span class="sd">            DatationValue : datetime.isoformat boundingBox [tmin, tmax]</span>
+<span class="sd">            DatationValue : datetime.isoformat boundingBox (tmin, tmax)</span>
 <span class="sd">            LocationValue : boundingBox (minx, miny, maxx, maxy)</span>
-<span class="sd">            Other ESValue : [] &#39;&#39;&#39;</span>        
+<span class="sd">            Other ESValue : () &#39;&#39;&#39;</span>        
         <span class="k">try</span> <span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">bounds</span>
         <span class="k">except</span> <span class="p">:</span>
-            <span class="k">return</span> <span class="p">[]</span>
+            <span class="k">return</span> <span class="p">()</span>
     
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">cast</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">ValueClass</span><span class="p">):</span>
@@ -1374,9 +1376,9 @@ implement default like this::</p>
     </div>
 
             <div class="docstring"><p>list or tuple (@property) 
-DatationValue : datetime.isoformat boundingBox [tmin, tmax]
+DatationValue : datetime.isoformat boundingBox (tmin, tmax)
 LocationValue : boundingBox (minx, miny, maxx, maxy)
-Other ESValue : []</p>
+Other ESValue : ()</p>
 </div>
 
 
@@ -1847,7 +1849,8 @@ Other ESValue : []</p>
         <span class="k">return</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">slot</span><span class="o">=</span><span class="n">TimeSlot</span><span class="p">([</span><span class="n">minMax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">minMax</span><span class="p">[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;interval&#39;</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">nullValue</span><span class="p">()</span> <span class="p">:</span> <span class="k">return</span> <span class="n">TimeSlot</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">nullValue</span><span class="p">()</span> <span class="p">:</span> <span class="k">return</span> <span class="n">TimeSlot</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullDate</span><span class="p">)</span>
+    <span class="c1">#def nullValue() : return TimeSlot()</span>
     
     <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1892,6 +1895,7 @@ Other ESValue : []</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">TimeSlot</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">TimeSlot</span><span class="p">()</span> <span class="p">:</span> 
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">TimeSlot</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullDate</span><span class="p">)</span> <span class="c1">#!!!!!</span>
 
     <span class="k">def</span> <span class="nf">_jsonValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     
@@ -1941,12 +1945,8 @@ Other ESValue : []</p>
                                         <div class="attr function"><a class="headerlink" href="#DatationValue.__init__">#&nbsp;&nbsp</a>
 
         
-            <span class="name">DatationValue</span><span class="signature">(
-    val=datetime.datetime(1970, 1, 1, 0, 0),
-    slot=instant
-&#34;1970-01-01T00:00:00&#34;,
-    name=&#39;&#39;
-)</span>
+            <span class="name">DatationValue</span><span class="signature">(val=datetime.datetime(1970, 1, 1, 0, 0), slot=slot
+[], name=&#39;&#39;)</span>
     </div>
 
                 <details>
@@ -2144,7 +2144,7 @@ and name is a string</li>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">nullValue</span><span class="p">()</span> <span class="p">:</span> <span class="k">return</span> <span class="n">TimeSlot</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">nullValue</span><span class="p">()</span> <span class="p">:</span> <span class="k">return</span> <span class="n">TimeSlot</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullDate</span><span class="p">)</span>
 </pre></div>
 
         </details>
