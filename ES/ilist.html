@@ -185,7 +185,7 @@
                                 <a class="function" href="#Ilist.iloc">iloc</a>
                         </li>
                         <li>
-                                <a class="function" href="#Ilist.isextIndex">isextIndex</a>
+                                <a class="function" href="#Ilist.iseIndex">iseIndex</a>
                         </li>
                         <li>
                                 <a class="function" href="#Ilist.isiIndex">isiIndex</a>
@@ -204,6 +204,9 @@
                         </li>
                         <li>
                                 <a class="function" href="#Ilist.reorder">reorder</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Ilist.setfilter">setfilter</a>
                         </li>
                         <li>
                                 <a class="function" href="#Ilist.sort">sort</a>
@@ -410,12 +413,12 @@ of independent indexes fullname, course and examen.</p>
 
 <span class="sd">    *class methods (constructor)*</span>
 
-<span class="sd">    - `Ilist.Idict`</span>
-<span class="sd">    - `Ilist.Iset`</span>
-<span class="sd">    - `Ilist.Iidx`</span>
-<span class="sd">    - `Ilist.Iext`</span>
-<span class="sd">    - `Ilist.Izip`</span>
 <span class="sd">    - `Ilist.Icsv`</span>
+<span class="sd">    - `Ilist.Idict`</span>
+<span class="sd">    - `Ilist.Iext`</span>
+<span class="sd">    - `Ilist.Iidx`</span>
+<span class="sd">    - `Ilist.Iset`</span>
+<span class="sd">    - `Ilist.Izip`</span>
 
 <span class="sd">    *dynamic value property (getters)*</span>
 
@@ -474,6 +477,7 @@ of independent indexes fullname, course and examen.</p>
 <span class="sd">    - `Ilist.full`</span>
 <span class="sd">    - `Ilist.reindex`</span>
 <span class="sd">    - `Ilist.reorder`</span>
+<span class="sd">    - `Ilist.setfilter`</span>
 <span class="sd">    - `Ilist.sort`</span>
 <span class="sd">    - `Ilist.sortidx`</span>
 <span class="sd">    - `Ilist.swapindex`</span>
@@ -579,10 +583,9 @@ of independent indexes fullname, course and examen.</p>
             <span class="n">idxname</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;default index&#39;</span><span class="p">]</span>
         <span class="k">elif</span> <span class="n">extidx</span> <span class="o">!=</span> <span class="p">[]</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">extidx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">list</span> <span class="p">:</span> <span class="n">ext</span> <span class="o">=</span> <span class="p">[</span><span class="n">extidx</span><span class="p">]</span>
         <span class="k">else</span> <span class="p">:</span>                                          <span class="n">ext</span> <span class="o">=</span> <span class="n">extidx</span>
-        <span class="n">setidx</span> <span class="o">=</span> <span class="p">[</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_toset</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">ext</span><span class="p">]</span>
-        <span class="n">iidx</span>   <span class="o">=</span> <span class="p">[</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_toint</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">setind</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">setind</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ext</span><span class="p">,</span> <span class="n">setidx</span><span class="p">)]</span>
+        <span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span>        
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span><span class="p">,</span> <span class="n">valname</span><span class="p">,</span> <span class="n">idxname</span><span class="p">,</span> <span class="n">defaultidx</span><span class="p">)</span>
-
+        
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">Izip</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -680,22 +683,6 @@ of independent indexes fullname, course and examen.</p>
                 <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">==</span> <span class="nb">str</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_initset</span><span class="p">(</span><span class="n">validx</span><span class="p">,</span> <span class="n">setidx</span><span class="p">,</span> <span class="n">idxref</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">defaultidx</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; generate extval and iidx &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">validx</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span>
-            <span class="n">extval</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">iidx</span>   <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">setidx</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">validx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">list</span> <span class="p">:</span>
-            <span class="n">extval</span> <span class="o">=</span> <span class="n">validx</span>
-            <span class="n">idxlen</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">setidx</span><span class="p">]</span>
-            <span class="n">iidx</span>   <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_initiidx</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">extval</span><span class="p">),</span> <span class="n">idxlen</span><span class="p">,</span> <span class="n">idxref</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">defaultidx</span><span class="p">)</span>
-        <span class="k">else</span> <span class="p">:</span>
-            <span class="n">tvalidx</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">validx</span><span class="p">)</span>
-            <span class="n">extval</span>  <span class="o">=</span> <span class="n">tvalidx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">iidx</span>    <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tvalidx</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">iidx</span><span class="p">)</span>
-
-    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_initdict</span><span class="p">(</span><span class="n">dictvaliidx</span><span class="p">,</span> <span class="n">dictsetidx</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="p">[],</span> <span class="n">idxref</span><span class="o">=</span><span class="p">[]):</span>
         <span class="sd">&#39;&#39;&#39; generate extval, setidx, iidx, valname and idxname&#39;&#39;&#39;</span>
         <span class="n">valname</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span>
@@ -742,6 +729,22 @@ of independent indexes fullname, course and examen.</p>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idxcoupled</span> <span class="p">:</span>
             <span class="n">iidx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">iidx</span><span class="p">[</span><span class="n">ref</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
         <span class="k">return</span> <span class="n">iidx</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_initset</span><span class="p">(</span><span class="n">validx</span><span class="p">,</span> <span class="n">setidx</span><span class="p">,</span> <span class="n">idxref</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">defaultidx</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; generate extval and iidx &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">validx</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span>
+            <span class="n">extval</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">iidx</span>   <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">setidx</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">validx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">list</span> <span class="p">:</span>
+            <span class="n">extval</span> <span class="o">=</span> <span class="n">validx</span>
+            <span class="n">idxlen</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">setidx</span><span class="p">]</span>
+            <span class="n">iidx</span>   <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_initiidx</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">extval</span><span class="p">),</span> <span class="n">idxlen</span><span class="p">,</span> <span class="n">idxref</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">defaultidx</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">tvalidx</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">validx</span><span class="p">)</span>
+            <span class="n">extval</span>  <span class="o">=</span> <span class="n">tvalidx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">iidx</span>    <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tvalidx</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">iidx</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return ival and iidx&#39;&#39;&#39;</span>
@@ -1010,13 +1013,14 @@ of independent indexes fullname, course and examen.</p>
 <span class="sd">        in textidx append is refuse.</span>
 
 <span class="sd">        *Returns* : none &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">isextIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">)</span> <span class="ow">or</span>
-                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isValue</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isextIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">))):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span>
-            <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
-            <span class="n">tiidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_updateset</span><span class="p">(</span><span class="n">extind</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tiidx</span><span class="p">)</span>
-
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iseIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">)</span> <span class="ow">or</span> \
+           <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isValue</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">iseIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">)):</span> <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span>
+        <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
+        <span class="n">tiidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_updateset</span><span class="p">(</span><span class="n">extind</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tiidx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">)</span>
+            
     <span class="k">def</span> <span class="nf">appendi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extval</span><span class="p">,</span> <span class="n">intind</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        add a new value extval with index intind.</span>
@@ -1029,12 +1033,13 @@ of independent indexes fullname, course and examen.</p>
 <span class="sd">        in tiidx append is refuse.</span>
 
 <span class="sd">        *Returns* : none &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">isiIndex</span><span class="p">(</span><span class="n">intind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">)</span> <span class="ow">or</span>
-                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isValue</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isiIndex</span><span class="p">(</span><span class="n">intind</span><span class="p">))):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span>
-            <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
-            <span class="n">tiidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">intind</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tiidx</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isiIndex</span><span class="p">(</span><span class="n">intind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">)</span> <span class="ow">or</span> \
+           <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isValue</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isiIndex</span><span class="p">(</span><span class="n">intind</span><span class="p">)):</span> <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span>
+        <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
+        <span class="n">tiidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">intind</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tiidx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">extidxtoi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extind</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1133,7 +1138,7 @@ of independent indexes fullname, course and examen.</p>
             <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;index not found&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">[</span><span class="n">ival</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">isextIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extind</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">iseIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extind</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return True if extind is present in extidx.</span>
 
@@ -1205,7 +1210,7 @@ of independent indexes fullname, course and examen.</p>
             <span class="n">js</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">))</span> <span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxlen</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">]</span> <span class="o">=</span> <span class="n">lis</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">]</span> <span class="o">=</span> <span class="n">lis</span>
         <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_string&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">js</span>
 
@@ -1245,7 +1250,8 @@ of independent indexes fullname, course and examen.</p>
 
     <span class="k">def</span> <span class="nf">reorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="p">[],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Change the order of extval and iidx with a new order define by sort.</span>
+<span class="sd">        Change the order of extval and iidx with a new order define by sort </span>
+<span class="sd">        (sort can be a subset of the items list).</span>
 
 <span class="sd">        *Parameters*</span>
 
@@ -1257,13 +1263,39 @@ of independent indexes fullname, course and examen.</p>
 
 <span class="sd">        - **None, if inplace. Ilist if not inplace**&#39;&#39;&#39;</span>
         <span class="n">extval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reorder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">,</span> <span class="n">sort</span><span class="p">)</span>
-        <span class="n">iidx</span> <span class="o">=</span>  <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_reorder</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">sort</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">]</span>
+        <span class="n">iidx</span> <span class="o">=</span>  <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_reorder</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">sort</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">]</span>       
+        <span class="n">extidx</span> <span class="o">=</span>  <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_reorder</span><span class="p">(</span><span class="n">eidx</span><span class="p">,</span> <span class="n">sort</span><span class="p">)</span> <span class="k">for</span> <span class="n">eidx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">]</span> <span class="c1">#!!!</span>
+        <span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="n">extidx</span><span class="p">)</span> <span class="c1">#!!!</span>
         <span class="k">if</span> <span class="n">inplace</span> <span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">extval</span> <span class="o">=</span> <span class="n">extval</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span>   <span class="o">=</span> <span class="n">iidx</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span> <span class="o">=</span> <span class="n">setidx</span> <span class="c1">#!!!</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="n">Ilist</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Ilist</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)</span> <span class="c1">#!!!</span>
 
+    <span class="k">def</span> <span class="nf">setfilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setidxfilt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Remove values that does not match the indexes filter. </span>
+<span class="sd">        The filter is a reduced list of indexes. </span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **setidxfilt** : list of lists (default None) - new reduced setidx. If None, no change.</span>
+<span class="sd">        - **index** : boolean (default True) - indicates if setidxfilt is a list of values (False)</span>
+<span class="sd">        or indexes (True).</span>
+<span class="sd">        - **inplace** : boolean (default True) - if True, new setidx is apply to self,</span>
+<span class="sd">        if False a new Ilist is created.</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **None, if inplace. Ilist if not inplace**&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">setidxfilt</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">setidxfilt</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span>
+        <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="p">:</span> <span class="n">setidxf</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">setidxfilt</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="n">setidxf</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">setidxfilt</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenidx</span><span class="p">)]</span>
+        <span class="n">sort</span> <span class="o">=</span> <span class="p">[</span><span class="n">idx</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_isinset</span><span class="p">(</span><span class="n">tiidx</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">setidxf</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reorder</span><span class="p">(</span><span class="n">sort</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
+    
     <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="p">[],</span> <span class="n">order</span><span class="o">=</span><span class="p">[],</span> <span class="n">reindex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; sort : calculate a new list order&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reorder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortidx</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">sort</span><span class="p">,</span> <span class="n">reindex</span><span class="p">),</span> <span class="n">inplace</span><span class="p">)</span>
@@ -1426,10 +1458,11 @@ of independent indexes fullname, course and examen.</p>
 <span class="sd">        *Returns* : none&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lenidx</span> <span class="ow">or</span> <span class="n">indval</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">indval</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
             <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;out of bounds&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isextIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span> <span class="p">:</span> <span class="k">return</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iseIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span> <span class="p">:</span> <span class="k">return</span>
         <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
         <span class="n">tiidx</span><span class="p">[</span><span class="n">indval</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_updateset</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tiidx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">updatelist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extlist</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1449,6 +1482,7 @@ of independent indexes fullname, course and examen.</p>
             <span class="k">else</span> <span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_toset</span><span class="p">(</span><span class="n">extl</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_toint</span><span class="p">(</span><span class="n">extl</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">vlist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1466,6 +1500,7 @@ of independent indexes fullname, course and examen.</p>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_funclist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_checkidxlist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listidx</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>      <span class="c1"># !!!</span>
+        <span class="sd">&#39;&#39;&#39; check if listidx and idx are consistent and return a list for each&#39;&#39;&#39;</span>
         <span class="c1"># idx=-1 -&gt; val</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="p">:</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="n">idx</span><span class="p">]</span>
         <span class="k">elif</span> <span class="n">idx</span> <span class="ow">is</span> <span class="kc">None</span> <span class="p">:</span>    <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -1507,6 +1542,13 @@ of independent indexes fullname, course and examen.</p>
                         <span class="s1">&#39;setval&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">setval</span><span class="p">,</span> <span class="s1">&#39;tiidx&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span><span class="p">,</span> <span class="s1">&#39;textidx&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">textidx</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">dic</span>
 
+    <span class="nd">@staticmethod</span> 
+    <span class="k">def</span> <span class="nf">_filter</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">lis</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span> <span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;apply &quot;func&quot; to each value of &quot;lis&quot; and tests if equals &quot;res&quot;.</span>
+<span class="sd">        Return the list of index with True result.&#39;&#39;&#39;</span>
+        <span class="n">lisf</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_funclist</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">))</span> <span class="k">if</span> <span class="n">lisf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">res</span><span class="p">]</span>
+
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_funclist</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return the function func applied to the object value with parameters args and kwargs&#39;&#39;&#39;</span>
@@ -1526,6 +1568,19 @@ of independent indexes fullname, course and examen.</p>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">:</span> <span class="k">return</span> <span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">lis</span>
 
+    <span class="k">def</span> <span class="nf">_idxfilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span> <span class="p">):</span>
+        <span class="c1"># méthode à conserver (attr : extidx, iidx, setidx) ??</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;extidx&#39;</span><span class="p">,</span> <span class="s1">&#39;iidx&#39;</span><span class="p">,</span> <span class="s1">&#39;setidx&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;attr not supported&quot;</span><span class="p">)</span>
+        <span class="n">listidx</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">try</span> <span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">listidx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">func</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;function not available with the index&quot;</span><span class="p">)</span>
+        <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">listidx</span><span class="p">))</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">listidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">func</span><span class="p">)(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+        <span class="k">except</span> <span class="p">:</span> 
+            <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">listidx</span><span class="p">))</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">listidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">func</span><span class="p">)(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+            <span class="k">except</span> <span class="p">:</span> 
+                <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">listidx</span><span class="p">))</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">listidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">func</span><span class="p">)(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span>
+                <span class="k">except</span> <span class="p">:</span> <span class="k">return</span>
+                
     <span class="k">def</span> <span class="nf">_idxfull</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">[]):</span>
         <span class="sd">&#39;&#39;&#39;return iidx with full index in the axes&#39;&#39;&#39;</span>
         <span class="k">if</span>    <span class="n">axes</span><span class="o">==</span><span class="p">[]</span> <span class="p">:</span> <span class="n">axe</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenidx</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxcoupled</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
@@ -1559,8 +1614,16 @@ of independent indexes fullname, course and examen.</p>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_index</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return the index of val in idx&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">idx</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span> <span class="p">:</span> <span class="k">return</span> <span class="n">idx</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">val</span><span class="p">]</span>
+   
+    <span class="nd">@staticmethod</span> 
+    <span class="k">def</span> <span class="nf">_isinset</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">setidxfilt</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; tests if each index value in &quot;ind&quot; is present in the list of indexes &quot;setidxfilt&quot;&#39;&#39;&#39;</span> 
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="p">:</span> 
+            <span class="k">if</span> <span class="n">idx</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">setidxfilt</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">False</span> 
+        <span class="k">return</span> <span class="kc">True</span>
+        
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_json</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">json_string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return the json format of val (if function json() or to_json() exists&#39;&#39;&#39;</span>
@@ -1596,6 +1659,13 @@ of independent indexes fullname, course and examen.</p>
     <span class="k">def</span> <span class="nf">_reorder</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="p">[]):</span>
         <span class="k">if</span> <span class="n">sort</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span> <span class="k">return</span> <span class="n">val</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">sort</span><span class="p">]</span>
+   
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_resetidx</span><span class="p">(</span><span class="n">extidx</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;return setidx and iidx from extidx&#39;&#39;&#39;</span>
+        <span class="n">setidx</span> <span class="o">=</span> <span class="p">[</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_toset</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">extidx</span><span class="p">]</span>
+        <span class="n">iidx</span>   <span class="o">=</span> <span class="p">[</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_toint</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">setind</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">setind</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">extidx</span><span class="p">,</span> <span class="n">setidx</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_setable</span><span class="p">(</span><span class="n">extv</span><span class="p">):</span>
@@ -1610,7 +1680,8 @@ of independent indexes fullname, course and examen.</p>
         <span class="n">ext</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_setable</span><span class="p">(</span><span class="n">extv</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">extset</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">ext</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">_toival</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extval</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">setval</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_toival</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extval</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">setval</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_toext</span><span class="p">(</span><span class="n">iidx</span><span class="p">,</span> <span class="n">extset</span><span class="p">):</span>
@@ -1672,6 +1743,7 @@ of independent indexes fullname, course and examen.</p>
     <span class="k">def</span> <span class="nf">_xderived</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idxder</span><span class="p">,</span> <span class="n">idxori</span><span class="p">)</span> <span class="p">:</span>
         <span class="n">dic</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_idxlink</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">[</span><span class="n">idxori</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">[</span><span class="n">idxder</span><span class="p">],</span> <span class="n">coupled</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">dic</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">idxori</span><span class="p">]]</span>
+    
 
 <span class="k">class</span> <span class="nc">IlistError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39; Ilist Exception&#39;&#39;&#39;</span>
@@ -1736,12 +1808,12 @@ of independent indexes fullname, course and examen.</p>
 
 <span class="sd">    *class methods (constructor)*</span>
 
-<span class="sd">    - `Ilist.Idict`</span>
-<span class="sd">    - `Ilist.Iset`</span>
-<span class="sd">    - `Ilist.Iidx`</span>
-<span class="sd">    - `Ilist.Iext`</span>
-<span class="sd">    - `Ilist.Izip`</span>
 <span class="sd">    - `Ilist.Icsv`</span>
+<span class="sd">    - `Ilist.Idict`</span>
+<span class="sd">    - `Ilist.Iext`</span>
+<span class="sd">    - `Ilist.Iidx`</span>
+<span class="sd">    - `Ilist.Iset`</span>
+<span class="sd">    - `Ilist.Izip`</span>
 
 <span class="sd">    *dynamic value property (getters)*</span>
 
@@ -1800,6 +1872,7 @@ of independent indexes fullname, course and examen.</p>
 <span class="sd">    - `Ilist.full`</span>
 <span class="sd">    - `Ilist.reindex`</span>
 <span class="sd">    - `Ilist.reorder`</span>
+<span class="sd">    - `Ilist.setfilter`</span>
 <span class="sd">    - `Ilist.sort`</span>
 <span class="sd">    - `Ilist.sortidx`</span>
 <span class="sd">    - `Ilist.swapindex`</span>
@@ -1905,10 +1978,9 @@ of independent indexes fullname, course and examen.</p>
             <span class="n">idxname</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;default index&#39;</span><span class="p">]</span>
         <span class="k">elif</span> <span class="n">extidx</span> <span class="o">!=</span> <span class="p">[]</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">extidx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">list</span> <span class="p">:</span> <span class="n">ext</span> <span class="o">=</span> <span class="p">[</span><span class="n">extidx</span><span class="p">]</span>
         <span class="k">else</span> <span class="p">:</span>                                          <span class="n">ext</span> <span class="o">=</span> <span class="n">extidx</span>
-        <span class="n">setidx</span> <span class="o">=</span> <span class="p">[</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_toset</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">ext</span><span class="p">]</span>
-        <span class="n">iidx</span>   <span class="o">=</span> <span class="p">[</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_toint</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">setind</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">setind</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ext</span><span class="p">,</span> <span class="n">setidx</span><span class="p">)]</span>
+        <span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span>        
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span><span class="p">,</span> <span class="n">valname</span><span class="p">,</span> <span class="n">idxname</span><span class="p">,</span> <span class="n">defaultidx</span><span class="p">)</span>
-
+        
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">Izip</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -2006,22 +2078,6 @@ of independent indexes fullname, course and examen.</p>
                 <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">==</span> <span class="nb">str</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_initset</span><span class="p">(</span><span class="n">validx</span><span class="p">,</span> <span class="n">setidx</span><span class="p">,</span> <span class="n">idxref</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">defaultidx</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; generate extval and iidx &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">validx</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span>
-            <span class="n">extval</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">iidx</span>   <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">setidx</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">validx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">list</span> <span class="p">:</span>
-            <span class="n">extval</span> <span class="o">=</span> <span class="n">validx</span>
-            <span class="n">idxlen</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">setidx</span><span class="p">]</span>
-            <span class="n">iidx</span>   <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_initiidx</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">extval</span><span class="p">),</span> <span class="n">idxlen</span><span class="p">,</span> <span class="n">idxref</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">defaultidx</span><span class="p">)</span>
-        <span class="k">else</span> <span class="p">:</span>
-            <span class="n">tvalidx</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">validx</span><span class="p">)</span>
-            <span class="n">extval</span>  <span class="o">=</span> <span class="n">tvalidx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">iidx</span>    <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tvalidx</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">iidx</span><span class="p">)</span>
-
-    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_initdict</span><span class="p">(</span><span class="n">dictvaliidx</span><span class="p">,</span> <span class="n">dictsetidx</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="p">[],</span> <span class="n">idxref</span><span class="o">=</span><span class="p">[]):</span>
         <span class="sd">&#39;&#39;&#39; generate extval, setidx, iidx, valname and idxname&#39;&#39;&#39;</span>
         <span class="n">valname</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span>
@@ -2068,6 +2124,22 @@ of independent indexes fullname, course and examen.</p>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idxcoupled</span> <span class="p">:</span>
             <span class="n">iidx</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">iidx</span><span class="p">[</span><span class="n">ref</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
         <span class="k">return</span> <span class="n">iidx</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_initset</span><span class="p">(</span><span class="n">validx</span><span class="p">,</span> <span class="n">setidx</span><span class="p">,</span> <span class="n">idxref</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">defaultidx</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; generate extval and iidx &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">validx</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span>
+            <span class="n">extval</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">iidx</span>   <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">setidx</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">validx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">list</span> <span class="p">:</span>
+            <span class="n">extval</span> <span class="o">=</span> <span class="n">validx</span>
+            <span class="n">idxlen</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">setidx</span><span class="p">]</span>
+            <span class="n">iidx</span>   <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_initiidx</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">extval</span><span class="p">),</span> <span class="n">idxlen</span><span class="p">,</span> <span class="n">idxref</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">defaultidx</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">tvalidx</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">validx</span><span class="p">)</span>
+            <span class="n">extval</span>  <span class="o">=</span> <span class="n">tvalidx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">iidx</span>    <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tvalidx</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">iidx</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return ival and iidx&#39;&#39;&#39;</span>
@@ -2336,13 +2408,14 @@ of independent indexes fullname, course and examen.</p>
 <span class="sd">        in textidx append is refuse.</span>
 
 <span class="sd">        *Returns* : none &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">isextIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">)</span> <span class="ow">or</span>
-                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isValue</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isextIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">))):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span>
-            <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
-            <span class="n">tiidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_updateset</span><span class="p">(</span><span class="n">extind</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tiidx</span><span class="p">)</span>
-
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iseIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">)</span> <span class="ow">or</span> \
+           <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isValue</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">iseIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">)):</span> <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span>
+        <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
+        <span class="n">tiidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_updateset</span><span class="p">(</span><span class="n">extind</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tiidx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">)</span>
+            
     <span class="k">def</span> <span class="nf">appendi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extval</span><span class="p">,</span> <span class="n">intind</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        add a new value extval with index intind.</span>
@@ -2355,12 +2428,13 @@ of independent indexes fullname, course and examen.</p>
 <span class="sd">        in tiidx append is refuse.</span>
 
 <span class="sd">        *Returns* : none &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">isiIndex</span><span class="p">(</span><span class="n">intind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">)</span> <span class="ow">or</span>
-                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isValue</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isiIndex</span><span class="p">(</span><span class="n">intind</span><span class="p">))):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span>
-            <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
-            <span class="n">tiidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">intind</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tiidx</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isiIndex</span><span class="p">(</span><span class="n">intind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">)</span> <span class="ow">or</span> \
+           <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isValue</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isiIndex</span><span class="p">(</span><span class="n">intind</span><span class="p">)):</span> <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span>
+        <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
+        <span class="n">tiidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">intind</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tiidx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">extidxtoi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extind</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -2459,7 +2533,7 @@ of independent indexes fullname, course and examen.</p>
             <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;index not found&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">[</span><span class="n">ival</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">isextIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extind</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">iseIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extind</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return True if extind is present in extidx.</span>
 
@@ -2531,7 +2605,7 @@ of independent indexes fullname, course and examen.</p>
             <span class="n">js</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">))</span> <span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxlen</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">]</span> <span class="o">=</span> <span class="n">lis</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">]</span> <span class="o">=</span> <span class="n">lis</span>
         <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_string&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">js</span>
 
@@ -2571,7 +2645,8 @@ of independent indexes fullname, course and examen.</p>
 
     <span class="k">def</span> <span class="nf">reorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="p">[],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Change the order of extval and iidx with a new order define by sort.</span>
+<span class="sd">        Change the order of extval and iidx with a new order define by sort </span>
+<span class="sd">        (sort can be a subset of the items list).</span>
 
 <span class="sd">        *Parameters*</span>
 
@@ -2583,13 +2658,39 @@ of independent indexes fullname, course and examen.</p>
 
 <span class="sd">        - **None, if inplace. Ilist if not inplace**&#39;&#39;&#39;</span>
         <span class="n">extval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reorder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">,</span> <span class="n">sort</span><span class="p">)</span>
-        <span class="n">iidx</span> <span class="o">=</span>  <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_reorder</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">sort</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">]</span>
+        <span class="n">iidx</span> <span class="o">=</span>  <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_reorder</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">sort</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">]</span>       
+        <span class="n">extidx</span> <span class="o">=</span>  <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_reorder</span><span class="p">(</span><span class="n">eidx</span><span class="p">,</span> <span class="n">sort</span><span class="p">)</span> <span class="k">for</span> <span class="n">eidx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">]</span> <span class="c1">#!!!</span>
+        <span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="n">extidx</span><span class="p">)</span> <span class="c1">#!!!</span>
         <span class="k">if</span> <span class="n">inplace</span> <span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">extval</span> <span class="o">=</span> <span class="n">extval</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span>   <span class="o">=</span> <span class="n">iidx</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span> <span class="o">=</span> <span class="n">setidx</span> <span class="c1">#!!!</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="n">Ilist</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Ilist</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)</span> <span class="c1">#!!!</span>
 
+    <span class="k">def</span> <span class="nf">setfilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setidxfilt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Remove values that does not match the indexes filter. </span>
+<span class="sd">        The filter is a reduced list of indexes. </span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **setidxfilt** : list of lists (default None) - new reduced setidx. If None, no change.</span>
+<span class="sd">        - **index** : boolean (default True) - indicates if setidxfilt is a list of values (False)</span>
+<span class="sd">        or indexes (True).</span>
+<span class="sd">        - **inplace** : boolean (default True) - if True, new setidx is apply to self,</span>
+<span class="sd">        if False a new Ilist is created.</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **None, if inplace. Ilist if not inplace**&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">setidxfilt</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">setidxfilt</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span>
+        <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="p">:</span> <span class="n">setidxf</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">setidxfilt</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="n">setidxf</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">setidxfilt</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenidx</span><span class="p">)]</span>
+        <span class="n">sort</span> <span class="o">=</span> <span class="p">[</span><span class="n">idx</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_isinset</span><span class="p">(</span><span class="n">tiidx</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">setidxf</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reorder</span><span class="p">(</span><span class="n">sort</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
+    
     <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="p">[],</span> <span class="n">order</span><span class="o">=</span><span class="p">[],</span> <span class="n">reindex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; sort : calculate a new list order&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reorder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortidx</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">sort</span><span class="p">,</span> <span class="n">reindex</span><span class="p">),</span> <span class="n">inplace</span><span class="p">)</span>
@@ -2752,10 +2853,11 @@ of independent indexes fullname, course and examen.</p>
 <span class="sd">        *Returns* : none&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lenidx</span> <span class="ow">or</span> <span class="n">indval</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">indval</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
             <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;out of bounds&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isextIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span> <span class="p">:</span> <span class="k">return</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iseIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span> <span class="p">:</span> <span class="k">return</span>
         <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
         <span class="n">tiidx</span><span class="p">[</span><span class="n">indval</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_updateset</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tiidx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">updatelist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extlist</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -2775,6 +2877,7 @@ of independent indexes fullname, course and examen.</p>
             <span class="k">else</span> <span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_toset</span><span class="p">(</span><span class="n">extl</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_toint</span><span class="p">(</span><span class="n">extl</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">vlist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -2792,6 +2895,7 @@ of independent indexes fullname, course and examen.</p>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_funclist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_checkidxlist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listidx</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>      <span class="c1"># !!!</span>
+        <span class="sd">&#39;&#39;&#39; check if listidx and idx are consistent and return a list for each&#39;&#39;&#39;</span>
         <span class="c1"># idx=-1 -&gt; val</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="p">:</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="n">idx</span><span class="p">]</span>
         <span class="k">elif</span> <span class="n">idx</span> <span class="ow">is</span> <span class="kc">None</span> <span class="p">:</span>    <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -2833,6 +2937,13 @@ of independent indexes fullname, course and examen.</p>
                         <span class="s1">&#39;setval&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">setval</span><span class="p">,</span> <span class="s1">&#39;tiidx&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span><span class="p">,</span> <span class="s1">&#39;textidx&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">textidx</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">dic</span>
 
+    <span class="nd">@staticmethod</span> 
+    <span class="k">def</span> <span class="nf">_filter</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">lis</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span> <span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;apply &quot;func&quot; to each value of &quot;lis&quot; and tests if equals &quot;res&quot;.</span>
+<span class="sd">        Return the list of index with True result.&#39;&#39;&#39;</span>
+        <span class="n">lisf</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_funclist</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">))</span> <span class="k">if</span> <span class="n">lisf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">res</span><span class="p">]</span>
+
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_funclist</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return the function func applied to the object value with parameters args and kwargs&#39;&#39;&#39;</span>
@@ -2852,6 +2963,19 @@ of independent indexes fullname, course and examen.</p>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">:</span> <span class="k">return</span> <span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">lis</span>
 
+    <span class="k">def</span> <span class="nf">_idxfilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span> <span class="p">):</span>
+        <span class="c1"># méthode à conserver (attr : extidx, iidx, setidx) ??</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;extidx&#39;</span><span class="p">,</span> <span class="s1">&#39;iidx&#39;</span><span class="p">,</span> <span class="s1">&#39;setidx&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;attr not supported&quot;</span><span class="p">)</span>
+        <span class="n">listidx</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">try</span> <span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">listidx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">func</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;function not available with the index&quot;</span><span class="p">)</span>
+        <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">listidx</span><span class="p">))</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">listidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">func</span><span class="p">)(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+        <span class="k">except</span> <span class="p">:</span> 
+            <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">listidx</span><span class="p">))</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">listidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">func</span><span class="p">)(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+            <span class="k">except</span> <span class="p">:</span> 
+                <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">listidx</span><span class="p">))</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">listidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">func</span><span class="p">)(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span>
+                <span class="k">except</span> <span class="p">:</span> <span class="k">return</span>
+                
     <span class="k">def</span> <span class="nf">_idxfull</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">[]):</span>
         <span class="sd">&#39;&#39;&#39;return iidx with full index in the axes&#39;&#39;&#39;</span>
         <span class="k">if</span>    <span class="n">axes</span><span class="o">==</span><span class="p">[]</span> <span class="p">:</span> <span class="n">axe</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenidx</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxcoupled</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
@@ -2885,8 +3009,16 @@ of independent indexes fullname, course and examen.</p>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_index</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return the index of val in idx&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">idx</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span> <span class="p">:</span> <span class="k">return</span> <span class="n">idx</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">val</span><span class="p">]</span>
+   
+    <span class="nd">@staticmethod</span> 
+    <span class="k">def</span> <span class="nf">_isinset</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">setidxfilt</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; tests if each index value in &quot;ind&quot; is present in the list of indexes &quot;setidxfilt&quot;&#39;&#39;&#39;</span> 
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="p">:</span> 
+            <span class="k">if</span> <span class="n">idx</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">setidxfilt</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">False</span> 
+        <span class="k">return</span> <span class="kc">True</span>
+        
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_json</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">json_string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return the json format of val (if function json() or to_json() exists&#39;&#39;&#39;</span>
@@ -2922,6 +3054,13 @@ of independent indexes fullname, course and examen.</p>
     <span class="k">def</span> <span class="nf">_reorder</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="p">[]):</span>
         <span class="k">if</span> <span class="n">sort</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span> <span class="k">return</span> <span class="n">val</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">val</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">sort</span><span class="p">]</span>
+   
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_resetidx</span><span class="p">(</span><span class="n">extidx</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;return setidx and iidx from extidx&#39;&#39;&#39;</span>
+        <span class="n">setidx</span> <span class="o">=</span> <span class="p">[</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_toset</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">extidx</span><span class="p">]</span>
+        <span class="n">iidx</span>   <span class="o">=</span> <span class="p">[</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_toint</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">setind</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">setind</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">extidx</span><span class="p">,</span> <span class="n">setidx</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_setable</span><span class="p">(</span><span class="n">extv</span><span class="p">):</span>
@@ -2936,7 +3075,8 @@ of independent indexes fullname, course and examen.</p>
         <span class="n">ext</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_setable</span><span class="p">(</span><span class="n">extv</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">extset</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">ext</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">_toival</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extval</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">setval</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_toival</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extval</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">setval</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_toext</span><span class="p">(</span><span class="n">iidx</span><span class="p">,</span> <span class="n">extset</span><span class="p">):</span>
@@ -3023,12 +3163,12 @@ E.g. python zip or csv file.</p>
 <p><em>class methods (constructor)</em></p>
 
 <ul>
-<li><code><a href="#Ilist.Idict">Ilist.Idict</a></code></li>
-<li><code><a href="#Ilist.Iset">Ilist.Iset</a></code></li>
-<li><code><a href="#Ilist.Iidx">Ilist.Iidx</a></code></li>
-<li><code><a href="#Ilist.Iext">Ilist.Iext</a></code></li>
-<li><code><a href="#Ilist.Izip">Ilist.Izip</a></code></li>
 <li><code><a href="#Ilist.Icsv">Ilist.Icsv</a></code></li>
+<li><code><a href="#Ilist.Idict">Ilist.Idict</a></code></li>
+<li><code><a href="#Ilist.Iext">Ilist.Iext</a></code></li>
+<li><code><a href="#Ilist.Iidx">Ilist.Iidx</a></code></li>
+<li><code><a href="#Ilist.Iset">Ilist.Iset</a></code></li>
+<li><code><a href="#Ilist.Izip">Ilist.Izip</a></code></li>
 </ul>
 
 <p><em>dynamic value property (getters)</em></p>
@@ -3087,7 +3227,7 @@ E.g. python zip or csv file.</p>
 <li><code><a href="#Ilist.extidxtoi">Ilist.extidxtoi</a></code></li>
 <li><code><a href="#Ilist.iidxtoext">Ilist.iidxtoext</a></code></li>
 <li><code><a href="#Ilist.iloc">Ilist.iloc</a></code></li>
-<li><code><a href="#Ilist.isextIndex">Ilist.isextIndex</a></code></li>
+<li><code>Ilist.isextIndex</code></li>
 <li><code><a href="#Ilist.isiIndex">Ilist.isiIndex</a></code></li>
 <li><code><a href="#Ilist.isValue">Ilist.isValue</a></code></li>
 <li><code><a href="#Ilist.loc">Ilist.loc</a></code></li>
@@ -3099,6 +3239,7 @@ E.g. python zip or csv file.</p>
 <li><code><a href="#Ilist.full">Ilist.full</a></code></li>
 <li><code><a href="#Ilist.reindex">Ilist.reindex</a></code></li>
 <li><code><a href="#Ilist.reorder">Ilist.reorder</a></code></li>
+<li><code><a href="#Ilist.setfilter">Ilist.setfilter</a></code></li>
 <li><code><a href="#Ilist.sort">Ilist.sort</a></code></li>
 <li><code><a href="#Ilist.sortidx">Ilist.sortidx</a></code></li>
 <li><code><a href="#Ilist.swapindex">Ilist.swapindex</a></code></li>
@@ -3433,8 +3574,7 @@ is generated if no index is defined</li>
             <span class="n">idxname</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;default index&#39;</span><span class="p">]</span>
         <span class="k">elif</span> <span class="n">extidx</span> <span class="o">!=</span> <span class="p">[]</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">extidx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">list</span> <span class="p">:</span> <span class="n">ext</span> <span class="o">=</span> <span class="p">[</span><span class="n">extidx</span><span class="p">]</span>
         <span class="k">else</span> <span class="p">:</span>                                          <span class="n">ext</span> <span class="o">=</span> <span class="n">extidx</span>
-        <span class="n">setidx</span> <span class="o">=</span> <span class="p">[</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_toset</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">ext</span><span class="p">]</span>
-        <span class="n">iidx</span>   <span class="o">=</span> <span class="p">[</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_toint</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">setind</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">setind</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ext</span><span class="p">,</span> <span class="n">setidx</span><span class="p">)]</span>
+        <span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span>        
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span><span class="p">,</span> <span class="n">valname</span><span class="p">,</span> <span class="n">idxname</span><span class="p">,</span> <span class="n">defaultidx</span><span class="p">)</span>
 </pre></div>
 
@@ -4015,12 +4155,13 @@ for one list of index values</p>
 <span class="sd">        in textidx append is refuse.</span>
 
 <span class="sd">        *Returns* : none &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">isextIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">)</span> <span class="ow">or</span>
-                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isValue</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isextIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">))):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span>
-            <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
-            <span class="n">tiidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_updateset</span><span class="p">(</span><span class="n">extind</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tiidx</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iseIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">)</span> <span class="ow">or</span> \
+           <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isValue</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">iseIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">)):</span> <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span>
+        <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
+        <span class="n">tiidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_updateset</span><span class="p">(</span><span class="n">extind</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tiidx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -4063,12 +4204,13 @@ in textidx append is refuse.</li>
 <span class="sd">        in tiidx append is refuse.</span>
 
 <span class="sd">        *Returns* : none &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">isiIndex</span><span class="p">(</span><span class="n">intind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">)</span> <span class="ow">or</span>
-                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isValue</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isiIndex</span><span class="p">(</span><span class="n">intind</span><span class="p">))):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span>
-            <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
-            <span class="n">tiidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">intind</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tiidx</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isiIndex</span><span class="p">(</span><span class="n">intind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">)</span> <span class="ow">or</span> \
+           <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isValue</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isiIndex</span><span class="p">(</span><span class="n">intind</span><span class="p">)):</span> <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">extval</span><span class="p">)</span>
+        <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
+        <span class="n">tiidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">intind</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tiidx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -4337,17 +4479,17 @@ append is refuse.</li>
 
 
                             </div>
-                            <div id="Ilist.isextIndex" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#Ilist.isextIndex">#&nbsp;&nbsp</a>
+                            <div id="Ilist.iseIndex" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Ilist.iseIndex">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">isextIndex</span><span class="signature">(self, extind)</span>:
+            <span class="name">iseIndex</span><span class="signature">(self, extind)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">isextIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extind</span><span class="p">):</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">iseIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extind</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return True if extind is present in extidx.</span>
 
@@ -4497,7 +4639,7 @@ append is refuse.</li>
             <span class="n">js</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">))</span> <span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxlen</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">]</span> <span class="o">=</span> <span class="n">lis</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">]</span> <span class="o">=</span> <span class="n">lis</span>
         <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_string&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">js</span>
 </pre></div>
@@ -4624,7 +4766,8 @@ If [] all the index are reindexed.</li>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">reorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="p">[],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Change the order of extval and iidx with a new order define by sort.</span>
+<span class="sd">        Change the order of extval and iidx with a new order define by sort </span>
+<span class="sd">        (sort can be a subset of the items list).</span>
 
 <span class="sd">        *Parameters*</span>
 
@@ -4636,23 +4779,85 @@ If [] all the index are reindexed.</li>
 
 <span class="sd">        - **None, if inplace. Ilist if not inplace**&#39;&#39;&#39;</span>
         <span class="n">extval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reorder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">,</span> <span class="n">sort</span><span class="p">)</span>
-        <span class="n">iidx</span> <span class="o">=</span>  <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_reorder</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">sort</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">]</span>
+        <span class="n">iidx</span> <span class="o">=</span>  <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_reorder</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">sort</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">]</span>       
+        <span class="n">extidx</span> <span class="o">=</span>  <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_reorder</span><span class="p">(</span><span class="n">eidx</span><span class="p">,</span> <span class="n">sort</span><span class="p">)</span> <span class="k">for</span> <span class="n">eidx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">]</span> <span class="c1">#!!!</span>
+        <span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="n">extidx</span><span class="p">)</span> <span class="c1">#!!!</span>
         <span class="k">if</span> <span class="n">inplace</span> <span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">extval</span> <span class="o">=</span> <span class="n">extval</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span>   <span class="o">=</span> <span class="n">iidx</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span> <span class="o">=</span> <span class="n">setidx</span> <span class="c1">#!!!</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="n">Ilist</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Ilist</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)</span> <span class="c1">#!!!</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>Change the order of extval and iidx with a new order define by sort.</p>
+            <div class="docstring"><p>Change the order of extval and iidx with a new order define by sort 
+(sort can be a subset of the items list).</p>
 
 <p><em>Parameters</em></p>
 
 <ul>
 <li><strong>sort</strong> : list (default [])- new order to apply. If [], no change.</li>
 <li><strong>inplace</strong> : boolean (default True) - if True, new order is apply to self,
+if False a new Ilist is created.</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>None, if inplace. Ilist if not inplace</strong></li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="Ilist.setfilter" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Ilist.setfilter">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">setfilter</span><span class="signature">(self, setidxfilt=None, inplace=True, index=True)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">setfilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setidxfilt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Remove values that does not match the indexes filter. </span>
+<span class="sd">        The filter is a reduced list of indexes. </span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **setidxfilt** : list of lists (default None) - new reduced setidx. If None, no change.</span>
+<span class="sd">        - **index** : boolean (default True) - indicates if setidxfilt is a list of values (False)</span>
+<span class="sd">        or indexes (True).</span>
+<span class="sd">        - **inplace** : boolean (default True) - if True, new setidx is apply to self,</span>
+<span class="sd">        if False a new Ilist is created.</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **None, if inplace. Ilist if not inplace**&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">setidxfilt</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">setidxfilt</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span>
+        <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="p">:</span> <span class="n">setidxf</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">setidxfilt</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="n">setidxf</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">setidxfilt</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenidx</span><span class="p">)]</span>
+        <span class="n">sort</span> <span class="o">=</span> <span class="p">[</span><span class="n">idx</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_isinset</span><span class="p">(</span><span class="n">tiidx</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">setidxf</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reorder</span><span class="p">(</span><span class="n">sort</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Remove values that does not match the indexes filter. 
+The filter is a reduced list of indexes. </p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>setidxfilt</strong> : list of lists (default None) - new reduced setidx. If None, no change.</li>
+<li><strong>index</strong> : boolean (default True) - indicates if setidxfilt is a list of values (False)
+or indexes (True).</li>
+<li><strong>inplace</strong> : boolean (default True) - if True, new setidx is apply to self,
 if False a new Ilist is created.</li>
 </ul>
 
@@ -5031,10 +5236,11 @@ extidx before export</li>
 <span class="sd">        *Returns* : none&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lenidx</span> <span class="ow">or</span> <span class="n">indval</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">indval</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
             <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;out of bounds&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isextIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span> <span class="p">:</span> <span class="k">return</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iseIndex</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unique</span> <span class="p">:</span> <span class="k">return</span>
         <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
         <span class="n">tiidx</span><span class="p">[</span><span class="n">indval</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_updateset</span><span class="p">(</span><span class="n">extind</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="n">tiidx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -5083,6 +5289,7 @@ update is refuse.</li>
             <span class="k">else</span> <span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_toset</span><span class="p">(</span><span class="n">extl</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_toint</span><span class="p">(</span><span class="n">extl</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resetidx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">)</span>
 </pre></div>
 
         </details>

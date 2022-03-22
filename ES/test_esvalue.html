@@ -55,6 +55,9 @@
                         <li>
                                 <a class="function" href="#TestObsUnitaire.test_setValue_setName">test_setValue_setName</a>
                         </li>
+                        <li>
+                                <a class="function" href="#TestObsUnitaire.test_link">test_link</a>
+                        </li>
                 </ul>
 
             </li>
@@ -94,12 +97,12 @@
 <span class="sd">`ESValue` functions.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">unittest</span><span class="o">,</span> <span class="nn">json</span>
-
+<span class="kn">from</span> <span class="nn">ilist</span> <span class="kn">import</span> <span class="n">Ilist</span>
 
 <span class="kn">from</span> <span class="nn">ESValue</span> <span class="kn">import</span> <span class="n">ResultValue</span><span class="p">,</span> <span class="n">LocationValue</span><span class="p">,</span> <span class="n">DatationValue</span><span class="p">,</span> \
-    <span class="n">PropertyValue</span> <span class="c1">#, _gshape</span>
+    <span class="n">PropertyValue</span><span class="p">,</span> <span class="n">ESValue</span> <span class="c1">#, _gshape</span>
 <span class="kn">from</span> <span class="nn">ESconstante</span> <span class="kn">import</span> <span class="n">ES</span>
-<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="c1">#from pprint import pprint</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
 <span class="c1"># couverture tests (True if non passed)----------------------------------------</span>
@@ -258,7 +261,27 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">vInterval</span><span class="p">(</span><span class="kc">False</span><span class="p">),</span> <span class="n">s1</span><span class="p">)</span>
         <span class="n">val</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;truc&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;truc&#39;</span><span class="p">)</span>
-    
+
+    <span class="k">def</span> <span class="nf">test_link</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2005</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">dat2</span> <span class="o">=</span> <span class="n">DatationValue</span><span class="p">([</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2006</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">dat2</span><span class="p">),</span> <span class="s1">&#39;within&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">within</span><span class="p">(</span><span class="n">dat2</span><span class="p">))</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">LocationValue</span><span class="p">([[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]])</span>
+        <span class="n">loc2</span> <span class="o">=</span> <span class="n">LocationValue</span><span class="p">([[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">],[</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]])</span>
+        <span class="n">loc3</span> <span class="o">=</span> <span class="n">LocationValue</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">loc2</span><span class="p">),</span> <span class="s1">&#39;within&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">within</span><span class="p">(</span><span class="n">loc2</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">loc3</span><span class="p">),</span> <span class="s1">&#39;contains&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])),</span> <span class="s1">&#39;equals&#39;</span><span class="p">)</span>
+        <span class="n">prp</span> <span class="o">=</span> <span class="n">PropertyValue</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">})</span>
+        <span class="n">prp2</span> <span class="o">=</span> <span class="n">PropertyValue</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">prp</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">prp2</span><span class="p">),</span> <span class="s1">&#39;contains&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">prp</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">prp2</span><span class="p">))</span>
+        <span class="n">prp2</span> <span class="o">=</span> <span class="n">PropertyValue</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">prp</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">prp2</span><span class="p">),</span> <span class="s1">&#39;intersects&#39;</span><span class="p">)</span>
+        <span class="n">prp2</span> <span class="o">=</span> <span class="n">PropertyValue</span><span class="p">({</span><span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">prp</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">prp2</span><span class="p">),</span> <span class="s1">&#39;disjoint&#39;</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -356,6 +379,27 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">vInterval</span><span class="p">(</span><span class="kc">False</span><span class="p">),</span> <span class="n">s1</span><span class="p">)</span>
         <span class="n">val</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;truc&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;truc&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_link</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2005</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">dat2</span> <span class="o">=</span> <span class="n">DatationValue</span><span class="p">([</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2006</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">dat2</span><span class="p">),</span> <span class="s1">&#39;within&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">within</span><span class="p">(</span><span class="n">dat2</span><span class="p">))</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">LocationValue</span><span class="p">([[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]])</span>
+        <span class="n">loc2</span> <span class="o">=</span> <span class="n">LocationValue</span><span class="p">([[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">],[</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]])</span>
+        <span class="n">loc3</span> <span class="o">=</span> <span class="n">LocationValue</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">loc2</span><span class="p">),</span> <span class="s1">&#39;within&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">within</span><span class="p">(</span><span class="n">loc2</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">loc3</span><span class="p">),</span> <span class="s1">&#39;contains&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])),</span> <span class="s1">&#39;equals&#39;</span><span class="p">)</span>
+        <span class="n">prp</span> <span class="o">=</span> <span class="n">PropertyValue</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">})</span>
+        <span class="n">prp2</span> <span class="o">=</span> <span class="n">PropertyValue</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">prp</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">prp2</span><span class="p">),</span> <span class="s1">&#39;contains&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">prp</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">prp2</span><span class="p">))</span>
+        <span class="n">prp2</span> <span class="o">=</span> <span class="n">PropertyValue</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">prp</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">prp2</span><span class="p">),</span> <span class="s1">&#39;intersects&#39;</span><span class="p">)</span>
+        <span class="n">prp2</span> <span class="o">=</span> <span class="n">PropertyValue</span><span class="p">({</span><span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">prp</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">prp2</span><span class="p">),</span> <span class="s1">&#39;disjoint&#39;</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -367,7 +411,7 @@
                             <div id="TestObsUnitaire.opt" class="classattr">
                                             <div class="attr variable"><a class="headerlink" href="#TestObsUnitaire.opt">#&nbsp;&nbsp</a>
 
-        <span class="name">opt</span><span class="default_value"> = {&#39;json_string&#39;: True, &#39;json_res_index&#39;: False, &#39;json_prp_name&#39;: False, &#39;json_dat_name&#39;: False, &#39;json_loc_name&#39;: False, &#39;json_param&#39;: False, &#39;json_info&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_other&#39;: False, &#39;add_equal&#39;: &#39;full&#39;, &#39;bytes_res_format&#39;: &#39;-&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}</span>
+        <span class="name">opt</span><span class="default_value"> = {&#39;json_string&#39;: True, &#39;json_res_index&#39;: False, &#39;json_prp_name&#39;: False, &#39;json_dat_name&#39;: False, &#39;json_loc_name&#39;: False, &#39;json_param&#39;: False, &#39;json_info&#39;: False, &#39;json_info_type&#39;: False, &#39;json_info_nval&#39;: False, &#39;json_info_box&#39;: False, &#39;json_info_other&#39;: False, &#39;unic_index&#39;: True, &#39;bytes_res_format&#39;: &#39;-&#39;, &#39;sort_order&#39;: &#39;dlp&#39;}</span>
     </div>
 
     
@@ -535,6 +579,43 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">vInterval</span><span class="p">(</span><span class="kc">False</span><span class="p">),</span> <span class="n">s1</span><span class="p">)</span>
         <span class="n">val</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;truc&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;truc&#39;</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+    
+
+                            </div>
+                            <div id="TestObsUnitaire.test_link" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#TestObsUnitaire.test_link">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">test_link</span><span class="signature">(self)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">test_link</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">DatationValue</span><span class="p">(</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2005</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">dat2</span> <span class="o">=</span> <span class="n">DatationValue</span><span class="p">([</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2006</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">dat2</span><span class="p">),</span> <span class="s1">&#39;within&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">within</span><span class="p">(</span><span class="n">dat2</span><span class="p">))</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">LocationValue</span><span class="p">([[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]])</span>
+        <span class="n">loc2</span> <span class="o">=</span> <span class="n">LocationValue</span><span class="p">([[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">],[</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]])</span>
+        <span class="n">loc3</span> <span class="o">=</span> <span class="n">LocationValue</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">loc2</span><span class="p">),</span> <span class="s1">&#39;within&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">within</span><span class="p">(</span><span class="n">loc2</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">loc3</span><span class="p">),</span> <span class="s1">&#39;contains&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">LocationValue</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])),</span> <span class="s1">&#39;equals&#39;</span><span class="p">)</span>
+        <span class="n">prp</span> <span class="o">=</span> <span class="n">PropertyValue</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">})</span>
+        <span class="n">prp2</span> <span class="o">=</span> <span class="n">PropertyValue</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">prp</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">prp2</span><span class="p">),</span> <span class="s1">&#39;contains&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">prp</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">prp2</span><span class="p">))</span>
+        <span class="n">prp2</span> <span class="o">=</span> <span class="n">PropertyValue</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">prp</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">prp2</span><span class="p">),</span> <span class="s1">&#39;intersects&#39;</span><span class="p">)</span>
+        <span class="n">prp2</span> <span class="o">=</span> <span class="n">PropertyValue</span><span class="p">({</span><span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">prp</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">prp2</span><span class="p">),</span> <span class="s1">&#39;disjoint&#39;</span><span class="p">)</span>
 </pre></div>
 
         </details>

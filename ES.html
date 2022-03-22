@@ -39,6 +39,7 @@
   <li><a href="#main-principles">Main principles</a>
   <ul>
     <li><a href="#standards">Standards</a></li>
+    <li><a href="#observation">Observation</a></li>
     <li><a href="#data-structure">Data structure</a></li>
     <li><a href="#index">Index</a></li>
     <li><a href="#dimension">Dimension</a></li>
@@ -79,6 +80,7 @@
                             <li><a href="ES/openlocationcode.html">ES.openlocationcode</a></li>
                             <li><a href="ES/test_esvalue.html">ES.test_esvalue</a></li>
                             <li><a href="ES/test_ilist.html">ES.test_ilist</a></li>
+                            <li><a href="ES/test_mongo.html">ES.test_mongo</a></li>
                             <li><a href="ES/test_observation.html">ES.test_observation</a></li>
                             <li><a href="ES/test_slot.html">ES.test_slot</a></li>
                             <li><a href="ES/timeslot.html">ES.timeslot</a></li>
@@ -167,7 +169,7 @@ by ensuring convergence:    </p>
 
 <p><img src="./ES/standard.png" width="800"></p>
 
-<h2 id="data-structure">Data structure</h2>
+<h2 id="observation">Observation</h2>
 
 <p>In the ISO-19156 standard, an Observation is characterized by:</p>
 
@@ -197,6 +199,25 @@ temporal, spatial and physical values.</p>
 <p>Common properties (indicators) are associated with each Observation. 
 They allow processing to be performed on Observations without having to know 
 their composition (e.g. bounding boxes, type of observation, volume, etc.).   </p>
+
+<h2 id="data-structure">Data structure</h2>
+
+<p>The implemented data structure respects the principles of the standard. </p>
+
+<p>An Observation object groups common data (name, options, parameters) and associates
+ each of the dimensions </p>
+
+<ul>
+<li>spatial (LocationValue objects)</li>
+<li>temporal (DatingValue objects)</li>
+<li>properties (PropertyValue objects)</li>
+</ul>
+
+<p>to results (ResultValue objects).</p>
+
+<p><img src="./ES/ESmodel.png" width="600"></p>
+
+<p>An Observation can represent both a single measurement and a large historical data set.</p>
 
 <h2 id="index">Index</h2>
 
@@ -424,6 +445,7 @@ This chapter introduces you to the to binary interface and explain you:
 <ul>
 <li>Add</li>
 <li>Sort</li>
+<li>Filter</li>
 <li>Aggregation</li>
 </ul>
 
@@ -558,7 +580,7 @@ for location, TimeSlot for Datation)</li>
 
 <span class="sd">&lt;img src=&quot;./ES/standard.png&quot; width=&quot;800&quot;&gt;</span>
 
-<span class="sd">## Data structure</span>
+<span class="sd">## Observation</span>
 
 <span class="sd">In the ISO-19156 standard, an Observation is characterized by:</span>
 
@@ -584,6 +606,23 @@ for location, TimeSlot for Datation)</li>
 <span class="sd">Common properties (indicators) are associated with each Observation. </span>
 <span class="sd">They allow processing to be performed on Observations without having to know </span>
 <span class="sd">their composition (e.g. bounding boxes, type of observation, volume, etc.).   </span>
+
+<span class="sd">## Data structure</span>
+
+<span class="sd">The implemented data structure respects the principles of the standard. </span>
+
+<span class="sd">An Observation object groups common data (name, options, parameters) and associates</span>
+<span class="sd"> each of the dimensions </span>
+<span class="sd"> </span>
+<span class="sd">- spatial (LocationValue objects)</span>
+<span class="sd">- temporal (DatingValue objects)</span>
+<span class="sd">- properties (PropertyValue objects)</span>
+
+<span class="sd">to results (ResultValue objects).</span>
+
+<span class="sd">&lt;img src=&quot;./ES/ESmodel.png&quot; width=&quot;600&quot;&gt;</span>
+
+<span class="sd">An Observation can represent both a single measurement and a large historical data set.</span>
 
 <span class="sd">## Index</span>
 
@@ -785,6 +824,7 @@ for location, TimeSlot for Datation)</li>
 
 <span class="sd">- Add</span>
 <span class="sd">- Sort</span>
+<span class="sd">- Filter</span>
 <span class="sd">- Aggregation</span>
 
 <span class="sd">## Interface</span>

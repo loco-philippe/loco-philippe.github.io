@@ -182,7 +182,7 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
 
 <h2 id="relationships-and-assembly">Relationships and assembly</h2>
 
-<p>Two <code><a href="#TimeSlot">TimeSlot</a></code> can be compared with five statuses (equal, subset, superset, disjoint, stacked).</p>
+<p>Two <code><a href="#TimeSlot">TimeSlot</a></code> can be compared with five statuses (equals, contains, whitin, disjoint, intersects).</p>
 
 <p>Multiple operations between two objects can be performed :</p>
 
@@ -233,7 +233,7 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
 
 <span class="sd">## Relationships and assembly</span>
 
-<span class="sd">Two `TimeSlot` can be compared with five statuses (equal, subset, superset, disjoint, stacked).</span>
+<span class="sd">Two `TimeSlot` can be compared with five statuses (equals, contains, whitin, disjoint, intersects).</span>
 
 <span class="sd">Multiple operations between two objects can be performed :</span>
 <span class="sd">    </span>
@@ -291,11 +291,11 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
             <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">=</span> <span class="n">slot</span>
             <span class="k">return</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">tuple</span><span class="p">:</span> <span class="n">val</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="p">:</span>  
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">!=</span> <span class="n">TimeInterval</span><span class="p">:</span>  
             <span class="k">try</span> <span class="p">:</span>                         <span class="n">slot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TimeInterval</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
             <span class="k">except</span> <span class="p">:</span>
                 <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">val</span> <span class="p">:</span>       <span class="n">slot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TimeInterval</span><span class="p">(</span><span class="n">interv</span><span class="p">))</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span> <span class="p">:</span>  
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>  
             <span class="k">try</span> <span class="p">:</span>
                 <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">val</span> <span class="p">:</span>       <span class="n">slot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TimeInterval</span><span class="p">(</span><span class="n">interv</span><span class="p">))</span>
             <span class="k">except</span> <span class="p">:</span>                      <span class="n">slot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TimeInterval</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
@@ -335,7 +335,7 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stype</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;equal if the slots are equal&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;equal if the slots are equals&#39;&#39;&#39;</span>
         <span class="k">try</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">slot</span>
         <span class="k">except</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
                
@@ -405,31 +405,48 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
     <span class="k">def</span> <span class="nf">link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return the status (string) of the link between two TimeSlot (self and other).</span>
-<span class="sd">        - equal    : if self and other are the same</span>
-<span class="sd">        - disjoint : if self&#39;s intervals and other&#39;s intervals are all disjoint</span>
-<span class="sd">        - superset : if all other&#39;s intervals are included in self&#39;s intervals</span>
-<span class="sd">        - subset   : if all self&#39;s intervals are included in other&#39;s intervals</span>
-<span class="sd">        - stacked  : in the others cases</span>
+<span class="sd">        - equals     : if self and other are the same</span>
+<span class="sd">        - disjoint   : if self&#39;s intervals and other&#39;s intervals are all disjoint</span>
+<span class="sd">        - within     : if all self&#39;s intervals are included in other&#39;s intervals</span>
+<span class="sd">        - contains   : if all other&#39;s intervals are included in self&#39;s intervals</span>
+<span class="sd">        - intersects : in the others cases</span>
 
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
 <span class="sd">        - **other** : TimeSlot to be compared</span>
 <span class="sd">                </span>
-<span class="sd">        *Returns* : string&#39;&#39;&#39;</span>
-        <span class="n">union</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">+</span> <span class="n">other</span>
-        <span class="k">if</span>   <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span> 
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;full equal&#39;</span> 
-            <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;equal&#39;</span>
-        <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span> 
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;full disjoint&#39;</span> 
-            <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;disjoint&#39;</span>
-        <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;full superset&#39;</span> 
-            <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;superset&#39;</span>
-        <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;full subset&#39;</span> 
-            <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;subset&#39;</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;stacked&#39;</span>
+<span class="sd">        *Returns* </span>
+<span class="sd">        </span>
+<span class="sd">        - **tuple** : (string(status), boolean(full or not))&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stype</span> <span class="o">==</span> <span class="s1">&#39;instant&#39;</span> <span class="p">:</span> <span class="n">point</span><span class="p">,</span> <span class="n">oslot</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">other</span>
+        <span class="k">elif</span> <span class="n">other</span><span class="o">.</span><span class="n">stype</span> <span class="o">==</span> <span class="s1">&#39;instant&#39;</span> <span class="p">:</span> <span class="n">point</span><span class="p">,</span> <span class="n">oslot</span> <span class="o">=</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="n">point</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">point</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="p">:</span>
+            <span class="n">contains</span> <span class="o">=</span> <span class="n">equals</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">oslot</span><span class="p">:</span>
+                <span class="n">contains</span> <span class="o">=</span> <span class="n">contains</span> <span class="ow">or</span> <span class="n">interv</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">point</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;contains&#39;</span>
+                <span class="n">equals</span> <span class="o">=</span> <span class="n">equals</span> <span class="ow">or</span> <span class="n">interv</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">point</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;equals&#39;</span>
+            <span class="k">if</span> <span class="n">equals</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">contains</span> <span class="p">:</span> <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;equals&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">contains</span> <span class="ow">and</span> <span class="n">point</span> <span class="o">==</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;contains&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> 
+            <span class="k">if</span> <span class="n">contains</span> <span class="ow">and</span> <span class="n">point</span> <span class="o">==</span> <span class="bp">self</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;within&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;disjoint&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">union</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">+</span> <span class="n">other</span>
+            <span class="n">link</span> <span class="o">=</span> <span class="s1">&#39;intersects&#39;</span>
+            <span class="n">full</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span>   <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span> 
+                <span class="n">full</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+                <span class="n">link</span> <span class="o">=</span> <span class="s1">&#39;equals&#39;</span>
+            <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span>
+                <span class="n">full</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="n">link</span> <span class="o">=</span> <span class="s1">&#39;contains&#39;</span>
+            <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span>
+                <span class="n">full</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+                <span class="n">link</span> <span class="o">=</span> <span class="s1">&#39;within&#39;</span>
+            <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span> 
+                <span class="n">full</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+                <span class="n">link</span> <span class="o">=</span> <span class="s1">&#39;disjoint&#39;</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">full</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">timetuple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">json_string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;</span>
@@ -469,8 +486,8 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
         <span class="n">i</span> <span class="o">=</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span> <span class="p">:</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">slot</span><span class="p">)):</span>
-                <span class="k">if</span>   <span class="n">interv</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;subset&#39;</span>   <span class="p">:</span> <span class="n">interv</span> <span class="o">=</span> <span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-                <span class="k">elif</span> <span class="n">interv</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;stacked&#39;</span>  <span class="p">:</span> <span class="n">interv</span> <span class="o">=</span> <span class="n">interv</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                <span class="k">if</span>   <span class="n">interv</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;within&#39;</span>      <span class="p">:</span> <span class="n">interv</span> <span class="o">=</span> <span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">interv</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;intersects&#39;</span>  <span class="p">:</span> <span class="n">interv</span> <span class="o">=</span> <span class="n">interv</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
                 <span class="k">elif</span> <span class="n">interv</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;disjoint&#39;</span> <span class="p">:</span>
                     <span class="n">union</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">interv</span><span class="p">)</span>
                     <span class="n">interv</span> <span class="o">=</span> <span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
@@ -535,7 +552,7 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stype</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;equal if the &#39;start&#39; and &#39;end&#39; dates are equal&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;equal if the &#39;start&#39; and &#39;end&#39; dates are equals&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span>
 
     <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> 
@@ -588,22 +605,22 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
     <span class="k">def</span> <span class="nf">link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return the status (string) of the link between two TimeIntervals (self and other).</span>
-<span class="sd">        - equal    : if self and other are the same</span>
-<span class="sd">        - disjoint : if self&#39;s interval and other&#39;s interval are disjoint</span>
-<span class="sd">        - superset : if other&#39;s interval is included in self&#39;s interval</span>
-<span class="sd">        - subset   : if self&#39;s interval is included in other&#39;s interval</span>
-<span class="sd">        - stacked  : in the others cases</span>
+<span class="sd">        - equals     : if self and other are the same</span>
+<span class="sd">        - disjoint   : if self&#39;s interval and other&#39;s interval are disjoint</span>
+<span class="sd">        - within     : if other&#39;s interval is included in self&#39;s interval</span>
+<span class="sd">        - contains   : if self&#39;s interval is included in other&#39;s interval</span>
+<span class="sd">        - intersects : in the others cases</span>
 
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
 <span class="sd">        - **other** : TimeInterval to be compared</span>
 <span class="sd">                </span>
 <span class="sd">        *Returns* : string&#39;&#39;&#39;</span>
-        <span class="k">if</span>   <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;equal&#39;</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;superset&#39;</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;subset&#39;</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;stacked&#39;</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="ow">or</span>  <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;disjoint&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;equals&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;contains&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;within&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;intersects&#39;</span>
+        <span class="k">return</span> <span class="s1">&#39;disjoint&#39;</span>
 
     <span class="k">def</span> <span class="nf">timetuple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">json_string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;</span>
@@ -721,11 +738,11 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
             <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">=</span> <span class="n">slot</span>
             <span class="k">return</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">tuple</span><span class="p">:</span> <span class="n">val</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="p">:</span>  
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">!=</span> <span class="n">TimeInterval</span><span class="p">:</span>  
             <span class="k">try</span> <span class="p">:</span>                         <span class="n">slot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TimeInterval</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
             <span class="k">except</span> <span class="p">:</span>
                 <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">val</span> <span class="p">:</span>       <span class="n">slot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TimeInterval</span><span class="p">(</span><span class="n">interv</span><span class="p">))</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span> <span class="p">:</span>  
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>  
             <span class="k">try</span> <span class="p">:</span>
                 <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">val</span> <span class="p">:</span>       <span class="n">slot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TimeInterval</span><span class="p">(</span><span class="n">interv</span><span class="p">))</span>
             <span class="k">except</span> <span class="p">:</span>                      <span class="n">slot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TimeInterval</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
@@ -765,7 +782,7 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stype</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;equal if the slots are equal&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;equal if the slots are equals&#39;&#39;&#39;</span>
         <span class="k">try</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">slot</span>
         <span class="k">except</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
                
@@ -835,31 +852,48 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
     <span class="k">def</span> <span class="nf">link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return the status (string) of the link between two TimeSlot (self and other).</span>
-<span class="sd">        - equal    : if self and other are the same</span>
-<span class="sd">        - disjoint : if self&#39;s intervals and other&#39;s intervals are all disjoint</span>
-<span class="sd">        - superset : if all other&#39;s intervals are included in self&#39;s intervals</span>
-<span class="sd">        - subset   : if all self&#39;s intervals are included in other&#39;s intervals</span>
-<span class="sd">        - stacked  : in the others cases</span>
+<span class="sd">        - equals     : if self and other are the same</span>
+<span class="sd">        - disjoint   : if self&#39;s intervals and other&#39;s intervals are all disjoint</span>
+<span class="sd">        - within     : if all self&#39;s intervals are included in other&#39;s intervals</span>
+<span class="sd">        - contains   : if all other&#39;s intervals are included in self&#39;s intervals</span>
+<span class="sd">        - intersects : in the others cases</span>
 
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
 <span class="sd">        - **other** : TimeSlot to be compared</span>
 <span class="sd">                </span>
-<span class="sd">        *Returns* : string&#39;&#39;&#39;</span>
-        <span class="n">union</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">+</span> <span class="n">other</span>
-        <span class="k">if</span>   <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span> 
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;full equal&#39;</span> 
-            <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;equal&#39;</span>
-        <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span> 
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;full disjoint&#39;</span> 
-            <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;disjoint&#39;</span>
-        <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;full superset&#39;</span> 
-            <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;superset&#39;</span>
-        <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;full subset&#39;</span> 
-            <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;subset&#39;</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;stacked&#39;</span>
+<span class="sd">        *Returns* </span>
+<span class="sd">        </span>
+<span class="sd">        - **tuple** : (string(status), boolean(full or not))&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stype</span> <span class="o">==</span> <span class="s1">&#39;instant&#39;</span> <span class="p">:</span> <span class="n">point</span><span class="p">,</span> <span class="n">oslot</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">other</span>
+        <span class="k">elif</span> <span class="n">other</span><span class="o">.</span><span class="n">stype</span> <span class="o">==</span> <span class="s1">&#39;instant&#39;</span> <span class="p">:</span> <span class="n">point</span><span class="p">,</span> <span class="n">oslot</span> <span class="o">=</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="n">point</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">point</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="p">:</span>
+            <span class="n">contains</span> <span class="o">=</span> <span class="n">equals</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">oslot</span><span class="p">:</span>
+                <span class="n">contains</span> <span class="o">=</span> <span class="n">contains</span> <span class="ow">or</span> <span class="n">interv</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">point</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;contains&#39;</span>
+                <span class="n">equals</span> <span class="o">=</span> <span class="n">equals</span> <span class="ow">or</span> <span class="n">interv</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">point</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;equals&#39;</span>
+            <span class="k">if</span> <span class="n">equals</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">contains</span> <span class="p">:</span> <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;equals&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">contains</span> <span class="ow">and</span> <span class="n">point</span> <span class="o">==</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;contains&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> 
+            <span class="k">if</span> <span class="n">contains</span> <span class="ow">and</span> <span class="n">point</span> <span class="o">==</span> <span class="bp">self</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;within&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;disjoint&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">union</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">+</span> <span class="n">other</span>
+            <span class="n">link</span> <span class="o">=</span> <span class="s1">&#39;intersects&#39;</span>
+            <span class="n">full</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span>   <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span> 
+                <span class="n">full</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+                <span class="n">link</span> <span class="o">=</span> <span class="s1">&#39;equals&#39;</span>
+            <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span>
+                <span class="n">full</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="n">link</span> <span class="o">=</span> <span class="s1">&#39;contains&#39;</span>
+            <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span>
+                <span class="n">full</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+                <span class="n">link</span> <span class="o">=</span> <span class="s1">&#39;within&#39;</span>
+            <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span> 
+                <span class="n">full</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+                <span class="n">link</span> <span class="o">=</span> <span class="s1">&#39;disjoint&#39;</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">full</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">timetuple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">json_string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;</span>
@@ -899,8 +933,8 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
         <span class="n">i</span> <span class="o">=</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span> <span class="p">:</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">slot</span><span class="p">)):</span>
-                <span class="k">if</span>   <span class="n">interv</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;subset&#39;</span>   <span class="p">:</span> <span class="n">interv</span> <span class="o">=</span> <span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-                <span class="k">elif</span> <span class="n">interv</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;stacked&#39;</span>  <span class="p">:</span> <span class="n">interv</span> <span class="o">=</span> <span class="n">interv</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                <span class="k">if</span>   <span class="n">interv</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;within&#39;</span>      <span class="p">:</span> <span class="n">interv</span> <span class="o">=</span> <span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">interv</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;intersects&#39;</span>  <span class="p">:</span> <span class="n">interv</span> <span class="o">=</span> <span class="n">interv</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
                 <span class="k">elif</span> <span class="n">interv</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;disjoint&#39;</span> <span class="p">:</span>
                     <span class="n">union</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">interv</span><span class="p">)</span>
                     <span class="n">interv</span> <span class="o">=</span> <span class="n">slot</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
@@ -974,11 +1008,11 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
             <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">=</span> <span class="n">slot</span>
             <span class="k">return</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">tuple</span><span class="p">:</span> <span class="n">val</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="p">:</span>  
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">!=</span> <span class="n">TimeInterval</span><span class="p">:</span>  
             <span class="k">try</span> <span class="p">:</span>                         <span class="n">slot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TimeInterval</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
             <span class="k">except</span> <span class="p">:</span>
                 <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">val</span> <span class="p">:</span>       <span class="n">slot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TimeInterval</span><span class="p">(</span><span class="n">interv</span><span class="p">))</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span> <span class="p">:</span>  
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>  
             <span class="k">try</span> <span class="p">:</span>
                 <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">val</span> <span class="p">:</span>       <span class="n">slot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TimeInterval</span><span class="p">(</span><span class="n">interv</span><span class="p">))</span>
             <span class="k">except</span> <span class="p">:</span>                      <span class="n">slot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TimeInterval</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
@@ -1134,31 +1168,48 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return the status (string) of the link between two TimeSlot (self and other).</span>
-<span class="sd">        - equal    : if self and other are the same</span>
-<span class="sd">        - disjoint : if self&#39;s intervals and other&#39;s intervals are all disjoint</span>
-<span class="sd">        - superset : if all other&#39;s intervals are included in self&#39;s intervals</span>
-<span class="sd">        - subset   : if all self&#39;s intervals are included in other&#39;s intervals</span>
-<span class="sd">        - stacked  : in the others cases</span>
+<span class="sd">        - equals     : if self and other are the same</span>
+<span class="sd">        - disjoint   : if self&#39;s intervals and other&#39;s intervals are all disjoint</span>
+<span class="sd">        - within     : if all self&#39;s intervals are included in other&#39;s intervals</span>
+<span class="sd">        - contains   : if all other&#39;s intervals are included in self&#39;s intervals</span>
+<span class="sd">        - intersects : in the others cases</span>
 
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
 <span class="sd">        - **other** : TimeSlot to be compared</span>
 <span class="sd">                </span>
-<span class="sd">        *Returns* : string&#39;&#39;&#39;</span>
-        <span class="n">union</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">+</span> <span class="n">other</span>
-        <span class="k">if</span>   <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span> 
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;full equal&#39;</span> 
-            <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;equal&#39;</span>
-        <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span> 
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;full disjoint&#39;</span> 
-            <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;disjoint&#39;</span>
-        <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;full superset&#39;</span> 
-            <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;superset&#39;</span>
-        <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;full subset&#39;</span> 
-            <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;subset&#39;</span>
-        <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;stacked&#39;</span>
+<span class="sd">        *Returns* </span>
+<span class="sd">        </span>
+<span class="sd">        - **tuple** : (string(status), boolean(full or not))&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stype</span> <span class="o">==</span> <span class="s1">&#39;instant&#39;</span> <span class="p">:</span> <span class="n">point</span><span class="p">,</span> <span class="n">oslot</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">other</span>
+        <span class="k">elif</span> <span class="n">other</span><span class="o">.</span><span class="n">stype</span> <span class="o">==</span> <span class="s1">&#39;instant&#39;</span> <span class="p">:</span> <span class="n">point</span><span class="p">,</span> <span class="n">oslot</span> <span class="o">=</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="n">point</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">point</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="p">:</span>
+            <span class="n">contains</span> <span class="o">=</span> <span class="n">equals</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">oslot</span><span class="p">:</span>
+                <span class="n">contains</span> <span class="o">=</span> <span class="n">contains</span> <span class="ow">or</span> <span class="n">interv</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">point</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;contains&#39;</span>
+                <span class="n">equals</span> <span class="o">=</span> <span class="n">equals</span> <span class="ow">or</span> <span class="n">interv</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">point</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;equals&#39;</span>
+            <span class="k">if</span> <span class="n">equals</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">contains</span> <span class="p">:</span> <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;equals&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">contains</span> <span class="ow">and</span> <span class="n">point</span> <span class="o">==</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;contains&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> 
+            <span class="k">if</span> <span class="n">contains</span> <span class="ow">and</span> <span class="n">point</span> <span class="o">==</span> <span class="bp">self</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;within&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;disjoint&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">union</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">+</span> <span class="n">other</span>
+            <span class="n">link</span> <span class="o">=</span> <span class="s1">&#39;intersects&#39;</span>
+            <span class="n">full</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span>   <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span> 
+                <span class="n">full</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+                <span class="n">link</span> <span class="o">=</span> <span class="s1">&#39;equals&#39;</span>
+            <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span>
+                <span class="n">full</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="n">link</span> <span class="o">=</span> <span class="s1">&#39;contains&#39;</span>
+            <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span>
+                <span class="n">full</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+                <span class="n">link</span> <span class="o">=</span> <span class="s1">&#39;within&#39;</span>
+            <span class="k">elif</span> <span class="n">union</span><span class="o">.</span><span class="n">duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">duration</span> <span class="p">:</span> 
+                <span class="n">full</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+                <span class="n">link</span> <span class="o">=</span> <span class="s1">&#39;disjoint&#39;</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">full</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -1166,11 +1217,11 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
             <div class="docstring"><p>Return the status (string) of the link between two TimeSlot (self and other).</p>
 
 <ul>
-<li>equal    : if self and other are the same</li>
-<li>disjoint : if self's intervals and other's intervals are all disjoint</li>
-<li>superset : if all other's intervals are included in self's intervals</li>
-<li>subset   : if all self's intervals are included in other's intervals</li>
-<li>stacked  : in the others cases</li>
+<li>equals     : if self and other are the same</li>
+<li>disjoint   : if self's intervals and other's intervals are all disjoint</li>
+<li>within     : if all self's intervals are included in other's intervals</li>
+<li>contains   : if all other's intervals are included in self's intervals</li>
+<li>intersects : in the others cases</li>
 </ul>
 
 <p><em>Parameters</em></p>
@@ -1179,7 +1230,11 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
 <li><strong>other</strong> : TimeSlot to be compared</li>
 </ul>
 
-<p><em>Returns</em> : string</p>
+<p><em>Returns</em> </p>
+
+<ul>
+<li><strong>tuple</strong> : (string(status), boolean(full or not))</li>
+</ul>
 </div>
 
 
@@ -1334,7 +1389,7 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stype</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;equal if the &#39;start&#39; and &#39;end&#39; dates are equal&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;equal if the &#39;start&#39; and &#39;end&#39; dates are equals&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span>
 
     <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> 
@@ -1387,22 +1442,22 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
     <span class="k">def</span> <span class="nf">link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return the status (string) of the link between two TimeIntervals (self and other).</span>
-<span class="sd">        - equal    : if self and other are the same</span>
-<span class="sd">        - disjoint : if self&#39;s interval and other&#39;s interval are disjoint</span>
-<span class="sd">        - superset : if other&#39;s interval is included in self&#39;s interval</span>
-<span class="sd">        - subset   : if self&#39;s interval is included in other&#39;s interval</span>
-<span class="sd">        - stacked  : in the others cases</span>
+<span class="sd">        - equals     : if self and other are the same</span>
+<span class="sd">        - disjoint   : if self&#39;s interval and other&#39;s interval are disjoint</span>
+<span class="sd">        - within     : if other&#39;s interval is included in self&#39;s interval</span>
+<span class="sd">        - contains   : if self&#39;s interval is included in other&#39;s interval</span>
+<span class="sd">        - intersects : in the others cases</span>
 
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
 <span class="sd">        - **other** : TimeInterval to be compared</span>
 <span class="sd">                </span>
 <span class="sd">        *Returns* : string&#39;&#39;&#39;</span>
-        <span class="k">if</span>   <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;equal&#39;</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;superset&#39;</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;subset&#39;</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;stacked&#39;</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="ow">or</span>  <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;disjoint&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;equals&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;contains&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;within&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;intersects&#39;</span>
+        <span class="k">return</span> <span class="s1">&#39;disjoint&#39;</span>
 
     <span class="k">def</span> <span class="nf">timetuple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">json_string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1650,22 +1705,22 @@ with datetime.isoformat for dates.</p>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return the status (string) of the link between two TimeIntervals (self and other).</span>
-<span class="sd">        - equal    : if self and other are the same</span>
-<span class="sd">        - disjoint : if self&#39;s interval and other&#39;s interval are disjoint</span>
-<span class="sd">        - superset : if other&#39;s interval is included in self&#39;s interval</span>
-<span class="sd">        - subset   : if self&#39;s interval is included in other&#39;s interval</span>
-<span class="sd">        - stacked  : in the others cases</span>
+<span class="sd">        - equals     : if self and other are the same</span>
+<span class="sd">        - disjoint   : if self&#39;s interval and other&#39;s interval are disjoint</span>
+<span class="sd">        - within     : if other&#39;s interval is included in self&#39;s interval</span>
+<span class="sd">        - contains   : if self&#39;s interval is included in other&#39;s interval</span>
+<span class="sd">        - intersects : in the others cases</span>
 
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
 <span class="sd">        - **other** : TimeInterval to be compared</span>
 <span class="sd">                </span>
 <span class="sd">        *Returns* : string&#39;&#39;&#39;</span>
-        <span class="k">if</span>   <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;equal&#39;</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;superset&#39;</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;subset&#39;</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;stacked&#39;</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="ow">or</span>  <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;disjoint&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;equals&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;contains&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;within&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">end</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;intersects&#39;</span>
+        <span class="k">return</span> <span class="s1">&#39;disjoint&#39;</span>
 </pre></div>
 
         </details>
@@ -1673,11 +1728,11 @@ with datetime.isoformat for dates.</p>
             <div class="docstring"><p>Return the status (string) of the link between two TimeIntervals (self and other).</p>
 
 <ul>
-<li>equal    : if self and other are the same</li>
-<li>disjoint : if self's interval and other's interval are disjoint</li>
-<li>superset : if other's interval is included in self's interval</li>
-<li>subset   : if self's interval is included in other's interval</li>
-<li>stacked  : in the others cases</li>
+<li>equals     : if self and other are the same</li>
+<li>disjoint   : if self's interval and other's interval are disjoint</li>
+<li>within     : if other's interval is included in self's interval</li>
+<li>contains   : if self's interval is included in other's interval</li>
+<li>intersects : in the others cases</li>
 </ul>
 
 <p><em>Parameters</em></p>
