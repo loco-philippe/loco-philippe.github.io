@@ -44,6 +44,15 @@
                     <a class="function" href="#identity">identity</a>
             </li>
             <li>
+                    <a class="class" href="#IlistEncoder">IlistEncoder</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#IlistEncoder.default">default</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
                     <a class="class" href="#Ilist">Ilist</a>
                             <ul class="memberlist">
                         <li>
@@ -63,9 +72,6 @@
                         </li>
                         <li>
                                 <a class="function" href="#Ilist.Izip">Izip</a>
-                        </li>
-                        <li>
-                                <a class="function" href="#Ilist.Icsv">Icsv</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Ilist.extval">extval</a>
@@ -173,6 +179,12 @@
                                 <a class="function" href="#Ilist.extidxtoi">extidxtoi</a>
                         </li>
                         <li>
+                                <a class="function" href="#Ilist.from_bytes">from_bytes</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Ilist.from_csv">from_csv</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Ilist.full">full</a>
                         </li>
                         <li>
@@ -216,6 +228,9 @@
                         </li>
                         <li>
                                 <a class="function" href="#Ilist.swapindex">swapindex</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Ilist.to_bytes">to_bytes</a>
                         </li>
                         <li>
                                 <a class="function" href="#Ilist.to_csv">to_csv</a>
@@ -385,13 +400,26 @@ of independent indexes fullname, course and examen.</p>
 <span class="kn">import</span> <span class="nn">csv</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">xarray</span>
-
+<span class="c1">#from bson import decode, encode</span>
+<span class="kn">import</span> <span class="nn">bson</span>
+<span class="kn">from</span> <span class="nn">ESValue</span> <span class="kn">import</span> <span class="n">LocationValue</span><span class="p">,</span> <span class="n">DatationValue</span><span class="p">,</span> <span class="n">PropertyValue</span><span class="p">,</span> <span class="n">ResultValue</span>
 
 <span class="k">def</span> <span class="nf">identity</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;return the same value as args or kwargs&#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> <span class="k">return</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> <span class="k">return</span> <span class="n">kwargs</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]]</span>
     <span class="k">return</span> <span class="kc">None</span>
+
+<span class="k">class</span> <span class="nc">IlistEncoder</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;add a new json encoder for Ilist&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span> <span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">datetime</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;bjson_bson&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">:</span> 
+            <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">__to_json__</span><span class="p">()</span>
+            <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
+
 
 <span class="k">class</span> <span class="nc">Ilist</span><span class="p">:</span>
     <span class="sd">&#39;&#39;&#39;</span>
@@ -411,9 +439,8 @@ of independent indexes fullname, course and examen.</p>
 
 <span class="sd">    The methods defined in this class are :</span>
 
-<span class="sd">    *class methods (constructor)*</span>
+<span class="sd">    *constructor (classmethod))*</span>
 
-<span class="sd">    - `Ilist.Icsv`</span>
 <span class="sd">    - `Ilist.Idict`</span>
 <span class="sd">    - `Ilist.Iext`</span>
 <span class="sd">    - `Ilist.Iidx`</span>
@@ -467,7 +494,7 @@ of independent indexes fullname, course and examen.</p>
 <span class="sd">    - `Ilist.extidxtoi`</span>
 <span class="sd">    - `Ilist.iidxtoext`</span>
 <span class="sd">    - `Ilist.iloc`</span>
-<span class="sd">    - `Ilist.isextIndex`</span>
+<span class="sd">    - `Ilist.iseIndex`</span>
 <span class="sd">    - `Ilist.isiIndex`</span>
 <span class="sd">    - `Ilist.isValue`</span>
 <span class="sd">    - `Ilist.loc`</span>
@@ -484,7 +511,10 @@ of independent indexes fullname, course and examen.</p>
 
 <span class="sd">    *exports methods*</span>
 
+<span class="sd">    - `Ilist.from_bytes` (classmethod)</span>
+<span class="sd">    - `Ilist.from_csv` (classmethod)</span>
 <span class="sd">    - `Ilist.json`</span>
+<span class="sd">    - `Ilist.to_bytes`</span>
 <span class="sd">    - `Ilist.to_csv`</span>
 <span class="sd">    - `Ilist.to_numpy`</span>
 <span class="sd">    - `Ilist.to_xarray`</span>
@@ -601,48 +631,6 @@ of independent indexes fullname, course and examen.</p>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">Iext</span><span class="p">(</span><span class="n">extval</span><span class="o">=</span><span class="p">[],</span> <span class="n">extidx</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> <span class="n">valname</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">idxname</span><span class="o">=</span><span class="p">[],</span> <span class="n">defaultidx</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">Icsv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;ilist.csv&#39;</span><span class="p">,</span> <span class="n">valfirst</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Ilist constructor (from a csv file). Each column represents extidx or extval values.</span>
-
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **filename** : string (default &#39;ilist.csv&#39;), name of the file to read</span>
-<span class="sd">        - **valfirst** : boolean (default False). If False extval is the last columns</span>
-<span class="sd">        else it&#39;s the first</span>
-<span class="sd">        - **header** : boolean (default True). If True, the first raw is dedicated to names</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **Ilist**  &#39;&#39;&#39;</span>
-        <span class="n">extval</span><span class="o">=</span><span class="p">[]</span>
-        <span class="n">extidx</span><span class="o">=</span><span class="p">[]</span>
-        <span class="n">valname</span><span class="o">=</span><span class="s1">&#39;value&#39;</span>
-        <span class="n">idxname</span><span class="o">=</span><span class="p">[]</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-            <span class="n">first</span><span class="o">=</span><span class="kc">True</span>
-            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">first</span> <span class="p">:</span>
-                    <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="p">:</span> <span class="n">extidx</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
-                <span class="k">if</span> <span class="n">first</span> <span class="ow">and</span> <span class="n">header</span> <span class="p">:</span>
-                    <span class="k">if</span> <span class="n">valfirst</span>      <span class="p">:</span>
-                        <span class="n">valname</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                        <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="p">:</span> <span class="n">idxname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vrow</span><span class="p">)</span>
-                    <span class="k">else</span> <span class="p">:</span>
-                        <span class="n">valname</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-                        <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">:</span> <span class="n">idxname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vrow</span><span class="p">)</span>
-                <span class="k">else</span> <span class="p">:</span>
-                    <span class="k">if</span> <span class="n">valfirst</span>      <span class="p">:</span>
-                        <span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">:</span> <span class="n">extidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
-                    <span class="k">else</span> <span class="p">:</span>
-                        <span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">:</span> <span class="n">extidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-                <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">Iext</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">extidx</span><span class="p">,</span> <span class="n">valname</span><span class="p">,</span> <span class="n">idxname</span><span class="p">)</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extval</span><span class="o">=</span><span class="p">[],</span> <span class="n">setidx</span><span class="o">=</span><span class="p">[],</span> <span class="n">iidx</span><span class="o">=</span><span class="p">[],</span> <span class="n">valname</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">idxname</span><span class="o">=</span><span class="p">[],</span> <span class="n">defaultidx</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Ilist constructor.</span>
@@ -755,9 +743,10 @@ of independent indexes fullname, course and examen.</p>
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return valname, extval, idxname and extidx&#39;&#39;&#39;</span>
         <span class="n">texLis</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;bjson_bson&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">nam</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)</span> <span class="p">:</span>
-            <span class="n">texLis</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">nam</span> <span class="o">+</span> <span class="s1">&#39; : &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">json_string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">valname</span> <span class="o">+</span> <span class="s1">&#39; : &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">,</span> <span class="n">json_string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">texLis</span>
+            <span class="n">texLis</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">nam</span> <span class="o">+</span> <span class="s1">&#39; : &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">valname</span> <span class="o">+</span> <span class="s1">&#39; : &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">texLis</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; equal if extval and extidx are equal&#39;&#39;&#39;</span>
@@ -1055,6 +1044,74 @@ of independent indexes fullname, course and examen.</p>
         <span class="k">try</span> <span class="p">:</span>  <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">extind</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">extind</span><span class="p">))]</span>
         <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
 
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate an Ilist Object from a bytes value</span>
+<span class="sd">    </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">    </span>
+<span class="sd">        - **bson** : bytes data to convert </span>
+<span class="sd">    </span>
+<span class="sd">        *Returns* : Ilist &#39;&#39;&#39;</span>
+        <span class="n">setidx</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1">#if isinstance(bson, bytes) : dic = bson.BSON.decode(bson)</span>
+        <span class="c1">#if isinstance(bson, bytes) : dic = bson.decode(bson)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="p">:</span> <span class="n">dic</span> <span class="o">=</span> <span class="n">bson</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="n">dic</span> <span class="o">=</span> <span class="n">bs</span>
+        <span class="k">if</span> <span class="s1">&#39;_id&#39;</span> <span class="ow">in</span> <span class="n">dic</span> <span class="p">:</span> <span class="n">dic</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;_id&#39;</span><span class="p">)</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+        <span class="n">valname</span> <span class="o">=</span> <span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">idxname</span> <span class="o">=</span> <span class="n">names</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">dic</span><span class="p">)]</span>
+        <span class="n">extval</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_frombytes</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">idxname</span> <span class="p">:</span> <span class="n">setidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_frombytes</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="n">name</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="nb">list</span><span class="p">):</span> <span class="n">iidx</span> <span class="o">=</span> <span class="n">dic</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">iidx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">idxname</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">extval</span><span class="p">)))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span><span class="p">,</span> <span class="n">valname</span><span class="p">,</span> <span class="n">idxname</span><span class="p">)</span>
+                
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;ilist.csv&#39;</span><span class="p">,</span> <span class="n">valfirst</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Ilist constructor (from a csv file). Each column represents extidx or extval values.</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **filename** : string (default &#39;ilist.csv&#39;), name of the file to read</span>
+<span class="sd">        - **valfirst** : boolean (default False). If False extval is the last columns</span>
+<span class="sd">        else it&#39;s the first</span>
+<span class="sd">        - **header** : boolean (default True). If True, the first raw is dedicated to names</span>
+<span class="sd">        - **kwargs** : see csv.reader options</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **Ilist**  &#39;&#39;&#39;</span>
+        <span class="n">extval</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">extidx</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">valname</span><span class="o">=</span><span class="s1">&#39;value&#39;</span>
+        <span class="n">idxname</span><span class="o">=</span><span class="p">[]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">first</span><span class="o">=</span><span class="kc">True</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">first</span> <span class="p">:</span>
+                    <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="p">:</span> <span class="n">extidx</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+                <span class="k">if</span> <span class="n">first</span> <span class="ow">and</span> <span class="n">header</span> <span class="p">:</span>
+                    <span class="k">if</span> <span class="n">valfirst</span>      <span class="p">:</span>
+                        <span class="n">valname</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="p">:</span> <span class="n">idxname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vrow</span><span class="p">)</span>
+                    <span class="k">else</span> <span class="p">:</span>
+                        <span class="n">valname</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">:</span> <span class="n">idxname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vrow</span><span class="p">)</span>
+                <span class="k">else</span> <span class="p">:</span>
+                    <span class="k">if</span> <span class="n">valfirst</span>      <span class="p">:</span>
+                        <span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">:</span> <span class="n">extidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="k">else</span> <span class="p">:</span>
+                        <span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">:</span> <span class="n">extidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">Iext</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">extidx</span><span class="p">,</span> <span class="n">valname</span><span class="p">,</span> <span class="n">idxname</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">full</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">[],</span> <span class="n">fillvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        add new extval with new extidx to have a complet Ilist</span>
@@ -1174,21 +1231,22 @@ of independent indexes fullname, course and examen.</p>
 <span class="sd">        *Returns* : boolean - True if found&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">extval</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">extval</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span>
-
+    
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return json string with val (extval or ival) and idx (extidx or iidx or none).</span>
 
 <span class="sd">        *Parameters (option)*</span>
 
-<span class="sd">        - **json_string** : defaut False - if True return string, else return dict</span>
+<span class="sd">        - **bjson_format** : boolean (default False) - choice for return format (string/bytes if True, dict else)</span>
+<span class="sd">        - **bjson_bson **  : boolean (default False)- choice for return format (bson if True, json else)</span>
 <span class="sd">        - **json_res_index** : default True - if True add the index to the value</span>
 <span class="sd">        - **json_mode** : string (default &#39;vv&#39;)</span>
 <span class="sd">        - **json_mode[0]** : char - if &#39;v&#39;, value is extval else ival</span>
 <span class="sd">        - **json_mode[1]** : char - if &#39;v&#39;, index is extidx else iidx</span>
 
 <span class="sd">        *Returns* : string or dict&#39;&#39;&#39;</span>
-        <span class="n">option2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;json_string&#39;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;json_res_index&#39;</span> <span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;json_mode&#39;</span> <span class="p">:</span><span class="s1">&#39;vv&#39;</span><span class="p">}</span> <span class="o">|</span> <span class="n">option</span>
+        <span class="n">option2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;bjson_bson&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;json_res_index&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;json_mode&#39;</span><span class="p">:</span><span class="s1">&#39;vv&#39;</span><span class="p">}</span> <span class="o">|</span> <span class="n">option</span>
         <span class="n">lis</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">textidx</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span>   <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">extidx</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span>
@@ -1197,21 +1255,24 @@ of independent indexes fullname, course and examen.</p>
             <span class="n">lis</span><span class="o">=</span><span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">]]</span>
             <span class="n">textidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span> <span class="p">:</span> <span class="n">jval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span> <span class="p">:</span> <span class="n">jval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">**</span><span class="n">option2</span><span class="p">)</span>
             <span class="k">else</span>                            <span class="p">:</span> <span class="n">jval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ival</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_res_index&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span> <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">jval</span><span class="p">)</span>
             <span class="k">else</span> <span class="p">:</span>
                 <span class="n">lig</span><span class="o">=</span><span class="p">[</span><span class="n">jval</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span> <span class="p">:</span> <span class="n">lig</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">textidx</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-                <span class="k">else</span>                            <span class="p">:</span> <span class="n">lig</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="c1">#if option2[&#39;json_mode&#39;][1]==&#39;v&#39; : lig.append(textidx[i])</span>
+                <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> 
+                    <span class="n">lig</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="n">extind</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">)</span> <span class="k">for</span> <span class="n">extind</span> <span class="ow">in</span> <span class="n">textidx</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+                <span class="k">else</span><span class="p">:</span> <span class="n">lig</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
                 <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lig</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="n">lis</span>
         <span class="k">else</span> <span class="p">:</span>
             <span class="n">js</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">))</span> <span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxlen</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxlen</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">]</span> <span class="o">=</span> <span class="n">lis</span>
-        <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_string&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">IlistEncoder</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">js</span>
 
     <span class="k">def</span> <span class="nf">loc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extind</span><span class="p">):</span>
@@ -1349,6 +1410,27 @@ of independent indexes fullname, course and examen.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span>   <span class="o">=</span> <span class="n">iidx</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span> <span class="o">=</span> <span class="n">setidx</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span> <span class="o">=</span> <span class="n">idxname</span>
+
+    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bjson_format</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bin_iidx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bin_setidx</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate a bytes Object</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **bjson_format** : boolean (default True) - if True return bson format, if False return dict. </span>
+<span class="sd">        - **bin_iidx** : boolean (default True) - if True iidx is converted to bytes with numpy.tobytes method</span>
+<span class="sd">        - **bin_setidx** : unused (in progress)</span>
+
+<span class="sd">        *Returns* : bytes ou dict &#39;&#39;&#39;</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">dic</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_tobytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">,</span> <span class="n">bjson_format</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bin_iidx</span><span class="p">:</span>    <span class="n">dic</span><span class="p">[</span><span class="s1">&#39;iidx&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">)</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>           <span class="n">dic</span><span class="p">[</span><span class="s1">&#39;iidx&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)</span> <span class="p">:</span> <span class="n">dic</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_tobytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">bjson_format</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">bjson_format</span> <span class="p">:</span> <span class="k">return</span> <span class="n">dic</span>
+        <span class="c1">#return bson.BSON.encode(dic)</span>
+        <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+        <span class="c1">#return encode(dic)</span>
 
     <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;ilist.csv&#39;</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ifunc</span><span class="o">=</span><span class="p">[],</span> <span class="n">valfirst</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                <span class="n">order</span><span class="o">=</span><span class="p">[],</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -1550,6 +1632,24 @@ of independent indexes fullname, course and examen.</p>
         <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">))</span> <span class="k">if</span> <span class="n">lisf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">res</span><span class="p">]</span>
 
     <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_frombytes</span><span class="p">(</span><span class="n">listbson</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">listbson</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="p">:</span> 
+            <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;the object to convert is not a list&quot;</span><span class="p">)</span>
+        <span class="n">listvalue</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">bs</span> <span class="ow">in</span> <span class="n">listbson</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)))</span> <span class="p">:</span> 
+                <span class="n">listvalue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="p">:</span> 
+                <span class="k">try</span><span class="p">:</span> <span class="n">listvalue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">])(</span><span class="n">bs</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]]))</span>
+                <span class="k">except</span><span class="p">:</span> <span class="n">listvalue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
+            <span class="k">else</span> <span class="p">:</span> 
+                <span class="k">try</span> <span class="p">:</span> 
+                    <span class="n">dic</span> <span class="o">=</span> <span class="n">bson</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
+                    <span class="n">listvalue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">dic</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">])(</span><span class="n">dic</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">dic</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]]))</span>
+                <span class="k">except</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;impossible to decode a bson object&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">listvalue</span>
+
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_funclist</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return the function func applied to the object value with parameters args and kwargs&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">func</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">[])</span> <span class="p">:</span> <span class="k">return</span> <span class="n">value</span>
@@ -1625,13 +1725,14 @@ of independent indexes fullname, course and examen.</p>
         <span class="k">return</span> <span class="kc">True</span>
         
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_json</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">json_string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_json</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return the json format of val (if function json() or to_json() exists&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">]</span> <span class="p">:</span>
-            <span class="k">if</span> <span class="n">json_string</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">datetime</span><span class="p">]</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">IlistEncoder</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">val</span>
-        <span class="k">try</span>     <span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">json_string</span><span class="o">=</span><span class="n">json_string</span><span class="p">)</span>
-        <span class="k">except</span>  <span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">json_string</span><span class="o">=</span><span class="n">json_string</span><span class="p">)</span>
+        <span class="k">try</span>     <span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
+        <span class="k">except</span>  <span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_list</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span> <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">idx</span><span class="p">))</span>
@@ -1675,6 +1776,20 @@ of independent indexes fullname, course and examen.</p>
         <span class="k">except</span> <span class="p">:</span>
             <span class="k">return</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_tuple</span><span class="p">(</span><span class="n">extv</span><span class="p">)</span>
 
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_tobytes</span><span class="p">(</span><span class="n">listvalue</span><span class="p">,</span> <span class="n">bjson_format</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">listbytes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">listvalue</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="p">:</span> 
+            <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;the objetc to convert to bytes is not a list&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">listvalue</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">)):</span> 
+                <span class="n">listbytes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">else</span> <span class="p">:</span> 
+                <span class="k">try</span> <span class="p">:</span> <span class="n">listbytes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">__to_bytes__</span><span class="p">(</span><span class="n">bjson_format</span><span class="o">=</span><span class="n">bjson_format</span><span class="p">))</span>
+                <span class="k">except</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;impossible to apply __to_bytes__ method to object &quot;</span> 
+                                          <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">listbytes</span>
+        
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_toint</span><span class="p">(</span><span class="n">extv</span><span class="p">,</span> <span class="n">extset</span><span class="p">):</span>
         <span class="n">ext</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_setable</span><span class="p">(</span><span class="n">extv</span><span class="p">)</span>
@@ -1777,6 +1892,90 @@ of independent indexes fullname, course and examen.</p>
 
 
                 </section>
+                <section id="IlistEncoder">
+                                <div class="attr class">
+        <a class="headerlink" href="#IlistEncoder">#&nbsp;&nbsp</a>
+
+        
+        <span class="def">class</span>
+        <span class="name">IlistEncoder</span><wbr>(<span class="base">json.encoder.JSONEncoder</span>):
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">IlistEncoder</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;add a new json encoder for Ilist&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span> <span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">datetime</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;bjson_bson&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">:</span> 
+            <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">__to_json__</span><span class="p">()</span>
+            <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>add a new json encoder for Ilist</p>
+</div>
+
+
+                            <div id="IlistEncoder.default" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#IlistEncoder.default">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">default</span><span class="signature">(self, o)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span> <span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">datetime</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;bjson_bson&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">:</span> 
+            <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">__to_json__</span><span class="p">()</span>
+            <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Implement this method in a subclass such that it returns
+a serializable object for <code>o</code>, or calls the base implementation
+(to raise a <code>TypeError</code>).</p>
+
+<p>For example, to support arbitrary iterators, you could
+implement default like this::</p>
+
+<pre><code>def default(self, o):
+    try:
+        iterable = iter(o)
+    except TypeError:
+        pass
+    else:
+        return list(iterable)
+    # Let the base class default method raise the TypeError
+    return JSONEncoder.default(self, o)
+</code></pre>
+</div>
+
+
+                            </div>
+                            <div class="inherited">
+                                <h5>Inherited Members</h5>
+                                <dl>
+                                    <div><dt>json.encoder.JSONEncoder</dt>
+                                <dd id="IlistEncoder.__init__" class="function">JSONEncoder</dd>
+                <dd id="IlistEncoder.item_separator" class="variable">item_separator</dd>
+                <dd id="IlistEncoder.key_separator" class="variable">key_separator</dd>
+                <dd id="IlistEncoder.encode" class="function">encode</dd>
+                <dd id="IlistEncoder.iterencode" class="function">iterencode</dd>
+
+            </div>
+                                </dl>
+                            </div>
+                </section>
                 <section id="Ilist">
                                 <div class="attr class">
         <a class="headerlink" href="#Ilist">#&nbsp;&nbsp</a>
@@ -1806,9 +2005,8 @@ of independent indexes fullname, course and examen.</p>
 
 <span class="sd">    The methods defined in this class are :</span>
 
-<span class="sd">    *class methods (constructor)*</span>
+<span class="sd">    *constructor (classmethod))*</span>
 
-<span class="sd">    - `Ilist.Icsv`</span>
 <span class="sd">    - `Ilist.Idict`</span>
 <span class="sd">    - `Ilist.Iext`</span>
 <span class="sd">    - `Ilist.Iidx`</span>
@@ -1862,7 +2060,7 @@ of independent indexes fullname, course and examen.</p>
 <span class="sd">    - `Ilist.extidxtoi`</span>
 <span class="sd">    - `Ilist.iidxtoext`</span>
 <span class="sd">    - `Ilist.iloc`</span>
-<span class="sd">    - `Ilist.isextIndex`</span>
+<span class="sd">    - `Ilist.iseIndex`</span>
 <span class="sd">    - `Ilist.isiIndex`</span>
 <span class="sd">    - `Ilist.isValue`</span>
 <span class="sd">    - `Ilist.loc`</span>
@@ -1879,7 +2077,10 @@ of independent indexes fullname, course and examen.</p>
 
 <span class="sd">    *exports methods*</span>
 
+<span class="sd">    - `Ilist.from_bytes` (classmethod)</span>
+<span class="sd">    - `Ilist.from_csv` (classmethod)</span>
 <span class="sd">    - `Ilist.json`</span>
+<span class="sd">    - `Ilist.to_bytes`</span>
 <span class="sd">    - `Ilist.to_csv`</span>
 <span class="sd">    - `Ilist.to_numpy`</span>
 <span class="sd">    - `Ilist.to_xarray`</span>
@@ -1996,48 +2197,6 @@ of independent indexes fullname, course and examen.</p>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">Iext</span><span class="p">(</span><span class="n">extval</span><span class="o">=</span><span class="p">[],</span> <span class="n">extidx</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> <span class="n">valname</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">idxname</span><span class="o">=</span><span class="p">[],</span> <span class="n">defaultidx</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">Icsv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;ilist.csv&#39;</span><span class="p">,</span> <span class="n">valfirst</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Ilist constructor (from a csv file). Each column represents extidx or extval values.</span>
-
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **filename** : string (default &#39;ilist.csv&#39;), name of the file to read</span>
-<span class="sd">        - **valfirst** : boolean (default False). If False extval is the last columns</span>
-<span class="sd">        else it&#39;s the first</span>
-<span class="sd">        - **header** : boolean (default True). If True, the first raw is dedicated to names</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **Ilist**  &#39;&#39;&#39;</span>
-        <span class="n">extval</span><span class="o">=</span><span class="p">[]</span>
-        <span class="n">extidx</span><span class="o">=</span><span class="p">[]</span>
-        <span class="n">valname</span><span class="o">=</span><span class="s1">&#39;value&#39;</span>
-        <span class="n">idxname</span><span class="o">=</span><span class="p">[]</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-            <span class="n">first</span><span class="o">=</span><span class="kc">True</span>
-            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">first</span> <span class="p">:</span>
-                    <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="p">:</span> <span class="n">extidx</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
-                <span class="k">if</span> <span class="n">first</span> <span class="ow">and</span> <span class="n">header</span> <span class="p">:</span>
-                    <span class="k">if</span> <span class="n">valfirst</span>      <span class="p">:</span>
-                        <span class="n">valname</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                        <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="p">:</span> <span class="n">idxname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vrow</span><span class="p">)</span>
-                    <span class="k">else</span> <span class="p">:</span>
-                        <span class="n">valname</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-                        <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">:</span> <span class="n">idxname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vrow</span><span class="p">)</span>
-                <span class="k">else</span> <span class="p">:</span>
-                    <span class="k">if</span> <span class="n">valfirst</span>      <span class="p">:</span>
-                        <span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">:</span> <span class="n">extidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
-                    <span class="k">else</span> <span class="p">:</span>
-                        <span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">:</span> <span class="n">extidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-                <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">Iext</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">extidx</span><span class="p">,</span> <span class="n">valname</span><span class="p">,</span> <span class="n">idxname</span><span class="p">)</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extval</span><span class="o">=</span><span class="p">[],</span> <span class="n">setidx</span><span class="o">=</span><span class="p">[],</span> <span class="n">iidx</span><span class="o">=</span><span class="p">[],</span> <span class="n">valname</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">idxname</span><span class="o">=</span><span class="p">[],</span> <span class="n">defaultidx</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Ilist constructor.</span>
@@ -2150,9 +2309,10 @@ of independent indexes fullname, course and examen.</p>
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return valname, extval, idxname and extidx&#39;&#39;&#39;</span>
         <span class="n">texLis</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;bjson_bson&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">nam</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)</span> <span class="p">:</span>
-            <span class="n">texLis</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">nam</span> <span class="o">+</span> <span class="s1">&#39; : &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">json_string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">valname</span> <span class="o">+</span> <span class="s1">&#39; : &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">,</span> <span class="n">json_string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">texLis</span>
+            <span class="n">texLis</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">nam</span> <span class="o">+</span> <span class="s1">&#39; : &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">valname</span> <span class="o">+</span> <span class="s1">&#39; : &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">texLis</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; equal if extval and extidx are equal&#39;&#39;&#39;</span>
@@ -2450,6 +2610,74 @@ of independent indexes fullname, course and examen.</p>
         <span class="k">try</span> <span class="p">:</span>  <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">extind</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">extind</span><span class="p">))]</span>
         <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
 
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate an Ilist Object from a bytes value</span>
+<span class="sd">    </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">    </span>
+<span class="sd">        - **bson** : bytes data to convert </span>
+<span class="sd">    </span>
+<span class="sd">        *Returns* : Ilist &#39;&#39;&#39;</span>
+        <span class="n">setidx</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1">#if isinstance(bson, bytes) : dic = bson.BSON.decode(bson)</span>
+        <span class="c1">#if isinstance(bson, bytes) : dic = bson.decode(bson)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="p">:</span> <span class="n">dic</span> <span class="o">=</span> <span class="n">bson</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="n">dic</span> <span class="o">=</span> <span class="n">bs</span>
+        <span class="k">if</span> <span class="s1">&#39;_id&#39;</span> <span class="ow">in</span> <span class="n">dic</span> <span class="p">:</span> <span class="n">dic</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;_id&#39;</span><span class="p">)</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+        <span class="n">valname</span> <span class="o">=</span> <span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">idxname</span> <span class="o">=</span> <span class="n">names</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">dic</span><span class="p">)]</span>
+        <span class="n">extval</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_frombytes</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">idxname</span> <span class="p">:</span> <span class="n">setidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_frombytes</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="n">name</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="nb">list</span><span class="p">):</span> <span class="n">iidx</span> <span class="o">=</span> <span class="n">dic</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">iidx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">idxname</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">extval</span><span class="p">)))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span><span class="p">,</span> <span class="n">valname</span><span class="p">,</span> <span class="n">idxname</span><span class="p">)</span>
+                
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;ilist.csv&#39;</span><span class="p">,</span> <span class="n">valfirst</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Ilist constructor (from a csv file). Each column represents extidx or extval values.</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **filename** : string (default &#39;ilist.csv&#39;), name of the file to read</span>
+<span class="sd">        - **valfirst** : boolean (default False). If False extval is the last columns</span>
+<span class="sd">        else it&#39;s the first</span>
+<span class="sd">        - **header** : boolean (default True). If True, the first raw is dedicated to names</span>
+<span class="sd">        - **kwargs** : see csv.reader options</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **Ilist**  &#39;&#39;&#39;</span>
+        <span class="n">extval</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">extidx</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">valname</span><span class="o">=</span><span class="s1">&#39;value&#39;</span>
+        <span class="n">idxname</span><span class="o">=</span><span class="p">[]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">first</span><span class="o">=</span><span class="kc">True</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">first</span> <span class="p">:</span>
+                    <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="p">:</span> <span class="n">extidx</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+                <span class="k">if</span> <span class="n">first</span> <span class="ow">and</span> <span class="n">header</span> <span class="p">:</span>
+                    <span class="k">if</span> <span class="n">valfirst</span>      <span class="p">:</span>
+                        <span class="n">valname</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="p">:</span> <span class="n">idxname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vrow</span><span class="p">)</span>
+                    <span class="k">else</span> <span class="p">:</span>
+                        <span class="n">valname</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">:</span> <span class="n">idxname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vrow</span><span class="p">)</span>
+                <span class="k">else</span> <span class="p">:</span>
+                    <span class="k">if</span> <span class="n">valfirst</span>      <span class="p">:</span>
+                        <span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">:</span> <span class="n">extidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="k">else</span> <span class="p">:</span>
+                        <span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">:</span> <span class="n">extidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">Iext</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">extidx</span><span class="p">,</span> <span class="n">valname</span><span class="p">,</span> <span class="n">idxname</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">full</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">[],</span> <span class="n">fillvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        add new extval with new extidx to have a complet Ilist</span>
@@ -2569,21 +2797,22 @@ of independent indexes fullname, course and examen.</p>
 <span class="sd">        *Returns* : boolean - True if found&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">extval</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">extval</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span>
-
+    
     <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return json string with val (extval or ival) and idx (extidx or iidx or none).</span>
 
 <span class="sd">        *Parameters (option)*</span>
 
-<span class="sd">        - **json_string** : defaut False - if True return string, else return dict</span>
+<span class="sd">        - **bjson_format** : boolean (default False) - choice for return format (string/bytes if True, dict else)</span>
+<span class="sd">        - **bjson_bson **  : boolean (default False)- choice for return format (bson if True, json else)</span>
 <span class="sd">        - **json_res_index** : default True - if True add the index to the value</span>
 <span class="sd">        - **json_mode** : string (default &#39;vv&#39;)</span>
 <span class="sd">        - **json_mode[0]** : char - if &#39;v&#39;, value is extval else ival</span>
 <span class="sd">        - **json_mode[1]** : char - if &#39;v&#39;, index is extidx else iidx</span>
 
 <span class="sd">        *Returns* : string or dict&#39;&#39;&#39;</span>
-        <span class="n">option2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;json_string&#39;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;json_res_index&#39;</span> <span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;json_mode&#39;</span> <span class="p">:</span><span class="s1">&#39;vv&#39;</span><span class="p">}</span> <span class="o">|</span> <span class="n">option</span>
+        <span class="n">option2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;bjson_bson&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;json_res_index&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;json_mode&#39;</span><span class="p">:</span><span class="s1">&#39;vv&#39;</span><span class="p">}</span> <span class="o">|</span> <span class="n">option</span>
         <span class="n">lis</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">textidx</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span>   <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">extidx</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span>
@@ -2592,21 +2821,24 @@ of independent indexes fullname, course and examen.</p>
             <span class="n">lis</span><span class="o">=</span><span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">]]</span>
             <span class="n">textidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span> <span class="p">:</span> <span class="n">jval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span> <span class="p">:</span> <span class="n">jval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">**</span><span class="n">option2</span><span class="p">)</span>
             <span class="k">else</span>                            <span class="p">:</span> <span class="n">jval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ival</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_res_index&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span> <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">jval</span><span class="p">)</span>
             <span class="k">else</span> <span class="p">:</span>
                 <span class="n">lig</span><span class="o">=</span><span class="p">[</span><span class="n">jval</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span> <span class="p">:</span> <span class="n">lig</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">textidx</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-                <span class="k">else</span>                            <span class="p">:</span> <span class="n">lig</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="c1">#if option2[&#39;json_mode&#39;][1]==&#39;v&#39; : lig.append(textidx[i])</span>
+                <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> 
+                    <span class="n">lig</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="n">extind</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">)</span> <span class="k">for</span> <span class="n">extind</span> <span class="ow">in</span> <span class="n">textidx</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+                <span class="k">else</span><span class="p">:</span> <span class="n">lig</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
                 <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lig</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="n">lis</span>
         <span class="k">else</span> <span class="p">:</span>
             <span class="n">js</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">))</span> <span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxlen</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxlen</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">]</span> <span class="o">=</span> <span class="n">lis</span>
-        <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_string&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">IlistEncoder</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">js</span>
 
     <span class="k">def</span> <span class="nf">loc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extind</span><span class="p">):</span>
@@ -2744,6 +2976,27 @@ of independent indexes fullname, course and examen.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span>   <span class="o">=</span> <span class="n">iidx</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span> <span class="o">=</span> <span class="n">setidx</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span> <span class="o">=</span> <span class="n">idxname</span>
+
+    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bjson_format</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bin_iidx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bin_setidx</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate a bytes Object</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **bjson_format** : boolean (default True) - if True return bson format, if False return dict. </span>
+<span class="sd">        - **bin_iidx** : boolean (default True) - if True iidx is converted to bytes with numpy.tobytes method</span>
+<span class="sd">        - **bin_setidx** : unused (in progress)</span>
+
+<span class="sd">        *Returns* : bytes ou dict &#39;&#39;&#39;</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">dic</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_tobytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">,</span> <span class="n">bjson_format</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bin_iidx</span><span class="p">:</span>    <span class="n">dic</span><span class="p">[</span><span class="s1">&#39;iidx&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">)</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>           <span class="n">dic</span><span class="p">[</span><span class="s1">&#39;iidx&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)</span> <span class="p">:</span> <span class="n">dic</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_tobytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">bjson_format</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">bjson_format</span> <span class="p">:</span> <span class="k">return</span> <span class="n">dic</span>
+        <span class="c1">#return bson.BSON.encode(dic)</span>
+        <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+        <span class="c1">#return encode(dic)</span>
 
     <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;ilist.csv&#39;</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ifunc</span><span class="o">=</span><span class="p">[],</span> <span class="n">valfirst</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                <span class="n">order</span><span class="o">=</span><span class="p">[],</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -2945,6 +3198,24 @@ of independent indexes fullname, course and examen.</p>
         <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">))</span> <span class="k">if</span> <span class="n">lisf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">res</span><span class="p">]</span>
 
     <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_frombytes</span><span class="p">(</span><span class="n">listbson</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">listbson</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="p">:</span> 
+            <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;the object to convert is not a list&quot;</span><span class="p">)</span>
+        <span class="n">listvalue</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">bs</span> <span class="ow">in</span> <span class="n">listbson</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)))</span> <span class="p">:</span> 
+                <span class="n">listvalue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="p">:</span> 
+                <span class="k">try</span><span class="p">:</span> <span class="n">listvalue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">])(</span><span class="n">bs</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">bs</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]]))</span>
+                <span class="k">except</span><span class="p">:</span> <span class="n">listvalue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
+            <span class="k">else</span> <span class="p">:</span> 
+                <span class="k">try</span> <span class="p">:</span> 
+                    <span class="n">dic</span> <span class="o">=</span> <span class="n">bson</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
+                    <span class="n">listvalue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">dic</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">])(</span><span class="n">dic</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">dic</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]]))</span>
+                <span class="k">except</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;impossible to decode a bson object&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">listvalue</span>
+
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_funclist</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return the function func applied to the object value with parameters args and kwargs&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">func</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">[])</span> <span class="p">:</span> <span class="k">return</span> <span class="n">value</span>
@@ -3020,13 +3291,14 @@ of independent indexes fullname, course and examen.</p>
         <span class="k">return</span> <span class="kc">True</span>
         
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_json</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">json_string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_json</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return the json format of val (if function json() or to_json() exists&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">]</span> <span class="p">:</span>
-            <span class="k">if</span> <span class="n">json_string</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">datetime</span><span class="p">]</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">IlistEncoder</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">val</span>
-        <span class="k">try</span>     <span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">json_string</span><span class="o">=</span><span class="n">json_string</span><span class="p">)</span>
-        <span class="k">except</span>  <span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">json_string</span><span class="o">=</span><span class="n">json_string</span><span class="p">)</span>
+        <span class="k">try</span>     <span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
+        <span class="k">except</span>  <span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_list</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span> <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">idx</span><span class="p">))</span>
@@ -3070,6 +3342,20 @@ of independent indexes fullname, course and examen.</p>
         <span class="k">except</span> <span class="p">:</span>
             <span class="k">return</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_tuple</span><span class="p">(</span><span class="n">extv</span><span class="p">)</span>
 
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_tobytes</span><span class="p">(</span><span class="n">listvalue</span><span class="p">,</span> <span class="n">bjson_format</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">listbytes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">listvalue</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="p">:</span> 
+            <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;the objetc to convert to bytes is not a list&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">listvalue</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">)):</span> 
+                <span class="n">listbytes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">else</span> <span class="p">:</span> 
+                <span class="k">try</span> <span class="p">:</span> <span class="n">listbytes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">__to_bytes__</span><span class="p">(</span><span class="n">bjson_format</span><span class="o">=</span><span class="n">bjson_format</span><span class="p">))</span>
+                <span class="k">except</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;impossible to apply __to_bytes__ method to object &quot;</span> 
+                                          <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">listbytes</span>
+        
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_toint</span><span class="p">(</span><span class="n">extv</span><span class="p">,</span> <span class="n">extset</span><span class="p">):</span>
         <span class="n">ext</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_setable</span><span class="p">(</span><span class="n">extv</span><span class="p">)</span>
@@ -3160,10 +3446,9 @@ E.g. python zip or csv file.</p>
 
 <p>The methods defined in this class are :</p>
 
-<p><em>class methods (constructor)</em></p>
+<p><em>constructor (classmethod))</em></p>
 
 <ul>
-<li><code><a href="#Ilist.Icsv">Ilist.Icsv</a></code></li>
 <li><code><a href="#Ilist.Idict">Ilist.Idict</a></code></li>
 <li><code><a href="#Ilist.Iext">Ilist.Iext</a></code></li>
 <li><code><a href="#Ilist.Iidx">Ilist.Iidx</a></code></li>
@@ -3227,7 +3512,7 @@ E.g. python zip or csv file.</p>
 <li><code><a href="#Ilist.extidxtoi">Ilist.extidxtoi</a></code></li>
 <li><code><a href="#Ilist.iidxtoext">Ilist.iidxtoext</a></code></li>
 <li><code><a href="#Ilist.iloc">Ilist.iloc</a></code></li>
-<li><code>Ilist.isextIndex</code></li>
+<li><code><a href="#Ilist.iseIndex">Ilist.iseIndex</a></code></li>
 <li><code><a href="#Ilist.isiIndex">Ilist.isiIndex</a></code></li>
 <li><code><a href="#Ilist.isValue">Ilist.isValue</a></code></li>
 <li><code><a href="#Ilist.loc">Ilist.loc</a></code></li>
@@ -3248,7 +3533,10 @@ E.g. python zip or csv file.</p>
 <p><em>exports methods</em></p>
 
 <ul>
+<li><code><a href="#Ilist.from_bytes">Ilist.from_bytes</a></code> (classmethod)</li>
+<li><code><a href="#Ilist.from_csv">Ilist.from_csv</a></code> (classmethod)</li>
 <li><code><a href="#Ilist.json">Ilist.json</a></code></li>
+<li><code><a href="#Ilist.to_bytes">Ilist.to_bytes</a></code></li>
 <li><code><a href="#Ilist.to_csv">Ilist.to_csv</a></code></li>
 <li><code><a href="#Ilist.to_numpy">Ilist.to_numpy</a></code></li>
 <li><code><a href="#Ilist.to_xarray">Ilist.to_xarray</a></code></li>
@@ -3636,82 +3924,6 @@ is generated if no index is defined</li>
 
 <ul>
 <li><strong>args</strong> : index list extidx=list(args) (see data model)</li>
-</ul>
-
-<p><em>Returns</em></p>
-
-<ul>
-<li><strong>Ilist</strong></li>
-</ul>
-</div>
-
-
-                            </div>
-                            <div id="Ilist.Icsv" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#Ilist.Icsv">#&nbsp;&nbsp</a>
-
-                <div class="decorator">@classmethod</div>
-
-            <span class="def">def</span>
-            <span class="name">Icsv</span><span class="signature">(cls, filename=&#39;ilist.csv&#39;, valfirst=False, header=True, **kwargs)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">Icsv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;ilist.csv&#39;</span><span class="p">,</span> <span class="n">valfirst</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Ilist constructor (from a csv file). Each column represents extidx or extval values.</span>
-
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **filename** : string (default &#39;ilist.csv&#39;), name of the file to read</span>
-<span class="sd">        - **valfirst** : boolean (default False). If False extval is the last columns</span>
-<span class="sd">        else it&#39;s the first</span>
-<span class="sd">        - **header** : boolean (default True). If True, the first raw is dedicated to names</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **Ilist**  &#39;&#39;&#39;</span>
-        <span class="n">extval</span><span class="o">=</span><span class="p">[]</span>
-        <span class="n">extidx</span><span class="o">=</span><span class="p">[]</span>
-        <span class="n">valname</span><span class="o">=</span><span class="s1">&#39;value&#39;</span>
-        <span class="n">idxname</span><span class="o">=</span><span class="p">[]</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-            <span class="n">first</span><span class="o">=</span><span class="kc">True</span>
-            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">first</span> <span class="p">:</span>
-                    <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="p">:</span> <span class="n">extidx</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
-                <span class="k">if</span> <span class="n">first</span> <span class="ow">and</span> <span class="n">header</span> <span class="p">:</span>
-                    <span class="k">if</span> <span class="n">valfirst</span>      <span class="p">:</span>
-                        <span class="n">valname</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                        <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="p">:</span> <span class="n">idxname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vrow</span><span class="p">)</span>
-                    <span class="k">else</span> <span class="p">:</span>
-                        <span class="n">valname</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-                        <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">:</span> <span class="n">idxname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vrow</span><span class="p">)</span>
-                <span class="k">else</span> <span class="p">:</span>
-                    <span class="k">if</span> <span class="n">valfirst</span>      <span class="p">:</span>
-                        <span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">:</span> <span class="n">extidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
-                    <span class="k">else</span> <span class="p">:</span>
-                        <span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">:</span> <span class="n">extidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-                <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">Iext</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">extidx</span><span class="p">,</span> <span class="n">valname</span><span class="p">,</span> <span class="n">idxname</span><span class="p">)</span>
-</pre></div>
-
-        </details>
-
-            <div class="docstring"><p>Ilist constructor (from a csv file). Each column represents extidx or extval values.</p>
-
-<p><em>Parameters</em></p>
-
-<ul>
-<li><strong>filename</strong> : string (default 'ilist.csv'), name of the file to read</li>
-<li><strong>valfirst</strong> : boolean (default False). If False extval is the last columns
-else it's the first</li>
-<li><strong>header</strong> : boolean (default True). If True, the first raw is dedicated to names</li>
 </ul>
 
 <p><em>Returns</em></p>
@@ -4275,6 +4487,136 @@ in tiidx append is refuse.</li>
 
 
                             </div>
+                            <div id="Ilist.from_bytes" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Ilist.from_bytes">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@classmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">from_bytes</span><span class="signature">(cls, bs)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate an Ilist Object from a bytes value</span>
+<span class="sd">    </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">    </span>
+<span class="sd">        - **bson** : bytes data to convert </span>
+<span class="sd">    </span>
+<span class="sd">        *Returns* : Ilist &#39;&#39;&#39;</span>
+        <span class="n">setidx</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1">#if isinstance(bson, bytes) : dic = bson.BSON.decode(bson)</span>
+        <span class="c1">#if isinstance(bson, bytes) : dic = bson.decode(bson)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="p">:</span> <span class="n">dic</span> <span class="o">=</span> <span class="n">bson</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span> <span class="n">dic</span> <span class="o">=</span> <span class="n">bs</span>
+        <span class="k">if</span> <span class="s1">&#39;_id&#39;</span> <span class="ow">in</span> <span class="n">dic</span> <span class="p">:</span> <span class="n">dic</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;_id&#39;</span><span class="p">)</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+        <span class="n">valname</span> <span class="o">=</span> <span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">idxname</span> <span class="o">=</span> <span class="n">names</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">dic</span><span class="p">)]</span>
+        <span class="n">extval</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_frombytes</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">idxname</span> <span class="p">:</span> <span class="n">setidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_frombytes</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="n">name</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="nb">list</span><span class="p">):</span> <span class="n">iidx</span> <span class="o">=</span> <span class="n">dic</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">iidx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">idxname</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">extval</span><span class="p">)))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span><span class="p">,</span> <span class="n">valname</span><span class="p">,</span> <span class="n">idxname</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Generate an Ilist Object from a bytes value</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>bson</strong> : bytes data to convert </li>
+</ul>
+
+<p><em>Returns</em> : Ilist</p>
+</div>
+
+
+                            </div>
+                            <div id="Ilist.from_csv" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Ilist.from_csv">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@classmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">from_csv</span><span class="signature">(cls, filename=&#39;ilist.csv&#39;, valfirst=False, header=True, **kwargs)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;ilist.csv&#39;</span><span class="p">,</span> <span class="n">valfirst</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Ilist constructor (from a csv file). Each column represents extidx or extval values.</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **filename** : string (default &#39;ilist.csv&#39;), name of the file to read</span>
+<span class="sd">        - **valfirst** : boolean (default False). If False extval is the last columns</span>
+<span class="sd">        else it&#39;s the first</span>
+<span class="sd">        - **header** : boolean (default True). If True, the first raw is dedicated to names</span>
+<span class="sd">        - **kwargs** : see csv.reader options</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **Ilist**  &#39;&#39;&#39;</span>
+        <span class="n">extval</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">extidx</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">valname</span><span class="o">=</span><span class="s1">&#39;value&#39;</span>
+        <span class="n">idxname</span><span class="o">=</span><span class="p">[]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">first</span><span class="o">=</span><span class="kc">True</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">first</span> <span class="p">:</span>
+                    <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="p">:</span> <span class="n">extidx</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+                <span class="k">if</span> <span class="n">first</span> <span class="ow">and</span> <span class="n">header</span> <span class="p">:</span>
+                    <span class="k">if</span> <span class="n">valfirst</span>      <span class="p">:</span>
+                        <span class="n">valname</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="p">:</span> <span class="n">idxname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vrow</span><span class="p">)</span>
+                    <span class="k">else</span> <span class="p">:</span>
+                        <span class="n">valname</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="k">for</span> <span class="n">vrow</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">:</span> <span class="n">idxname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vrow</span><span class="p">)</span>
+                <span class="k">else</span> <span class="p">:</span>
+                    <span class="k">if</span> <span class="n">valfirst</span>      <span class="p">:</span>
+                        <span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">:</span> <span class="n">extidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="k">else</span> <span class="p">:</span>
+                        <span class="n">extval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">:</span> <span class="n">extidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">Iext</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">extidx</span><span class="p">,</span> <span class="n">valname</span><span class="p">,</span> <span class="n">idxname</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Ilist constructor (from a csv file). Each column represents extidx or extval values.</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>filename</strong> : string (default 'ilist.csv'), name of the file to read</li>
+<li><strong>valfirst</strong> : boolean (default False). If False extval is the last columns
+else it's the first</li>
+<li><strong>header</strong> : boolean (default True). If True, the first raw is dedicated to names</li>
+<li><strong>kwargs</strong> : see csv.reader options</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>Ilist</strong></li>
+</ul>
+</div>
+
+
+                            </div>
                             <div id="Ilist.full" class="classattr">
                                         <div class="attr function"><a class="headerlink" href="#Ilist.full">#&nbsp;&nbsp</a>
 
@@ -4610,14 +4952,15 @@ append is refuse.</li>
 
 <span class="sd">        *Parameters (option)*</span>
 
-<span class="sd">        - **json_string** : defaut False - if True return string, else return dict</span>
+<span class="sd">        - **bjson_format** : boolean (default False) - choice for return format (string/bytes if True, dict else)</span>
+<span class="sd">        - **bjson_bson **  : boolean (default False)- choice for return format (bson if True, json else)</span>
 <span class="sd">        - **json_res_index** : default True - if True add the index to the value</span>
 <span class="sd">        - **json_mode** : string (default &#39;vv&#39;)</span>
 <span class="sd">        - **json_mode[0]** : char - if &#39;v&#39;, value is extval else ival</span>
 <span class="sd">        - **json_mode[1]** : char - if &#39;v&#39;, index is extidx else iidx</span>
 
 <span class="sd">        *Returns* : string or dict&#39;&#39;&#39;</span>
-        <span class="n">option2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;json_string&#39;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;json_res_index&#39;</span> <span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;json_mode&#39;</span> <span class="p">:</span><span class="s1">&#39;vv&#39;</span><span class="p">}</span> <span class="o">|</span> <span class="n">option</span>
+        <span class="n">option2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;bjson_bson&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;json_res_index&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;json_mode&#39;</span><span class="p">:</span><span class="s1">&#39;vv&#39;</span><span class="p">}</span> <span class="o">|</span> <span class="n">option</span>
         <span class="n">lis</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">textidx</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span>   <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">extidx</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span>
@@ -4626,21 +4969,24 @@ append is refuse.</li>
             <span class="n">lis</span><span class="o">=</span><span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">]]</span>
             <span class="n">textidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extidx</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span> <span class="p">:</span> <span class="n">jval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span> <span class="p">:</span> <span class="n">jval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">**</span><span class="n">option2</span><span class="p">)</span>
             <span class="k">else</span>                            <span class="p">:</span> <span class="n">jval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ival</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_res_index&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span> <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">jval</span><span class="p">)</span>
             <span class="k">else</span> <span class="p">:</span>
                 <span class="n">lig</span><span class="o">=</span><span class="p">[</span><span class="n">jval</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span> <span class="p">:</span> <span class="n">lig</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">textidx</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-                <span class="k">else</span>                            <span class="p">:</span> <span class="n">lig</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="c1">#if option2[&#39;json_mode&#39;][1]==&#39;v&#39; : lig.append(textidx[i])</span>
+                <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> 
+                    <span class="n">lig</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="n">extind</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">)</span> <span class="k">for</span> <span class="n">extind</span> <span class="ow">in</span> <span class="n">textidx</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+                <span class="k">else</span><span class="p">:</span> <span class="n">lig</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
                 <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lig</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_mode&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="n">lis</span>
         <span class="k">else</span> <span class="p">:</span>
             <span class="n">js</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">))</span> <span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxlen</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxlen</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_json</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">js</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">]</span> <span class="o">=</span> <span class="n">lis</span>
-        <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;json_string&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">IlistEncoder</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option2</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">js</span>
 </pre></div>
 
@@ -4651,7 +4997,8 @@ append is refuse.</li>
 <p><em>Parameters (option)</em></p>
 
 <ul>
-<li><strong>json_string</strong> : defaut False - if True return string, else return dict</li>
+<li><strong>bjson_format</strong> : boolean (default False) - choice for return format (string/bytes if True, dict else)</li>
+<li><em>*bjson_bson *</em>  : boolean (default False)- choice for return format (bson if True, json else)</li>
 <li><strong>json_res_index</strong> : default True - if True add the index to the value</li>
 <li><strong>json_mode</strong> : string (default 'vv')</li>
 <li><strong>json_mode[0]</strong> : char - if 'v', value is extval else ival</li>
@@ -4998,6 +5345,55 @@ is calculated.</li>
 </ul>
 
 <p><em>Returns</em> : none</p>
+</div>
+
+
+                            </div>
+                            <div id="Ilist.to_bytes" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Ilist.to_bytes">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">to_bytes</span><span class="signature">(self, bjson_format=True, bin_iidx=True, bin_setidx=False)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bjson_format</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bin_iidx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bin_setidx</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate a bytes Object</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **bjson_format** : boolean (default True) - if True return bson format, if False return dict. </span>
+<span class="sd">        - **bin_iidx** : boolean (default True) - if True iidx is converted to bytes with numpy.tobytes method</span>
+<span class="sd">        - **bin_setidx** : unused (in progress)</span>
+
+<span class="sd">        *Returns* : bytes ou dict &#39;&#39;&#39;</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">dic</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_tobytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">,</span> <span class="n">bjson_format</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bin_iidx</span><span class="p">:</span>    <span class="n">dic</span><span class="p">[</span><span class="s1">&#39;iidx&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">)</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>           <span class="n">dic</span><span class="p">[</span><span class="s1">&#39;iidx&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)</span> <span class="p">:</span> <span class="n">dic</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_tobytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">bjson_format</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">bjson_format</span> <span class="p">:</span> <span class="k">return</span> <span class="n">dic</span>
+        <span class="c1">#return bson.BSON.encode(dic)</span>
+        <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+        <span class="c1">#return encode(dic)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Generate a bytes Object</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>bjson_format</strong> : boolean (default True) - if True return bson format, if False return dict. </li>
+<li><strong>bin_iidx</strong> : boolean (default True) - if True iidx is converted to bytes with numpy.tobytes method</li>
+<li><strong>bin_setidx</strong> : unused (in progress)</li>
+</ul>
+
+<p><em>Returns</em> : bytes ou dict</p>
 </div>
 
 
