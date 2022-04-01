@@ -86,6 +86,9 @@
                                 <a class="function" href="#Observation.addAttributes">addAttributes</a>
                         </li>
                         <li>
+                                <a class="function" href="#Observation.addJson">addJson</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Observation.append">append</a>
                         </li>
                         <li>
@@ -104,7 +107,7 @@
                                 <a class="function" href="#Observation.filter">filter</a>
                         </li>
                         <li>
-                                <a class="function" href="#Observation.from_json">from_json</a>
+                                <a class="function" href="#Observation.from_obs">from_obs</a>
                         </li>
                         <li>
                                 <a class="function" href="#Observation.full">full</a>
@@ -144,6 +147,9 @@
                         </li>
                         <li>
                                 <a class="function" href="#Observation.to_numpy">to_numpy</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Observation.to_obs">to_obs</a>
                         </li>
                         <li>
                                 <a class="function" href="#Observation.to_xarray">to_xarray</a>
@@ -271,6 +277,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">    *add value*</span>
 <span class="sd">    </span>
 <span class="sd">    - `Observation.addAttributes`</span>
+<span class="sd">    - `Observation.addJson`</span>
 <span class="sd">    - `Observation.append`</span>
 <span class="sd">    - `Observation.appendList`</span>
 <span class="sd">    - `Observation.appendObs`</span>
@@ -303,12 +310,13 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">    </span>
 <span class="sd">    *exports - imports*</span>
 <span class="sd">    </span>
+<span class="sd">    - `Observation.from_obs`</span>
 <span class="sd">    - `Observation.to_csv`</span>
 <span class="sd">    - `Observation.to_dataFrame`</span>
-<span class="sd">    - `Observation.to_numpy`</span>
-<span class="sd">    - `Observation.to_xarray`</span>
 <span class="sd">    - `Observation.to_json`</span>
-<span class="sd">    - `Observation.from_json`</span>
+<span class="sd">    - `Observation.to_numpy`</span>
+<span class="sd">    - `Observation.to_obs`</span>
+<span class="sd">    - `Observation.to_xarray`</span>
 <span class="sd">    - `Observation.to_bytes`              # à voir</span>
 <span class="sd">    - `Observation.from_bytes`            # à voir</span>
 
@@ -319,7 +327,8 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        </span>
 <span class="sd">        - Observation(dictESValue1, dictESValue2, ...) where dictESValue = {ESValuename : value}</span>
 <span class="sd">        - Observation({ObsDict}) where ObsDict is a dictionnary with the same data as an ObsJSON</span>
-<span class="sd">        - Observation(ObsJSON) where ObsJSON is a string with the ObsJSON format</span>
+<span class="sd">        - Observation(ObsJSON) where ObsJSON is a string with the JSON format</span>
+<span class="sd">        - Observation(ObsBSON) where ObsBSON is a bytes with the BSON format</span>
 <span class="sd">        - Observation([ESSetDatation, ESSetLocation, ESSetProperty, ESSetResult]) where ESSet is a list of ESValue :</span>
 <span class="sd">            [ESValue1, ESValue2,...] or [ESValue] or ESValue</span>
 <span class="sd">        - Observation(datation=ESSetDatation, location=ESSetLocation,</span>
@@ -349,7 +358,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
                 <span class="k">try</span><span class="p">:</span> <span class="n">arg</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>            
                 <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
             <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span><span class="nb">bytes</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span> <span class="n">arg</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>            
+                <span class="k">try</span><span class="p">:</span> <span class="n">arg</span><span class="o">=</span><span class="n">bson</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>            
                 <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>                
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span> <span class="p">:</span>      <span class="c1"># creation à partir d&#39;un dict &quot;key : [liste]&quot;</span>
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">arg</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="p">:</span> 
@@ -378,14 +387,16 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="n">order</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">classES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="p">:</span>
             <span class="k">if</span> <span class="n">classES</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="p">:</span> 
-                <span class="n">dicidx</span><span class="p">[</span><span class="n">classES</span><span class="p">]</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">js</span><span class="p">[</span><span class="n">classES</span><span class="p">],</span> <span class="n">_EsClassValue</span><span class="p">[</span><span class="n">classES</span><span class="p">])</span>
+                <span class="n">dicidx</span><span class="p">[</span><span class="n">classES</span><span class="p">]</span> <span class="o">=</span>  <span class="n">_EsClassValue</span><span class="p">[</span><span class="n">classES</span><span class="p">]</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">js</span><span class="p">[</span><span class="n">classES</span><span class="p">])</span>
+                <span class="c1">#dicidx[classES] = ESValue.cast(js[classES], _EsClassValue[classES])</span>
         <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="p">:</span> 
             <span class="n">dicres</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">]</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">]</span>
             <span class="c1">#dicres[ES.res_classES] = ESValue.cast(js[ES.res_classES], ResultValue)</span>
         <span class="k">if</span> <span class="s1">&#39;order&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="p">:</span> <span class="n">order</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;idxref&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="p">:</span> <span class="n">idxref</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="s1">&#39;idxref&#39;</span><span class="p">]</span>
         <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">seti</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">vname</span><span class="p">,</span> <span class="n">iname</span><span class="p">)</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_initdict</span><span class="p">(</span><span class="n">dicres</span><span class="p">,</span> <span class="n">dicidx</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">idxref</span><span class="p">)</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">ResultValue</span><span class="p">)</span>
+        <span class="c1">#res = ESValue.cast(v, ResultValue)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">ResultValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span> <span class="o">=</span> <span class="n">Ilist</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">seti</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">vname</span><span class="p">,</span> <span class="n">iname</span><span class="p">,</span> <span class="n">defaultidx</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">addAttributes</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
 
@@ -395,12 +406,18 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="k">else</span> <span class="p">:</span> <span class="n">order</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="s1">&#39;idxref&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="p">:</span> <span class="n">idxref</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;idxref&#39;</span><span class="p">]</span>
         <span class="k">else</span> <span class="p">:</span> <span class="n">idxref</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">Iset</span><span class="p">(</span><span class="n">ESValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">ResultValue</span><span class="p">),</span> 
-                                <span class="p">[</span><span class="n">ESValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">DatationValue</span><span class="p">),</span>
-                                 <span class="n">ESValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">LocationValue</span><span class="p">),</span>
-                                 <span class="n">ESValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">PropertyValue</span><span class="p">)],</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">Iset</span><span class="p">(</span><span class="n">ResultValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> 
+                                <span class="p">[</span><span class="n">DatationValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                                 <span class="n">LocationValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                                 <span class="n">PropertyValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">2</span><span class="p">])],</span> 
                                 <span class="n">order</span><span class="p">,</span> <span class="n">idxref</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">ES</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span>
                                 <span class="n">defaultidx</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  
+        <span class="sd">&#39;&#39;&#39;self.ilist = Ilist.Iset(ESValue.cast(lis[3], ResultValue), </span>
+<span class="sd">                                [ESValue.cast(lis[0], DatationValue),</span>
+<span class="sd">                                 ESValue.cast(lis[1], LocationValue),</span>
+<span class="sd">                                 ESValue.cast(lis[2], PropertyValue)], </span>
+<span class="sd">                                order, idxref, ES.esObsClass[3], ES.esObsClass[0:3],</span>
+<span class="sd">                                defaultidx=False)  &#39;&#39;&#39;</span>
 
     <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Copy all the data, included ESValue&#39;&#39;&#39;</span>
@@ -618,6 +635,21 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
                 <span class="k">try</span><span class="p">:</span>  <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
                 <span class="k">except</span><span class="p">:</span>  <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullAtt</span>
 
+    <span class="k">def</span> <span class="nf">addJson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Complete an empty `Observation` with json data. </span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **js** : string - ObsJSON data</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **None**        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span> <span class="n">dic</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span> <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initDict</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+                
     <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">prp</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Add a new `ES.ESValue.ResultValue`</span>
@@ -785,21 +817,23 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="n">newobs</span><span class="o">.</span><span class="n">option</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span> 
         <span class="k">return</span> <span class="n">newobs</span>    
                     
-    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_obs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Complete an empty `Observation` with json data. </span>
-<span class="sd">        </span>
-<span class="sd">        *Parameters*</span>
-<span class="sd">        </span>
-<span class="sd">        - **js** : string - ObsJSON data</span>
-<span class="sd">        </span>
-<span class="sd">        *Returns*</span>
-<span class="sd">        </span>
-<span class="sd">        - **None**        &#39;&#39;&#39;</span>
-        <span class="k">try</span><span class="p">:</span> <span class="n">dic</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span> <span class="k">return</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_initDict</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
-                
+<span class="sd">        Generate `Observation` object from file storage.</span>
+
+<span class="sd">         *Parameters*</span>
+
+<span class="sd">        - **file** : string - file name (with path)</span>
+<span class="sd">            </span>
+<span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">btype</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">btype</span><span class="o">==</span><span class="nb">bytes</span><span class="p">(</span><span class="s1">&#39;{&quot;&#39;</span> <span class="o">+</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="o">+</span><span class="s1">&#39;&quot;: &quot;&#39;</span> <span class="o">+</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_classES</span> <span class="o">+</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">bjson</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">bjson</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">bjson</span><span class="p">)</span>
+    
     <span class="k">def</span> <span class="nf">full</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">minind</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="p">:</span> 
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Add empty `ES.ESValue.ResultValue` to have a &#39;complete&#39; `Observation`</span>
@@ -1031,13 +1065,16 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        - **None**        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="n">reindex</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lenres</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span>
+    <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Generate csv file to display `Observation` data.</span>
 
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
 <span class="sd">        - **file** : string - file name (with path)</span>
+
+<span class="sd">        *Parameters (kwargs)*</span>
+
 <span class="sd">        - **json** : boolean (default True) - Display json for `ES.ESValue`</span>
 <span class="sd">        - **name** : boolean (default True) - Display name for `ES.ESValue`</span>
 <span class="sd">        - **dat**  : boolean (default True) - Display value for `ES.ESValue.DatationValue`</span>
@@ -1049,11 +1086,13 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
 <span class="sd">        - **None**        &#39;&#39;&#39;</span>
-        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_tab</span><span class="p">(</span><span class="n">json</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">prp</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">lenres</span><span class="p">)</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;json&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;dat&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> 
+                  <span class="s1">&#39;prp&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;res&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;lenres&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_tab</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>
             <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">csvfile</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">lign</span> <span class="ow">in</span> <span class="n">tab</span> <span class="p">:</span> <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">lign</span><span class="p">)</span>
-        
+    
     <span class="k">def</span> <span class="nf">to_dataFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">,</span>
                   <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Observation&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1079,12 +1118,12 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
     
     <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Export in Json format. </span>
+<span class="sd">        Export in Bson or Json format. </span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters (optional, default value in option attribute)*</span>
 <span class="sd">        </span>
 <span class="sd">        - **bjson_format**   : boolean - choice for return format (string/bytes if True, dict else)</span>
-<span class="sd">        - **bjson_bson **    : boolean - choice for return format (bson if True, json else)</span>
+<span class="sd">        - **bjson_bson**     : boolean - choice for return format (bson if True, json else)</span>
 <span class="sd">        - **json_res_index** : Boolean - include index for ResultValue</span>
 <span class="sd">        - **json_param**     : Boolean - include ESObs Parameter</span>
 <span class="sd">        - **json_info**      : Boolean - include ESObs Information with all information</span>
@@ -1101,7 +1140,6 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span> <span class="n">ES</span><span class="o">.</span><span class="n">type</span> <span class="p">:</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_classES</span> <span class="p">}</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_id</span><span class="p">]</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullAtt</span><span class="p">:</span> <span class="n">dic</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_id</span><span class="p">]</span>
         <span class="n">dic</span> <span class="o">|=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jsonAtt</span><span class="p">(</span><span class="o">**</span><span class="n">option2</span><span class="p">)</span>
-        <span class="c1">#dic |= self.ilist.json(**option2, cls=ESValueEncoder)</span>
         <span class="n">dic</span> <span class="o">|=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option2</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_param&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullAtt</span><span class="p">:</span> 
             <span class="n">dic</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">parameter</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span>
@@ -1127,6 +1165,28 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        - **Numpy array**    &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">func</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">ind</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="n">fillvalue</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">to_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate obs file to display `Observation` data.</span>
+
+<span class="sd">         *Parameters (kwargs)*</span>
+
+<span class="sd">        - **file** : string - file name (with path)</span>
+<span class="sd">        - **kwargs** : see &#39;to_json&#39; parameters</span>
+<span class="sd">            </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **Integer** : file lenght (bytes)  &#39;&#39;&#39;</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="n">kwargs</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;json_res_index&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>       
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>  
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span> 
+            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">))</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">lendata</span>
+       
     <span class="k">def</span> <span class="nf">to_xarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span>
                   <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Observation&#39;</span><span class="p">,</span> <span class="n">maxname</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1162,11 +1222,11 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="k">if</span> <span class="ow">not</span> <span class="n">info</span> <span class="p">:</span> <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
         <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lenres</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="p">:</span>
+    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Generate tabular list to display `Observation` data.</span>
 
-<span class="sd">        *Parameters*</span>
+<span class="sd">        *Parameters (kwargs)*</span>
 <span class="sd">        </span>
 <span class="sd">        - **name** : boolean (default True) - Display name for `ES.ESValue`</span>
 <span class="sd">        - **dat**  : boolean (default True) - Display value for `ES.ESValue.DatationValue`</span>
@@ -1179,7 +1239,12 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
 <span class="sd">        - **None**        &#39;&#39;&#39;</span>
-        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_tab</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">prp</span><span class="p">,</span> <span class="n">lenres</span><span class="p">)</span>
+        <span class="n">optiondeftab</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;dat&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;prp&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;lenres&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span> 
+        <span class="n">optiondefview</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="s1">&#39;sep&#39;</span><span class="p">:</span> <span class="s1">&#39;_&#39;</span><span class="p">}</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="n">optiondeftab</span> <span class="o">|</span> <span class="n">optiondefview</span> <span class="o">|</span> <span class="n">kwargs</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_tab</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">option</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">optiondeftab</span><span class="p">})</span>
+        <span class="n">sep</span>   <span class="o">=</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;sep&#39;</span><span class="p">]</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">]</span>
         <span class="n">septab</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="p">:</span> <span class="n">septab</span> <span class="o">+=</span> <span class="n">sep</span>
         <span class="n">separator</span> <span class="o">=</span> <span class="p">[</span> <span class="n">septab</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tab</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> 
@@ -1320,6 +1385,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="sd">&#39;&#39;&#39; Add box informations&#39;s key-value to dict dcinf&#39;&#39;&#39;</span>
         <span class="n">dcinf</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="p">:</span> <span class="n">dcinf</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">loc_box</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_boundingBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="p">)</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="p">:</span> <span class="n">dcinf</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_box</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_boundingBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="p">)</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="p">:</span> 
             <span class="n">bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_boundingBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="p">)</span><span class="o">.</span><span class="n">bounds</span>
             <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;bjson_bson&quot;</span><span class="p">]</span> <span class="p">:</span> 
@@ -1404,8 +1470,11 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">listVal</span><span class="p">))</span> <span class="p">:</span> <span class="n">listVal</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">listVal</span><span class="p">[</span><span class="n">i</span><span class="p">])(</span><span class="n">newlistVal</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
         <span class="k">return</span> <span class="n">listVal</span>
 
-    <span class="k">def</span> <span class="nf">_to_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lenres</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_to_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; data preparation for view or csv export&#39;&#39;&#39;</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;json&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;dat&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> 
+                  <span class="s1">&#39;prp&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;res&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;lenres&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span>
+        <span class="n">json</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">prp</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">lenres</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">option</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span> <span class="o">==</span> <span class="kc">None</span> <span class="p">:</span> <span class="k">return</span>
         <span class="n">tab</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="n">resList</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1556,6 +1625,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">    *add value*</span>
 <span class="sd">    </span>
 <span class="sd">    - `Observation.addAttributes`</span>
+<span class="sd">    - `Observation.addJson`</span>
 <span class="sd">    - `Observation.append`</span>
 <span class="sd">    - `Observation.appendList`</span>
 <span class="sd">    - `Observation.appendObs`</span>
@@ -1588,12 +1658,13 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">    </span>
 <span class="sd">    *exports - imports*</span>
 <span class="sd">    </span>
+<span class="sd">    - `Observation.from_obs`</span>
 <span class="sd">    - `Observation.to_csv`</span>
 <span class="sd">    - `Observation.to_dataFrame`</span>
-<span class="sd">    - `Observation.to_numpy`</span>
-<span class="sd">    - `Observation.to_xarray`</span>
 <span class="sd">    - `Observation.to_json`</span>
-<span class="sd">    - `Observation.from_json`</span>
+<span class="sd">    - `Observation.to_numpy`</span>
+<span class="sd">    - `Observation.to_obs`</span>
+<span class="sd">    - `Observation.to_xarray`</span>
 <span class="sd">    - `Observation.to_bytes`              # à voir</span>
 <span class="sd">    - `Observation.from_bytes`            # à voir</span>
 
@@ -1604,7 +1675,8 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        </span>
 <span class="sd">        - Observation(dictESValue1, dictESValue2, ...) where dictESValue = {ESValuename : value}</span>
 <span class="sd">        - Observation({ObsDict}) where ObsDict is a dictionnary with the same data as an ObsJSON</span>
-<span class="sd">        - Observation(ObsJSON) where ObsJSON is a string with the ObsJSON format</span>
+<span class="sd">        - Observation(ObsJSON) where ObsJSON is a string with the JSON format</span>
+<span class="sd">        - Observation(ObsBSON) where ObsBSON is a bytes with the BSON format</span>
 <span class="sd">        - Observation([ESSetDatation, ESSetLocation, ESSetProperty, ESSetResult]) where ESSet is a list of ESValue :</span>
 <span class="sd">            [ESValue1, ESValue2,...] or [ESValue] or ESValue</span>
 <span class="sd">        - Observation(datation=ESSetDatation, location=ESSetLocation,</span>
@@ -1634,7 +1706,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
                 <span class="k">try</span><span class="p">:</span> <span class="n">arg</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>            
                 <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
             <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span><span class="nb">bytes</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span> <span class="n">arg</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>            
+                <span class="k">try</span><span class="p">:</span> <span class="n">arg</span><span class="o">=</span><span class="n">bson</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>            
                 <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>                
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span> <span class="p">:</span>      <span class="c1"># creation à partir d&#39;un dict &quot;key : [liste]&quot;</span>
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">arg</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="p">:</span> 
@@ -1663,14 +1735,16 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="n">order</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">classES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="p">:</span>
             <span class="k">if</span> <span class="n">classES</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="p">:</span> 
-                <span class="n">dicidx</span><span class="p">[</span><span class="n">classES</span><span class="p">]</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">js</span><span class="p">[</span><span class="n">classES</span><span class="p">],</span> <span class="n">_EsClassValue</span><span class="p">[</span><span class="n">classES</span><span class="p">])</span>
+                <span class="n">dicidx</span><span class="p">[</span><span class="n">classES</span><span class="p">]</span> <span class="o">=</span>  <span class="n">_EsClassValue</span><span class="p">[</span><span class="n">classES</span><span class="p">]</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">js</span><span class="p">[</span><span class="n">classES</span><span class="p">])</span>
+                <span class="c1">#dicidx[classES] = ESValue.cast(js[classES], _EsClassValue[classES])</span>
         <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="p">:</span> 
             <span class="n">dicres</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">]</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">]</span>
             <span class="c1">#dicres[ES.res_classES] = ESValue.cast(js[ES.res_classES], ResultValue)</span>
         <span class="k">if</span> <span class="s1">&#39;order&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="p">:</span> <span class="n">order</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;idxref&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="p">:</span> <span class="n">idxref</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="s1">&#39;idxref&#39;</span><span class="p">]</span>
         <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">seti</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">vname</span><span class="p">,</span> <span class="n">iname</span><span class="p">)</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_initdict</span><span class="p">(</span><span class="n">dicres</span><span class="p">,</span> <span class="n">dicidx</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">idxref</span><span class="p">)</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">ResultValue</span><span class="p">)</span>
+        <span class="c1">#res = ESValue.cast(v, ResultValue)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">ResultValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span> <span class="o">=</span> <span class="n">Ilist</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">seti</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">vname</span><span class="p">,</span> <span class="n">iname</span><span class="p">,</span> <span class="n">defaultidx</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">addAttributes</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
 
@@ -1680,12 +1754,18 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="k">else</span> <span class="p">:</span> <span class="n">order</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="s1">&#39;idxref&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="p">:</span> <span class="n">idxref</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;idxref&#39;</span><span class="p">]</span>
         <span class="k">else</span> <span class="p">:</span> <span class="n">idxref</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">Iset</span><span class="p">(</span><span class="n">ESValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">ResultValue</span><span class="p">),</span> 
-                                <span class="p">[</span><span class="n">ESValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">DatationValue</span><span class="p">),</span>
-                                 <span class="n">ESValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">LocationValue</span><span class="p">),</span>
-                                 <span class="n">ESValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">PropertyValue</span><span class="p">)],</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">Iset</span><span class="p">(</span><span class="n">ResultValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> 
+                                <span class="p">[</span><span class="n">DatationValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                                 <span class="n">LocationValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                                 <span class="n">PropertyValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">2</span><span class="p">])],</span> 
                                 <span class="n">order</span><span class="p">,</span> <span class="n">idxref</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">ES</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span>
                                 <span class="n">defaultidx</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  
+        <span class="sd">&#39;&#39;&#39;self.ilist = Ilist.Iset(ESValue.cast(lis[3], ResultValue), </span>
+<span class="sd">                                [ESValue.cast(lis[0], DatationValue),</span>
+<span class="sd">                                 ESValue.cast(lis[1], LocationValue),</span>
+<span class="sd">                                 ESValue.cast(lis[2], PropertyValue)], </span>
+<span class="sd">                                order, idxref, ES.esObsClass[3], ES.esObsClass[0:3],</span>
+<span class="sd">                                defaultidx=False)  &#39;&#39;&#39;</span>
 
     <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Copy all the data, included ESValue&#39;&#39;&#39;</span>
@@ -1903,6 +1983,21 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
                 <span class="k">try</span><span class="p">:</span>  <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
                 <span class="k">except</span><span class="p">:</span>  <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullAtt</span>
 
+    <span class="k">def</span> <span class="nf">addJson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Complete an empty `Observation` with json data. </span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **js** : string - ObsJSON data</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **None**        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span> <span class="n">dic</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span> <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initDict</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+                
     <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">prp</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Add a new `ES.ESValue.ResultValue`</span>
@@ -2070,21 +2165,23 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="n">newobs</span><span class="o">.</span><span class="n">option</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span> 
         <span class="k">return</span> <span class="n">newobs</span>    
                     
-    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_obs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Complete an empty `Observation` with json data. </span>
-<span class="sd">        </span>
-<span class="sd">        *Parameters*</span>
-<span class="sd">        </span>
-<span class="sd">        - **js** : string - ObsJSON data</span>
-<span class="sd">        </span>
-<span class="sd">        *Returns*</span>
-<span class="sd">        </span>
-<span class="sd">        - **None**        &#39;&#39;&#39;</span>
-        <span class="k">try</span><span class="p">:</span> <span class="n">dic</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span> <span class="k">return</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_initDict</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
-                
+<span class="sd">        Generate `Observation` object from file storage.</span>
+
+<span class="sd">         *Parameters*</span>
+
+<span class="sd">        - **file** : string - file name (with path)</span>
+<span class="sd">            </span>
+<span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">btype</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">btype</span><span class="o">==</span><span class="nb">bytes</span><span class="p">(</span><span class="s1">&#39;{&quot;&#39;</span> <span class="o">+</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="o">+</span><span class="s1">&#39;&quot;: &quot;&#39;</span> <span class="o">+</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_classES</span> <span class="o">+</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">bjson</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">bjson</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">bjson</span><span class="p">)</span>
+    
     <span class="k">def</span> <span class="nf">full</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">minind</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="p">:</span> 
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Add empty `ES.ESValue.ResultValue` to have a &#39;complete&#39; `Observation`</span>
@@ -2316,13 +2413,16 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        - **None**        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="n">reindex</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lenres</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span>
+    <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Generate csv file to display `Observation` data.</span>
 
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
 <span class="sd">        - **file** : string - file name (with path)</span>
+
+<span class="sd">        *Parameters (kwargs)*</span>
+
 <span class="sd">        - **json** : boolean (default True) - Display json for `ES.ESValue`</span>
 <span class="sd">        - **name** : boolean (default True) - Display name for `ES.ESValue`</span>
 <span class="sd">        - **dat**  : boolean (default True) - Display value for `ES.ESValue.DatationValue`</span>
@@ -2334,11 +2434,13 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
 <span class="sd">        - **None**        &#39;&#39;&#39;</span>
-        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_tab</span><span class="p">(</span><span class="n">json</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">prp</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">lenres</span><span class="p">)</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;json&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;dat&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> 
+                  <span class="s1">&#39;prp&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;res&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;lenres&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_tab</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>
             <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">csvfile</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">lign</span> <span class="ow">in</span> <span class="n">tab</span> <span class="p">:</span> <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">lign</span><span class="p">)</span>
-        
+    
     <span class="k">def</span> <span class="nf">to_dataFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">_identity</span><span class="p">,</span>
                   <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Observation&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -2364,12 +2466,12 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
     
     <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Export in Json format. </span>
+<span class="sd">        Export in Bson or Json format. </span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters (optional, default value in option attribute)*</span>
 <span class="sd">        </span>
 <span class="sd">        - **bjson_format**   : boolean - choice for return format (string/bytes if True, dict else)</span>
-<span class="sd">        - **bjson_bson **    : boolean - choice for return format (bson if True, json else)</span>
+<span class="sd">        - **bjson_bson**     : boolean - choice for return format (bson if True, json else)</span>
 <span class="sd">        - **json_res_index** : Boolean - include index for ResultValue</span>
 <span class="sd">        - **json_param**     : Boolean - include ESObs Parameter</span>
 <span class="sd">        - **json_info**      : Boolean - include ESObs Information with all information</span>
@@ -2386,7 +2488,6 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span> <span class="n">ES</span><span class="o">.</span><span class="n">type</span> <span class="p">:</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_classES</span> <span class="p">}</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_id</span><span class="p">]</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullAtt</span><span class="p">:</span> <span class="n">dic</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_id</span><span class="p">]</span>
         <span class="n">dic</span> <span class="o">|=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jsonAtt</span><span class="p">(</span><span class="o">**</span><span class="n">option2</span><span class="p">)</span>
-        <span class="c1">#dic |= self.ilist.json(**option2, cls=ESValueEncoder)</span>
         <span class="n">dic</span> <span class="o">|=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option2</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_param&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullAtt</span><span class="p">:</span> 
             <span class="n">dic</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">parameter</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span>
@@ -2412,6 +2513,28 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        - **Numpy array**    &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">func</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">ind</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="n">fillvalue</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">to_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate obs file to display `Observation` data.</span>
+
+<span class="sd">         *Parameters (kwargs)*</span>
+
+<span class="sd">        - **file** : string - file name (with path)</span>
+<span class="sd">        - **kwargs** : see &#39;to_json&#39; parameters</span>
+<span class="sd">            </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **Integer** : file lenght (bytes)  &#39;&#39;&#39;</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="n">kwargs</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;json_res_index&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>       
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>  
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span> 
+            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">))</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">lendata</span>
+       
     <span class="k">def</span> <span class="nf">to_xarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span>
                   <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Observation&#39;</span><span class="p">,</span> <span class="n">maxname</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -2447,11 +2570,11 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="k">if</span> <span class="ow">not</span> <span class="n">info</span> <span class="p">:</span> <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
         <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lenres</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="p">:</span>
+    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Generate tabular list to display `Observation` data.</span>
 
-<span class="sd">        *Parameters*</span>
+<span class="sd">        *Parameters (kwargs)*</span>
 <span class="sd">        </span>
 <span class="sd">        - **name** : boolean (default True) - Display name for `ES.ESValue`</span>
 <span class="sd">        - **dat**  : boolean (default True) - Display value for `ES.ESValue.DatationValue`</span>
@@ -2464,7 +2587,12 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
 <span class="sd">        - **None**        &#39;&#39;&#39;</span>
-        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_tab</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">prp</span><span class="p">,</span> <span class="n">lenres</span><span class="p">)</span>
+        <span class="n">optiondeftab</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;dat&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;prp&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;lenres&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span> 
+        <span class="n">optiondefview</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="s1">&#39;sep&#39;</span><span class="p">:</span> <span class="s1">&#39;_&#39;</span><span class="p">}</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="n">optiondeftab</span> <span class="o">|</span> <span class="n">optiondefview</span> <span class="o">|</span> <span class="n">kwargs</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_tab</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">option</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">optiondeftab</span><span class="p">})</span>
+        <span class="n">sep</span>   <span class="o">=</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;sep&#39;</span><span class="p">]</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">]</span>
         <span class="n">septab</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="p">:</span> <span class="n">septab</span> <span class="o">+=</span> <span class="n">sep</span>
         <span class="n">separator</span> <span class="o">=</span> <span class="p">[</span> <span class="n">septab</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tab</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> 
@@ -2605,6 +2733,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="sd">&#39;&#39;&#39; Add box informations&#39;s key-value to dict dcinf&#39;&#39;&#39;</span>
         <span class="n">dcinf</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="p">:</span> <span class="n">dcinf</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">loc_box</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_boundingBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="p">)</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="p">:</span> <span class="n">dcinf</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_box</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_boundingBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setProperty</span><span class="p">)</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="p">:</span> 
             <span class="n">bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_boundingBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="p">)</span><span class="o">.</span><span class="n">bounds</span>
             <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;bjson_bson&quot;</span><span class="p">]</span> <span class="p">:</span> 
@@ -2689,8 +2818,11 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">listVal</span><span class="p">))</span> <span class="p">:</span> <span class="n">listVal</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">listVal</span><span class="p">[</span><span class="n">i</span><span class="p">])(</span><span class="n">newlistVal</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
         <span class="k">return</span> <span class="n">listVal</span>
 
-    <span class="k">def</span> <span class="nf">_to_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lenres</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_to_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; data preparation for view or csv export&#39;&#39;&#39;</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;json&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;dat&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> 
+                  <span class="s1">&#39;prp&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;res&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;lenres&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span>
+        <span class="n">json</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">prp</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">lenres</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">option</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setResult</span> <span class="o">==</span> <span class="kc">None</span> <span class="p">:</span> <span class="k">return</span>
         <span class="n">tab</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="n">resList</span> <span class="o">=</span> <span class="p">[]</span>
@@ -2831,6 +2963,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 
 <ul>
 <li><code><a href="#Observation.addAttributes">Observation.addAttributes</a></code></li>
+<li><code><a href="#Observation.addJson">Observation.addJson</a></code></li>
 <li><code><a href="#Observation.append">Observation.append</a></code></li>
 <li><code><a href="#Observation.appendList">Observation.appendList</a></code></li>
 <li><code><a href="#Observation.appendObs">Observation.appendObs</a></code></li>
@@ -2873,12 +3006,13 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <p><em>exports - imports</em></p>
 
 <ul>
+<li><code><a href="#Observation.from_obs">Observation.from_obs</a></code></li>
 <li><code><a href="#Observation.to_csv">Observation.to_csv</a></code></li>
 <li><code><a href="#Observation.to_dataFrame">Observation.to_dataFrame</a></code></li>
-<li><code><a href="#Observation.to_numpy">Observation.to_numpy</a></code></li>
-<li><code><a href="#Observation.to_xarray">Observation.to_xarray</a></code></li>
 <li><code><a href="#Observation.to_json">Observation.to_json</a></code></li>
-<li><code><a href="#Observation.from_json">Observation.from_json</a></code></li>
+<li><code><a href="#Observation.to_numpy">Observation.to_numpy</a></code></li>
+<li><code><a href="#Observation.to_obs">Observation.to_obs</a></code></li>
+<li><code><a href="#Observation.to_xarray">Observation.to_xarray</a></code></li>
 <li><code>Observation.to_bytes</code>              # à voir</li>
 <li><code>Observation.from_bytes</code>            # à voir</li>
 </ul>
@@ -2900,7 +3034,8 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        </span>
 <span class="sd">        - Observation(dictESValue1, dictESValue2, ...) where dictESValue = {ESValuename : value}</span>
 <span class="sd">        - Observation({ObsDict}) where ObsDict is a dictionnary with the same data as an ObsJSON</span>
-<span class="sd">        - Observation(ObsJSON) where ObsJSON is a string with the ObsJSON format</span>
+<span class="sd">        - Observation(ObsJSON) where ObsJSON is a string with the JSON format</span>
+<span class="sd">        - Observation(ObsBSON) where ObsBSON is a bytes with the BSON format</span>
 <span class="sd">        - Observation([ESSetDatation, ESSetLocation, ESSetProperty, ESSetResult]) where ESSet is a list of ESValue :</span>
 <span class="sd">            [ESValue1, ESValue2,...] or [ESValue] or ESValue</span>
 <span class="sd">        - Observation(datation=ESSetDatation, location=ESSetLocation,</span>
@@ -2928,7 +3063,8 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <ul>
 <li>Observation(dictESValue1, dictESValue2, ...) where dictESValue = {ESValuename : value}</li>
 <li>Observation({ObsDict}) where ObsDict is a dictionnary with the same data as an ObsJSON</li>
-<li>Observation(ObsJSON) where ObsJSON is a string with the ObsJSON format</li>
+<li>Observation(ObsJSON) where ObsJSON is a string with the JSON format</li>
+<li>Observation(ObsBSON) where ObsBSON is a bytes with the BSON format</li>
 <li>Observation([ESSetDatation, ESSetLocation, ESSetProperty, ESSetResult]) where ESSet is a list of ESValue :
 [ESValue1, ESValue2,...] or [ESValue] or ESValue</li>
 <li>Observation(datation=ESSetDatation, location=ESSetLocation,
@@ -3150,6 +3286,51 @@ several DatationValue (2)</p>
 
 <ul>
 <li><strong>js</strong> : Dict - Keys are Observation keys (dict mAtt) or users keys (dict parameter).</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>None</strong></li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="Observation.addJson" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Observation.addJson">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">addJson</span><span class="signature">(self, js)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">addJson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Complete an empty `Observation` with json data. </span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+<span class="sd">        </span>
+<span class="sd">        - **js** : string - ObsJSON data</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **None**        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span> <span class="n">dic</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span> <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initDict</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Complete an empty <code><a href="#Observation">Observation</a></code> with json data. </p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>js</strong> : string - ObsJSON data</li>
 </ul>
 
 <p><em>Returns</em></p>
@@ -3523,47 +3704,46 @@ Observation, else return new Observation.        </li>
 
 
                             </div>
-                            <div id="Observation.from_json" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#Observation.from_json">#&nbsp;&nbsp</a>
+                            <div id="Observation.from_obs" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Observation.from_obs">#&nbsp;&nbsp</a>
 
-        
+                <div class="decorator">@classmethod</div>
+
             <span class="def">def</span>
-            <span class="name">from_json</span><span class="signature">(self, js)</span>:
+            <span class="name">from_obs</span><span class="signature">(cls, file)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">):</span>
+            <div class="codehilite"><pre><span></span>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_obs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Complete an empty `Observation` with json data. </span>
-<span class="sd">        </span>
-<span class="sd">        *Parameters*</span>
-<span class="sd">        </span>
-<span class="sd">        - **js** : string - ObsJSON data</span>
-<span class="sd">        </span>
-<span class="sd">        *Returns*</span>
-<span class="sd">        </span>
-<span class="sd">        - **None**        &#39;&#39;&#39;</span>
-        <span class="k">try</span><span class="p">:</span> <span class="n">dic</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span> <span class="k">return</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_initDict</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+<span class="sd">        Generate `Observation` object from file storage.</span>
+
+<span class="sd">         *Parameters*</span>
+
+<span class="sd">        - **file** : string - file name (with path)</span>
+<span class="sd">            </span>
+<span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">btype</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">btype</span><span class="o">==</span><span class="nb">bytes</span><span class="p">(</span><span class="s1">&#39;{&quot;&#39;</span> <span class="o">+</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="o">+</span><span class="s1">&#39;&quot;: &quot;&#39;</span> <span class="o">+</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_classES</span> <span class="o">+</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">bjson</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">bjson</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">bjson</span><span class="p">)</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>Complete an empty <code><a href="#Observation">Observation</a></code> with json data. </p>
+            <div class="docstring"><p>Generate <code><a href="#Observation">Observation</a></code> object from file storage.</p>
 
 <p><em>Parameters</em></p>
 
 <ul>
-<li><strong>js</strong> : string - ObsJSON data</li>
+<li><strong>file</strong> : string - file name (with path)</li>
 </ul>
 
-<p><em>Returns</em></p>
-
-<ul>
-<li><strong>None</strong></li>
-</ul>
+<p><em>Returns</em> : None</p>
 </div>
 
 
@@ -4102,28 +4282,21 @@ completed with fillvalue, else all axes are completed</li>
 
         
             <span class="def">def</span>
-            <span class="name">to_csv</span><span class="signature">(
-    self,
-    file,
-    json=True,
-    name=True,
-    dat=True,
-    loc=True,
-    prp=True,
-    res=True,
-    lenres=0
-)</span>:
+            <span class="name">to_csv</span><span class="signature">(self, file, **kwargs)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lenres</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Generate csv file to display `Observation` data.</span>
 
 <span class="sd">        *Parameters*</span>
 <span class="sd">        </span>
 <span class="sd">        - **file** : string - file name (with path)</span>
+
+<span class="sd">        *Parameters (kwargs)*</span>
+
 <span class="sd">        - **json** : boolean (default True) - Display json for `ES.ESValue`</span>
 <span class="sd">        - **name** : boolean (default True) - Display name for `ES.ESValue`</span>
 <span class="sd">        - **dat**  : boolean (default True) - Display value for `ES.ESValue.DatationValue`</span>
@@ -4135,7 +4308,9 @@ completed with fillvalue, else all axes are completed</li>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
 <span class="sd">        - **None**        &#39;&#39;&#39;</span>
-        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_tab</span><span class="p">(</span><span class="n">json</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">prp</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">lenres</span><span class="p">)</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;json&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;dat&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> 
+                  <span class="s1">&#39;prp&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;res&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;lenres&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_tab</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>
             <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">csvfile</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">lign</span> <span class="ow">in</span> <span class="n">tab</span> <span class="p">:</span> <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">lign</span><span class="p">)</span>
@@ -4149,6 +4324,11 @@ completed with fillvalue, else all axes are completed</li>
 
 <ul>
 <li><strong>file</strong> : string - file name (with path)</li>
+</ul>
+
+<p><em>Parameters (kwargs)</em></p>
+
+<ul>
 <li><strong>json</strong> : boolean (default True) - Display json for <code><a href="ESValue.html">ES.ESValue</a></code></li>
 <li><strong>name</strong> : boolean (default True) - Display name for <code><a href="ESValue.html">ES.ESValue</a></code></li>
 <li><strong>dat</strong>  : boolean (default True) - Display value for <code><a href="ESValue.html#DatationValue">ES.ESValue.DatationValue</a></code></li>
@@ -4178,7 +4358,7 @@ completed with fillvalue, else all axes are completed</li>
     numeric=False,
     ind=&#39;axe&#39;,
     fillvalue=&#39;?&#39;,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001BA213AA6D0&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000020966E2A6D0&gt;&gt;,
     name=&#39;Observation&#39;
 )</span>:
     </div>
@@ -4245,12 +4425,12 @@ completed with fillvalue, else all axes are completed</li>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Export in Json format. </span>
+<span class="sd">        Export in Bson or Json format. </span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters (optional, default value in option attribute)*</span>
 <span class="sd">        </span>
 <span class="sd">        - **bjson_format**   : boolean - choice for return format (string/bytes if True, dict else)</span>
-<span class="sd">        - **bjson_bson **    : boolean - choice for return format (bson if True, json else)</span>
+<span class="sd">        - **bjson_bson**     : boolean - choice for return format (bson if True, json else)</span>
 <span class="sd">        - **json_res_index** : Boolean - include index for ResultValue</span>
 <span class="sd">        - **json_param**     : Boolean - include ESObs Parameter</span>
 <span class="sd">        - **json_info**      : Boolean - include ESObs Information with all information</span>
@@ -4267,7 +4447,6 @@ completed with fillvalue, else all axes are completed</li>
         <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span> <span class="n">ES</span><span class="o">.</span><span class="n">type</span> <span class="p">:</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_classES</span> <span class="p">}</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_id</span><span class="p">]</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullAtt</span><span class="p">:</span> <span class="n">dic</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_id</span><span class="p">]</span>
         <span class="n">dic</span> <span class="o">|=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jsonAtt</span><span class="p">(</span><span class="o">**</span><span class="n">option2</span><span class="p">)</span>
-        <span class="c1">#dic |= self.ilist.json(**option2, cls=ESValueEncoder)</span>
         <span class="n">dic</span> <span class="o">|=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option2</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s2">&quot;json_param&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullAtt</span><span class="p">:</span> 
             <span class="n">dic</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">parameter</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span>
@@ -4281,13 +4460,13 @@ completed with fillvalue, else all axes are completed</li>
 
         </details>
 
-            <div class="docstring"><p>Export in Json format. </p>
+            <div class="docstring"><p>Export in Bson or Json format. </p>
 
 <p><em>Parameters (optional, default value in option attribute)</em></p>
 
 <ul>
 <li><strong>bjson_format</strong>   : boolean - choice for return format (string/bytes if True, dict else)</li>
-<li><em>*bjson_bson *</em>    : boolean - choice for return format (bson if True, json else)</li>
+<li><strong>bjson_bson</strong>     : boolean - choice for return format (bson if True, json else)</li>
 <li><strong>json_res_index</strong> : Boolean - include index for ResultValue</li>
 <li><strong>json_param</strong>     : Boolean - include ESObs Parameter</li>
 <li><strong>json_info</strong>      : Boolean - include ESObs Information with all information</li>
@@ -4348,6 +4527,59 @@ completed with fillvalue, else all axes are completed</li>
 
 <ul>
 <li><strong>Numpy array</strong></li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="Observation.to_obs" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Observation.to_obs">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">to_obs</span><span class="signature">(self, file, **kwargs)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate obs file to display `Observation` data.</span>
+
+<span class="sd">         *Parameters (kwargs)*</span>
+
+<span class="sd">        - **file** : string - file name (with path)</span>
+<span class="sd">        - **kwargs** : see &#39;to_json&#39; parameters</span>
+<span class="sd">            </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **Integer** : file lenght (bytes)  &#39;&#39;&#39;</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="n">kwargs</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;json_res_index&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>       
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>  
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span> 
+            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">))</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">lendata</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Generate obs file to display <code><a href="#Observation">Observation</a></code> data.</p>
+
+<p><em>Parameters (kwargs)</em></p>
+
+<ul>
+<li><strong>file</strong> : string - file name (with path)</li>
+<li><strong>kwargs</strong> : see 'to_json' parameters</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>Integer</strong> : file lenght (bytes)</li>
 </ul>
 </div>
 
@@ -4439,25 +4671,16 @@ completed with fillvalue, else all axes are completed</li>
 
         
             <span class="def">def</span>
-            <span class="name">view</span><span class="signature">(
-    self,
-    name=True,
-    dat=True,
-    loc=True,
-    prp=True,
-    lenres=0,
-    width=15,
-    sep=&#39;_&#39;
-)</span>:
+            <span class="name">view</span><span class="signature">(self, **kwargs)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lenres</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="p">:</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Generate tabular list to display `Observation` data.</span>
 
-<span class="sd">        *Parameters*</span>
+<span class="sd">        *Parameters (kwargs)*</span>
 <span class="sd">        </span>
 <span class="sd">        - **name** : boolean (default True) - Display name for `ES.ESValue`</span>
 <span class="sd">        - **dat**  : boolean (default True) - Display value for `ES.ESValue.DatationValue`</span>
@@ -4470,7 +4693,12 @@ completed with fillvalue, else all axes are completed</li>
 <span class="sd">        *Returns*</span>
 <span class="sd">        </span>
 <span class="sd">        - **None**        &#39;&#39;&#39;</span>
-        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_tab</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">prp</span><span class="p">,</span> <span class="n">lenres</span><span class="p">)</span>
+        <span class="n">optiondeftab</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;dat&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;prp&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;lenres&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span> 
+        <span class="n">optiondefview</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="s1">&#39;sep&#39;</span><span class="p">:</span> <span class="s1">&#39;_&#39;</span><span class="p">}</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="n">optiondeftab</span> <span class="o">|</span> <span class="n">optiondefview</span> <span class="o">|</span> <span class="n">kwargs</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_tab</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">option</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">optiondeftab</span><span class="p">})</span>
+        <span class="n">sep</span>   <span class="o">=</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;sep&#39;</span><span class="p">]</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">]</span>
         <span class="n">septab</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="p">:</span> <span class="n">septab</span> <span class="o">+=</span> <span class="n">sep</span>
         <span class="n">separator</span> <span class="o">=</span> <span class="p">[</span> <span class="n">septab</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tab</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> 
@@ -4493,7 +4721,7 @@ completed with fillvalue, else all axes are completed</li>
 
             <div class="docstring"><p>Generate tabular list to display <code><a href="#Observation">Observation</a></code> data.</p>
 
-<p><em>Parameters</em></p>
+<p><em>Parameters (kwargs)</em></p>
 
 <ul>
 <li><strong>name</strong> : boolean (default True) - Display name for <code><a href="ESValue.html">ES.ESValue</a></code></li>
@@ -4522,7 +4750,7 @@ completed with fillvalue, else all axes are completed</li>
             <span class="name">vList</span><span class="signature">(
     self,
     idxname,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001BA213AA6D0&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x0000020966E2A6D0&gt;&gt;
 )</span>:
     </div>
 

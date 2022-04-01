@@ -149,7 +149,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mOption</span> <span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span>
                       <span class="s2">&quot;bjson_format&quot;</span>        <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># sortie bson/json ou dict</span>
                       <span class="s2">&quot;bjson_bson&quot;</span>          <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># sortie bson ou json</span>
-                      <span class="s2">&quot;json_res_index&quot;</span>      <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche index</span>
+                      <span class="s2">&quot;json_res_index&quot;</span>      <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># affiche index</span>
                       <span class="s2">&quot;json_prp_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou property</span>
                       <span class="s2">&quot;json_dat_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou instant/slot</span>
                       <span class="s2">&quot;json_loc_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou instant/slot</span>
@@ -162,6 +162,7 @@
                       <span class="s2">&quot;unic_index&quot;</span>          <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># dans add</span>
                       <span class="c1">#&quot;add_equal&quot;           : &quot;full&quot;,  # sinon &quot;value ou &quot;name&quot; pour les comparaisons</span>
                       <span class="s2">&quot;bytes_res_format&quot;</span>    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span><span class="p">,</span> <span class="c1"># calculé à partir de propperty si &quot;null&quot;</span>
+                      <span class="s2">&quot;prp_dict&quot;</span>            <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># si True, prp_type doit être dans ES.prop</span>
                       <span class="s2">&quot;sort_order&quot;</span>          <span class="p">:</span> <span class="s1">&#39;dlp&#39;</span>
                       <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39; Default options for `ES.ESObservation.Observation`&#39;&#39;&#39;</span>
@@ -445,8 +446,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">res_axes</span>         <span class="o">=</span> <span class="s2">&quot;axes&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_nValue</span>       <span class="o">=</span> <span class="s2">&quot;nval&quot;</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">dat_box</span>            <span class="o">=</span> <span class="s2">&quot;timeBox&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loc_box</span>            <span class="o">=</span> <span class="s2">&quot;boudingBox&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dat_box</span>            <span class="o">=</span> <span class="s2">&quot;datationBox&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loc_box</span>            <span class="o">=</span> <span class="s2">&quot;locationBox&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prp_box</span>            <span class="o">=</span> <span class="s2">&quot;propertyBox&quot;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">prp_type</span>	        <span class="o">=</span> <span class="s2">&quot;prp&quot;</span><span class="p">;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prp_unit</span>		    <span class="o">=</span> <span class="s2">&quot;unit&quot;</span><span class="p">;</span>
@@ -514,7 +516,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mOption</span> <span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span>
                       <span class="s2">&quot;bjson_format&quot;</span>        <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># sortie bson/json ou dict</span>
                       <span class="s2">&quot;bjson_bson&quot;</span>          <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># sortie bson ou json</span>
-                      <span class="s2">&quot;json_res_index&quot;</span>      <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche index</span>
+                      <span class="s2">&quot;json_res_index&quot;</span>      <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># affiche index</span>
                       <span class="s2">&quot;json_prp_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou property</span>
                       <span class="s2">&quot;json_dat_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou instant/slot</span>
                       <span class="s2">&quot;json_loc_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou instant/slot</span>
@@ -527,6 +529,7 @@
                       <span class="s2">&quot;unic_index&quot;</span>          <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># dans add</span>
                       <span class="c1">#&quot;add_equal&quot;           : &quot;full&quot;,  # sinon &quot;value ou &quot;name&quot; pour les comparaisons</span>
                       <span class="s2">&quot;bytes_res_format&quot;</span>    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span><span class="p">,</span> <span class="c1"># calculé à partir de propperty si &quot;null&quot;</span>
+                      <span class="s2">&quot;prp_dict&quot;</span>            <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># si True, prp_type doit être dans ES.prop</span>
                       <span class="s2">&quot;sort_order&quot;</span>          <span class="p">:</span> <span class="s1">&#39;dlp&#39;</span>
                       <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39; Default options for `ES.ESObservation.Observation`&#39;&#39;&#39;</span>
@@ -810,8 +813,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">res_axes</span>         <span class="o">=</span> <span class="s2">&quot;axes&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_nValue</span>       <span class="o">=</span> <span class="s2">&quot;nval&quot;</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">dat_box</span>            <span class="o">=</span> <span class="s2">&quot;timeBox&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loc_box</span>            <span class="o">=</span> <span class="s2">&quot;boudingBox&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dat_box</span>            <span class="o">=</span> <span class="s2">&quot;datationBox&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loc_box</span>            <span class="o">=</span> <span class="s2">&quot;locationBox&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prp_box</span>            <span class="o">=</span> <span class="s2">&quot;propertyBox&quot;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">prp_type</span>	        <span class="o">=</span> <span class="s2">&quot;prp&quot;</span><span class="p">;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prp_unit</span>		    <span class="o">=</span> <span class="s2">&quot;unit&quot;</span><span class="p">;</span>
@@ -872,7 +876,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mOption</span> <span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span>
                       <span class="s2">&quot;bjson_format&quot;</span>        <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># sortie bson/json ou dict</span>
                       <span class="s2">&quot;bjson_bson&quot;</span>          <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># sortie bson ou json</span>
-                      <span class="s2">&quot;json_res_index&quot;</span>      <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche index</span>
+                      <span class="s2">&quot;json_res_index&quot;</span>      <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># affiche index</span>
                       <span class="s2">&quot;json_prp_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou property</span>
                       <span class="s2">&quot;json_dat_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou instant/slot</span>
                       <span class="s2">&quot;json_loc_name&quot;</span>       <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># affiche name ou instant/slot</span>
@@ -885,6 +889,7 @@
                       <span class="s2">&quot;unic_index&quot;</span>          <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># dans add</span>
                       <span class="c1">#&quot;add_equal&quot;           : &quot;full&quot;,  # sinon &quot;value ou &quot;name&quot; pour les comparaisons</span>
                       <span class="s2">&quot;bytes_res_format&quot;</span>    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span><span class="p">,</span> <span class="c1"># calculé à partir de propperty si &quot;null&quot;</span>
+                      <span class="s2">&quot;prp_dict&quot;</span>            <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># si True, prp_type doit être dans ES.prop</span>
                       <span class="s2">&quot;sort_order&quot;</span>          <span class="p">:</span> <span class="s1">&#39;dlp&#39;</span>
                       <span class="p">}</span>
         <span class="sd">&#39;&#39;&#39; Default options for `ES.ESObservation.Observation`&#39;&#39;&#39;</span>
