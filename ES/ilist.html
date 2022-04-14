@@ -59,12 +59,6 @@
                                 <a class="function" href="#Ilist.__init__">Ilist</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Ilist.c1">c1</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#Ilist.c2">c2</a>
-                        </li>
-                        <li>
                                 <a class="function" href="#Ilist.Idict">Idict</a>
                         </li>
                         <li>
@@ -543,8 +537,8 @@ of independent indexes fullname, course and examen.</p>
 <span class="sd">    - `Ilist.vlist`</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="vm">__slots__</span> <span class="o">=</span> <span class="s1">&#39;extval&#39;</span><span class="p">,</span> <span class="s1">&#39;iidx&#39;</span><span class="p">,</span> <span class="s1">&#39;setidx&#39;</span><span class="p">,</span> <span class="s1">&#39;valname&#39;</span><span class="p">,</span> <span class="s1">&#39;idxname&#39;</span>
-    <span class="n">c1</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;\d+\.?\d*[,\-_ ;:]&#39;</span><span class="p">)</span>
-    <span class="n">c2</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[,\-_ ;:]\d+\.?\d*&#39;</span><span class="p">)</span>
+    <span class="n">_c1</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;\d+\.?\d*[,\-_ ;:]&#39;</span><span class="p">)</span>
+    <span class="n">_c2</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[,\-_ ;:]\d+\.?\d*&#39;</span><span class="p">)</span>
 
 <span class="c1">#%% constructor</span>
     <span class="nd">@classmethod</span>     <span class="c1"># !!! class methods</span>
@@ -1711,8 +1705,8 @@ of independent indexes fullname, course and examen.</p>
             <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">min</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;coord&#39;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">c1</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">and</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">c2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="p">:</span>
-                <span class="k">return</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">Ilist</span><span class="o">.</span><span class="n">c1</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="mi">0</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">Ilist</span><span class="o">.</span><span class="n">c2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:])]</span>
+            <span class="k">if</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_c1</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">and</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_c2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_c1</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="mi">0</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_c2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:])]</span>
             <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;dtype : &quot;</span> <span class="o">+</span> <span class="n">dtype</span> <span class="o">+</span> <span class="s2">&quot; inconsistent with data&quot;</span><span class="p">)</span>
 
@@ -2268,8 +2262,8 @@ implement default like this::</p>
 <span class="sd">    - `Ilist.vlist`</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="vm">__slots__</span> <span class="o">=</span> <span class="s1">&#39;extval&#39;</span><span class="p">,</span> <span class="s1">&#39;iidx&#39;</span><span class="p">,</span> <span class="s1">&#39;setidx&#39;</span><span class="p">,</span> <span class="s1">&#39;valname&#39;</span><span class="p">,</span> <span class="s1">&#39;idxname&#39;</span>
-    <span class="n">c1</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;\d+\.?\d*[,\-_ ;:]&#39;</span><span class="p">)</span>
-    <span class="n">c2</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[,\-_ ;:]\d+\.?\d*&#39;</span><span class="p">)</span>
+    <span class="n">_c1</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;\d+\.?\d*[,\-_ ;:]&#39;</span><span class="p">)</span>
+    <span class="n">_c2</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[,\-_ ;:]\d+\.?\d*&#39;</span><span class="p">)</span>
 
 <span class="c1">#%% constructor</span>
     <span class="nd">@classmethod</span>     <span class="c1"># !!! class methods</span>
@@ -3436,8 +3430,8 @@ implement default like this::</p>
             <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">min</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;coord&#39;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">c1</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">and</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">c2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="p">:</span>
-                <span class="k">return</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">Ilist</span><span class="o">.</span><span class="n">c1</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="mi">0</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">Ilist</span><span class="o">.</span><span class="n">c2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:])]</span>
+            <span class="k">if</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_c1</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">and</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_c2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_c1</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="mi">0</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_c2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:])]</span>
             <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;dtype : &quot;</span> <span class="o">+</span> <span class="n">dtype</span> <span class="o">+</span> <span class="s2">&quot; inconsistent with data&quot;</span><span class="p">)</span>
 
@@ -3959,24 +3953,6 @@ is generated if no index is defined</li>
 <p><em>Returns</em> : None</p>
 </div>
 
-
-                            </div>
-                            <div id="Ilist.c1" class="classattr">
-                                            <div class="attr variable"><a class="headerlink" href="#Ilist.c1">#&nbsp;&nbsp</a>
-
-        <span class="name">c1</span><span class="default_value"> = re.compile(&#39;\\d+\\.?\\d*[,\\-_ ;:]&#39;)</span>
-    </div>
-
-    
-
-                            </div>
-                            <div id="Ilist.c2" class="classattr">
-                                            <div class="attr variable"><a class="headerlink" href="#Ilist.c2">#&nbsp;&nbsp</a>
-
-        <span class="name">c2</span><span class="default_value"> = re.compile(&#39;[,\\-_ ;:]\\d+\\.?\\d*&#39;)</span>
-    </div>
-
-    
 
                             </div>
                             <div id="Ilist.Idict" class="classattr">
