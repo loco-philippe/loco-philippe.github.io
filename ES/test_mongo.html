@@ -32,13 +32,7 @@
                     <h2>API Documentation</h2>
                         <ul class="memberlist">
             <li>
-                    <a class="function" href="#dumps">dumps</a>
-            </li>
-            <li>
-                    <a class="function" href="#loads">loads</a>
-            </li>
-            <li>
-                    <a class="function" href="#gendicarray">gendicarray</a>
+                    <a class="function" href="#clientMongo">clientMongo</a>
             </li>
     </ul>
 
@@ -69,72 +63,63 @@
 
 <span class="sd">@author: a179227</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
+<span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
+<span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span><span class="p">,</span> <span class="n">GEOSPHERE</span>
 <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
 <span class="kn">from</span> <span class="nn">ESObservation</span> <span class="kn">import</span> <span class="n">Observation</span>
+<span class="kn">from</span> <span class="nn">ESValue</span> <span class="kn">import</span> <span class="n">LocationValue</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">bson</span>
 <span class="c1">#from bson.codec_options import CodecOptions</span>
 
-<span class="k">def</span> <span class="nf">dumps</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">dic</span><span class="p">):</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">b_file</span> <span class="p">:</span>   <span class="n">b_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">bson</span><span class="o">.</span><span class="n">BSON</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">dic</span><span class="p">))</span>
+<span class="c1"># Requires the PyMongo package# https://api.mongodb.com/python/current</span>
+<span class="c1"># pathClient = &#39;mongodb+srv://ESobsUser:observation@esobs.gwpay.mongodb.net/test&#39;</span>
+<span class="k">def</span> <span class="nf">clientMongo</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="s1">&#39;ESobsUser&#39;</span><span class="p">,</span> <span class="n">pwd</span><span class="o">=</span><span class="s1">&#39;observation&#39;</span><span class="p">,</span> <span class="n">site</span><span class="o">=</span><span class="s1">&#39;esobs.gwpay.mongodb.net/test&#39;</span><span class="p">):</span>
+    <span class="n">auth</span>        <span class="o">=</span> <span class="s1">&#39;authSource=admin&#39;</span>
+    <span class="n">replicaSet</span>  <span class="o">=</span> <span class="s1">&#39;replicaSet=atlas-13vws6-shard-0&#39;</span>
+    <span class="n">readPref</span>    <span class="o">=</span> <span class="s1">&#39;readPreference=primary&#39;</span>
+    <span class="n">appName</span>     <span class="o">=</span> <span class="s1">&#39;appname=MongoDB%20Compass&#39;</span>
+    <span class="n">ssl</span>         <span class="o">=</span> <span class="s1">&#39;ssl=true&#39;</span>  
+    <span class="n">st</span> <span class="o">=</span> <span class="s1">&#39;mongodb+srv://&#39;</span> <span class="o">+</span> <span class="n">user</span> <span class="o">+</span><span class="s1">&#39;:&#39;</span> <span class="o">+</span> <span class="n">pwd</span> <span class="o">+</span> <span class="s1">&#39;@&#39;</span> <span class="o">+</span> <span class="n">site</span> <span class="o">+</span> \
+            <span class="s1">&#39;?&#39;</span> <span class="o">+</span> <span class="n">auth</span> <span class="o">+</span> \
+            <span class="s1">&#39;&amp;&#39;</span> <span class="o">+</span> <span class="n">replicaSet</span> <span class="o">+</span> \
+            <span class="s1">&#39;&amp;&#39;</span> <span class="o">+</span> <span class="n">readPref</span> <span class="o">+</span> \
+            <span class="s1">&#39;&amp;&#39;</span> <span class="o">+</span> <span class="n">appName</span> <span class="o">+</span> \
+            <span class="s1">&#39;&amp;&#39;</span> <span class="o">+</span> <span class="n">ssl</span>    
+    <span class="k">return</span> <span class="n">MongoClient</span><span class="p">(</span><span class="n">st</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">loads</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">b_file</span> <span class="p">:</span> <span class="n">byt</span> <span class="o">=</span> <span class="n">b_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">BSON</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">byt</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">clientMongo</span><span class="p">()</span>
+<span class="n">collec</span> <span class="o">=</span> <span class="n">client</span><span class="p">[</span><span class="s1">&#39;test_obs&#39;</span><span class="p">][</span><span class="s1">&#39;observation&#39;</span><span class="p">]</span>
+<span class="n">collec</span><span class="o">.</span><span class="n">create_index</span><span class="p">([(</span><span class="s1">&#39;information.geobox&#39;</span><span class="p">,</span> <span class="n">GEOSPHERE</span><span class="p">)])</span>
 
-<span class="k">def</span> <span class="nf">gendicarray</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lenarray</span><span class="p">,</span> <span class="n">eltarray</span><span class="p">):</span>
-    <span class="n">arr</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lenarray</span><span class="p">):</span>
-        <span class="n">arr</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">eltarray</span><span class="p">,</span> <span class="n">eltarray</span><span class="p">,</span> <span class="n">eltarray</span><span class="p">,</span> <span class="n">eltarray</span><span class="p">,</span> <span class="n">eltarray</span><span class="p">])</span>
-    <span class="k">return</span> <span class="p">{</span> <span class="n">name</span> <span class="p">:</span> <span class="n">arr</span><span class="p">}</span>
+<span class="n">match</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;$match&#39;</span> <span class="p">:</span> <span class="p">{</span><span class="s1">&#39;information.geobox&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$exists&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}}}</span>
+<span class="n">proj</span>  <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;$project&#39;</span> <span class="p">:{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;$information.typeobs&#39;</span><span class="p">,</span> <span class="s1">&#39;geobox&#39;</span><span class="p">:</span><span class="s1">&#39;$information.geobox&#39;</span><span class="p">,</span> <span class="s1">&#39;_id&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">}}</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">collec</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span><span class="n">match</span><span class="p">,</span> <span class="n">proj</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">res</span><span class="p">)))</span>
 
-<span class="sd">&#39;&#39;&#39; exemple</span>
+<span class="n">polygon</span> <span class="o">=</span> <span class="n">LocationValue</span><span class="o">.</span><span class="n">Box</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">22</span><span class="p">))</span><span class="o">.</span><span class="n">__geo_interface__</span>
+<span class="n">match</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;$match&#39;</span> <span class="p">:</span> <span class="p">{</span><span class="s1">&#39;information.geobox&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$geoWithin&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$geometry&#39;</span> <span class="p">:</span> <span class="n">polygon</span><span class="p">}}}}</span>
+<span class="n">proj</span>  <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;$project&#39;</span> <span class="p">:{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;$information.typeobs&#39;</span><span class="p">,</span> <span class="s1">&#39;geobox&#39;</span><span class="p">:</span><span class="s1">&#39;$information.geobox&#39;</span><span class="p">,</span> <span class="s1">&#39;_id&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">}}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">collec</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span><span class="n">match</span><span class="p">,</span> <span class="n">proj</span><span class="p">]))))</span>
 
-<span class="sd">a = [[1,2,3], [4,5,6]]</span>
+<span class="n">match</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;$match&#39;</span> <span class="p">:</span> <span class="p">{</span><span class="s1">&#39;information.geobox&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$geoIntersects&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$geometry&#39;</span> <span class="p">:</span> <span class="n">polygon</span><span class="p">}}}}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">collec</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span><span class="n">match</span><span class="p">,</span> <span class="n">proj</span><span class="p">]))))</span>
 
-<span class="sd">by = np.array(a).tobytes()</span>
-<span class="sd">bs = bson.BSON.encode({&#39;a&#39;: by})</span>
+<span class="n">point</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;Point&#39;</span><span class="p">,</span> <span class="s1">&#39;coordinates&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">20.5</span><span class="p">]}</span>
+<span class="n">match</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;$match&#39;</span> <span class="p">:</span> <span class="p">{</span><span class="s1">&#39;information.geobox&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$geoIntersects&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$geometry&#39;</span> <span class="p">:</span> <span class="n">point</span><span class="p">}}}}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">collec</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span><span class="n">match</span><span class="p">,</span> <span class="n">proj</span><span class="p">]))))</span>
 
-<span class="sd">dic=bson.BSON.decode(bs)</span>
-<span class="sd">abis = np.frombuffer(dic[&#39;a&#39;], dtype=&#39;int32&#39;).reshape((2,3)).tolist()</span>
+<span class="c1">#point = LocationValue.Box((5.5,20.5,5.5,20.5)).__geo_interface__</span>
+<span class="c1">#match = {&#39;$match&#39; : {&#39;information.geobox&#39;: {&#39;$geoIntersects&#39;: {&#39;$geometry&#39; : point}}}}</span>
+<span class="c1">#print(tabulate(list(collec.aggregate([match, proj]))))</span>
 
-<span class="sd">obs = db.observation</span>
-<span class="sd">res = obs.insert_one(il.bson())</span>
-<span class="sd">obs.find_one({&quot;_id&quot;:res.inserted_id})</span>
-
-<span class="sd">&#39;&#39;&#39;</span>
-
-
-<span class="sd">&#39;&#39;&#39;# Requires the PyMongo package# https://api.mongodb.com/python/current</span>
-<span class="sd"># pathClient = &#39;mongodb+srv://ESobsUser:observation@esobs.gwpay.mongodb.net/test&#39;</span>
-<span class="sd">user        = &#39;ESobsUser&#39;</span>
-<span class="sd">pwd         = &#39;observation&#39;</span>
-<span class="sd">site        = &#39;esobs.gwpay.mongodb.net/test&#39;</span>
-
-<span class="sd">auth        = &#39;authSource=admin&#39;</span>
-<span class="sd">replicaSet  = &#39;replicaSet=atlas-13vws6-shard-0&#39;</span>
-<span class="sd">readPref    = &#39;readPreference=primary&#39;</span>
-<span class="sd">appName     = &#39;appname=MongoDB%20Compass&#39;</span>
-<span class="sd">ssl         = &#39;ssl=true&#39;</span>
-
-<span class="sd">baseMongo   = &#39;test_obs&#39;</span>
-<span class="sd">collection  = &#39;observation&#39;</span>
-
-<span class="sd">st = &#39;mongodb+srv://&#39; + user +&#39;:&#39; + pwd + &#39;@&#39; + site + \</span>
-<span class="sd">        &#39;?&#39; + auth + \</span>
-<span class="sd">        &#39;&amp;&#39; + replicaSet + \</span>
-<span class="sd">        &#39;&amp;&#39; + readPref + \</span>
-<span class="sd">        &#39;&amp;&#39; + appName + \</span>
-<span class="sd">        &#39;&amp;&#39; + ssl</span>
-
-<span class="sd">client  = MongoClient(st)</span>
-<span class="sd">collec  = client[baseMongo][collection]</span>
-
-<span class="sd">match   = {&#39;$match&#39; : {&#39;propertyList.property&#39;: &#39;Temp&#39;}}</span>
+<span class="sd">&#39;&#39;&#39;match   = {&#39;$match&#39; : {&#39;propertyList.property&#39;: &#39;Temp&#39;}}</span>
 <span class="sd">proj    = { &#39;$project&#39; :{&#39;type&#39;:&#39;$information.typeobs&#39;, &#39;score&#39;:&#39;$information.score&#39;, &#39;_id&#39;:0}}</span>
-
 <span class="sd">res = collec.aggregate([match, proj])</span>
+
+<span class="sd">for r in res : pprint(r)</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39;res = collec.aggregate([match, proj])</span>
 
 <span class="sd">for r in res : pprint(r)</span>
 
@@ -157,79 +142,87 @@
 <span class="sd">    #ob = Observation(json.dumps(r))</span>
 <span class="sd">    #print(ob.json)</span>
 <span class="sd">&#39;&#39;&#39;</span>
-    
-<span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span>
-<span class="n">lenarray</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">eltarray</span> <span class="o">=</span> <span class="mf">1.2</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">{&#39;information.locationBox.0&#39; : {$gte : 5, $lt : 8}, &#39;information.locationBox.2&#39; : {$lt : 7}} </span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">&#39;&#39;&#39;def dumps(file, dic):</span>
+<span class="sd">    with open(file, &quot;wb&quot;) as b_file :   b_file.write(bson.BSON.encode(dic))</span>
+
+<span class="sd">def loads(file):</span>
+<span class="sd">    with open(file, &quot;rb&quot;) as b_file : byt = b_file.read()</span>
+<span class="sd">    return bson.BSON.decode(byt)</span>
+
+<span class="sd">def gendicarray(name, lenarray, eltarray):</span>
+<span class="sd">    arr = []</span>
+<span class="sd">    for i in range(lenarray):</span>
+<span class="sd">        arr.append([eltarray, eltarray, eltarray, eltarray, eltarray])</span>
+<span class="sd">    return { name : arr}</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39; exemple</span>
+
+<span class="sd">a = [[1,2,3], [4,5,6]]</span>
+
+<span class="sd">by = np.array(a).tobytes()</span>
+<span class="sd">bs = bson.BSON.encode({&#39;a&#39;: by})</span>
+
+<span class="sd">dic=bson.BSON.decode(bs)</span>
+<span class="sd">abis = np.frombuffer(dic[&#39;a&#39;], dtype=&#39;int32&#39;).reshape((2,3)).tolist()</span>
+
+<span class="sd">obs = db.observation</span>
+<span class="sd">res = obs.insert_one(il.bson())</span>
+<span class="sd">obs.find_one({&quot;_id&quot;:res.inserted_id})</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
 
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="sd">&#39;&#39;&#39;    </span>
+<span class="sd">name = &#39;test&#39;</span>
+<span class="sd">lenarray = 100</span>
+<span class="sd">eltarray = 1.2</span>
 
-<span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="o">**</span><span class="n">i</span><span class="p">),</span> <span class="n">eltarray</span><span class="p">)</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-<span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">bson</span><span class="o">.</span><span class="n">BSON</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">gendicarray</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="n">i</span><span class="p">,</span> <span class="n">eltarray</span><span class="p">)))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
-<span class="n">dic</span> <span class="o">=</span> <span class="n">bson</span><span class="o">.</span><span class="n">BSON</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">bson</span><span class="o">.</span><span class="n">BSON</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">gendicarray</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">eltarray</span><span class="p">)))</span>
+<span class="sd">import numpy as np</span>
+
+<span class="sd">res = [len(np.full((5,10**i), eltarray).tobytes()) for i in range(5)]</span>
+<span class="sd">print(res)</span>
+<span class="sd">res = [len(bson.BSON.encode(gendicarray(name, 10**i, eltarray))) for i in range(5)]</span>
+<span class="sd">print(res)</span>
+
+<span class="sd">dic = bson.BSON.decode(bson.BSON.encode(gendicarray(name, 10, eltarray)))</span>
+<span class="sd">&#39;&#39;&#39;</span>
 </pre></div>
 
         </details>
 
             </section>
-                <section id="dumps">
-                            <div class="attr function"><a class="headerlink" href="#dumps">#&nbsp;&nbsp</a>
+                <section id="clientMongo">
+                            <div class="attr function"><a class="headerlink" href="#clientMongo">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">dumps</span><span class="signature">(file, dic)</span>:
+            <span class="name">clientMongo</span><span class="signature">(
+    user=&#39;ESobsUser&#39;,
+    pwd=&#39;observation&#39;,
+    site=&#39;esobs.gwpay.mongodb.net/test&#39;
+)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">dumps</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">dic</span><span class="p">):</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">b_file</span> <span class="p">:</span>   <span class="n">b_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">bson</span><span class="o">.</span><span class="n">BSON</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">dic</span><span class="p">))</span>
-</pre></div>
-
-        </details>
-
-    
-
-                </section>
-                <section id="loads">
-                            <div class="attr function"><a class="headerlink" href="#loads">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">loads</span><span class="signature">(file)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">loads</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">b_file</span> <span class="p">:</span> <span class="n">byt</span> <span class="o">=</span> <span class="n">b_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">BSON</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">byt</span><span class="p">)</span>
-</pre></div>
-
-        </details>
-
-    
-
-                </section>
-                <section id="gendicarray">
-                            <div class="attr function"><a class="headerlink" href="#gendicarray">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">gendicarray</span><span class="signature">(name, lenarray, eltarray)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">gendicarray</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lenarray</span><span class="p">,</span> <span class="n">eltarray</span><span class="p">):</span>
-    <span class="n">arr</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lenarray</span><span class="p">):</span>
-        <span class="n">arr</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">eltarray</span><span class="p">,</span> <span class="n">eltarray</span><span class="p">,</span> <span class="n">eltarray</span><span class="p">,</span> <span class="n">eltarray</span><span class="p">,</span> <span class="n">eltarray</span><span class="p">])</span>
-    <span class="k">return</span> <span class="p">{</span> <span class="n">name</span> <span class="p">:</span> <span class="n">arr</span><span class="p">}</span>
+            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">clientMongo</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="s1">&#39;ESobsUser&#39;</span><span class="p">,</span> <span class="n">pwd</span><span class="o">=</span><span class="s1">&#39;observation&#39;</span><span class="p">,</span> <span class="n">site</span><span class="o">=</span><span class="s1">&#39;esobs.gwpay.mongodb.net/test&#39;</span><span class="p">):</span>
+    <span class="n">auth</span>        <span class="o">=</span> <span class="s1">&#39;authSource=admin&#39;</span>
+    <span class="n">replicaSet</span>  <span class="o">=</span> <span class="s1">&#39;replicaSet=atlas-13vws6-shard-0&#39;</span>
+    <span class="n">readPref</span>    <span class="o">=</span> <span class="s1">&#39;readPreference=primary&#39;</span>
+    <span class="n">appName</span>     <span class="o">=</span> <span class="s1">&#39;appname=MongoDB%20Compass&#39;</span>
+    <span class="n">ssl</span>         <span class="o">=</span> <span class="s1">&#39;ssl=true&#39;</span>  
+    <span class="n">st</span> <span class="o">=</span> <span class="s1">&#39;mongodb+srv://&#39;</span> <span class="o">+</span> <span class="n">user</span> <span class="o">+</span><span class="s1">&#39;:&#39;</span> <span class="o">+</span> <span class="n">pwd</span> <span class="o">+</span> <span class="s1">&#39;@&#39;</span> <span class="o">+</span> <span class="n">site</span> <span class="o">+</span> \
+            <span class="s1">&#39;?&#39;</span> <span class="o">+</span> <span class="n">auth</span> <span class="o">+</span> \
+            <span class="s1">&#39;&amp;&#39;</span> <span class="o">+</span> <span class="n">replicaSet</span> <span class="o">+</span> \
+            <span class="s1">&#39;&amp;&#39;</span> <span class="o">+</span> <span class="n">readPref</span> <span class="o">+</span> \
+            <span class="s1">&#39;&amp;&#39;</span> <span class="o">+</span> <span class="n">appName</span> <span class="o">+</span> \
+            <span class="s1">&#39;&amp;&#39;</span> <span class="o">+</span> <span class="n">ssl</span>    
+    <span class="k">return</span> <span class="n">MongoClient</span><span class="p">(</span><span class="n">st</span><span class="p">)</span>
 </pre></div>
 
         </details>
