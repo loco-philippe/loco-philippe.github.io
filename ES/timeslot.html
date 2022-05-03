@@ -57,6 +57,9 @@
                                 <a class="variable" href="#TimeSlot.duration">duration</a>
                         </li>
                         <li>
+                                <a class="function" href="#TimeSlot.form">form</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#TimeSlot.instant">instant</a>
                         </li>
                         <li>
@@ -353,7 +356,7 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;return a tuple with the start and end dates with isoformat string&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">isoformat</span><span class="p">())</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">TimeSlot</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">),</span> <span class="n">TimeSlot</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">end</span><span class="p">))</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">centroid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -366,6 +369,11 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
         <span class="n">duration</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="p">:</span> <span class="n">duration</span> <span class="o">+=</span> <span class="n">interv</span><span class="o">.</span><span class="n">duration</span>
         <span class="k">return</span> <span class="n">duration</span>
+    
+    <span class="nd">@staticmethod</span> 
+    <span class="k">def</span> <span class="nf">form</span><span class="p">(</span><span class="n">dtime</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">dtime</span><span class="o">.</span><span class="n">timetuple</span><span class="p">()[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span><span class="o">==</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span> <span class="k">return</span> <span class="n">dtime</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">dtime</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">instant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
@@ -577,7 +585,7 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;return a tuple with the start and end dates with isoformat string&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">isoformat</span><span class="p">())</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">TimeSlot</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">),</span> <span class="n">TimeSlot</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">))</span>
         
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">centroid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -613,14 +621,15 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
 <span class="sd">        *Returns* : string or dict&#39;&#39;&#39;</span>
         <span class="k">if</span>   <span class="bp">self</span><span class="o">.</span><span class="n">stype</span> <span class="o">==</span> <span class="s1">&#39;instant&#39;</span> <span class="p">:</span> 
             <span class="k">if</span> <span class="n">bjson_bson</span><span class="p">:</span>  <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span>
-            <span class="k">else</span><span class="p">:</span>           <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>           
+                <span class="n">js</span> <span class="o">=</span> <span class="n">TimeSlot</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">stype</span> <span class="o">==</span> <span class="s1">&#39;interval&#39;</span> <span class="p">:</span> 
             <span class="k">if</span> <span class="n">bjson_bson</span><span class="p">:</span>  <span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>           <span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()]</span>
+            <span class="k">else</span><span class="p">:</span>           <span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="n">TimeSlot</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">),</span> <span class="n">TimeSlot</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">)]</span>
         <span class="k">if</span> <span class="n">bjson_format</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">bjson_bson</span><span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">bjson_format</span> <span class="ow">and</span> <span class="n">bjson_bson</span><span class="p">:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">js</span>
-
+    
     <span class="k">def</span> <span class="nf">link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return the status (string) of the link between two TimeIntervals (self and other).</span>
@@ -819,7 +828,7 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;return a tuple with the start and end dates with isoformat string&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">isoformat</span><span class="p">())</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">TimeSlot</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">),</span> <span class="n">TimeSlot</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">end</span><span class="p">))</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">centroid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -832,6 +841,11 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
         <span class="n">duration</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="p">:</span> <span class="n">duration</span> <span class="o">+=</span> <span class="n">interv</span><span class="o">.</span><span class="n">duration</span>
         <span class="k">return</span> <span class="n">duration</span>
+    
+    <span class="nd">@staticmethod</span> 
+    <span class="k">def</span> <span class="nf">form</span><span class="p">(</span><span class="n">dtime</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">dtime</span><span class="o">.</span><span class="n">timetuple</span><span class="p">()[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span><span class="o">==</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span> <span class="k">return</span> <span class="n">dtime</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">dtime</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">instant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
@@ -1100,6 +1114,28 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
             <div class="docstring"><p>cumulative duration of each interval (timedelta format)</p>
 </div>
 
+
+                            </div>
+                            <div id="TimeSlot.form" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#TimeSlot.form">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@staticmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">form</span><span class="signature">(dtime)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span> 
+    <span class="k">def</span> <span class="nf">form</span><span class="p">(</span><span class="n">dtime</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">dtime</span><span class="o">.</span><span class="n">timetuple</span><span class="p">()[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span><span class="o">==</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span> <span class="k">return</span> <span class="n">dtime</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">dtime</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+</pre></div>
+
+        </details>
+
+    
 
                             </div>
                             <div id="TimeSlot.instant" class="classattr">
@@ -1445,7 +1481,7 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;return a tuple with the start and end dates with isoformat string&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">isoformat</span><span class="p">())</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">TimeSlot</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">),</span> <span class="n">TimeSlot</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">))</span>
         
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">centroid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1481,14 +1517,15 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
 <span class="sd">        *Returns* : string or dict&#39;&#39;&#39;</span>
         <span class="k">if</span>   <span class="bp">self</span><span class="o">.</span><span class="n">stype</span> <span class="o">==</span> <span class="s1">&#39;instant&#39;</span> <span class="p">:</span> 
             <span class="k">if</span> <span class="n">bjson_bson</span><span class="p">:</span>  <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span>
-            <span class="k">else</span><span class="p">:</span>           <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>           
+                <span class="n">js</span> <span class="o">=</span> <span class="n">TimeSlot</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">stype</span> <span class="o">==</span> <span class="s1">&#39;interval&#39;</span> <span class="p">:</span> 
             <span class="k">if</span> <span class="n">bjson_bson</span><span class="p">:</span>  <span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>           <span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()]</span>
+            <span class="k">else</span><span class="p">:</span>           <span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="n">TimeSlot</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">),</span> <span class="n">TimeSlot</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">)]</span>
         <span class="k">if</span> <span class="n">bjson_format</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">bjson_bson</span><span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">bjson_format</span> <span class="ow">and</span> <span class="n">bjson_bson</span><span class="p">:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">js</span>
-
+    
     <span class="k">def</span> <span class="nf">link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return the status (string) of the link between two TimeIntervals (self and other).</span>
@@ -1728,10 +1765,11 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
 <span class="sd">        *Returns* : string or dict&#39;&#39;&#39;</span>
         <span class="k">if</span>   <span class="bp">self</span><span class="o">.</span><span class="n">stype</span> <span class="o">==</span> <span class="s1">&#39;instant&#39;</span> <span class="p">:</span> 
             <span class="k">if</span> <span class="n">bjson_bson</span><span class="p">:</span>  <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span>
-            <span class="k">else</span><span class="p">:</span>           <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>           
+                <span class="n">js</span> <span class="o">=</span> <span class="n">TimeSlot</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">stype</span> <span class="o">==</span> <span class="s1">&#39;interval&#39;</span> <span class="p">:</span> 
             <span class="k">if</span> <span class="n">bjson_bson</span><span class="p">:</span>  <span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>           <span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()]</span>
+            <span class="k">else</span><span class="p">:</span>           <span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="n">TimeSlot</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">),</span> <span class="n">TimeSlot</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">)]</span>
         <span class="k">if</span> <span class="n">bjson_format</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">bjson_bson</span><span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">bjson_format</span> <span class="ow">and</span> <span class="n">bjson_bson</span><span class="p">:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">js</span>

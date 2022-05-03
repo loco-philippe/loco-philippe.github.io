@@ -38,6 +38,9 @@
                                 <a class="function" href="#Observation.__init__">Observation</a>
                         </li>
                         <li>
+                                <a class="function" href="#Observation.Ilist">Ilist</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#Observation.axes">axes</a>
                         </li>
                         <li>
@@ -107,7 +110,10 @@
                                 <a class="function" href="#Observation.filter">filter</a>
                         </li>
                         <li>
-                                <a class="function" href="#Observation.from_obs">from_obs</a>
+                                <a class="function" href="#Observation.from_bytes">from_bytes</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Observation.from_file">from_file</a>
                         </li>
                         <li>
                                 <a class="function" href="#Observation.full">full</a>
@@ -137,19 +143,22 @@
                                 <a class="function" href="#Observation.sort">sort</a>
                         </li>
                         <li>
+                                <a class="function" href="#Observation.to_bytes">to_bytes</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Observation.to_csv">to_csv</a>
                         </li>
                         <li>
                                 <a class="function" href="#Observation.to_dataFrame">to_dataFrame</a>
                         </li>
                         <li>
+                                <a class="function" href="#Observation.to_file">to_file</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Observation.to_json">to_json</a>
                         </li>
                         <li>
                                 <a class="function" href="#Observation.to_numpy">to_numpy</a>
-                        </li>
-                        <li>
-                                <a class="function" href="#Observation.to_obs">to_obs</a>
                         </li>
                         <li>
                                 <a class="function" href="#Observation.to_xarray">to_xarray</a>
@@ -225,6 +234,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">struct</span>
 <span class="c1">#import os</span>
 <span class="c1">#os.chdir(&#39;C:/Users/a179227/OneDrive - Alliance/perso Wx/ES standard/python ESstandard/iList&#39;)</span>
 <span class="kn">from</span> <span class="nn">ilist</span> <span class="kn">import</span> <span class="n">Ilist</span>
@@ -311,12 +321,12 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 
 <span class="sd">    *exports - imports*</span>
 
-<span class="sd">    - `Observation.from_obs`</span>
+<span class="sd">    - `Observation.from_file`</span>
 <span class="sd">    - `Observation.to_csv`</span>
 <span class="sd">    - `Observation.to_dataFrame`</span>
 <span class="sd">    - `Observation.to_json`</span>
 <span class="sd">    - `Observation.to_numpy`</span>
-<span class="sd">    - `Observation.to_obs`</span>
+<span class="sd">    - `Observation.to_file`</span>
 <span class="sd">    - `Observation.to_xarray`</span>
 <span class="sd">    - `Observation.to_bytes`              # à voir</span>
 <span class="sd">    - `Observation.from_bytes`            # à voir</span>
@@ -350,7 +360,16 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_id</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initObs</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">Ilist</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ilist</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mAtt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">obs</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        <span class="n">obs</span><span class="o">.</span><span class="n">ilist</span> <span class="o">=</span> <span class="n">ilist</span> 
+        <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="n">obs</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="n">option</span><span class="p">:</span> <span class="n">obs</span><span class="o">.</span><span class="n">option</span> <span class="o">|=</span> <span class="n">option</span>
+        <span class="k">if</span> <span class="n">parameter</span><span class="p">:</span> <span class="n">obs</span><span class="o">.</span><span class="n">parameter</span> <span class="o">=</span> <span class="n">parameter</span> 
+        <span class="k">if</span> <span class="n">mAtt</span><span class="p">:</span> <span class="n">obs</span><span class="o">.</span><span class="n">mAtt</span> <span class="o">|=</span> <span class="n">mAtt</span>
+        <span class="k">return</span> <span class="n">obs</span>
+    
     <span class="k">def</span> <span class="nf">_initObs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; data creation &#39;&#39;&#39;</span>
         <span class="n">dic</span> <span class="o">=</span> <span class="p">{}</span>
@@ -377,31 +396,6 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="nb">tuple</span> <span class="p">:</span>   <span class="c1"># creation uniquement d&#39;un jeu de données dat, loc, prp, res</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
 
-    <span class="sd">&quot;&quot;&quot;def _initDict_old(self, js) :</span>
-<span class="sd">        &#39;&#39;&#39; data creation in dict mode&#39;&#39;&#39;</span>
-<span class="sd">        if ES.obs_id in list(js): self.mAtt[ES.obs_id] = js[ES.obs_id]</span>
-<span class="sd">        if ES.obs_attributes in list(js):</span>
-<span class="sd">            if type(js[ES.obs_attributes]) == dict: js = js[ES.obs_attributes]</span>
-<span class="sd">            else: return</span>
-<span class="sd">        dicidx = {}</span>
-<span class="sd">        dicres = {}</span>
-<span class="sd">        idxref = []</span>
-<span class="sd">        order = []</span>
-<span class="sd">        for classES in ES.esObsClass[0:3] :</span>
-<span class="sd">            if classES in list(js) :</span>
-<span class="sd">                dicidx[classES] =  _EsClassValue[classES].cast(js[classES])</span>
-<span class="sd">                #dicidx[classES] = ESValue.cast(js[classES], _EsClassValue[classES])</span>
-<span class="sd">        if ES.res_classES in list(js) :</span>
-<span class="sd">            dicres[ES.res_classES] = js[ES.res_classES]</span>
-<span class="sd">            #dicres[ES.res_classES] = ESValue.cast(js[ES.res_classES], ResultValue)</span>
-<span class="sd">        if &#39;order&#39; in list(js) : order = js[&#39;order&#39;]</span>
-<span class="sd">        if &#39;idxref&#39; in list(js) : idxref = js[&#39;idxref&#39;]</span>
-<span class="sd">        (v, seti, ii, vname, iname) = Ilist._initdict(dicres, dicidx, order, idxref)</span>
-<span class="sd">        #res = ESValue.cast(v, ResultValue)</span>
-<span class="sd">        res = ResultValue.cast(v)</span>
-<span class="sd">        self.ilist = Ilist(res, seti, ii, vname, iname, defaultidx=False)</span>
-<span class="sd">        self.addAttributes(js)&quot;&quot;&quot;</span>
-
     <span class="k">def</span> <span class="nf">_initDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39; data creation in dict mode&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_id</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_id</span><span class="p">]</span>
@@ -409,25 +403,18 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">js</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_attributes</span><span class="p">])</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_attributes</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span> <span class="k">return</span>
         <span class="n">dicilist</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="c1">#print(js)</span>
-        <span class="sd">&#39;&#39;&#39;dicidx = {}</span>
-<span class="sd">        dicres = {}</span>
-<span class="sd">        idxref = []&#39;&#39;&#39;</span>
         <span class="n">order</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">classES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="p">:</span>
             <span class="k">if</span> <span class="n">classES</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="p">:</span>
                 <span class="n">dicilist</span><span class="p">[</span><span class="n">classES</span><span class="p">]</span> <span class="o">=</span>  <span class="n">_EsClassValue</span><span class="p">[</span><span class="n">classES</span><span class="p">]</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">js</span><span class="p">[</span><span class="n">classES</span><span class="p">])</span>
                 <span class="n">order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">classES</span><span class="p">)</span>
-                <span class="c1">#dicidx[classES] = ESValue.cast(js[classES], _EsClassValue[classES])</span>
         <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="p">:</span>
             <span class="n">dicilist</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">]</span> <span class="o">=</span> <span class="n">ResultValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">js</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">])</span>
-            <span class="c1">#dicres[ES.res_classES] = ESValue.cast(js[ES.res_classES], ResultValue)</span>
         <span class="k">if</span> <span class="s1">&#39;order&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">js</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">])</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span> <span class="n">dicilist</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span> <span class="n">dicilist</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;idxref&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="p">:</span> <span class="n">dicilist</span><span class="p">[</span><span class="s1">&#39;idxref&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="s1">&#39;idxref&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;index&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="p">:</span> <span class="n">dicilist</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]</span>
-        <span class="c1">#print(dicilist)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">from_bjson</span><span class="p">(</span><span class="n">dicilist</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">dicilist</span><span class="p">)</span>
         <span class="n">ordern</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">idxname</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ordern</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">idxname</span><span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">swapindex</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">idxname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ordern</span><span class="p">])</span>
@@ -451,12 +438,6 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
                                  <span class="n">PropertyValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">2</span><span class="p">])],</span>
                                 <span class="n">ordern</span><span class="p">,</span> <span class="n">idxrefn</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">ES</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span>
                                 <span class="n">defaultidx</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="sd">&#39;&#39;&#39;self.ilist = Ilist.Iset(ESValue.cast(lis[3], ResultValue),</span>
-<span class="sd">                                [ESValue.cast(lis[0], DatationValue),</span>
-<span class="sd">                                 ESValue.cast(lis[1], LocationValue),</span>
-<span class="sd">                                 ESValue.cast(lis[2], PropertyValue)],</span>
-<span class="sd">                                order, idxref, ES.esObsClass[3], ES.esObsClass[0:3],</span>
-<span class="sd">                                defaultidx=False)  &#39;&#39;&#39;</span>
 
 <span class="c1">#%% special</span>
     <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -859,8 +840,41 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="n">newobs</span><span class="o">.</span><span class="n">option</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span>
         <span class="k">return</span> <span class="n">newobs</span>
 
+    <span class="nd">@classmethod</span>    
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate `Observation` object from byte value.</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns* : `Observation`&#39;&#39;&#39;</span>
+        <span class="n">iidx</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">iidxref</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">nb_el</span>   <span class="o">=</span>  <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b00001111</span>
+        <span class="n">obsref</span>  <span class="o">=</span> <span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b00010000</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">4</span>
+        <span class="n">code_el</span> <span class="o">=</span> <span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b11100000</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">5</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">ref_obs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">obsref</span><span class="p">:</span> 
+            <span class="n">ref_obs</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;H&#39;</span><span class="p">,</span><span class="n">byt</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="mi">2</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="p">{}</span> 
+        <span class="n">nval</span><span class="o">=-</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_el</span><span class="p">):</span>
+            <span class="n">tup</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_list_from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:],</span> <span class="n">nval</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">nval</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="n">tup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span>   <span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="n">iidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">:</span> <span class="n">iidxref</span> <span class="o">=</span> <span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dic</span><span class="p">:</span> <span class="n">dic</span><span class="p">[</span><span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">tup</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span> 
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span> <span class="n">dic</span><span class="p">[</span><span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> 
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span> <span class="n">dic</span><span class="p">[</span><span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">iidx</span><span class="p">:</span>    <span class="n">dic</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">]</span><span class="o">=</span><span class="n">iidx</span>
+        <span class="k">if</span> <span class="n">iidxref</span><span class="p">:</span>  <span class="n">dic</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">invcodeb</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="p">:</span> <span class="n">ES</span><span class="o">.</span><span class="n">invcodeb</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">iidxref</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="n">Observation</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+    
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_obs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span> <span class="p">:</span>
+    <span class="k">def</span> <span class="nf">from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Generate `Observation` object from file storage.</span>
 
@@ -868,7 +882,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 
 <span class="sd">        - **file** : string - file name (with path)</span>
 
-<span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
+<span class="sd">        *Returns* : `Observation`&#39;&#39;&#39;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">btype</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">btype</span><span class="o">==</span><span class="nb">bytes</span><span class="p">(</span><span class="s1">&#39;{&quot;&#39;</span> <span class="o">+</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="o">+</span><span class="s1">&#39;&quot;: &quot;&#39;</span> <span class="o">+</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_classES</span> <span class="o">+</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">):</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">bjson</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
@@ -1081,11 +1095,13 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
                     <span class="n">obx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">line</span> <span class="p">:</span>
+                <span class="c1">#obx = obx.set_index(prp = &quot;prptyp&quot;, loc=&quot;locstr&quot;)</span>
                 <span class="n">obx</span> <span class="o">=</span> <span class="n">obx</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">prp</span> <span class="o">=</span> <span class="s2">&quot;prpstr&quot;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;locstr&quot;</span><span class="p">)</span>
                 <span class="n">obx</span><span class="o">.</span><span class="n">sortby</span><span class="p">([</span><span class="s2">&quot;dat&quot;</span><span class="p">,</span><span class="s2">&quot;loc&quot;</span><span class="p">,</span><span class="s2">&quot;prp&quot;</span><span class="p">]</span>
                            <span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;dat&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;prp&quot;</span><span class="p">,</span> <span class="n">xticks</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;dat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
                                        <span class="n">col_wrap</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">)</span>
             <span class="k">else</span> <span class="p">:</span>
+                <span class="c1">#obx = obx.set_index(prp = &quot;prptyp&quot;, loc=&quot;locran&quot;)</span>
                 <span class="n">obx</span> <span class="o">=</span> <span class="n">obx</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">prp</span> <span class="o">=</span> <span class="s2">&quot;prpstr&quot;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;locran&quot;</span><span class="p">)</span>
                 <span class="n">obx</span><span class="o">.</span><span class="n">sortby</span><span class="p">([</span><span class="s2">&quot;dat&quot;</span><span class="p">,</span><span class="s2">&quot;loc&quot;</span><span class="p">,</span><span class="s2">&quot;prp&quot;</span><span class="p">]</span>
                            <span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;dat&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;loc&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;prp&quot;</span><span class="p">,</span> <span class="n">col_wrap</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
@@ -1107,6 +1123,37 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        - **None**        &#39;&#39;&#39;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">idxname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">order</span><span class="p">],</span> <span class="n">reindex</span><span class="o">=</span><span class="n">reindex</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">bytedict</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Export in binary format. </span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **bytes** : binary representation of the `Observation`</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">opt</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">bytedict</span> <span class="o">|</span> <span class="n">option</span>
+        <span class="n">nb</span><span class="o">=</span><span class="mi">0</span> 
+        <span class="n">il</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span> 
+        <span class="n">index</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">il</span><span class="o">.</span><span class="n">complete</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">il</span><span class="o">.</span><span class="n">idxname</span><span class="p">:</span> <span class="c1">#!!!!</span>
+            <span class="c1">#if name in opt: nb += len(opt[name]) + 1</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">:</span> <span class="n">nb</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">opt</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="o">+</span> <span class="n">index</span>
+        <span class="k">if</span> <span class="n">il</span><span class="o">.</span><span class="n">valname</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">:</span> <span class="n">nb</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">opt</span><span class="p">[</span><span class="n">il</span><span class="o">.</span><span class="n">valname</span><span class="p">])</span>
+        <span class="n">nb</span> <span class="o">+=</span> <span class="n">il</span><span class="o">.</span><span class="n">complete</span>
+        <span class="n">byt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="mb">0b11100000</span> <span class="o">|</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_reference</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="p">)</span> <span class="o">|</span> <span class="n">nb</span><span class="p">)</span> 
+        <span class="k">if</span> <span class="n">il</span><span class="o">.</span><span class="n">valname</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">:</span> 
+            <span class="k">for</span> <span class="n">typevalue</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">[</span><span class="n">il</span><span class="o">.</span><span class="n">valname</span><span class="p">]:</span> 
+                <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_bytes</span><span class="p">(</span><span class="n">il</span><span class="o">.</span><span class="n">extval</span><span class="p">,</span> <span class="n">il</span><span class="o">.</span><span class="n">valname</span><span class="p">,</span> <span class="n">typevalue</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">il</span><span class="o">.</span><span class="n">lenidx</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">il</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">typevalue</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">[</span><span class="n">il</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]]:</span> 
+                    <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_bytes</span><span class="p">(</span><span class="n">il</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">il</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">typevalue</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">il</span><span class="o">.</span><span class="n">complete</span><span class="p">:</span> <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_bytes</span><span class="p">(</span><span class="n">il</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">il</span><span class="o">.</span><span class="n">complete</span><span class="p">:</span> 
+            <span class="n">iidxref</span><span class="o">=</span><span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="p">:</span> <span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">il</span><span class="o">.</span><span class="n">dicidxref</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_bytes</span><span class="p">(</span><span class="n">iidxref</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">byt</span>
 
     <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1158,6 +1205,28 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
                                   <span class="n">func</span><span class="o">=</span><span class="n">func</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">ind</span>
                                   <span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
         <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate obs file to display `Observation` data.</span>
+
+<span class="sd">         *Parameters (kwargs)*</span>
+
+<span class="sd">        - **file** : string - file name (with path)</span>
+<span class="sd">        - **kwargs** : see &#39;to_json&#39; parameters</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **Integer** : file lenght (bytes)  &#39;&#39;&#39;</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="n">kwargs</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;json_res_index&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span>
+            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">))</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">lendata</span>
 
     <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1212,28 +1281,6 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 
 <span class="sd">        - **Numpy array**    &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">func</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">ind</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="n">fillvalue</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">to_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Generate obs file to display `Observation` data.</span>
-
-<span class="sd">         *Parameters (kwargs)*</span>
-
-<span class="sd">        - **file** : string - file name (with path)</span>
-<span class="sd">        - **kwargs** : see &#39;to_json&#39; parameters</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **Integer** : file lenght (bytes)  &#39;&#39;&#39;</span>
-        <span class="n">option</span> <span class="o">=</span> <span class="n">kwargs</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;json_res_index&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span>
-            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">))</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">lendata</span>
 
     <span class="k">def</span> <span class="nf">to_xarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span>
                   <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Observation&#39;</span><span class="p">,</span> <span class="n">maxname</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -1487,6 +1534,82 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">else</span><span class="p">:</span> <span class="n">att</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
         <span class="k">return</span> <span class="n">att</span>
 
+
+    <span class="nd">@staticmethod</span> 
+    <span class="k">def</span> <span class="nf">_list_from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">,</span> <span class="n">nv</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">lis</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">code_el</span> <span class="o">=</span> <span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b11100000</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">5</span>
+        <span class="n">unique</span>  <span class="o">=</span> <span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b00010000</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">4</span>        
+        <span class="n">code_ES</span> <span class="o">=</span>  <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b00001111</span>
+        <span class="c1">#if byt[0:1] == struct.pack(&#39;&lt;B&#39;, 0b11000000):</span>
+        <span class="k">if</span> <span class="n">code_el</span> <span class="o">==</span> <span class="mi">6</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">unique</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nv</span><span class="p">):</span>
+                <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span><span class="n">byt</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">nv</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">lis</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  
+        <span class="k">if</span> <span class="n">code_el</span> <span class="o">==</span> <span class="mi">6</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">:</span>
+            <span class="n">dic</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">code_ES</span><span class="p">):</span>
+                <span class="n">dic</span><span class="p">[</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span><span class="n">byt</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">])[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span><span class="n">byt</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">code_ES</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dic</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">nameES</span>  <span class="o">=</span> <span class="n">code_ES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">namevalue</span>
+        <span class="n">mini</span>    <span class="o">=</span> <span class="n">code_ES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">minivalue</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">nval</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">unique</span><span class="p">:</span> 
+            <span class="n">nval</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;H&#39;</span><span class="p">,</span><span class="n">byt</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="mi">2</span>
+        <span class="k">if</span> <span class="n">code_el</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">],</span> <span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_value</span><span class="p">]]:</span>
+            <span class="n">code_el</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nval</span><span class="p">):</span>
+            <span class="n">esVal</span> <span class="o">=</span> <span class="n">_EsClassValue</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">invcodeb</span><span class="p">[</span><span class="n">code_el</span><span class="p">]]()</span>
+            <span class="k">if</span> <span class="n">nameES</span> <span class="ow">and</span> <span class="n">mini</span><span class="p">:</span> 
+                <span class="n">n</span> <span class="o">=</span> <span class="n">esVal</span><span class="o">.</span><span class="n">_from_strBytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:</span><span class="n">idx</span><span class="o">+</span><span class="n">ES</span><span class="o">.</span><span class="n">miniStr</span><span class="p">],</span> <span class="n">simple</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">nameES</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">mini</span><span class="p">:</span> 
+                <span class="n">n</span> <span class="o">=</span> <span class="n">esVal</span><span class="o">.</span><span class="n">_from_strBytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:],</span> <span class="n">simple</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">code_el</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">]:</span> 
+                <span class="n">n</span> <span class="o">=</span> <span class="n">esVal</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:],</span> <span class="n">ES</span><span class="o">.</span><span class="n">invProp</span><span class="p">[</span><span class="n">code_ES</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span> 
+                <span class="n">n</span> <span class="o">=</span> <span class="n">esVal</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:],</span> <span class="n">mini</span><span class="p">)</span>
+            <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">esVal</span><span class="p">)</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="n">n</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">lis</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">invcodeb</span><span class="p">[</span><span class="n">code_el</span><span class="p">],</span> <span class="n">nameES</span><span class="p">)</span>  
+
+    <span class="nd">@staticmethod</span> 
+    <span class="k">def</span> <span class="nf">_list_to_bytes</span><span class="p">(</span><span class="n">eslist</span><span class="p">,</span> <span class="n">classES</span><span class="p">,</span> <span class="n">typevalue</span><span class="p">):</span>
+        <span class="n">unique</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">eslist</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> 
+        <span class="n">arg</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">typevalue</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">:</span>        
+            <span class="n">arg</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">typevalue</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">codeEl</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_value</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">typevalue</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">codevalue</span><span class="p">:</span>   
+            <span class="n">arg</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">codevalue</span><span class="p">[</span><span class="n">typevalue</span><span class="p">]</span>
+            <span class="n">codeEl</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">classES</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">typevalue</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">]:</span> <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">ObservationError</span><span class="p">(</span><span class="s2">&quot;typevalue not consistent&quot;</span><span class="p">)</span>
+        <span class="n">mini</span> <span class="o">=</span> <span class="n">typevalue</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">codevalue</span> <span class="ow">and</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">minivalue</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">typevalue</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">codevalue</span> <span class="ow">and</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">namevalue</span>        
+        <span class="k">if</span> <span class="n">typevalue</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> 
+            <span class="n">byt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="mb">0b11000000</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">typevalue</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">:</span> 
+            <span class="n">byt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">|</span> <span class="p">((</span><span class="n">typevalue</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="p">)</span> <span class="o">|</span> <span class="nb">len</span><span class="p">(</span><span class="n">eslist</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">byt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">codeEl</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">unique</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="p">)</span> <span class="o">|</span> <span class="n">arg</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">unique</span> <span class="p">:</span> <span class="n">byt</span> <span class="o">+=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;H&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">eslist</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">and</span> <span class="n">mini</span><span class="p">:</span> 
+            <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">eslist</span><span class="p">:</span> <span class="n">byt</span> <span class="o">+=</span> <span class="n">val</span><span class="o">.</span><span class="n">_to_strBytes</span><span class="p">(</span><span class="n">simple</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">name</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">mini</span><span class="p">:</span> 
+            <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">eslist</span><span class="p">:</span> <span class="n">byt</span> <span class="o">+=</span> <span class="n">val</span><span class="o">.</span><span class="n">_to_strBytes</span><span class="p">(</span><span class="n">simple</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">classES</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">:</span> 
+            <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">eslist</span><span class="p">:</span> <span class="n">byt</span> <span class="o">+=</span> <span class="n">val</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">typevalue</span><span class="p">)</span> 
+        <span class="k">elif</span> <span class="n">typevalue</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">eslist</span><span class="p">:</span> <span class="n">byt</span> <span class="o">+=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>        
+        <span class="k">elif</span> <span class="n">typevalue</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">eslist</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> 
+                <span class="n">byt</span> <span class="o">+=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+                <span class="n">byt</span> <span class="o">+=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">eslist</span><span class="p">:</span> <span class="n">byt</span> <span class="o">+=</span> <span class="n">val</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">mini</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">byt</span>
+    
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_majList</span><span class="p">(</span><span class="n">listVal</span><span class="p">,</span> <span class="n">newlistVal</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; update value or name in a list of `ES.ESValue` &#39;&#39;&#39;</span>
@@ -1706,12 +1829,12 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 
 <span class="sd">    *exports - imports*</span>
 
-<span class="sd">    - `Observation.from_obs`</span>
+<span class="sd">    - `Observation.from_file`</span>
 <span class="sd">    - `Observation.to_csv`</span>
 <span class="sd">    - `Observation.to_dataFrame`</span>
 <span class="sd">    - `Observation.to_json`</span>
 <span class="sd">    - `Observation.to_numpy`</span>
-<span class="sd">    - `Observation.to_obs`</span>
+<span class="sd">    - `Observation.to_file`</span>
 <span class="sd">    - `Observation.to_xarray`</span>
 <span class="sd">    - `Observation.to_bytes`              # à voir</span>
 <span class="sd">    - `Observation.from_bytes`            # à voir</span>
@@ -1745,7 +1868,16 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_id</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initObs</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">Ilist</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ilist</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mAtt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">obs</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        <span class="n">obs</span><span class="o">.</span><span class="n">ilist</span> <span class="o">=</span> <span class="n">ilist</span> 
+        <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="n">obs</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="n">option</span><span class="p">:</span> <span class="n">obs</span><span class="o">.</span><span class="n">option</span> <span class="o">|=</span> <span class="n">option</span>
+        <span class="k">if</span> <span class="n">parameter</span><span class="p">:</span> <span class="n">obs</span><span class="o">.</span><span class="n">parameter</span> <span class="o">=</span> <span class="n">parameter</span> 
+        <span class="k">if</span> <span class="n">mAtt</span><span class="p">:</span> <span class="n">obs</span><span class="o">.</span><span class="n">mAtt</span> <span class="o">|=</span> <span class="n">mAtt</span>
+        <span class="k">return</span> <span class="n">obs</span>
+    
     <span class="k">def</span> <span class="nf">_initObs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; data creation &#39;&#39;&#39;</span>
         <span class="n">dic</span> <span class="o">=</span> <span class="p">{}</span>
@@ -1772,31 +1904,6 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="nb">tuple</span> <span class="p">:</span>   <span class="c1"># creation uniquement d&#39;un jeu de données dat, loc, prp, res</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">arg</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
 
-    <span class="sd">&quot;&quot;&quot;def _initDict_old(self, js) :</span>
-<span class="sd">        &#39;&#39;&#39; data creation in dict mode&#39;&#39;&#39;</span>
-<span class="sd">        if ES.obs_id in list(js): self.mAtt[ES.obs_id] = js[ES.obs_id]</span>
-<span class="sd">        if ES.obs_attributes in list(js):</span>
-<span class="sd">            if type(js[ES.obs_attributes]) == dict: js = js[ES.obs_attributes]</span>
-<span class="sd">            else: return</span>
-<span class="sd">        dicidx = {}</span>
-<span class="sd">        dicres = {}</span>
-<span class="sd">        idxref = []</span>
-<span class="sd">        order = []</span>
-<span class="sd">        for classES in ES.esObsClass[0:3] :</span>
-<span class="sd">            if classES in list(js) :</span>
-<span class="sd">                dicidx[classES] =  _EsClassValue[classES].cast(js[classES])</span>
-<span class="sd">                #dicidx[classES] = ESValue.cast(js[classES], _EsClassValue[classES])</span>
-<span class="sd">        if ES.res_classES in list(js) :</span>
-<span class="sd">            dicres[ES.res_classES] = js[ES.res_classES]</span>
-<span class="sd">            #dicres[ES.res_classES] = ESValue.cast(js[ES.res_classES], ResultValue)</span>
-<span class="sd">        if &#39;order&#39; in list(js) : order = js[&#39;order&#39;]</span>
-<span class="sd">        if &#39;idxref&#39; in list(js) : idxref = js[&#39;idxref&#39;]</span>
-<span class="sd">        (v, seti, ii, vname, iname) = Ilist._initdict(dicres, dicidx, order, idxref)</span>
-<span class="sd">        #res = ESValue.cast(v, ResultValue)</span>
-<span class="sd">        res = ResultValue.cast(v)</span>
-<span class="sd">        self.ilist = Ilist(res, seti, ii, vname, iname, defaultidx=False)</span>
-<span class="sd">        self.addAttributes(js)&quot;&quot;&quot;</span>
-
     <span class="k">def</span> <span class="nf">_initDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">js</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39; data creation in dict mode&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_id</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_id</span><span class="p">]</span>
@@ -1804,25 +1911,18 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">js</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_attributes</span><span class="p">])</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span> <span class="n">js</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_attributes</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span> <span class="k">return</span>
         <span class="n">dicilist</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="c1">#print(js)</span>
-        <span class="sd">&#39;&#39;&#39;dicidx = {}</span>
-<span class="sd">        dicres = {}</span>
-<span class="sd">        idxref = []&#39;&#39;&#39;</span>
         <span class="n">order</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">classES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="p">:</span>
             <span class="k">if</span> <span class="n">classES</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="p">:</span>
                 <span class="n">dicilist</span><span class="p">[</span><span class="n">classES</span><span class="p">]</span> <span class="o">=</span>  <span class="n">_EsClassValue</span><span class="p">[</span><span class="n">classES</span><span class="p">]</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">js</span><span class="p">[</span><span class="n">classES</span><span class="p">])</span>
                 <span class="n">order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">classES</span><span class="p">)</span>
-                <span class="c1">#dicidx[classES] = ESValue.cast(js[classES], _EsClassValue[classES])</span>
         <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="p">:</span>
             <span class="n">dicilist</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">]</span> <span class="o">=</span> <span class="n">ResultValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">js</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">])</span>
-            <span class="c1">#dicres[ES.res_classES] = ESValue.cast(js[ES.res_classES], ResultValue)</span>
         <span class="k">if</span> <span class="s1">&#39;order&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">js</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">])</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span> <span class="n">dicilist</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span> <span class="n">dicilist</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;idxref&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="p">:</span> <span class="n">dicilist</span><span class="p">[</span><span class="s1">&#39;idxref&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="s1">&#39;idxref&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;index&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">js</span><span class="p">)</span> <span class="p">:</span> <span class="n">dicilist</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">js</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]</span>
-        <span class="c1">#print(dicilist)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">from_bjson</span><span class="p">(</span><span class="n">dicilist</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">dicilist</span><span class="p">)</span>
         <span class="n">ordern</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">idxname</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ordern</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">idxname</span><span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">swapindex</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">idxname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ordern</span><span class="p">])</span>
@@ -1846,12 +1946,6 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
                                  <span class="n">PropertyValue</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">2</span><span class="p">])],</span>
                                 <span class="n">ordern</span><span class="p">,</span> <span class="n">idxrefn</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">ES</span><span class="o">.</span><span class="n">esObsClass</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span>
                                 <span class="n">defaultidx</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="sd">&#39;&#39;&#39;self.ilist = Ilist.Iset(ESValue.cast(lis[3], ResultValue),</span>
-<span class="sd">                                [ESValue.cast(lis[0], DatationValue),</span>
-<span class="sd">                                 ESValue.cast(lis[1], LocationValue),</span>
-<span class="sd">                                 ESValue.cast(lis[2], PropertyValue)],</span>
-<span class="sd">                                order, idxref, ES.esObsClass[3], ES.esObsClass[0:3],</span>
-<span class="sd">                                defaultidx=False)  &#39;&#39;&#39;</span>
 
 <span class="c1">#%% special</span>
     <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -2254,8 +2348,41 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
         <span class="n">newobs</span><span class="o">.</span><span class="n">option</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">option</span>
         <span class="k">return</span> <span class="n">newobs</span>
 
+    <span class="nd">@classmethod</span>    
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate `Observation` object from byte value.</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns* : `Observation`&#39;&#39;&#39;</span>
+        <span class="n">iidx</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">iidxref</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">nb_el</span>   <span class="o">=</span>  <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b00001111</span>
+        <span class="n">obsref</span>  <span class="o">=</span> <span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b00010000</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">4</span>
+        <span class="n">code_el</span> <span class="o">=</span> <span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b11100000</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">5</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">ref_obs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">obsref</span><span class="p">:</span> 
+            <span class="n">ref_obs</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;H&#39;</span><span class="p">,</span><span class="n">byt</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="mi">2</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="p">{}</span> 
+        <span class="n">nval</span><span class="o">=-</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_el</span><span class="p">):</span>
+            <span class="n">tup</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_list_from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:],</span> <span class="n">nval</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">nval</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="n">tup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span>   <span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="n">iidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">:</span> <span class="n">iidxref</span> <span class="o">=</span> <span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dic</span><span class="p">:</span> <span class="n">dic</span><span class="p">[</span><span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">tup</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span> 
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span> <span class="n">dic</span><span class="p">[</span><span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> 
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span> <span class="n">dic</span><span class="p">[</span><span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">iidx</span><span class="p">:</span>    <span class="n">dic</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">]</span><span class="o">=</span><span class="n">iidx</span>
+        <span class="k">if</span> <span class="n">iidxref</span><span class="p">:</span>  <span class="n">dic</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">invcodeb</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="p">:</span> <span class="n">ES</span><span class="o">.</span><span class="n">invcodeb</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">iidxref</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="n">Observation</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+    
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_obs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span> <span class="p">:</span>
+    <span class="k">def</span> <span class="nf">from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Generate `Observation` object from file storage.</span>
 
@@ -2263,7 +2390,7 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 
 <span class="sd">        - **file** : string - file name (with path)</span>
 
-<span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
+<span class="sd">        *Returns* : `Observation`&#39;&#39;&#39;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">btype</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">btype</span><span class="o">==</span><span class="nb">bytes</span><span class="p">(</span><span class="s1">&#39;{&quot;&#39;</span> <span class="o">+</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="o">+</span><span class="s1">&#39;&quot;: &quot;&#39;</span> <span class="o">+</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_classES</span> <span class="o">+</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">):</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">bjson</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
@@ -2476,11 +2603,13 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
                     <span class="n">obx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">line</span> <span class="p">:</span>
+                <span class="c1">#obx = obx.set_index(prp = &quot;prptyp&quot;, loc=&quot;locstr&quot;)</span>
                 <span class="n">obx</span> <span class="o">=</span> <span class="n">obx</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">prp</span> <span class="o">=</span> <span class="s2">&quot;prpstr&quot;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;locstr&quot;</span><span class="p">)</span>
                 <span class="n">obx</span><span class="o">.</span><span class="n">sortby</span><span class="p">([</span><span class="s2">&quot;dat&quot;</span><span class="p">,</span><span class="s2">&quot;loc&quot;</span><span class="p">,</span><span class="s2">&quot;prp&quot;</span><span class="p">]</span>
                            <span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;dat&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;prp&quot;</span><span class="p">,</span> <span class="n">xticks</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;dat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
                                        <span class="n">col_wrap</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">)</span>
             <span class="k">else</span> <span class="p">:</span>
+                <span class="c1">#obx = obx.set_index(prp = &quot;prptyp&quot;, loc=&quot;locran&quot;)</span>
                 <span class="n">obx</span> <span class="o">=</span> <span class="n">obx</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">prp</span> <span class="o">=</span> <span class="s2">&quot;prpstr&quot;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;locran&quot;</span><span class="p">)</span>
                 <span class="n">obx</span><span class="o">.</span><span class="n">sortby</span><span class="p">([</span><span class="s2">&quot;dat&quot;</span><span class="p">,</span><span class="s2">&quot;loc&quot;</span><span class="p">,</span><span class="s2">&quot;prp&quot;</span><span class="p">]</span>
                            <span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;dat&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;loc&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;prp&quot;</span><span class="p">,</span> <span class="n">col_wrap</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
@@ -2502,6 +2631,37 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">        - **None**        &#39;&#39;&#39;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">idxname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">order</span><span class="p">],</span> <span class="n">reindex</span><span class="o">=</span><span class="n">reindex</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">bytedict</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Export in binary format. </span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **bytes** : binary representation of the `Observation`</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">opt</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">bytedict</span> <span class="o">|</span> <span class="n">option</span>
+        <span class="n">nb</span><span class="o">=</span><span class="mi">0</span> 
+        <span class="n">il</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span> 
+        <span class="n">index</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">il</span><span class="o">.</span><span class="n">complete</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">il</span><span class="o">.</span><span class="n">idxname</span><span class="p">:</span> <span class="c1">#!!!!</span>
+            <span class="c1">#if name in opt: nb += len(opt[name]) + 1</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">:</span> <span class="n">nb</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">opt</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="o">+</span> <span class="n">index</span>
+        <span class="k">if</span> <span class="n">il</span><span class="o">.</span><span class="n">valname</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">:</span> <span class="n">nb</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">opt</span><span class="p">[</span><span class="n">il</span><span class="o">.</span><span class="n">valname</span><span class="p">])</span>
+        <span class="n">nb</span> <span class="o">+=</span> <span class="n">il</span><span class="o">.</span><span class="n">complete</span>
+        <span class="n">byt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="mb">0b11100000</span> <span class="o">|</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_reference</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="p">)</span> <span class="o">|</span> <span class="n">nb</span><span class="p">)</span> 
+        <span class="k">if</span> <span class="n">il</span><span class="o">.</span><span class="n">valname</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">:</span> 
+            <span class="k">for</span> <span class="n">typevalue</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">[</span><span class="n">il</span><span class="o">.</span><span class="n">valname</span><span class="p">]:</span> 
+                <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_bytes</span><span class="p">(</span><span class="n">il</span><span class="o">.</span><span class="n">extval</span><span class="p">,</span> <span class="n">il</span><span class="o">.</span><span class="n">valname</span><span class="p">,</span> <span class="n">typevalue</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">il</span><span class="o">.</span><span class="n">lenidx</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">il</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">typevalue</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">[</span><span class="n">il</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]]:</span> 
+                    <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_bytes</span><span class="p">(</span><span class="n">il</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">il</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">typevalue</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">il</span><span class="o">.</span><span class="n">complete</span><span class="p">:</span> <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_bytes</span><span class="p">(</span><span class="n">il</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">il</span><span class="o">.</span><span class="n">complete</span><span class="p">:</span> 
+            <span class="n">iidxref</span><span class="o">=</span><span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="p">:</span> <span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">il</span><span class="o">.</span><span class="n">dicidxref</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_bytes</span><span class="p">(</span><span class="n">iidxref</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">byt</span>
 
     <span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -2553,6 +2713,28 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
                                   <span class="n">func</span><span class="o">=</span><span class="n">func</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">ind</span>
                                   <span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
         <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate obs file to display `Observation` data.</span>
+
+<span class="sd">         *Parameters (kwargs)*</span>
+
+<span class="sd">        - **file** : string - file name (with path)</span>
+<span class="sd">        - **kwargs** : see &#39;to_json&#39; parameters</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **Integer** : file lenght (bytes)  &#39;&#39;&#39;</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="n">kwargs</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;json_res_index&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span>
+            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">))</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">lendata</span>
 
     <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -2607,28 +2789,6 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 
 <span class="sd">        - **Numpy array**    &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">func</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">ind</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="n">fillvalue</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">to_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Generate obs file to display `Observation` data.</span>
-
-<span class="sd">         *Parameters (kwargs)*</span>
-
-<span class="sd">        - **file** : string - file name (with path)</span>
-<span class="sd">        - **kwargs** : see &#39;to_json&#39; parameters</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **Integer** : file lenght (bytes)  &#39;&#39;&#39;</span>
-        <span class="n">option</span> <span class="o">=</span> <span class="n">kwargs</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;json_res_index&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span>
-            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">))</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">lendata</span>
 
     <span class="k">def</span> <span class="nf">to_xarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span>
                   <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Observation&#39;</span><span class="p">,</span> <span class="n">maxname</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -2882,6 +3042,82 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
             <span class="k">else</span><span class="p">:</span> <span class="n">att</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
         <span class="k">return</span> <span class="n">att</span>
 
+
+    <span class="nd">@staticmethod</span> 
+    <span class="k">def</span> <span class="nf">_list_from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">,</span> <span class="n">nv</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">lis</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">code_el</span> <span class="o">=</span> <span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b11100000</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">5</span>
+        <span class="n">unique</span>  <span class="o">=</span> <span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b00010000</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">4</span>        
+        <span class="n">code_ES</span> <span class="o">=</span>  <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b00001111</span>
+        <span class="c1">#if byt[0:1] == struct.pack(&#39;&lt;B&#39;, 0b11000000):</span>
+        <span class="k">if</span> <span class="n">code_el</span> <span class="o">==</span> <span class="mi">6</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">unique</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nv</span><span class="p">):</span>
+                <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span><span class="n">byt</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">nv</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">lis</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  
+        <span class="k">if</span> <span class="n">code_el</span> <span class="o">==</span> <span class="mi">6</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">:</span>
+            <span class="n">dic</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">code_ES</span><span class="p">):</span>
+                <span class="n">dic</span><span class="p">[</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span><span class="n">byt</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">])[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span><span class="n">byt</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">code_ES</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dic</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">nameES</span>  <span class="o">=</span> <span class="n">code_ES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">namevalue</span>
+        <span class="n">mini</span>    <span class="o">=</span> <span class="n">code_ES</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">minivalue</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">nval</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">unique</span><span class="p">:</span> 
+            <span class="n">nval</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;H&#39;</span><span class="p">,</span><span class="n">byt</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="mi">2</span>
+        <span class="k">if</span> <span class="n">code_el</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">],</span> <span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_value</span><span class="p">]]:</span>
+            <span class="n">code_el</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nval</span><span class="p">):</span>
+            <span class="n">esVal</span> <span class="o">=</span> <span class="n">_EsClassValue</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">invcodeb</span><span class="p">[</span><span class="n">code_el</span><span class="p">]]()</span>
+            <span class="k">if</span> <span class="n">nameES</span> <span class="ow">and</span> <span class="n">mini</span><span class="p">:</span> 
+                <span class="n">n</span> <span class="o">=</span> <span class="n">esVal</span><span class="o">.</span><span class="n">_from_strBytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:</span><span class="n">idx</span><span class="o">+</span><span class="n">ES</span><span class="o">.</span><span class="n">miniStr</span><span class="p">],</span> <span class="n">simple</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">nameES</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">mini</span><span class="p">:</span> 
+                <span class="n">n</span> <span class="o">=</span> <span class="n">esVal</span><span class="o">.</span><span class="n">_from_strBytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:],</span> <span class="n">simple</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">code_el</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">]:</span> 
+                <span class="n">n</span> <span class="o">=</span> <span class="n">esVal</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:],</span> <span class="n">ES</span><span class="o">.</span><span class="n">invProp</span><span class="p">[</span><span class="n">code_ES</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span> 
+                <span class="n">n</span> <span class="o">=</span> <span class="n">esVal</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:],</span> <span class="n">mini</span><span class="p">)</span>
+            <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">esVal</span><span class="p">)</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="n">n</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">lis</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">invcodeb</span><span class="p">[</span><span class="n">code_el</span><span class="p">],</span> <span class="n">nameES</span><span class="p">)</span>  
+
+    <span class="nd">@staticmethod</span> 
+    <span class="k">def</span> <span class="nf">_list_to_bytes</span><span class="p">(</span><span class="n">eslist</span><span class="p">,</span> <span class="n">classES</span><span class="p">,</span> <span class="n">typevalue</span><span class="p">):</span>
+        <span class="n">unique</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">eslist</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> 
+        <span class="n">arg</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">typevalue</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">:</span>        
+            <span class="n">arg</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">typevalue</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">codeEl</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_value</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">typevalue</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">codevalue</span><span class="p">:</span>   
+            <span class="n">arg</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">codevalue</span><span class="p">[</span><span class="n">typevalue</span><span class="p">]</span>
+            <span class="n">codeEl</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">classES</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">typevalue</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">]:</span> <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">ObservationError</span><span class="p">(</span><span class="s2">&quot;typevalue not consistent&quot;</span><span class="p">)</span>
+        <span class="n">mini</span> <span class="o">=</span> <span class="n">typevalue</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">codevalue</span> <span class="ow">and</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">minivalue</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">typevalue</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">codevalue</span> <span class="ow">and</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">namevalue</span>        
+        <span class="k">if</span> <span class="n">typevalue</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> 
+            <span class="n">byt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="mb">0b11000000</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">typevalue</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">:</span> 
+            <span class="n">byt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">|</span> <span class="p">((</span><span class="n">typevalue</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="p">)</span> <span class="o">|</span> <span class="nb">len</span><span class="p">(</span><span class="n">eslist</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">byt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">codeEl</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">unique</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="p">)</span> <span class="o">|</span> <span class="n">arg</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">unique</span> <span class="p">:</span> <span class="n">byt</span> <span class="o">+=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;H&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">eslist</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">and</span> <span class="n">mini</span><span class="p">:</span> 
+            <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">eslist</span><span class="p">:</span> <span class="n">byt</span> <span class="o">+=</span> <span class="n">val</span><span class="o">.</span><span class="n">_to_strBytes</span><span class="p">(</span><span class="n">simple</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">name</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">mini</span><span class="p">:</span> 
+            <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">eslist</span><span class="p">:</span> <span class="n">byt</span> <span class="o">+=</span> <span class="n">val</span><span class="o">.</span><span class="n">_to_strBytes</span><span class="p">(</span><span class="n">simple</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">classES</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">:</span> 
+            <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">eslist</span><span class="p">:</span> <span class="n">byt</span> <span class="o">+=</span> <span class="n">val</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">typevalue</span><span class="p">)</span> 
+        <span class="k">elif</span> <span class="n">typevalue</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">eslist</span><span class="p">:</span> <span class="n">byt</span> <span class="o">+=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>        
+        <span class="k">elif</span> <span class="n">typevalue</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">eslist</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> 
+                <span class="n">byt</span> <span class="o">+=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+                <span class="n">byt</span> <span class="o">+=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">eslist</span><span class="p">:</span> <span class="n">byt</span> <span class="o">+=</span> <span class="n">val</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">mini</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">byt</span>
+    
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_majList</span><span class="p">(</span><span class="n">listVal</span><span class="p">,</span> <span class="n">newlistVal</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; update value or name in a list of `ES.ESValue` &#39;&#39;&#39;</span>
@@ -3101,15 +3337,15 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <p><em>exports - imports</em></p>
 
 <ul>
-<li><code><a href="#Observation.from_obs">Observation.from_obs</a></code></li>
+<li><code><a href="#Observation.from_file">Observation.from_file</a></code></li>
 <li><code><a href="#Observation.to_csv">Observation.to_csv</a></code></li>
 <li><code><a href="#Observation.to_dataFrame">Observation.to_dataFrame</a></code></li>
 <li><code><a href="#Observation.to_json">Observation.to_json</a></code></li>
 <li><code><a href="#Observation.to_numpy">Observation.to_numpy</a></code></li>
-<li><code><a href="#Observation.to_obs">Observation.to_obs</a></code></li>
+<li><code><a href="#Observation.to_file">Observation.to_file</a></code></li>
 <li><code><a href="#Observation.to_xarray">Observation.to_xarray</a></code></li>
-<li><code>Observation.to_bytes</code>              # à voir</li>
-<li><code>Observation.from_bytes</code>            # à voir</li>
+<li><code><a href="#Observation.to_bytes">Observation.to_bytes</a></code>              # à voir</li>
+<li><code><a href="#Observation.from_bytes">Observation.from_bytes</a></code>            # à voir</li>
 </ul>
 </div>
 
@@ -3170,6 +3406,33 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 'order' indicates the order for the Index creation and 'idxref' the linked index (0 for Datation, 1 for Location, 2 for Property).</em></p>
 </div>
 
+
+                            </div>
+                            <div id="Observation.Ilist" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Observation.Ilist">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@classmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">Ilist</span><span class="signature">(cls, ilist, name=&#39;&#39;, option=None, parameter=None, mAtt=None)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">Ilist</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ilist</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mAtt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">obs</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        <span class="n">obs</span><span class="o">.</span><span class="n">ilist</span> <span class="o">=</span> <span class="n">ilist</span> 
+        <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="n">obs</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="n">option</span><span class="p">:</span> <span class="n">obs</span><span class="o">.</span><span class="n">option</span> <span class="o">|=</span> <span class="n">option</span>
+        <span class="k">if</span> <span class="n">parameter</span><span class="p">:</span> <span class="n">obs</span><span class="o">.</span><span class="n">parameter</span> <span class="o">=</span> <span class="n">parameter</span> 
+        <span class="k">if</span> <span class="n">mAtt</span><span class="p">:</span> <span class="n">obs</span><span class="o">.</span><span class="n">mAtt</span> <span class="o">|=</span> <span class="n">mAtt</span>
+        <span class="k">return</span> <span class="n">obs</span>
+</pre></div>
+
+        </details>
+
+    
 
                             </div>
                             <div id="Observation.axes" class="classattr">
@@ -3811,19 +4074,73 @@ Observation, else return new Observation.</li>
 
 
                             </div>
-                            <div id="Observation.from_obs" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#Observation.from_obs">#&nbsp;&nbsp</a>
+                            <div id="Observation.from_bytes" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Observation.from_bytes">#&nbsp;&nbsp</a>
 
                 <div class="decorator">@classmethod</div>
 
             <span class="def">def</span>
-            <span class="name">from_obs</span><span class="signature">(cls, file)</span>:
+            <span class="name">from_bytes</span><span class="signature">(cls, byt)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@classmethod</span>    
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate `Observation` object from byte value.</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns* : `Observation`&#39;&#39;&#39;</span>
+        <span class="n">iidx</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">iidxref</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">nb_el</span>   <span class="o">=</span>  <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b00001111</span>
+        <span class="n">obsref</span>  <span class="o">=</span> <span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b00010000</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">4</span>
+        <span class="n">code_el</span> <span class="o">=</span> <span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b11100000</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">5</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">ref_obs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">obsref</span><span class="p">:</span> 
+            <span class="n">ref_obs</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;H&#39;</span><span class="p">,</span><span class="n">byt</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="mi">2</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="p">{}</span> 
+        <span class="n">nval</span><span class="o">=-</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_el</span><span class="p">):</span>
+            <span class="n">tup</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_list_from_bytes</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="n">idx</span><span class="p">:],</span> <span class="n">nval</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span> <span class="n">nval</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="n">tup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span>   <span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="n">iidx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">:</span> <span class="n">iidxref</span> <span class="o">=</span> <span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dic</span><span class="p">:</span> <span class="n">dic</span><span class="p">[</span><span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">tup</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span> 
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span> <span class="n">dic</span><span class="p">[</span><span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> 
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span> <span class="n">dic</span><span class="p">[</span><span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">iidx</span><span class="p">:</span>    <span class="n">dic</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">]</span><span class="o">=</span><span class="n">iidx</span>
+        <span class="k">if</span> <span class="n">iidxref</span><span class="p">:</span>  <span class="n">dic</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">invcodeb</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="p">:</span> <span class="n">ES</span><span class="o">.</span><span class="n">invcodeb</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">iidxref</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="n">Observation</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Generate <code><a href="#Observation">Observation</a></code> object from byte value.</p>
+
+<p><em>Returns</em> : <code><a href="#Observation">Observation</a></code></p>
+</div>
+
+
+                            </div>
+                            <div id="Observation.from_file" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Observation.from_file">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@classmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">from_file</span><span class="signature">(cls, file)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_obs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span> <span class="p">:</span>
+    <span class="k">def</span> <span class="nf">from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Generate `Observation` object from file storage.</span>
 
@@ -3831,7 +4148,7 @@ Observation, else return new Observation.</li>
 
 <span class="sd">        - **file** : string - file name (with path)</span>
 
-<span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
+<span class="sd">        *Returns* : `Observation`&#39;&#39;&#39;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">btype</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">btype</span><span class="o">==</span><span class="nb">bytes</span><span class="p">(</span><span class="s1">&#39;{&quot;&#39;</span> <span class="o">+</span><span class="n">ES</span><span class="o">.</span><span class="n">type</span><span class="o">+</span><span class="s1">&#39;&quot;: &quot;&#39;</span> <span class="o">+</span> <span class="n">ES</span><span class="o">.</span><span class="n">obs_classES</span> <span class="o">+</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">):</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">bjson</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
@@ -3850,7 +4167,7 @@ Observation, else return new Observation.</li>
 <li><strong>file</strong> : string - file name (with path)</li>
 </ul>
 
-<p><em>Returns</em> : None</p>
+<p><em>Returns</em> : <code><a href="#Observation">Observation</a></code></p>
 </div>
 
 
@@ -4303,11 +4620,13 @@ completed with fillvalue, else all axes are completed</li>
                     <span class="n">obx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">line</span> <span class="p">:</span>
+                <span class="c1">#obx = obx.set_index(prp = &quot;prptyp&quot;, loc=&quot;locstr&quot;)</span>
                 <span class="n">obx</span> <span class="o">=</span> <span class="n">obx</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">prp</span> <span class="o">=</span> <span class="s2">&quot;prpstr&quot;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;locstr&quot;</span><span class="p">)</span>
                 <span class="n">obx</span><span class="o">.</span><span class="n">sortby</span><span class="p">([</span><span class="s2">&quot;dat&quot;</span><span class="p">,</span><span class="s2">&quot;loc&quot;</span><span class="p">,</span><span class="s2">&quot;prp&quot;</span><span class="p">]</span>
                            <span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;dat&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;prp&quot;</span><span class="p">,</span> <span class="n">xticks</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">obx</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;dat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
                                        <span class="n">col_wrap</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">)</span>
             <span class="k">else</span> <span class="p">:</span>
+                <span class="c1">#obx = obx.set_index(prp = &quot;prptyp&quot;, loc=&quot;locran&quot;)</span>
                 <span class="n">obx</span> <span class="o">=</span> <span class="n">obx</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">prp</span> <span class="o">=</span> <span class="s2">&quot;prpstr&quot;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;locran&quot;</span><span class="p">)</span>
                 <span class="n">obx</span><span class="o">.</span><span class="n">sortby</span><span class="p">([</span><span class="s2">&quot;dat&quot;</span><span class="p">,</span><span class="s2">&quot;loc&quot;</span><span class="p">,</span><span class="s2">&quot;prp&quot;</span><span class="p">]</span>
                            <span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;dat&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;loc&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;prp&quot;</span><span class="p">,</span> <span class="n">col_wrap</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
@@ -4380,6 +4699,64 @@ completed with fillvalue, else all axes are completed</li>
 
 <ul>
 <li><strong>None</strong></li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="Observation.to_bytes" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Observation.to_bytes">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">to_bytes</span><span class="signature">(
+    self,
+    option={&#39;datation&#39;: [&#39;namemini&#39;, &#39;value&#39;], &#39;location&#39;: [&#39;namemini&#39;, &#39;value&#39;], &#39;property&#39;: [&#39;valuemini&#39;], &#39;result&#39;: [&#39;namemini&#39;, &#39;sfloat&#39;], &#39;variable&#39;: [&#39;namemini&#39;, &#39;value&#39;]}
+)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">bytedict</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Export in binary format. </span>
+<span class="sd">        </span>
+<span class="sd">        *Returns*</span>
+<span class="sd">        </span>
+<span class="sd">        - **bytes** : binary representation of the `Observation`</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">opt</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">bytedict</span> <span class="o">|</span> <span class="n">option</span>
+        <span class="n">nb</span><span class="o">=</span><span class="mi">0</span> 
+        <span class="n">il</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ilist</span> 
+        <span class="n">index</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">il</span><span class="o">.</span><span class="n">complete</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">il</span><span class="o">.</span><span class="n">idxname</span><span class="p">:</span> <span class="c1">#!!!!</span>
+            <span class="c1">#if name in opt: nb += len(opt[name]) + 1</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">:</span> <span class="n">nb</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">opt</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="o">+</span> <span class="n">index</span>
+        <span class="k">if</span> <span class="n">il</span><span class="o">.</span><span class="n">valname</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">:</span> <span class="n">nb</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">opt</span><span class="p">[</span><span class="n">il</span><span class="o">.</span><span class="n">valname</span><span class="p">])</span>
+        <span class="n">nb</span> <span class="o">+=</span> <span class="n">il</span><span class="o">.</span><span class="n">complete</span>
+        <span class="n">byt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="mb">0b11100000</span> <span class="o">|</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mAtt</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_reference</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="p">)</span> <span class="o">|</span> <span class="n">nb</span><span class="p">)</span> 
+        <span class="k">if</span> <span class="n">il</span><span class="o">.</span><span class="n">valname</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">:</span> 
+            <span class="k">for</span> <span class="n">typevalue</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">[</span><span class="n">il</span><span class="o">.</span><span class="n">valname</span><span class="p">]:</span> 
+                <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_bytes</span><span class="p">(</span><span class="n">il</span><span class="o">.</span><span class="n">extval</span><span class="p">,</span> <span class="n">il</span><span class="o">.</span><span class="n">valname</span><span class="p">,</span> <span class="n">typevalue</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">il</span><span class="o">.</span><span class="n">lenidx</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">il</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">typevalue</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">[</span><span class="n">il</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]]:</span> 
+                    <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_bytes</span><span class="p">(</span><span class="n">il</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">il</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">typevalue</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">il</span><span class="o">.</span><span class="n">complete</span><span class="p">:</span> <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_bytes</span><span class="p">(</span><span class="n">il</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">il</span><span class="o">.</span><span class="n">complete</span><span class="p">:</span> 
+            <span class="n">iidxref</span><span class="o">=</span><span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="p">:</span> <span class="n">ES</span><span class="o">.</span><span class="n">codeb</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">il</span><span class="o">.</span><span class="n">dicidxref</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="n">byt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_bytes</span><span class="p">(</span><span class="n">iidxref</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">idxref</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">byt</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Export in binary format. </p>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>bytes</strong> : binary representation of the <code><a href="#Observation">Observation</a></code></li>
 </ul>
 </div>
 
@@ -4466,7 +4843,7 @@ completed with fillvalue, else all axes are completed</li>
     numeric=False,
     ind=&#39;axe&#39;,
     fillvalue=&#39;?&#39;,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001FDACA29BB0&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x00000192A116BCD0&gt;&gt;,
     name=&#39;Observation&#39;
 )</span>:
     </div>
@@ -4516,6 +4893,59 @@ completed with fillvalue, else all axes are completed</li>
 
 <ul>
 <li><strong>pandas.DataFrame</strong></li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="Observation.to_file" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Observation.to_file">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">to_file</span><span class="signature">(self, file, **kwargs)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate obs file to display `Observation` data.</span>
+
+<span class="sd">         *Parameters (kwargs)*</span>
+
+<span class="sd">        - **file** : string - file name (with path)</span>
+<span class="sd">        - **kwargs** : see &#39;to_json&#39; parameters</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **Integer** : file lenght (bytes)  &#39;&#39;&#39;</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="n">kwargs</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;json_res_index&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span>
+            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">))</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">lendata</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Generate obs file to display <code><a href="#Observation">Observation</a></code> data.</p>
+
+<p><em>Parameters (kwargs)</em></p>
+
+<ul>
+<li><strong>file</strong> : string - file name (with path)</li>
+<li><strong>kwargs</strong> : see 'to_json' parameters</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>Integer</strong> : file lenght (bytes)</li>
 </ul>
 </div>
 
@@ -4640,59 +5070,6 @@ completed with fillvalue, else all axes are completed</li>
 
 <ul>
 <li><strong>Numpy array</strong></li>
-</ul>
-</div>
-
-
-                            </div>
-                            <div id="Observation.to_obs" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#Observation.to_obs">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">to_obs</span><span class="signature">(self, file, **kwargs)</span>:
-    </div>
-
-            <details>
-            <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Generate obs file to display `Observation` data.</span>
-
-<span class="sd">         *Parameters (kwargs)*</span>
-
-<span class="sd">        - **file** : string - file name (with path)</span>
-<span class="sd">        - **kwargs** : see &#39;to_json&#39; parameters</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **Integer** : file lenght (bytes)  &#39;&#39;&#39;</span>
-        <span class="n">option</span> <span class="o">=</span> <span class="n">kwargs</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;json_res_index&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span>
-            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">lendata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">))</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">lendata</span>
-</pre></div>
-
-        </details>
-
-            <div class="docstring"><p>Generate obs file to display <code><a href="#Observation">Observation</a></code> data.</p>
-
-<p><em>Parameters (kwargs)</em></p>
-
-<ul>
-<li><strong>file</strong> : string - file name (with path)</li>
-<li><strong>kwargs</strong> : see 'to_json' parameters</li>
-</ul>
-
-<p><em>Returns</em></p>
-
-<ul>
-<li><strong>Integer</strong> : file lenght (bytes)</li>
 </ul>
 </div>
 
@@ -4846,7 +5223,7 @@ completed with fillvalue, else all axes are completed</li>
             <span class="name">vList</span><span class="signature">(
     self,
     idxname,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001FDACA29BB0&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x00000192A116BCD0&gt;&gt;
 )</span>:
     </div>
 

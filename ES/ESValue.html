@@ -253,7 +253,13 @@
                                 <a class="variable" href="#ResultValue.valName">valName</a>
                         </li>
                         <li>
+                                <a class="function" href="#ResultValue.from_bytes">from_bytes</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#ResultValue.nullValue">nullValue</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#ResultValue.to_bytes">to_bytes</a>
                         </li>
                         <li>
                                 <a class="function" href="#ResultValue.to_float">to_float</a>
@@ -682,18 +688,22 @@ measurable properties) and groups common properties and concepts  :</p>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="k">return</span> <span class="n">genName</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
-    <span class="k">def</span> <span class="nf">_to_strBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simple</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_to_strBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simple</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="n">bval</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">simple</span> <span class="p">:</span> <span class="k">return</span> <span class="n">bval</span>
-        <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&gt;B&#39;</span><span class="p">,</span> <span class="n">bval</span><span class="o">.</span><span class="fm">__len__</span><span class="p">())</span> <span class="o">+</span> <span class="n">bval</span>
+        <span class="k">if</span> <span class="n">simple</span> <span class="ow">and</span> <span class="n">mini</span> <span class="p">:</span> 
+            <span class="c1">#form=&#39;{:&lt;&#39;+str(ES.miniStr)+&#39;}&#39; </span>
+            <span class="c1">#return str.encode(form.format(self.name[0:ES.miniStr]))</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">ES</span><span class="o">.</span><span class="n">miniStr</span><span class="p">]</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">miniStr</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">simple</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">mini</span> <span class="p">:</span> <span class="k">return</span> <span class="n">bval</span>
+        <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&gt;B&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bval</span><span class="p">))</span> <span class="o">+</span> <span class="n">bval</span>
 
-    <span class="k">def</span> <span class="nf">_from_strBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">simple</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_from_strBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">simple</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">simple</span> <span class="p">:</span>
-            <span class="n">siz</span> <span class="o">=</span> <span class="n">byt</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">byt</span><span class="p">)</span>
+            <span class="n">siz</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">byt</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">byt</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>          
         <span class="k">else</span> <span class="p">:</span>
             <span class="n">siz</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&gt;B&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span> <span class="n">siz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span> <span class="n">siz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">siz</span> <span class="o">+</span> <span class="mi">1</span>
 
@@ -762,7 +772,7 @@ measurable properties) and groups common properties and concepts  :</p>
         <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">ntypevalue</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">stype</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 
-    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Complete an empty `DatationValue` with binary data.</span>
 
@@ -774,6 +784,10 @@ measurable properties) and groups common properties and concepts  :</p>
 
 <span class="sd">        - **int** : number of bytes used to decode a dateTime = 7</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">mini</span><span class="p">:</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;HBB&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="k">return</span> <span class="mi">4</span>
         <span class="n">dt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;HBBBBB&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
         <span class="k">return</span> <span class="mi">7</span>
@@ -803,7 +817,7 @@ measurable properties) and groups common properties and concepts  :</p>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">nullValue</span><span class="p">()</span> <span class="p">:</span> <span class="k">return</span> <span class="n">TimeSlot</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullDate</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Export in binary format.</span>
 
@@ -811,6 +825,8 @@ measurable properties) and groups common properties and concepts  :</p>
 
 <span class="sd">        - **bytes** : binary representation of the `DatationValue` (datetime)</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">mini</span><span class="p">:</span> <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;HBB&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">month</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;HBBBBB&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">month</span><span class="p">,</span>
                            <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
                            <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">second</span><span class="p">)</span>
@@ -949,7 +965,7 @@ measurable properties) and groups common properties and concepts  :</p>
         <span class="sd">&#39;&#39;&#39;list (@property) : vSimple inverse coordinates [vSimple[1], vSimple[0]]&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vSimple</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vSimple</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
 
-    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Complete an empty `LocationValue` with binary data (point)</span>
 
@@ -989,7 +1005,7 @@ measurable properties) and groups common properties and concepts  :</p>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">nullValue</span><span class="p">()</span> <span class="p">:</span> <span class="k">return</span> <span class="n">LocationValue</span><span class="o">.</span><span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Export in binary format.</span>
 
 <span class="sd">        *Returns*</span>
@@ -1129,7 +1145,10 @@ measurable properties) and groups common properties and concepts  :</p>
         <span class="sd">&quot;&quot;&quot;lower if string simple value + name is lower&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">simple</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
 
-    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">mini</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">mini</span><span class="p">:</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">]</span>   <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">invProp</span><span class="p">[</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="k">return</span> <span class="mi">1</span>
         <span class="n">bytl</span> <span class="o">=</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">+</span><span class="n">byt</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">byt</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
         <span class="n">prp</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;BBBLLB&#39;</span><span class="p">,</span> <span class="n">bytl</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">]</span>       <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">invProp</span><span class="p">[</span><span class="n">prp</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
@@ -1180,7 +1199,8 @@ measurable properties) and groups common properties and concepts  :</p>
         <span class="k">if</span> <span class="n">string</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">simple</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">simple</span>
 
-    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mini</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">mini</span><span class="p">:</span> <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_sampling</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">sampling</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_sampling</span><span class="p">]</span>
         <span class="k">else</span> <span class="p">:</span> <span class="n">sampling</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullDict</span>
         <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_appli</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>    <span class="p">:</span> <span class="n">appli</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_appli</span><span class="p">]</span>
@@ -1271,9 +1291,24 @@ measurable properties) and groups common properties and concepts  :</p>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullValue</span><span class="p">():</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">32</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">forma</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullDict</span><span class="p">):</span>
+        <span class="n">formaPrp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">leng</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">dexp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">bexp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>        
+        <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;&#39;</span><span class="o">+</span> <span class="n">formaPrp</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">leng</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="n">dexp</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**</span><span class="n">bexp</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">leng</span>
+
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">nullValue</span><span class="p">()</span> <span class="p">:</span> <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullVal</span>
 
+    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forma</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullDict</span><span class="p">):</span>
+        <span class="n">formaPrp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">dexp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">bexp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**-</span><span class="n">dexp</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**-</span><span class="n">bexp</span>
+        <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;&#39;</span> <span class="o">+</span> <span class="n">formaPrp</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+    
     <span class="k">def</span> <span class="nf">to_float</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;converts into a float value &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="kc">None</span> <span class="p">:</span>         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span>
@@ -1695,18 +1730,22 @@ implement default like this::</p>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="k">return</span> <span class="n">genName</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
-    <span class="k">def</span> <span class="nf">_to_strBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simple</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_to_strBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simple</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="n">bval</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">simple</span> <span class="p">:</span> <span class="k">return</span> <span class="n">bval</span>
-        <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&gt;B&#39;</span><span class="p">,</span> <span class="n">bval</span><span class="o">.</span><span class="fm">__len__</span><span class="p">())</span> <span class="o">+</span> <span class="n">bval</span>
+        <span class="k">if</span> <span class="n">simple</span> <span class="ow">and</span> <span class="n">mini</span> <span class="p">:</span> 
+            <span class="c1">#form=&#39;{:&lt;&#39;+str(ES.miniStr)+&#39;}&#39; </span>
+            <span class="c1">#return str.encode(form.format(self.name[0:ES.miniStr]))</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">ES</span><span class="o">.</span><span class="n">miniStr</span><span class="p">]</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">miniStr</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">simple</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">mini</span> <span class="p">:</span> <span class="k">return</span> <span class="n">bval</span>
+        <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&gt;B&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bval</span><span class="p">))</span> <span class="o">+</span> <span class="n">bval</span>
 
-    <span class="k">def</span> <span class="nf">_from_strBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">simple</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_from_strBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">simple</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">simple</span> <span class="p">:</span>
-            <span class="n">siz</span> <span class="o">=</span> <span class="n">byt</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">byt</span><span class="p">)</span>
+            <span class="n">siz</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">byt</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">byt</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>          
         <span class="k">else</span> <span class="p">:</span>
             <span class="n">siz</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&gt;B&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span> <span class="n">siz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">byt</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span> <span class="n">siz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">siz</span> <span class="o">+</span> <span class="mi">1</span>
 </pre></div>
@@ -2450,7 +2489,7 @@ Other ESValue : ()</p>
         <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">ntypevalue</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">stype</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 
-    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Complete an empty `DatationValue` with binary data.</span>
 
@@ -2462,6 +2501,10 @@ Other ESValue : ()</p>
 
 <span class="sd">        - **int** : number of bytes used to decode a dateTime = 7</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">mini</span><span class="p">:</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;HBB&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="k">return</span> <span class="mi">4</span>
         <span class="n">dt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;HBBBBB&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
         <span class="k">return</span> <span class="mi">7</span>
@@ -2491,7 +2534,7 @@ Other ESValue : ()</p>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">nullValue</span><span class="p">()</span> <span class="p">:</span> <span class="k">return</span> <span class="n">TimeSlot</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullDate</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Export in binary format.</span>
 
@@ -2499,6 +2542,8 @@ Other ESValue : ()</p>
 
 <span class="sd">        - **bytes** : binary representation of the `DatationValue` (datetime)</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">mini</span><span class="p">:</span> <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;HBB&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">month</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;HBBBBB&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">month</span><span class="p">,</span>
                            <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
                            <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">second</span><span class="p">)</span>
@@ -2697,12 +2742,12 @@ and name is a string</li>
 
         
             <span class="def">def</span>
-            <span class="name">from_bytes</span><span class="signature">(self, byt)</span>:
+            <span class="name">from_bytes</span><span class="signature">(self, byt, mini=False)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Complete an empty `DatationValue` with binary data.</span>
 
@@ -2714,6 +2759,10 @@ and name is a string</li>
 
 <span class="sd">        - **int** : number of bytes used to decode a dateTime = 7</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">mini</span><span class="p">:</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;HBB&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="k">return</span> <span class="mi">4</span>
         <span class="n">dt</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;HBBBBB&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">dt</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
         <span class="k">return</span> <span class="mi">7</span>
@@ -2846,12 +2895,12 @@ and name is a string</li>
 
         
             <span class="def">def</span>
-            <span class="name">to_bytes</span><span class="signature">(self)</span>:
+            <span class="name">to_bytes</span><span class="signature">(self, mini=False)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Export in binary format.</span>
 
@@ -2859,6 +2908,8 @@ and name is a string</li>
 
 <span class="sd">        - **bytes** : binary representation of the `DatationValue` (datetime)</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">mini</span><span class="p">:</span> <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;HBB&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">month</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;HBBBBB&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">month</span><span class="p">,</span>
                            <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
                            <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">second</span><span class="p">)</span>
@@ -3080,7 +3131,7 @@ and name is a string</li>
         <span class="sd">&#39;&#39;&#39;list (@property) : vSimple inverse coordinates [vSimple[1], vSimple[0]]&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vSimple</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vSimple</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
 
-    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Complete an empty `LocationValue` with binary data (point)</span>
 
@@ -3120,7 +3171,7 @@ and name is a string</li>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">nullValue</span><span class="p">()</span> <span class="p">:</span> <span class="k">return</span> <span class="n">LocationValue</span><span class="o">.</span><span class="n">_gshape</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Export in binary format.</span>
 
 <span class="sd">        *Returns*</span>
@@ -3373,12 +3424,12 @@ and name is a string</li>
 
         
             <span class="def">def</span>
-            <span class="name">from_bytes</span><span class="signature">(self, byt)</span>:
+            <span class="name">from_bytes</span><span class="signature">(self, byt, mini=False)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Complete an empty `LocationValue` with binary data (point)</span>
 
@@ -3503,12 +3554,12 @@ and name is a string</li>
 
         
             <span class="def">def</span>
-            <span class="name">to_bytes</span><span class="signature">(self)</span>:
+            <span class="name">to_bytes</span><span class="signature">(self, mini=False)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mini</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Export in binary format.</span>
 
 <span class="sd">        *Returns*</span>
@@ -3758,7 +3809,10 @@ in a list format [y, x]</p>
         <span class="sd">&quot;&quot;&quot;lower if string simple value + name is lower&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">simple</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
 
-    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">mini</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">mini</span><span class="p">:</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">]</span>   <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">invProp</span><span class="p">[</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="k">return</span> <span class="mi">1</span>
         <span class="n">bytl</span> <span class="o">=</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">+</span><span class="n">byt</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">byt</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
         <span class="n">prp</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;BBBLLB&#39;</span><span class="p">,</span> <span class="n">bytl</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">]</span>       <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">invProp</span><span class="p">[</span><span class="n">prp</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
@@ -3809,7 +3863,8 @@ in a list format [y, x]</p>
         <span class="k">if</span> <span class="n">string</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">simple</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">simple</span>
 
-    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mini</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">mini</span><span class="p">:</span> <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_sampling</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">sampling</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_sampling</span><span class="p">]</span>
         <span class="k">else</span> <span class="p">:</span> <span class="n">sampling</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullDict</span>
         <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_appli</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>    <span class="p">:</span> <span class="n">appli</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_appli</span><span class="p">]</span>
@@ -4018,12 +4073,15 @@ in a list format [y, x]</p>
 
         
             <span class="def">def</span>
-            <span class="name">from_bytes</span><span class="signature">(self, byt)</span>:
+            <span class="name">from_bytes</span><span class="signature">(self, byt, mini)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">mini</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">mini</span><span class="p">:</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">]</span>   <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">invProp</span><span class="p">[</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="k">return</span> <span class="mi">1</span>
         <span class="n">bytl</span> <span class="o">=</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">+</span><span class="n">byt</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">byt</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
         <span class="n">prp</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;BBBLLB&#39;</span><span class="p">,</span> <span class="n">bytl</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">]</span>       <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">invProp</span><span class="p">[</span><span class="n">prp</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
@@ -4141,12 +4199,13 @@ in a list format [y, x]</p>
 
         
             <span class="def">def</span>
-            <span class="name">to_bytes</span><span class="signature">(self)</span>:
+            <span class="name">to_bytes</span><span class="signature">(self, mini)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mini</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">mini</span><span class="p">:</span> <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;B&#39;</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_sampling</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">sampling</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_sampling</span><span class="p">]</span>
         <span class="k">else</span> <span class="p">:</span> <span class="n">sampling</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullDict</span>
         <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_appli</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>    <span class="p">:</span> <span class="n">appli</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_appli</span><span class="p">]</span>
@@ -4246,9 +4305,24 @@ in a list format [y, x]</p>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullValue</span><span class="p">():</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">32</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 
+    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">forma</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullDict</span><span class="p">):</span>
+        <span class="n">formaPrp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">leng</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">dexp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">bexp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>        
+        <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;&#39;</span><span class="o">+</span> <span class="n">formaPrp</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">leng</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="n">dexp</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**</span><span class="n">bexp</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">leng</span>
+
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">nullValue</span><span class="p">()</span> <span class="p">:</span> <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullVal</span>
 
+    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forma</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullDict</span><span class="p">):</span>
+        <span class="n">formaPrp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">dexp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">bexp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**-</span><span class="n">dexp</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**-</span><span class="n">bexp</span>
+        <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;&#39;</span> <span class="o">+</span> <span class="n">formaPrp</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+    
     <span class="k">def</span> <span class="nf">to_float</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;converts into a float value &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="kc">None</span> <span class="p">:</span>         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span>
@@ -4366,6 +4440,30 @@ in a list format [y, x]</p>
     
 
                             </div>
+                            <div id="ResultValue.from_bytes" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#ResultValue.from_bytes">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">from_bytes</span><span class="signature">(self, byt, forma=&#39;-&#39;)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byt</span><span class="p">,</span> <span class="n">forma</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullDict</span><span class="p">):</span>
+        <span class="n">formaPrp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">leng</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">dexp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">bexp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>        
+        <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;&#39;</span><span class="o">+</span> <span class="n">formaPrp</span><span class="p">,</span> <span class="n">byt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">leng</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="n">dexp</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**</span><span class="n">bexp</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">leng</span>
+</pre></div>
+
+        </details>
+
+    
+
+                            </div>
                             <div id="ResultValue.nullValue" class="classattr">
                                         <div class="attr function"><a class="headerlink" href="#ResultValue.nullValue">#&nbsp;&nbsp</a>
 
@@ -4379,6 +4477,29 @@ in a list format [y, x]</p>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">nullValue</span><span class="p">()</span> <span class="p">:</span> <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullVal</span>
+</pre></div>
+
+        </details>
+
+    
+
+                            </div>
+                            <div id="ResultValue.to_bytes" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#ResultValue.to_bytes">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">to_bytes</span><span class="signature">(self, forma=&#39;-&#39;)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forma</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullDict</span><span class="p">):</span>
+        <span class="n">formaPrp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">dexp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">bexp</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="n">forma</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**-</span><span class="n">dexp</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**-</span><span class="n">bexp</span>
+        <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;&#39;</span> <span class="o">+</span> <span class="n">formaPrp</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
 </pre></div>
 
         </details>
