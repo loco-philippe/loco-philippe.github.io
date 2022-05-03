@@ -321,13 +321,19 @@ Observations.</p>
 <a href="https://github.com/loco-philippe/Environnemental-Sensing/blob/main/documentation/ObsJSON%20-%20Standard.pdf" 
 target="_blank">ObsJSON document</a>.</p>
 
-<p>This format is extended to the BSON binary format which allows :</p>
+<p>This format is extended to JSON binary format which allows :</p>
 
 <ul>
-<li>simple integration with NoSQL databases that integrate BSON format(like Mongodb)</li>
 <li>storage of observation as a file</li>
 <li>natural representation of dates (datetime)</li>
 <li>taking into account all types of objects in binary form</li>
+</ul>
+
+<p>Two binary format are available :</p>
+
+<ul>
+<li>BSON format (used in NoSQL databases like Mongodb)</li>
+<li>CBOR format (dedicated to small code size, small message size)</li>
 </ul>
 
 <h2 id="binary-sensor-interface">Binary sensor interface</h2>
@@ -338,6 +344,13 @@ and reduce power consumption (for battery operated) devices. For example, the ma
 lenght of the payload is between 51 bytes and 222 bytes for LoRaWAN.</p>
 
 <p>To obtain this maximum length, limitations are imposed.</p>
+
+<p>Two formats are defined : </p>
+
+<ul>
+<li>CBOR format with optimization to insure low payload,</li>
+<li>internal optimized format for the most simple usages.</li>
+</ul>
 
 <p><img src="./ES/binary.png" width="800"></p>
 
@@ -724,12 +737,16 @@ for location, TimeSlot for Datation)</li>
 <span class="sd">&lt;a href=&quot;https://github.com/loco-philippe/Environnemental-Sensing/blob/main/documentation/ObsJSON%20-%20Standard.pdf&quot; </span>
 <span class="sd">target=&quot;_blank&quot;&gt;ObsJSON document&lt;/a&gt;.</span>
 
-<span class="sd">This format is extended to the BSON binary format which allows :</span>
+<span class="sd">This format is extended to JSON binary format which allows :</span>
 <span class="sd">    </span>
-<span class="sd">- simple integration with NoSQL databases that integrate BSON format(like Mongodb)</span>
 <span class="sd">- storage of observation as a file</span>
 <span class="sd">- natural representation of dates (datetime)</span>
 <span class="sd">- taking into account all types of objects in binary form</span>
+
+<span class="sd">Two binary format are available :</span>
+<span class="sd">    </span>
+<span class="sd">- BSON format (used in NoSQL databases like Mongodb)</span>
+<span class="sd">- CBOR format (dedicated to small code size, small message size)</span>
 
 <span class="sd">## Binary sensor interface</span>
 
@@ -739,6 +756,11 @@ for location, TimeSlot for Datation)</li>
 <span class="sd">lenght of the payload is between 51 bytes and 222 bytes for LoRaWAN.</span>
 
 <span class="sd">To obtain this maximum length, limitations are imposed.</span>
+
+<span class="sd">Two formats are defined : </span>
+<span class="sd">    </span>
+<span class="sd">- CBOR format with optimization to insure low payload,</span>
+<span class="sd">- internal optimized format for the most simple usages.</span>
 
 <span class="sd">&lt;img src=&quot;./ES/binary.png&quot; width=&quot;800&quot;&gt;</span>
 
