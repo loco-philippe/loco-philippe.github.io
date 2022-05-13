@@ -399,7 +399,7 @@ measurable properties) and groups common properties and concepts  :</p>
     <span class="sd">&quot;&quot;&quot;add a new json encoder for ESValue&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span> <span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
-        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;bjson_bson&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;encode_format&#39;</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">}</span>
         <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">:</span>
             <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">__to_json__</span><span class="p">()</span>
@@ -453,7 +453,7 @@ measurable properties) and groups common properties and concepts  :</p>
             <span class="k">try</span><span class="p">:</span> <span class="n">val</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;equal if value and name are equal&#39;&#39;&#39;</span>
@@ -470,10 +470,10 @@ measurable properties) and groups common properties and concepts  :</p>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return json string format&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">bjson_format</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bjson_bson</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">bjson_format</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bjson_bson</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span>
 
     <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return a new object with the same attributes&#39;&#39;&#39;</span>
@@ -483,9 +483,9 @@ measurable properties) and groups common properties and concepts  :</p>
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="nf">__to_bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
-        <span class="c1">#js = {self.__class__.__name__ : self.json(bjson_format=False, bjson_bson=True)}</span>
-        <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">bjson_format</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bjson_bson</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+        <span class="c1">#js = {self.__class__.__name__ : self.json(encoded=False, encode_format=&#39;bson&#39;)}</span>
+        <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s1">&#39;bson&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">js</span>
 
     <span class="nd">@staticmethod</span>
@@ -622,18 +622,18 @@ measurable properties) and groups common properties and concepts  :</p>
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **bjson_format** : boolean (default True) - choice for return format (string/bytes if True, dict else)</span>
-<span class="sd">        - **bjson_bson**    : boolean (default False)- choice for return format (bson if True, json else)</span>
+<span class="sd">        - **encoded** : boolean (default True) - choice for return format (string/bytes if True, dict else)</span>
+<span class="sd">        - **encode_format**    : string (default &#39;json&#39;)- choice for return format (bson, json, cbor)</span>
 <span class="sd">        - **json_res_index** : boolean - include index (for ResultValue)</span>
 
 <span class="sd">        *Returns* :  string or dict &#39;&#39;&#39;</span>
         <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span> <span class="o">|</span> <span class="n">kwargs</span>
-        <span class="n">option2</span> <span class="o">=</span> <span class="n">option</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="n">option2</span> <span class="o">=</span> <span class="n">option</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span>                   <span class="n">js</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">_jsonValue</span><span class="p">(</span><span class="o">**</span><span class="n">option2</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">nullValue</span><span class="p">()</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="k">else</span> <span class="p">:</span>                                          <span class="n">js</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jsonValue</span><span class="p">(</span><span class="o">**</span><span class="n">option2</span><span class="p">)}</span>
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encode_format&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;bson&#39;</span><span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encode_format&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;bson&#39;</span><span class="p">:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">js</span>
 
     <span class="k">def</span> <span class="nf">setName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nam</span><span class="p">):</span>
@@ -708,6 +708,7 @@ measurable properties) and groups common properties and concepts  :</p>
         <span class="k">return</span> <span class="n">siz</span> <span class="o">+</span> <span class="mi">1</span>
 
 <span class="k">class</span> <span class="nc">DatationValue</span><span class="p">(</span><span class="n">ESValue</span><span class="p">):</span>   <span class="c1"># !!! début ESValue</span>
+<span class="c1">#%% dat</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class represent Time (instant, interval or set of intervals).</span>
 
@@ -831,21 +832,22 @@ measurable properties) and groups common properties and concepts  :</p>
                            <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
                            <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">second</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">vInterval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bjson_bson</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">vInterval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;[t1, t2] with t1, t2 - Mini, maxi of the TimeSlot (timestamp or datetime).</span>
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **bjson_bson** : boolean (default True) - choice for return format (timestamp if True, datetime else)</span>
+<span class="sd">        - **encode_format**    : string (default &#39;json&#39;)- choice for return format (bson, json, cbor)</span>
 
 <span class="sd">        *Returns*</span>
 
 <span class="sd">        - **JSON with timestamp or list with datetime**</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">bjson_bson</span> <span class="p">:</span>
-            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
-                               <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">interval</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()],</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">interval</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">Bounds</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="n">encoded</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="n">encode_format</span><span class="p">)</span>
+        <span class="c1">#if not encoded: return self.value.interval</span>
+        <span class="c1">#if encode_format == &#39;json&#39;:</span>
+        <span class="c1">#    return json.dumps([self.value.interval[0].isoformat(),</span>
+        <span class="c1">#                       self.value.interval[1].isoformat()], cls=ESValueEncoder)</span>
 
     <span class="k">def</span> <span class="nf">vSimple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;datetime (@property) : middle of the TimeSlot.&quot;&quot;&quot;</span>
@@ -871,6 +873,7 @@ measurable properties) and groups common properties and concepts  :</p>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">LocationValue</span><span class="p">(</span><span class="n">ESValue</span><span class="p">):</span>              <span class="c1"># !!! début LocationValue</span>
+<span class="c1">#%% loc</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class represent the Location of an Observation (point, polygon).</span>
 
@@ -1074,6 +1077,7 @@ measurable properties) and groups common properties and concepts  :</p>
         <span class="k">return</span> <span class="kc">None</span>
 
 <span class="k">class</span> <span class="nc">PropertyValue</span><span class="p">(</span><span class="n">ESValue</span><span class="p">):</span>              <span class="c1"># !!! début ESValue</span>
+<span class="c1">#%% prp</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class represents the Property of an Observation.</span>
 
@@ -1219,7 +1223,7 @@ measurable properties) and groups common properties and concepts  :</p>
 
     <span class="k">def</span> <span class="nf">_jsonValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1">#return self._jsonDict(False)</span>
-        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span>
         <span class="n">li</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="p">:</span>
             <span class="k">if</span>   <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_unit</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_sampling</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_appli</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_EMFId</span><span class="p">]</span> <span class="p">:</span>
@@ -1227,7 +1231,7 @@ measurable properties) and groups common properties and concepts  :</p>
             <span class="k">elif</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_period</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_interval</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_uncertain</span><span class="p">]</span> <span class="p">:</span>
                 <span class="k">if</span> <span class="n">v</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullVal</span> <span class="p">:</span> <span class="n">li</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
             <span class="k">else</span> <span class="p">:</span> <span class="n">li</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">li</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">li</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">li</span>
 
     <span class="k">def</span> <span class="nf">_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="p">{}):</span>
@@ -1253,7 +1257,8 @@ measurable properties) and groups common properties and concepts  :</p>
 <span class="sd">                else:                       self.name = val</span>
 <span class="sd">            except:                         self.name = val&#39;&#39;&#39;</span>
 
-<span class="k">class</span> <span class="nc">ResultValue</span> <span class="p">(</span><span class="n">ESValue</span><span class="p">):</span>               <span class="c1"># !!! début ESValue</span>
+<span class="k">class</span> <span class="nc">ResultValue</span> <span class="p">(</span><span class="n">ESValue</span><span class="p">):</span>               <span class="c1"># !!! début ResValue</span>
+<span class="c1">#%% res</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    This class represent the Result of an Observation.</span>
 
@@ -1338,10 +1343,10 @@ measurable properties) and groups common properties and concepts  :</p>
         <span class="sd">&#39;&#39;&#39;return a json/bson dict for the value &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">]:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span>
-            <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">__to_bytes__</span><span class="p">(</span><span class="n">bjson_format</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encode_format&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;bson&#39;</span><span class="p">:</span>
+            <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">__to_bytes__</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="k">except</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">ESValueError</span><span class="p">(</span><span class="s2">&quot;impossible to apply __to_bytes__ method to object &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)))</span>
-        <span class="k">try</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">bjson_format</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bjson_bson</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="k">try</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">,</span>
                                     <span class="n">json_info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">json_res_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">json_param</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 
@@ -1367,7 +1372,7 @@ measurable properties) and groups common properties and concepts  :</p>
     <span class="sd">&quot;&quot;&quot;add a new json encoder for ESValue&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span> <span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
-        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;bjson_bson&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;encode_format&#39;</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">}</span>
         <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">:</span>
             <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">__to_json__</span><span class="p">()</span>
@@ -1392,7 +1397,7 @@ measurable properties) and groups common properties and concepts  :</p>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span> <span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
-        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;bjson_bson&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;encode_format&#39;</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">}</span>
         <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">:</span>
             <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">__to_json__</span><span class="p">()</span>
@@ -1495,7 +1500,7 @@ implement default like this::</p>
             <span class="k">try</span><span class="p">:</span> <span class="n">val</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;equal if value and name are equal&#39;&#39;&#39;</span>
@@ -1512,10 +1517,10 @@ implement default like this::</p>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return json string format&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">bjson_format</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bjson_bson</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">bjson_format</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bjson_bson</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span>
 
     <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return a new object with the same attributes&#39;&#39;&#39;</span>
@@ -1525,9 +1530,9 @@ implement default like this::</p>
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="nf">__to_bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
-        <span class="c1">#js = {self.__class__.__name__ : self.json(bjson_format=False, bjson_bson=True)}</span>
-        <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">bjson_format</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bjson_bson</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+        <span class="c1">#js = {self.__class__.__name__ : self.json(encoded=False, encode_format=&#39;bson&#39;)}</span>
+        <span class="n">js</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s1">&#39;bson&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">js</span>
 
     <span class="nd">@staticmethod</span>
@@ -1664,18 +1669,18 @@ implement default like this::</p>
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **bjson_format** : boolean (default True) - choice for return format (string/bytes if True, dict else)</span>
-<span class="sd">        - **bjson_bson**    : boolean (default False)- choice for return format (bson if True, json else)</span>
+<span class="sd">        - **encoded** : boolean (default True) - choice for return format (string/bytes if True, dict else)</span>
+<span class="sd">        - **encode_format**    : string (default &#39;json&#39;)- choice for return format (bson, json, cbor)</span>
 <span class="sd">        - **json_res_index** : boolean - include index (for ResultValue)</span>
 
 <span class="sd">        *Returns* :  string or dict &#39;&#39;&#39;</span>
         <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span> <span class="o">|</span> <span class="n">kwargs</span>
-        <span class="n">option2</span> <span class="o">=</span> <span class="n">option</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="n">option2</span> <span class="o">=</span> <span class="n">option</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span>                   <span class="n">js</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">_jsonValue</span><span class="p">(</span><span class="o">**</span><span class="n">option2</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">nullValue</span><span class="p">()</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="k">else</span> <span class="p">:</span>                                          <span class="n">js</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jsonValue</span><span class="p">(</span><span class="o">**</span><span class="n">option2</span><span class="p">)}</span>
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encode_format&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;bson&#39;</span><span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encode_format&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;bson&#39;</span><span class="p">:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">js</span>
 
     <span class="k">def</span> <span class="nf">setName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nam</span><span class="p">):</span>
@@ -1814,7 +1819,7 @@ implement default like this::</p>
             <span class="k">try</span><span class="p">:</span> <span class="n">val</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 </pre></div>
 
         </details>
@@ -2221,18 +2226,18 @@ Other ESValue : ()</p>
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **bjson_format** : boolean (default True) - choice for return format (string/bytes if True, dict else)</span>
-<span class="sd">        - **bjson_bson**    : boolean (default False)- choice for return format (bson if True, json else)</span>
+<span class="sd">        - **encoded** : boolean (default True) - choice for return format (string/bytes if True, dict else)</span>
+<span class="sd">        - **encode_format**    : string (default &#39;json&#39;)- choice for return format (bson, json, cbor)</span>
 <span class="sd">        - **json_res_index** : boolean - include index (for ResultValue)</span>
 
 <span class="sd">        *Returns* :  string or dict &#39;&#39;&#39;</span>
         <span class="n">option</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">mOption</span> <span class="o">|</span> <span class="n">kwargs</span>
-        <span class="n">option2</span> <span class="o">=</span> <span class="n">option</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="n">option2</span> <span class="o">=</span> <span class="n">option</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span>                   <span class="n">js</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">_jsonValue</span><span class="p">(</span><span class="o">**</span><span class="n">option2</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">nullValue</span><span class="p">()</span> <span class="p">:</span> <span class="n">js</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="k">else</span> <span class="p">:</span>                                          <span class="n">js</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jsonValue</span><span class="p">(</span><span class="o">**</span><span class="n">option2</span><span class="p">)}</span>
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encode_format&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;bson&#39;</span><span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encode_format&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;bson&#39;</span><span class="p">:</span> <span class="k">return</span> <span class="n">bson</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">js</span>
 </pre></div>
 
@@ -2243,8 +2248,8 @@ Other ESValue : ()</p>
 <p><em>Parameters</em></p>
 
 <ul>
-<li><strong>bjson_format</strong> : boolean (default True) - choice for return format (string/bytes if True, dict else)</li>
-<li><strong>bjson_bson</strong>    : boolean (default False)- choice for return format (bson if True, json else)</li>
+<li><strong>encoded</strong> : boolean (default True) - choice for return format (string/bytes if True, dict else)</li>
+<li><strong>encode_format</strong>    : string (default 'json')- choice for return format (bson, json, cbor)</li>
 <li><strong>json_res_index</strong> : boolean - include index (for ResultValue)</li>
 </ul>
 
@@ -2425,6 +2430,7 @@ Other ESValue : ()</p>
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span><span class="k">class</span> <span class="nc">DatationValue</span><span class="p">(</span><span class="n">ESValue</span><span class="p">):</span>   <span class="c1"># !!! début ESValue</span>
+<span class="c1">#%% dat</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class represent Time (instant, interval or set of intervals).</span>
 
@@ -2548,21 +2554,22 @@ Other ESValue : ()</p>
                            <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
                            <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">second</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">vInterval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bjson_bson</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">vInterval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;[t1, t2] with t1, t2 - Mini, maxi of the TimeSlot (timestamp or datetime).</span>
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **bjson_bson** : boolean (default True) - choice for return format (timestamp if True, datetime else)</span>
+<span class="sd">        - **encode_format**    : string (default &#39;json&#39;)- choice for return format (bson, json, cbor)</span>
 
 <span class="sd">        *Returns*</span>
 
 <span class="sd">        - **JSON with timestamp or list with datetime**</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">bjson_bson</span> <span class="p">:</span>
-            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
-                               <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">interval</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()],</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">interval</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">Bounds</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="n">encoded</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="n">encode_format</span><span class="p">)</span>
+        <span class="c1">#if not encoded: return self.value.interval</span>
+        <span class="c1">#if encode_format == &#39;json&#39;:</span>
+        <span class="c1">#    return json.dumps([self.value.interval[0].isoformat(),</span>
+        <span class="c1">#                       self.value.interval[1].isoformat()], cls=ESValueEncoder)</span>
 
     <span class="k">def</span> <span class="nf">vSimple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;datetime (@property) : middle of the TimeSlot.&quot;&quot;&quot;</span>
@@ -2636,7 +2643,11 @@ Other ESValue : ()</p>
                                         <div class="attr function"><a class="headerlink" href="#DatationValue.__init__">#&nbsp;&nbsp</a>
 
         
-            <span class="name">DatationValue</span><span class="signature">(val=datetime.datetime(1970, 1, 1, 0, 0), name=&#39;&#39;, slot=TimeSlot([]))</span>
+            <span class="name">DatationValue</span><span class="signature">(
+    val=datetime.datetime(1, 1, 1, 0, 0, tzinfo=datetime.timezone.utc),
+    name=&#39;&#39;,
+    slot=TimeSlot([])
+)</span>
     </div>
 
             <details>
@@ -2933,26 +2944,27 @@ and name is a string</li>
 
         
             <span class="def">def</span>
-            <span class="name">vInterval</span><span class="signature">(self, bjson_bson=True)</span>:
+            <span class="name">vInterval</span><span class="signature">(self, encoded=True, encode_format=&#39;json&#39;)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vInterval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bjson_bson</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vInterval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;[t1, t2] with t1, t2 - Mini, maxi of the TimeSlot (timestamp or datetime).</span>
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **bjson_bson** : boolean (default True) - choice for return format (timestamp if True, datetime else)</span>
+<span class="sd">        - **encode_format**    : string (default &#39;json&#39;)- choice for return format (bson, json, cbor)</span>
 
 <span class="sd">        *Returns*</span>
 
 <span class="sd">        - **JSON with timestamp or list with datetime**</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">bjson_bson</span> <span class="p">:</span>
-            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
-                               <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">interval</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()],</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">interval</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">Bounds</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="n">encoded</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="n">encode_format</span><span class="p">)</span>
+        <span class="c1">#if not encoded: return self.value.interval</span>
+        <span class="c1">#if encode_format == &#39;json&#39;:</span>
+        <span class="c1">#    return json.dumps([self.value.interval[0].isoformat(),</span>
+        <span class="c1">#                       self.value.interval[1].isoformat()], cls=ESValueEncoder)</span>
 </pre></div>
 
         </details>
@@ -2962,7 +2974,7 @@ and name is a string</li>
 <p><em>Parameters</em></p>
 
 <ul>
-<li><strong>bjson_bson</strong> : boolean (default True) - choice for return format (timestamp if True, datetime else)</li>
+<li><strong>encode_format</strong>    : string (default 'json')- choice for return format (bson, json, cbor)</li>
 </ul>
 
 <p><em>Returns</em></p>
@@ -3037,6 +3049,7 @@ and name is a string</li>
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span><span class="k">class</span> <span class="nc">LocationValue</span><span class="p">(</span><span class="n">ESValue</span><span class="p">):</span>              <span class="c1"># !!! début LocationValue</span>
+<span class="c1">#%% loc</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class represent the Location of an Observation (point, polygon).</span>
 
@@ -3738,6 +3751,7 @@ in a list format [y, x]</p>
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span><span class="k">class</span> <span class="nc">PropertyValue</span><span class="p">(</span><span class="n">ESValue</span><span class="p">):</span>              <span class="c1"># !!! début ESValue</span>
+<span class="c1">#%% prp</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class represents the Property of an Observation.</span>
 
@@ -3883,7 +3897,7 @@ in a list format [y, x]</p>
 
     <span class="k">def</span> <span class="nf">_jsonValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1">#return self._jsonDict(False)</span>
-        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bjson_format&#39;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span>
         <span class="n">li</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="p">:</span>
             <span class="k">if</span>   <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_unit</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_sampling</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_appli</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_EMFId</span><span class="p">]</span> <span class="p">:</span>
@@ -3891,7 +3905,7 @@ in a list format [y, x]</p>
             <span class="k">elif</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_period</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_interval</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_uncertain</span><span class="p">]</span> <span class="p">:</span>
                 <span class="k">if</span> <span class="n">v</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullVal</span> <span class="p">:</span> <span class="n">li</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
             <span class="k">else</span> <span class="p">:</span> <span class="n">li</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_format&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">li</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">li</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">li</span>
 
     <span class="k">def</span> <span class="nf">_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="p">{}):</span>
@@ -4267,7 +4281,8 @@ in a list format [y, x]</p>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ResultValue</span> <span class="p">(</span><span class="n">ESValue</span><span class="p">):</span>               <span class="c1"># !!! début ESValue</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ResultValue</span> <span class="p">(</span><span class="n">ESValue</span><span class="p">):</span>               <span class="c1"># !!! début ResValue</span>
+<span class="c1">#%% res</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    This class represent the Result of an Observation.</span>
 
@@ -4352,10 +4367,10 @@ in a list format [y, x]</p>
         <span class="sd">&#39;&#39;&#39;return a json/bson dict for the value &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">]:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
-        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;bjson_bson&#39;</span><span class="p">]:</span>
-            <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">__to_bytes__</span><span class="p">(</span><span class="n">bjson_format</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encode_format&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;bson&#39;</span><span class="p">:</span>
+            <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">__to_bytes__</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="k">except</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">ESValueError</span><span class="p">(</span><span class="s2">&quot;impossible to apply __to_bytes__ method to object &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)))</span>
-        <span class="k">try</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">bjson_format</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bjson_bson</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="k">try</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">,</span>
                                     <span class="n">json_info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">json_res_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">json_param</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 </pre></div>
