@@ -32,8 +32,9 @@
   <li><a href="#what-is-the-ilist-object">What is the Ilist Object ?</a></li>
   <li><a href="#main-principles">Main principles</a>
   <ul>
-    <li><a href="#ilist-size">Ilist size</a></li>
     <li><a href="#index-properties">Index properties</a></li>
+    <li><a href="#ilist-size">Ilist size</a></li>
+    <li><a href="#aggregation">aggregation</a></li>
   </ul></li>
 </ul>
 
@@ -267,6 +268,9 @@
                                 <a class="function" href="#Ilist.reorder">reorder</a>
                         </li>
                         <li>
+                                <a class="function" href="#Ilist.setname">setname</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Ilist.setfilter">setfilter</a>
                         </li>
                         <li>
@@ -362,6 +366,150 @@ much simpler</li>
 
 <h1 id="main-principles">Main principles</h1>
 
+<h2 id="index-properties">Index properties</h2>
+
+<h3 id="index-categories">Index categories</h3>
+
+<p>Indexes can be characterized according to the link between external values and internal keys :</p>
+
+<ul>
+<li>complete index : one internal key for one external values</li>
+<li>unique index : one internal key for all external values </li>
+<li>mixte index : index not complete and not unique</li>
+</ul>
+
+<p><img src="./ilist_index_category.png" width="800"></p>
+
+<h3 id="index-relationships">Index relationships</h3>
+
+<p>An index can also be characterized based on relationships with another index</p>
+
+<p>There are 4 relationships categories :</p>
+
+<ul>
+<li>coupled : an index is coupled to another if there is a 1-to-1 correspondence between values</li>
+<li>derived : an index is derived from another if there is a 1-to-n correspondence between values</li>
+<li>crossed : two indexes are crossed if there is a correspondence between all values</li>
+<li>linked  : if two indexes are not coupled, derived or crossed</li>
+</ul>
+
+<p><img src="./ilist_link_category.png" width="800"></p>
+
+<p>If one index is complete, all the indexes are derived from it.
+If one index is unique, it is derived from all indexes.
+If A is derived from B and B is derived from C, A is derived from C.
+If A is coupled from B, all the relationships with other indexes are identical.</p>
+
+<p>The indicated ratio is defined to measure the 'proximity' between to indexes. The value is 
+between 0% (the indexes are dependant - coupled or derived) and 100% (the indexes are independant : 
+crossed or linked).</p>
+
+<h3 id="global-properties">Global properties</h3>
+
+<p><strong>Index definition</strong></p>
+
+<ul>
+<li>An index is derived if it’s derived from at least one other index</li>
+<li>An index is coupled if it’s coupled from at least one other index</li>
+<li>An Index is primary if it’s not coupled, not derived and not unique</li>
+</ul>
+
+<p><strong>IndexSet definition</strong></p>
+
+<ul>
+<li>Dimension : number of primary indexes</li>
+<li>Full : An indexSet is full if all the primary indexes are crossed with each 
+other primary index</li>
+<li>Complete : An indexSet is complete if all the non coupled indexes are crossed 
+with each other non coupled index</li>
+</ul>
+
+<p><strong>Properties</strong></p>
+
+<ul>
+<li>The number of values of a full indexset is the product of the primary indexes lenght</li>
+<li>A full indexSet is complete</li>
+<li>A full IndexSet can be transformed in a Matrix with the dimension of the indexset</li>
+<li>A complete Indexset can be expressed in a flat list of values (without detailed indexes)</li>
+</ul>
+
+<h3 id="functions">Functions</h3>
+
+<p>These properties can be used to modify an indexset in particular to transform an 
+Ilist object into a matrix of chosen dimension    </p>
+
+<p><img src="./ilist_process.png" width="800"></p>
+
+<h3 id="example">Example</h3>
+
+<p>In the example below, 3 columns are linked (Full name, Course, Examen),
+3 columns are derived (First name, Last name, Group), 1 column is coupled (Surname),
+1 column is unique (Year).</p>
+
+<p><img src="./ilist_index.png" width="800"></p>
+
+<p>If an index is not primary, index values can be calculated from primary indexes.
+This property is very usefull if new values have to be added to the Ilist, for example,
+if we decide to have all the combinations of independant index.</p>
+
+<p>In this example, the 'full' method generates missing data for all combinations
+of primary indexes fullname, course and examen.</p>
+
+<p><img src="./ilist_full.png" width="800"></p>
+
+<p>The completed ilist can then be transformed into a 3 dimensions matrix (e.g. Xarray)
+ with one dimension for each primary index.
+If the dimension required is lower than ilist dimension, the function to_xarray 
+merge the indexes with the lowest coupling rate. </p>
+
+<p>In the example below, a new index 'course-full name' with 'full name' and 'course' is created.
+So 'course' and 'full name' become derived from the new index and the dimension 
+now becomes 2 :</p>
+
+<div class="pdoc-code codehilite"><pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">42</span><span class="p">]:</span> <span class="n">il</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">fillvalue</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">42</span><span class="p">]:</span> 
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="s1">&#39;Ilist&#39;</span> <span class="p">(</span><span class="n">full</span> <span class="n">name</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="n">course</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="n">examen</span><span class="p">:</span> <span class="mi">3</span><span class="p">)</span><span class="o">&gt;</span>
+<span class="n">array</span><span class="p">([[[</span><span class="n">nan</span><span class="p">,</span> <span class="mf">10.</span><span class="p">,</span> <span class="mf">12.</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">11.</span><span class="p">,</span> <span class="mf">13.</span><span class="p">,</span> <span class="mf">15.</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">]],</span>
+
+       <span class="p">[[</span> <span class="mf">2.</span><span class="p">,</span>  <span class="mf">4.</span><span class="p">,</span> <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">nan</span><span class="p">,</span> <span class="mf">18.</span><span class="p">,</span> <span class="mf">17.</span><span class="p">]],</span>
+
+       <span class="p">[[</span> <span class="mf">6.</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="mf">18.</span><span class="p">]],</span>
+
+       <span class="p">[[</span><span class="n">nan</span><span class="p">,</span>  <span class="mf">8.</span><span class="p">,</span> <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">15.</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">]]])</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+    <span class="n">first</span> <span class="n">name</span>  <span class="p">(</span><span class="n">full</span> <span class="n">name</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">U8</span> <span class="s1">&#39;Anne&#39;</span> <span class="s1">&#39;Camille&#39;</span> <span class="s1">&#39;Philippe&#39;</span> <span class="s1">&#39;Philippe&#39;</span>
+    <span class="n">last</span> <span class="n">name</span>   <span class="p">(</span><span class="n">full</span> <span class="n">name</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">U5</span> <span class="s1">&#39;White&#39;</span> <span class="s1">&#39;Red&#39;</span> <span class="s1">&#39;Black&#39;</span> <span class="s1">&#39;White&#39;</span>
+  <span class="o">*</span> <span class="n">full</span> <span class="n">name</span>   <span class="p">(</span><span class="n">full</span> <span class="n">name</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">U14</span> <span class="s1">&#39;Anne White&#39;</span> <span class="s1">&#39;Camille Red&#39;</span> <span class="o">...</span> <span class="s1">&#39;Philippe White&#39;</span>
+    <span class="n">surname</span>     <span class="p">(</span><span class="n">full</span> <span class="n">name</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">U10</span> <span class="s1">&#39;skyler&#39;</span> <span class="s1">&#39;saul&#39;</span> <span class="s1">&#39;gus&#39;</span> <span class="s1">&#39;heisenberg&#39;</span>
+    <span class="n">group</span>       <span class="p">(</span><span class="n">full</span> <span class="n">name</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">U3</span> <span class="s1">&#39;gr1&#39;</span> <span class="s1">&#39;gr3&#39;</span> <span class="s1">&#39;gr3&#39;</span> <span class="s1">&#39;gr2&#39;</span>
+  <span class="o">*</span> <span class="n">course</span>      <span class="p">(</span><span class="n">course</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">U8</span> <span class="s1">&#39;english&#39;</span> <span class="s1">&#39;math&#39;</span> <span class="s1">&#39;software&#39;</span>
+  <span class="o">*</span> <span class="n">examen</span>      <span class="p">(</span><span class="n">examen</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">U2</span> <span class="s1">&#39;t1&#39;</span> <span class="s1">&#39;t2&#39;</span> <span class="s1">&#39;t3&#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">43</span><span class="p">]:</span> <span class="n">il</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">dimmax</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">43</span><span class="p">]:</span> 
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="s1">&#39;Ilist&#39;</span> <span class="p">(</span><span class="n">examen</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;course&quot;</span><span class="p">,</span> <span class="s2">&quot;full name&quot;</span><span class="p">]:</span> <span class="mi">8</span><span class="p">)</span><span class="o">&gt;</span>
+<span class="n">array</span><span class="p">([[</span><span class="mf">11.</span><span class="p">,</span> <span class="mf">15.</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span>  <span class="mf">2.</span><span class="p">,</span>  <span class="mf">6.</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">13.</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="mf">10.</span><span class="p">,</span>  <span class="mf">8.</span><span class="p">,</span>  <span class="mf">4.</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="mf">18.</span><span class="p">,</span> <span class="n">nan</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">15.</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="mf">12.</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="mf">17.</span><span class="p">,</span> <span class="mf">18.</span><span class="p">]])</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+    <span class="n">first</span> <span class="n">name</span>               <span class="p">([</span><span class="s2">&quot;course&quot;</span><span class="p">,</span> <span class="s2">&quot;full name&quot;</span><span class="p">])</span> <span class="o">&lt;</span><span class="n">U8</span> <span class="s1">&#39;Anne&#39;</span> <span class="o">...</span> <span class="s1">&#39;Philippe&#39;</span>
+    <span class="n">last</span> <span class="n">name</span>                <span class="p">([</span><span class="s2">&quot;course&quot;</span><span class="p">,</span> <span class="s2">&quot;full name&quot;</span><span class="p">])</span> <span class="o">&lt;</span><span class="n">U5</span> <span class="s1">&#39;White&#39;</span> <span class="o">...</span> <span class="s1">&#39;Black&#39;</span>
+    <span class="n">full</span> <span class="n">name</span>                <span class="p">([</span><span class="s2">&quot;course&quot;</span><span class="p">,</span> <span class="s2">&quot;full name&quot;</span><span class="p">])</span> <span class="o">&lt;</span><span class="n">U14</span> <span class="s1">&#39;Anne White&#39;</span> <span class="o">...</span> <span class="o">...</span>
+    <span class="n">surname</span>                  <span class="p">([</span><span class="s2">&quot;course&quot;</span><span class="p">,</span> <span class="s2">&quot;full name&quot;</span><span class="p">])</span> <span class="o">&lt;</span><span class="n">U10</span> <span class="s1">&#39;skyler&#39;</span> <span class="o">...</span> <span class="s1">&#39;gus&#39;</span>
+    <span class="n">group</span>                    <span class="p">([</span><span class="s2">&quot;course&quot;</span><span class="p">,</span> <span class="s2">&quot;full name&quot;</span><span class="p">])</span> <span class="o">&lt;</span><span class="n">U3</span> <span class="s1">&#39;gr1&#39;</span> <span class="s1">&#39;gr2&#39;</span> <span class="o">...</span> <span class="s1">&#39;gr3&#39;</span>
+    <span class="n">course</span>                   <span class="p">([</span><span class="s2">&quot;course&quot;</span><span class="p">,</span> <span class="s2">&quot;full name&quot;</span><span class="p">])</span> <span class="o">&lt;</span><span class="n">U8</span> <span class="s1">&#39;math&#39;</span> <span class="o">...</span> <span class="s1">&#39;software&#39;</span>
+  <span class="o">*</span> <span class="n">examen</span>                   <span class="p">(</span><span class="n">examen</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">U2</span> <span class="s1">&#39;t1&#39;</span> <span class="s1">&#39;t2&#39;</span> <span class="s1">&#39;t3&#39;</span>
+  <span class="o">*</span> <span class="p">[</span><span class="s2">&quot;course&quot;</span><span class="p">,</span> <span class="s2">&quot;full name&quot;</span><span class="p">]</span>  <span class="p">([</span><span class="s2">&quot;course&quot;</span><span class="p">,</span> <span class="s2">&quot;full name&quot;</span><span class="p">])</span> <span class="o">&lt;</span><span class="n">U6</span> <span class="s1">&#39;(0, 0)&#39;</span> <span class="o">...</span> <span class="s1">&#39;(2, 3)&#39;</span>
+</code></pre></div>
+
 <h2 id="ilist-size">Ilist size</h2>
 
 <p>A list of values (e.g. ['Paul', 'John', 'Marie', 'John']) is represented in an indexed list by :</p>
@@ -376,62 +524,16 @@ much simpler</li>
 <p>In term of data volume, there is no duplication (gain) but the index is added (loss). 
 The graph below shows the size difference between list and indexed list.</p>
 
-<p><img src="./ilist_size.png" width="800"></p>
+<p><img src="./ilist_size2.png" width="800"></p>
 
 <p>If the values are small (e.g. int, float), the indexed list is bigger than list.
 If the unicity ratio (number of different values / number of values) is high (&gt; 90%), 
 the indexed list is bigger than list.
 In the other cases, the indexed list is smaller than a list (general case of csv files)</p>
 
-<h2 id="index-properties">Index properties</h2>
+<h2 id="aggregation">aggregation</h2>
 
-<h3 id="index-categories">Index categories</h3>
-
-<p>There are 4 index categories :</p>
-
-<ul>
-<li>coupled index : two index are coupled if there is a 1-to-1 correspondence between each value</li>
-<li>derived index : two index are derived if there is a 1-to-n correspondence between each value</li>
-<li>unique index : the values of an index are identical</li>
-<li>independant index : if the index is not unique, not derived, not coupled</li>
-</ul>
-
-<p>In the example below, 3 columns are independant (Full name, Course, Examen),
-3 columns are derived (First name, Last name, Group), 1 column is coupled (Surname),
-1 column is unique (Year).</p>
-
-<p><img src="./ilist_index.png" width="800"></p>
-
-<h3 id="dimension-and-matrix">Dimension and Matrix</h3>
-
-<p>The dimension is the number of independant axes.</p>
-
-<p>If an index is not independant, values can be calculated from independent indexes.
-This property is very usefull if new values have to be added to the Ilist, for example,
-if i decide to have all the combinations of independant index.</p>
-
-<p>In the example, the 'full' method generates missing data for all combinations
-of independent indexes fullname, course and examen.</p>
-
-<p><img src="./ilist_full.png" width="800"></p>
-
-<p>The completed ilist can then be transformed into a 3 dimensions matrix (e.g. Xarray)
- with one dimension for each independent axis.</p>
-
-<p><img src="./ilist_xarray2.png" width="800"></p>
-
-<h3 id="index-ratio">Index ratio</h3>
-
-<p>A ratio is defined to measure the 'proximity' between to indexes. The value is 
-between 0% (the indexes are independant) and 100% (the indexes are dependant : 
-coupled or derived).</p>
-
-<h3 id="merged-index">Merged index</h3>
-
-<p>Two independant indexes can be merged. In the example below, i can create a new 
-index 'name-course' with 'full name' and 'course'.
-So 'course' and 'full name' become dependent on 'name-course' and the dimension 
-now becomes 2.</p>
+<p><img src="./ilist_aggregation.png" width="800"></p>
 </div>
 
                         <details>
@@ -468,6 +570,141 @@ now becomes 2.</p>
 
 <span class="sd"># Main principles</span>
 
+<span class="sd">## Index properties</span>
+
+<span class="sd">### Index categories</span>
+
+<span class="sd">Indexes can be characterized according to the link between external values and internal keys :</span>
+<span class="sd">    </span>
+<span class="sd">- complete index : one internal key for one external values</span>
+<span class="sd">- unique index : one internal key for all external values </span>
+<span class="sd">- mixte index : index not complete and not unique</span>
+
+<span class="sd">&lt;img src=&quot;./ilist_index_category.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">### Index relationships</span>
+
+<span class="sd">An index can also be characterized based on relationships with another index</span>
+
+<span class="sd">There are 4 relationships categories :</span>
+
+<span class="sd">- coupled : an index is coupled to another if there is a 1-to-1 correspondence between values</span>
+<span class="sd">- derived : an index is derived from another if there is a 1-to-n correspondence between values</span>
+<span class="sd">- crossed : two indexes are crossed if there is a correspondence between all values</span>
+<span class="sd">- linked  : if two indexes are not coupled, derived or crossed</span>
+
+<span class="sd">&lt;img src=&quot;./ilist_link_category.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">If one index is complete, all the indexes are derived from it.</span>
+<span class="sd">If one index is unique, it is derived from all indexes.</span>
+<span class="sd">If A is derived from B and B is derived from C, A is derived from C.</span>
+<span class="sd">If A is coupled from B, all the relationships with other indexes are identical.</span>
+
+<span class="sd">The indicated ratio is defined to measure the &#39;proximity&#39; between to indexes. The value is </span>
+<span class="sd">between 0% (the indexes are dependant - coupled or derived) and 100% (the indexes are independant : </span>
+<span class="sd">crossed or linked).</span>
+
+<span class="sd">### Global properties</span>
+
+<span class="sd">**Index definition**</span>
+
+<span class="sd">- An index is derived if it’s derived from at least one other index</span>
+<span class="sd">- An index is coupled if it’s coupled from at least one other index</span>
+<span class="sd">- An Index is primary if it’s not coupled, not derived and not unique</span>
+
+<span class="sd">**IndexSet definition**</span>
+
+<span class="sd">- Dimension : number of primary indexes</span>
+<span class="sd">- Full : An indexSet is full if all the primary indexes are crossed with each </span>
+<span class="sd">other primary index</span>
+<span class="sd">- Complete : An indexSet is complete if all the non coupled indexes are crossed </span>
+<span class="sd">with each other non coupled index</span>
+
+<span class="sd">**Properties**</span>
+
+<span class="sd">- The number of values of a full indexset is the product of the primary indexes lenght</span>
+<span class="sd">- A full indexSet is complete</span>
+<span class="sd">- A full IndexSet can be transformed in a Matrix with the dimension of the indexset</span>
+<span class="sd">- A complete Indexset can be expressed in a flat list of values (without detailed indexes)</span>
+
+<span class="sd">### Functions</span>
+
+<span class="sd">These properties can be used to modify an indexset in particular to transform an </span>
+<span class="sd">Ilist object into a matrix of chosen dimension    </span>
+
+<span class="sd">&lt;img src=&quot;./ilist_process.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">### Example</span>
+
+<span class="sd">In the example below, 3 columns are linked (Full name, Course, Examen),</span>
+<span class="sd">3 columns are derived (First name, Last name, Group), 1 column is coupled (Surname),</span>
+<span class="sd">1 column is unique (Year).</span>
+
+<span class="sd">&lt;img src=&quot;./ilist_index.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">If an index is not primary, index values can be calculated from primary indexes.</span>
+<span class="sd">This property is very usefull if new values have to be added to the Ilist, for example,</span>
+<span class="sd">if we decide to have all the combinations of independant index.</span>
+
+<span class="sd">In this example, the &#39;full&#39; method generates missing data for all combinations</span>
+<span class="sd">of primary indexes fullname, course and examen.</span>
+
+<span class="sd">&lt;img src=&quot;./ilist_full.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">The completed ilist can then be transformed into a 3 dimensions matrix (e.g. Xarray)</span>
+<span class="sd"> with one dimension for each primary index.</span>
+<span class="sd">If the dimension required is lower than ilist dimension, the function to_xarray </span>
+<span class="sd">merge the indexes with the lowest coupling rate. </span>
+
+<span class="sd">In the example below, a new index &#39;course-full name&#39; with &#39;full name&#39; and &#39;course&#39; is created.</span>
+<span class="sd">So &#39;course&#39; and &#39;full name&#39; become derived from the new index and the dimension </span>
+<span class="sd">now becomes 2 :</span>
+
+<span class="sd">```python</span>
+<span class="sd">In [42]: il.to_xarray(fillvalue=math.nan)</span>
+<span class="sd">Out[42]: </span>
+<span class="sd">&lt;xarray.DataArray &#39;Ilist&#39; (full name: 4, course: 3, examen: 3)&gt;</span>
+<span class="sd">array([[[nan, 10., 12.],</span>
+<span class="sd">        [11., 13., 15.],</span>
+<span class="sd">        [nan, nan, nan]],</span>
+
+<span class="sd">       [[ 2.,  4., nan],</span>
+<span class="sd">        [nan, nan, nan],</span>
+<span class="sd">        [nan, 18., 17.]],</span>
+
+<span class="sd">       [[ 6., nan, nan],</span>
+<span class="sd">        [nan, nan, nan],</span>
+<span class="sd">        [nan, nan, 18.]],</span>
+
+<span class="sd">       [[nan,  8., nan],</span>
+<span class="sd">        [15., nan, nan],</span>
+<span class="sd">        [nan, nan, nan]]])</span>
+<span class="sd">Coordinates:</span>
+<span class="sd">    first name  (full name) &lt;U8 &#39;Anne&#39; &#39;Camille&#39; &#39;Philippe&#39; &#39;Philippe&#39;</span>
+<span class="sd">    last name   (full name) &lt;U5 &#39;White&#39; &#39;Red&#39; &#39;Black&#39; &#39;White&#39;</span>
+<span class="sd">  * full name   (full name) &lt;U14 &#39;Anne White&#39; &#39;Camille Red&#39; ... &#39;Philippe White&#39;</span>
+<span class="sd">    surname     (full name) &lt;U10 &#39;skyler&#39; &#39;saul&#39; &#39;gus&#39; &#39;heisenberg&#39;</span>
+<span class="sd">    group       (full name) &lt;U3 &#39;gr1&#39; &#39;gr3&#39; &#39;gr3&#39; &#39;gr2&#39;</span>
+<span class="sd">  * course      (course) &lt;U8 &#39;english&#39; &#39;math&#39; &#39;software&#39;</span>
+<span class="sd">  * examen      (examen) &lt;U2 &#39;t1&#39; &#39;t2&#39; &#39;t3&#39;</span>
+
+<span class="sd">In [43]: il.to_xarray(dimmax=2, fillvalue=math.nan)</span>
+<span class="sd">Out[43]: </span>
+<span class="sd">&lt;xarray.DataArray &#39;Ilist&#39; (examen: 3, [&quot;course&quot;, &quot;full name&quot;]: 8)&gt;</span>
+<span class="sd">array([[11., 15., nan, nan,  2.,  6., nan, nan],</span>
+<span class="sd">       [13., nan, 10.,  8.,  4., nan, 18., nan],</span>
+<span class="sd">       [15., nan, 12., nan, nan, nan, 17., 18.]])</span>
+<span class="sd">Coordinates:</span>
+<span class="sd">    first name               ([&quot;course&quot;, &quot;full name&quot;]) &lt;U8 &#39;Anne&#39; ... &#39;Philippe&#39;</span>
+<span class="sd">    last name                ([&quot;course&quot;, &quot;full name&quot;]) &lt;U5 &#39;White&#39; ... &#39;Black&#39;</span>
+<span class="sd">    full name                ([&quot;course&quot;, &quot;full name&quot;]) &lt;U14 &#39;Anne White&#39; ... ...</span>
+<span class="sd">    surname                  ([&quot;course&quot;, &quot;full name&quot;]) &lt;U10 &#39;skyler&#39; ... &#39;gus&#39;</span>
+<span class="sd">    group                    ([&quot;course&quot;, &quot;full name&quot;]) &lt;U3 &#39;gr1&#39; &#39;gr2&#39; ... &#39;gr3&#39;</span>
+<span class="sd">    course                   ([&quot;course&quot;, &quot;full name&quot;]) &lt;U8 &#39;math&#39; ... &#39;software&#39;</span>
+<span class="sd">  * examen                   (examen) &lt;U2 &#39;t1&#39; &#39;t2&#39; &#39;t3&#39;</span>
+<span class="sd">  * [&quot;course&quot;, &quot;full name&quot;]  ([&quot;course&quot;, &quot;full name&quot;]) &lt;U6 &#39;(0, 0)&#39; ... &#39;(2, 3)&#39;</span>
+<span class="sd">```</span>
+
 <span class="sd">## Ilist size</span>
 
 <span class="sd">A list of values (e.g. [&#39;Paul&#39;, &#39;John&#39;, &#39;Marie&#39;, &#39;John&#39;]) is represented in an indexed list by :</span>
@@ -480,62 +717,16 @@ now becomes 2.</p>
 <span class="sd">In term of data volume, there is no duplication (gain) but the index is added (loss). </span>
 <span class="sd">The graph below shows the size difference between list and indexed list.</span>
 
-<span class="sd">&lt;img src=&quot;./ilist_size.png&quot; width=&quot;800&quot;&gt;</span>
+<span class="sd">&lt;img src=&quot;./ilist_size2.png&quot; width=&quot;800&quot;&gt;</span>
 
 <span class="sd">If the values are small (e.g. int, float), the indexed list is bigger than list.</span>
 <span class="sd">If the unicity ratio (number of different values / number of values) is high (&gt; 90%), </span>
 <span class="sd">the indexed list is bigger than list.</span>
 <span class="sd">In the other cases, the indexed list is smaller than a list (general case of csv files)</span>
 
-<span class="sd">## Index properties</span>
+<span class="sd">## aggregation</span>
 
-<span class="sd">### Index categories</span>
-
-<span class="sd">There are 4 index categories :</span>
-
-<span class="sd">- coupled index : two index are coupled if there is a 1-to-1 correspondence between each value</span>
-<span class="sd">- derived index : two index are derived if there is a 1-to-n correspondence between each value</span>
-<span class="sd">- unique index : the values of an index are identical</span>
-<span class="sd">- independant index : if the index is not unique, not derived, not coupled</span>
-
-<span class="sd">In the example below, 3 columns are independant (Full name, Course, Examen),</span>
-<span class="sd">3 columns are derived (First name, Last name, Group), 1 column is coupled (Surname),</span>
-<span class="sd">1 column is unique (Year).</span>
-
-<span class="sd">&lt;img src=&quot;./ilist_index.png&quot; width=&quot;800&quot;&gt;</span>
-
-<span class="sd">### Dimension and Matrix</span>
-
-<span class="sd">The dimension is the number of independant axes.</span>
-
-<span class="sd">If an index is not independant, values can be calculated from independent indexes.</span>
-<span class="sd">This property is very usefull if new values have to be added to the Ilist, for example,</span>
-<span class="sd">if i decide to have all the combinations of independant index.</span>
-
-<span class="sd">In the example, the &#39;full&#39; method generates missing data for all combinations</span>
-<span class="sd">of independent indexes fullname, course and examen.</span>
-
-<span class="sd">&lt;img src=&quot;./ilist_full.png&quot; width=&quot;800&quot;&gt;</span>
-
-<span class="sd">The completed ilist can then be transformed into a 3 dimensions matrix (e.g. Xarray)</span>
-<span class="sd"> with one dimension for each independent axis.</span>
-
-<span class="sd">&lt;img src=&quot;./ilist_xarray2.png&quot; width=&quot;800&quot;&gt;</span>
-
-<span class="sd">### Index ratio</span>
-
-<span class="sd">A ratio is defined to measure the &#39;proximity&#39; between to indexes. The value is </span>
-<span class="sd">between 0% (the indexes are independant) and 100% (the indexes are dependant : </span>
-<span class="sd">coupled or derived).</span>
-
-<span class="sd">### Merged index</span>
-
-<span class="sd">Two independant indexes can be merged. In the example below, i can create a new </span>
-<span class="sd">index &#39;name-course&#39; with &#39;full name&#39; and &#39;course&#39;.</span>
-<span class="sd">So &#39;course&#39; and &#39;full name&#39; become dependent on &#39;name-course&#39; and the dimension </span>
-<span class="sd">now becomes 2.</span>
-
-
+<span class="sd">&lt;img src=&quot;./ilist_aggregation.png&quot; width=&quot;800&quot;&gt;</span>
 <span class="sd">    </span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
@@ -668,6 +859,7 @@ now becomes 2.</p>
 <span class="sd">    - `Ilist.isiIndex`</span>
 <span class="sd">    - `Ilist.isValue`</span>
 <span class="sd">    - `Ilist.loc`</span>
+<span class="sd">    - `Ilist.setname`</span>
 <span class="sd">    - `Ilist.unconsistent`</span>
 
 <span class="sd">    *management - conversion methods*</span>
@@ -688,7 +880,6 @@ now becomes 2.</p>
 <span class="sd">    *exports methods*</span>
 
 <span class="sd">    - `Ilist.from_obj` (classmethod)</span>
-<span class="sd">    - `Ilist.from_bytes` (classmethod)</span>
 <span class="sd">    - `Ilist.from_csv` (classmethod)</span>
 <span class="sd">    - `Ilist.from_file` (classmethod)</span>
 <span class="sd">    - `Ilist.json`</span>
@@ -1172,7 +1363,7 @@ now becomes 2.</p>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">lencompletefull</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; return an integer : number of values if full complete (prod(idxlen,not coupled))&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; return an integer : number of values if full complete (prod(idxlen,not coupled, not derived))&#39;&#39;&#39;</span>
         <span class="n">axes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axesmin</span>    
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mul</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">idxlen</span><span class="p">[</span><span class="n">ax</span><span class="p">]</span> <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">])</span>
 
@@ -1339,7 +1530,7 @@ now becomes 2.</p>
 <span class="sd">        is returned.</span>
 
 <span class="sd">        *Returns* : array or None&#39;&#39;&#39;</span>
-        <span class="n">mat</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">_couplingrate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> 
+        <span class="n">mat</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">_couplinginfo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">j</span><span class="p">])[</span><span class="s1">&#39;rate&#39;</span><span class="p">]</span> 
              <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenidx</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenidx</span><span class="p">)]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">file</span><span class="p">:</span> <span class="k">return</span> <span class="n">mat</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -1765,6 +1956,20 @@ now becomes 2.</p>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">Ilist</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">setname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        return setidx for the idx define by name</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **name** : str - name of the index in idxname </span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **List** : list if name in idxname, None else&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="kc">None</span>
+        
     <span class="k">def</span> <span class="nf">setfilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setidxfilt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Remove values that does not match the indexes filter.</span>
@@ -1947,7 +2152,7 @@ now becomes 2.</p>
                 <span class="n">size</span> <span class="o">+=</span> <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">size</span>
 
-    <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Complete the Ilist and generate a Numpy array with the dimension define by ind.</span>
 
@@ -2191,15 +2396,20 @@ now becomes 2.</p>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_idxlink</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">l2</span><span class="p">))</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ref</span><span class="p">))</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_couplingrate</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;return the coupling rate between two list (1 coupled, 0 independant)&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">_couplinginfo</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;return the coupling info between two list (dict)&#39;&#39;&#39;</span>
         <span class="n">set1</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_toset</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
         <span class="n">set2</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_toset</span><span class="p">(</span><span class="n">l2</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">set1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">set2</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="k">return</span> <span class="mi">0</span>
-        <span class="n">set3</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_toset</span><span class="p">([</span><span class="nb">tuple</span><span class="p">((</span><span class="n">v1</span><span class="p">,</span><span class="n">v2</span><span class="p">))</span> <span class="k">for</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">)])</span>
         <span class="n">x0</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">set1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">set2</span><span class="p">))</span>
         <span class="n">x1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">set1</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">set2</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">set1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">set2</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> 
+            <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;rate&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;distlinked&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;distcrossed&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="s1">&#39;distmin&#39;</span><span class="p">:</span> <span class="n">x0</span><span class="p">,</span> <span class="s1">&#39;distmax&#39;</span><span class="p">:</span> <span class="n">x1</span><span class="p">}</span>
+        <span class="n">set3</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_toset</span><span class="p">([</span><span class="nb">tuple</span><span class="p">((</span><span class="n">v1</span><span class="p">,</span><span class="n">v2</span><span class="p">))</span> <span class="k">for</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">)])</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;rate&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x0</span><span class="p">),</span>
+                <span class="s1">&#39;distlinked&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">)</span> <span class="o">-</span> <span class="n">x0</span><span class="p">,</span>
+                <span class="s1">&#39;distcrossed&#39;</span><span class="p">:</span> <span class="n">x1</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">),</span>
+                <span class="s1">&#39;distmin&#39;</span><span class="p">:</span> <span class="n">x0</span><span class="p">,</span> <span class="s1">&#39;distmax&#39;</span><span class="p">:</span> <span class="n">x1</span><span class="p">}</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_derived</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">l2</span><span class="p">):</span>
@@ -2397,7 +2607,8 @@ now becomes 2.</p>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_nullValue</span><span class="p">(</span><span class="n">Class</span><span class="p">,</span> <span class="n">fillvalue</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fillvalue</span><span class="p">,</span> <span class="n">Class</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="n">fillvalue</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">fillvalue</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span> <span class="n">fillvalue</span>
+        <span class="c1">#if isinstance(fillvalue, Class) : return fillvalue</span>
         <span class="k">if</span> <span class="n">Class</span> <span class="o">==</span> <span class="nb">int</span>                 <span class="p">:</span> <span class="k">return</span> <span class="mi">0</span>
         <span class="k">if</span> <span class="n">Class</span> <span class="o">==</span> <span class="nb">float</span>               <span class="p">:</span> <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">Class</span> <span class="o">==</span> <span class="nb">str</span>                 <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;-&#39;</span>
@@ -2907,6 +3118,7 @@ including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <cod
 <span class="sd">    - `Ilist.isiIndex`</span>
 <span class="sd">    - `Ilist.isValue`</span>
 <span class="sd">    - `Ilist.loc`</span>
+<span class="sd">    - `Ilist.setname`</span>
 <span class="sd">    - `Ilist.unconsistent`</span>
 
 <span class="sd">    *management - conversion methods*</span>
@@ -2927,7 +3139,6 @@ including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <cod
 <span class="sd">    *exports methods*</span>
 
 <span class="sd">    - `Ilist.from_obj` (classmethod)</span>
-<span class="sd">    - `Ilist.from_bytes` (classmethod)</span>
 <span class="sd">    - `Ilist.from_csv` (classmethod)</span>
 <span class="sd">    - `Ilist.from_file` (classmethod)</span>
 <span class="sd">    - `Ilist.json`</span>
@@ -3411,7 +3622,7 @@ including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <cod
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">lencompletefull</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; return an integer : number of values if full complete (prod(idxlen,not coupled))&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; return an integer : number of values if full complete (prod(idxlen,not coupled, not derived))&#39;&#39;&#39;</span>
         <span class="n">axes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axesmin</span>    
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mul</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">idxlen</span><span class="p">[</span><span class="n">ax</span><span class="p">]</span> <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">])</span>
 
@@ -3578,7 +3789,7 @@ including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <cod
 <span class="sd">        is returned.</span>
 
 <span class="sd">        *Returns* : array or None&#39;&#39;&#39;</span>
-        <span class="n">mat</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">_couplingrate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> 
+        <span class="n">mat</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">_couplinginfo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">j</span><span class="p">])[</span><span class="s1">&#39;rate&#39;</span><span class="p">]</span> 
              <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenidx</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenidx</span><span class="p">)]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">file</span><span class="p">:</span> <span class="k">return</span> <span class="n">mat</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -4004,6 +4215,20 @@ including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <cod
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">Ilist</span><span class="p">(</span><span class="n">extval</span><span class="p">,</span> <span class="n">setidx</span><span class="p">,</span> <span class="n">iidx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">setname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        return setidx for the idx define by name</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **name** : str - name of the index in idxname </span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **List** : list if name in idxname, None else&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="kc">None</span>
+        
     <span class="k">def</span> <span class="nf">setfilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setidxfilt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Remove values that does not match the indexes filter.</span>
@@ -4186,7 +4411,7 @@ including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <cod
                 <span class="n">size</span> <span class="o">+=</span> <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">size</span>
 
-    <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Complete the Ilist and generate a Numpy array with the dimension define by ind.</span>
 
@@ -4430,15 +4655,20 @@ including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <cod
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">Ilist</span><span class="o">.</span><span class="n">_idxlink</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">l2</span><span class="p">))</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ref</span><span class="p">))</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_couplingrate</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;return the coupling rate between two list (1 coupled, 0 independant)&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">_couplinginfo</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;return the coupling info between two list (dict)&#39;&#39;&#39;</span>
         <span class="n">set1</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_toset</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
         <span class="n">set2</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_toset</span><span class="p">(</span><span class="n">l2</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">set1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">set2</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="k">return</span> <span class="mi">0</span>
-        <span class="n">set3</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_toset</span><span class="p">([</span><span class="nb">tuple</span><span class="p">((</span><span class="n">v1</span><span class="p">,</span><span class="n">v2</span><span class="p">))</span> <span class="k">for</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">)])</span>
         <span class="n">x0</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">set1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">set2</span><span class="p">))</span>
         <span class="n">x1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">set1</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">set2</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">set1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">set2</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> 
+            <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;rate&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;distlinked&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;distcrossed&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="s1">&#39;distmin&#39;</span><span class="p">:</span> <span class="n">x0</span><span class="p">,</span> <span class="s1">&#39;distmax&#39;</span><span class="p">:</span> <span class="n">x1</span><span class="p">}</span>
+        <span class="n">set3</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_toset</span><span class="p">([</span><span class="nb">tuple</span><span class="p">((</span><span class="n">v1</span><span class="p">,</span><span class="n">v2</span><span class="p">))</span> <span class="k">for</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">)])</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;rate&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x0</span><span class="p">),</span>
+                <span class="s1">&#39;distlinked&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">)</span> <span class="o">-</span> <span class="n">x0</span><span class="p">,</span>
+                <span class="s1">&#39;distcrossed&#39;</span><span class="p">:</span> <span class="n">x1</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">),</span>
+                <span class="s1">&#39;distmin&#39;</span><span class="p">:</span> <span class="n">x0</span><span class="p">,</span> <span class="s1">&#39;distmax&#39;</span><span class="p">:</span> <span class="n">x1</span><span class="p">}</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_derived</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">l2</span><span class="p">):</span>
@@ -4636,7 +4866,8 @@ including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <cod
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_nullValue</span><span class="p">(</span><span class="n">Class</span><span class="p">,</span> <span class="n">fillvalue</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fillvalue</span><span class="p">,</span> <span class="n">Class</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="n">fillvalue</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">fillvalue</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span> <span class="n">fillvalue</span>
+        <span class="c1">#if isinstance(fillvalue, Class) : return fillvalue</span>
         <span class="k">if</span> <span class="n">Class</span> <span class="o">==</span> <span class="nb">int</span>                 <span class="p">:</span> <span class="k">return</span> <span class="mi">0</span>
         <span class="k">if</span> <span class="n">Class</span> <span class="o">==</span> <span class="nb">float</span>               <span class="p">:</span> <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">Class</span> <span class="o">==</span> <span class="nb">str</span>                 <span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;-&#39;</span>
@@ -4889,6 +5120,7 @@ E.g. python zip or csv file.</p>
 <li><code><a href="#Ilist.isiIndex">Ilist.isiIndex</a></code></li>
 <li><code><a href="#Ilist.isValue">Ilist.isValue</a></code></li>
 <li><code><a href="#Ilist.loc">Ilist.loc</a></code></li>
+<li><code><a href="#Ilist.setname">Ilist.setname</a></code></li>
 <li><code><a href="#Ilist.unconsistent">Ilist.unconsistent</a></code></li>
 </ul>
 
@@ -4913,7 +5145,6 @@ E.g. python zip or csv file.</p>
 
 <ul>
 <li><code><a href="#Ilist.from_obj">Ilist.from_obj</a></code> (classmethod)</li>
-<li><code>Ilist.from_bytes</code> (classmethod)</li>
 <li><code><a href="#Ilist.from_csv">Ilist.from_csv</a></code> (classmethod)</li>
 <li><code><a href="#Ilist.from_file">Ilist.from_file</a></code> (classmethod)</li>
 <li><code><a href="#Ilist.json">Ilist.json</a></code></li>
@@ -5687,7 +5918,7 @@ for one list of index values</p>
     </div>
 
     
-            <div class="docstring"><p>return an integer : number of values if full complete (prod(idxlen,not coupled))</p>
+            <div class="docstring"><p>return an integer : number of values if full complete (prod(idxlen,not coupled, not derived))</p>
 </div>
 
 
@@ -6051,7 +6282,7 @@ with coupling order (most coupling first)</p>
 <span class="sd">        is returned.</span>
 
 <span class="sd">        *Returns* : array or None&#39;&#39;&#39;</span>
-        <span class="n">mat</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">_couplingrate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> 
+        <span class="n">mat</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">_couplinginfo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">j</span><span class="p">])[</span><span class="s1">&#39;rate&#39;</span><span class="p">]</span> 
              <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenidx</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenidx</span><span class="p">)]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">file</span><span class="p">:</span> <span class="k">return</span> <span class="n">mat</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -6980,6 +7211,50 @@ if False a new Ilist is created.</li>
 
 
                             </div>
+                            <div id="Ilist.setname" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Ilist.setname">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">setname</span><span class="signature">(self, name)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">setname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        return setidx for the idx define by name</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **name** : str - name of the index in idxname </span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **List** : list if name in idxname, None else&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">idxname</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">setidx</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>return setidx for the idx define by name</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>name</strong> : str - name of the index in idxname </li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>List</strong> : list if name in idxname, None else</li>
+</ul>
+</div>
+
+
+                            </div>
                             <div id="Ilist.setfilter" class="classattr">
                                         <div class="attr function"><a class="headerlink" href="#Ilist.setfilter">#&nbsp;&nbsp</a>
 
@@ -7356,12 +7631,12 @@ else it's the first</li>
 
         
             <span class="def">def</span>
-            <span class="name">to_numpy</span><span class="signature">(self, func=None, ind=&#39;axe&#39;, fillvalue=&#39;?&#39;, fast=False, **kwargs)</span>:
+            <span class="name">to_numpy</span><span class="signature">(self, func=None, ind=&#39;axe&#39;, fillvalue=None, fast=False, **kwargs)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="s1">&#39;axe&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Complete the Ilist and generate a Numpy array with the dimension define by ind.</span>
 
