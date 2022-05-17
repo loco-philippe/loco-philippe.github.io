@@ -521,19 +521,32 @@ now becomes 2 :</p>
 
 <p>This representation is similar to Pandas categorical's type.</p>
 
-<p>In term of data volume, there is no duplication (gain) but the index is added (loss). 
-The graph below shows the size difference between list and indexed list.</p>
+<p>In term of data volume, there is no duplication (gain) but the index list is added (loss). 
+The graph below shows the size difference between simple list and indexed list.</p>
 
 <p><img src="./ilist_size2.png" width="800"></p>
 
-<p>If the values are small (e.g. int, float), the indexed list is bigger than list.
+<p>If the values are small (e.g. int, float), the indexed list is bigger than simple list.
 If the unicity ratio (number of different values / number of values) is high (&gt; 90%), 
-the indexed list is bigger than list.
-In the other cases, the indexed list is smaller than a list (general case of csv files)</p>
+the indexed list is bigger than simple list.
+In the other cases, the indexed list is smaller than a simple list (general case of csv files)</p>
 
 <h2 id="aggregation">aggregation</h2>
 
+<p>One of the properties of Ilist object is to be able to index any type of object and 
+in particular Ilist objects. This indexing can be recursive, which makes it possible 
+to preserve the integrity of the data.</p>
+
+<p>A 'merge' method transform the Ilist object thus aggregated 
+into a flat Ilist object.</p>
+
 <p><img src="./ilist_aggregation.png" width="800"></p>
+
+<p>In the example below, an Ilist object is build for each person.
+These Ilist objects are then assembled into a summary object which can be 
+disassembled by the function 'merge'.</p>
+
+<p><img src="./ilist_merge.png" width="800"></p>
 </div>
 
                         <details>
@@ -714,19 +727,32 @@ In the other cases, the indexed list is smaller than a list (general case of csv
 
 <span class="sd">This representation is similar to Pandas categorical&#39;s type.</span>
 
-<span class="sd">In term of data volume, there is no duplication (gain) but the index is added (loss). </span>
-<span class="sd">The graph below shows the size difference between list and indexed list.</span>
+<span class="sd">In term of data volume, there is no duplication (gain) but the index list is added (loss). </span>
+<span class="sd">The graph below shows the size difference between simple list and indexed list.</span>
 
 <span class="sd">&lt;img src=&quot;./ilist_size2.png&quot; width=&quot;800&quot;&gt;</span>
 
-<span class="sd">If the values are small (e.g. int, float), the indexed list is bigger than list.</span>
+<span class="sd">If the values are small (e.g. int, float), the indexed list is bigger than simple list.</span>
 <span class="sd">If the unicity ratio (number of different values / number of values) is high (&gt; 90%), </span>
-<span class="sd">the indexed list is bigger than list.</span>
-<span class="sd">In the other cases, the indexed list is smaller than a list (general case of csv files)</span>
+<span class="sd">the indexed list is bigger than simple list.</span>
+<span class="sd">In the other cases, the indexed list is smaller than a simple list (general case of csv files)</span>
 
 <span class="sd">## aggregation</span>
 
+<span class="sd">One of the properties of Ilist object is to be able to index any type of object and </span>
+<span class="sd">in particular Ilist objects. This indexing can be recursive, which makes it possible </span>
+<span class="sd">to preserve the integrity of the data.</span>
+
+<span class="sd">A &#39;merge&#39; method transform the Ilist object thus aggregated </span>
+<span class="sd">into a flat Ilist object.</span>
+
 <span class="sd">&lt;img src=&quot;./ilist_aggregation.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">In the example below, an Ilist object is build for each person.</span>
+<span class="sd">These Ilist objects are then assembled into a summary object which can be </span>
+<span class="sd">disassembled by the function &#39;merge&#39;.</span>
+
+<span class="sd">&lt;img src=&quot;./ilist_merge.png&quot; width=&quot;800&quot;&gt;</span>
 <span class="sd">    </span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
@@ -1885,6 +1911,18 @@ In the other cases, the indexed list is smaller than a list (general case of csv
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">[</span><span class="n">ival</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valname</span><span class="o">=</span><span class="s1">&#39;merge&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Merge replaces Ilist objects included in extval data into its constituents.</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **valname** : str (default &#39;merge&#39;) - name of the new Ilist object</span>
+<span class="sd">        - **fillvalue** : object (default None) - value used for the new data </span>
+<span class="sd">        (e.g. apply a new index to another Ilist)</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **Ilist** : merged Ilist &#39;&#39;&#39;</span>        
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Ilist</span><span class="p">):</span> <span class="k">return</span> <span class="kc">None</span>
         <span class="n">idxname</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span> <span class="o">+</span> <span class="p">[</span><span class="n">nam</span> <span class="k">for</span> <span class="n">il</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">extval</span> <span class="k">for</span> <span class="n">nam</span> <span class="ow">in</span> <span class="n">il</span><span class="o">.</span><span class="n">idxname</span><span class="p">])))</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idxname</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="s1">&#39;default index&#39;</span> <span class="ow">in</span> <span class="n">idxname</span><span class="p">:</span> <span class="n">idxname</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;default index&#39;</span><span class="p">)</span>
@@ -1907,6 +1945,15 @@ In the other cases, the indexed list is smaller than a list (general case of csv
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">ilm</span>
 
     <span class="k">def</span> <span class="nf">mergeidx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listidx</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Create a new index with tuple built from the indexes in listidx.</span>
+<span class="sd">        Append the new index to ilist</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **listidx** : list - list of index row to be merged</span>
+
+<span class="sd">        *Returns* : None&#39;&#39;&#39;</span>   
         <span class="n">name</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">listidx</span><span class="p">])</span>
         <span class="n">extidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">listidx</span><span class="p">])))</span>
         <span class="c1">#extidx = self._mergeidx([self.iidx[i] for i in listidx])</span>
@@ -2290,7 +2337,7 @@ In the other cases, the indexed list is smaller than a list (general case of csv
 
     <span class="k">def</span> <span class="nf">unconsistent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return a key/value dict with the number of occurences (value) for each</span>
-<span class="sd">        indice-tuple (key) withnmuklti-occurences&#39;&#39;&#39;</span>
+<span class="sd">        indice-tuple (key) with multi-occurences&#39;&#39;&#39;</span>
         <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
         <span class="c1">#act = {tuple(self._indtoext(list(it))) for it in Counter(self._tuple(tiidx)).items() if it[1] &gt;1}</span>
         <span class="k">return</span> <span class="p">{</span><span class="nb">tuple</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_indtoext</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">it</span><span class="p">[</span><span class="mi">0</span><span class="p">])))):</span> <span class="n">it</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> 
@@ -2407,8 +2454,8 @@ In the other cases, the indexed list is smaller than a list (general case of csv
                     <span class="s1">&#39;distmin&#39;</span><span class="p">:</span> <span class="n">x0</span><span class="p">,</span> <span class="s1">&#39;distmax&#39;</span><span class="p">:</span> <span class="n">x1</span><span class="p">}</span>
         <span class="n">set3</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_toset</span><span class="p">([</span><span class="nb">tuple</span><span class="p">((</span><span class="n">v1</span><span class="p">,</span><span class="n">v2</span><span class="p">))</span> <span class="k">for</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">)])</span>
         <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;rate&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x0</span><span class="p">),</span>
-                <span class="s1">&#39;distlinked&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">)</span> <span class="o">-</span> <span class="n">x0</span><span class="p">,</span>
-                <span class="s1">&#39;distcrossed&#39;</span><span class="p">:</span> <span class="n">x1</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">),</span>
+                <span class="s1">&#39;disttomin&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">)</span> <span class="o">-</span> <span class="n">x0</span><span class="p">,</span>
+                <span class="s1">&#39;disttomax&#39;</span><span class="p">:</span> <span class="n">x1</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">),</span>
                 <span class="s1">&#39;distmin&#39;</span><span class="p">:</span> <span class="n">x0</span><span class="p">,</span> <span class="s1">&#39;distmax&#39;</span><span class="p">:</span> <span class="n">x1</span><span class="p">}</span>
 
     <span class="nd">@staticmethod</span>
@@ -4144,6 +4191,18 @@ including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <cod
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">[</span><span class="n">ival</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valname</span><span class="o">=</span><span class="s1">&#39;merge&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Merge replaces Ilist objects included in extval data into its constituents.</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **valname** : str (default &#39;merge&#39;) - name of the new Ilist object</span>
+<span class="sd">        - **fillvalue** : object (default None) - value used for the new data </span>
+<span class="sd">        (e.g. apply a new index to another Ilist)</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **Ilist** : merged Ilist &#39;&#39;&#39;</span>        
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Ilist</span><span class="p">):</span> <span class="k">return</span> <span class="kc">None</span>
         <span class="n">idxname</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span> <span class="o">+</span> <span class="p">[</span><span class="n">nam</span> <span class="k">for</span> <span class="n">il</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">extval</span> <span class="k">for</span> <span class="n">nam</span> <span class="ow">in</span> <span class="n">il</span><span class="o">.</span><span class="n">idxname</span><span class="p">])))</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idxname</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="s1">&#39;default index&#39;</span> <span class="ow">in</span> <span class="n">idxname</span><span class="p">:</span> <span class="n">idxname</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;default index&#39;</span><span class="p">)</span>
@@ -4166,6 +4225,15 @@ including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <cod
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">ilm</span>
 
     <span class="k">def</span> <span class="nf">mergeidx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listidx</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Create a new index with tuple built from the indexes in listidx.</span>
+<span class="sd">        Append the new index to ilist</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **listidx** : list - list of index row to be merged</span>
+
+<span class="sd">        *Returns* : None&#39;&#39;&#39;</span>   
         <span class="n">name</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">listidx</span><span class="p">])</span>
         <span class="n">extidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">listidx</span><span class="p">])))</span>
         <span class="c1">#extidx = self._mergeidx([self.iidx[i] for i in listidx])</span>
@@ -4549,7 +4617,7 @@ including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <cod
 
     <span class="k">def</span> <span class="nf">unconsistent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return a key/value dict with the number of occurences (value) for each</span>
-<span class="sd">        indice-tuple (key) withnmuklti-occurences&#39;&#39;&#39;</span>
+<span class="sd">        indice-tuple (key) with multi-occurences&#39;&#39;&#39;</span>
         <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
         <span class="c1">#act = {tuple(self._indtoext(list(it))) for it in Counter(self._tuple(tiidx)).items() if it[1] &gt;1}</span>
         <span class="k">return</span> <span class="p">{</span><span class="nb">tuple</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_indtoext</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">it</span><span class="p">[</span><span class="mi">0</span><span class="p">])))):</span> <span class="n">it</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> 
@@ -4666,8 +4734,8 @@ including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <cod
                     <span class="s1">&#39;distmin&#39;</span><span class="p">:</span> <span class="n">x0</span><span class="p">,</span> <span class="s1">&#39;distmax&#39;</span><span class="p">:</span> <span class="n">x1</span><span class="p">}</span>
         <span class="n">set3</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">_toset</span><span class="p">([</span><span class="nb">tuple</span><span class="p">((</span><span class="n">v1</span><span class="p">,</span><span class="n">v2</span><span class="p">))</span> <span class="k">for</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">)])</span>
         <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;rate&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x0</span><span class="p">),</span>
-                <span class="s1">&#39;distlinked&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">)</span> <span class="o">-</span> <span class="n">x0</span><span class="p">,</span>
-                <span class="s1">&#39;distcrossed&#39;</span><span class="p">:</span> <span class="n">x1</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">),</span>
+                <span class="s1">&#39;disttomin&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">)</span> <span class="o">-</span> <span class="n">x0</span><span class="p">,</span>
+                <span class="s1">&#39;disttomax&#39;</span><span class="p">:</span> <span class="n">x1</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">set3</span><span class="p">),</span>
                 <span class="s1">&#39;distmin&#39;</span><span class="p">:</span> <span class="n">x0</span><span class="p">,</span> <span class="s1">&#39;distmax&#39;</span><span class="p">:</span> <span class="n">x1</span><span class="p">}</span>
 
     <span class="nd">@staticmethod</span>
@@ -7057,6 +7125,18 @@ append is refuse.</li>
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valname</span><span class="o">=</span><span class="s1">&#39;merge&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Merge replaces Ilist objects included in extval data into its constituents.</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **valname** : str (default &#39;merge&#39;) - name of the new Ilist object</span>
+<span class="sd">        - **fillvalue** : object (default None) - value used for the new data </span>
+<span class="sd">        (e.g. apply a new index to another Ilist)</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **Ilist** : merged Ilist &#39;&#39;&#39;</span>        
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extval</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Ilist</span><span class="p">):</span> <span class="k">return</span> <span class="kc">None</span>
         <span class="n">idxname</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span> <span class="o">+</span> <span class="p">[</span><span class="n">nam</span> <span class="k">for</span> <span class="n">il</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">extval</span> <span class="k">for</span> <span class="n">nam</span> <span class="ow">in</span> <span class="n">il</span><span class="o">.</span><span class="n">idxname</span><span class="p">])))</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idxname</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="s1">&#39;default index&#39;</span> <span class="ow">in</span> <span class="n">idxname</span><span class="p">:</span> <span class="n">idxname</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;default index&#39;</span><span class="p">)</span>
@@ -7081,7 +7161,23 @@ append is refuse.</li>
 
         </details>
 
-    
+            <div class="docstring"><p>Merge replaces Ilist objects included in extval data into its constituents.</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>valname</strong> : str (default 'merge') - name of the new Ilist object</li>
+<li><strong>fillvalue</strong> : object (default None) - value used for the new data 
+(e.g. apply a new index to another Ilist)</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>Ilist</strong> : merged Ilist</li>
+</ul>
+</div>
+
 
                             </div>
                             <div id="Ilist.mergeidx" class="classattr">
@@ -7095,6 +7191,15 @@ append is refuse.</li>
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">mergeidx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listidx</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Create a new index with tuple built from the indexes in listidx.</span>
+<span class="sd">        Append the new index to ilist</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **listidx** : list - list of index row to be merged</span>
+
+<span class="sd">        *Returns* : None&#39;&#39;&#39;</span>   
         <span class="n">name</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">listidx</span><span class="p">])</span>
         <span class="n">extidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">iidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">listidx</span><span class="p">])))</span>
         <span class="c1">#extidx = self._mergeidx([self.iidx[i] for i in listidx])</span>
@@ -7104,7 +7209,18 @@ append is refuse.</li>
 
         </details>
 
-    
+            <div class="docstring"><p>Create a new index with tuple built from the indexes in listidx.
+Append the new index to ilist</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>listidx</strong> : list - list of index row to be merged</li>
+</ul>
+
+<p><em>Returns</em> : None</p>
+</div>
+
 
                             </div>
                             <div id="Ilist.reindex" class="classattr">
@@ -7889,7 +8005,7 @@ extidx before export</li>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">unconsistent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return a key/value dict with the number of occurences (value) for each</span>
-<span class="sd">        indice-tuple (key) withnmuklti-occurences&#39;&#39;&#39;</span>
+<span class="sd">        indice-tuple (key) with multi-occurences&#39;&#39;&#39;</span>
         <span class="n">tiidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiidx</span>
         <span class="c1">#act = {tuple(self._indtoext(list(it))) for it in Counter(self._tuple(tiidx)).items() if it[1] &gt;1}</span>
         <span class="k">return</span> <span class="p">{</span><span class="nb">tuple</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_indtoext</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">it</span><span class="p">[</span><span class="mi">0</span><span class="p">])))):</span> <span class="n">it</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> 
@@ -7900,7 +8016,7 @@ extidx before export</li>
         </details>
 
             <div class="docstring"><p>return a key/value dict with the number of occurences (value) for each
-indice-tuple (key) withnmuklti-occurences</p>
+indice-tuple (key) with multi-occurences</p>
 </div>
 
 
