@@ -30,11 +30,20 @@
         <h2>Contents</h2>
         <ul>
   <li><a href="#what-is-the-ilist-object">What is the Ilist Object ?</a></li>
-  <li><a href="#main-principles">Main principles</a>
+  <li><a href="#index-properties">Index properties</a>
   <ul>
-    <li><a href="#index-properties">Index properties</a></li>
+    <li><a href="#index-categories">Index categories</a></li>
+    <li><a href="#index-relationships">Index relationships</a></li>
+    <li><a href="#global-properties">Global properties</a></li>
+    <li><a href="#canonical-format">Canonical format</a></li>
+    <li><a href="#functions">Functions</a></li>
+    <li><a href="#matrix-generation-process">Matrix generation process</a></li>
+  </ul></li>
+  <li><a href="#aggregation-process">Aggregation process</a></li>
+  <li><a href="#data-representation">data representation</a>
+  <ul>
+    <li><a href="#format">format</a></li>
     <li><a href="#ilist-size">Ilist size</a></li>
-    <li><a href="#aggregation">aggregation</a></li>
   </ul></li>
 </ul>
 
@@ -340,20 +349,58 @@
 
 <p>The <code><a href="">ES.ilist</a></code> module contains the <code><a href="#Ilist">Ilist</a></code> class.</p>
 
+<hr />
+
 <h1 id="what-is-the-ilist-object">What is the Ilist Object ?</h1>
 
-<p>The Ilist Object is a combination of a set of data and properties (index) that describe it.
-In the example below, the set of data is scores of students and the properties are the name,
+<p>The Ilist Object (Indexed List) is a combination of a list of values (indexed values) 
+and a list of properties (index) that describe it.</p>
+
+<p>For example, csv file, log, measurement are indexed lists.</p>
+
+<p><em>Note : indexed values and index values can be every kind of object (not only textual or numerical)</em>.</p>
+
+<p><img src="./ilist_ilist.png" width="500"></p>
+
+<p>In the example below, the set of data is scores of students and the properties are the name,
  the age and the subject.</p>
 
 <p><img src="./ilist_example.png" width="500"></p>
 
-<p>The Ilist Object has many properties and can be converted into a matrix (e.g. numpy
-or Xarray object to perform statistical processing) or into several formats (e.g. json, csv, bytes).</p>
+<p>The Ilist Object has many properties and can be converted into a matrix (e.g. Xarray
+object to perform statistical processing) or into several formats (e.g. json, csv, bytes).</p>
 
-<p><img src="./ilist_xarray.png" width="400"></p>
+<div class="pdoc-code codehilite"><pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">21</span><span class="p">]:</span> <span class="n">example</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">Iedic</span><span class="p">({</span><span class="s1">&#39;score&#39;</span>   <span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">]},</span> 
+    <span class="o">...</span><span class="p">:</span>                       <span class="p">{</span><span class="s1">&#39;name&#39;</span>    <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;paul&#39;</span><span class="p">,</span> <span class="s1">&#39;lea&#39;</span><span class="p">,</span> <span class="s1">&#39;lea&#39;</span><span class="p">],</span>
+    <span class="o">...</span><span class="p">:</span>                        <span class="s1">&#39;age&#39;</span>     <span class="p">:</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>
+    <span class="o">...</span><span class="p">:</span>                        <span class="s1">&#39;subject&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;math&#39;</span><span class="p">,</span> <span class="s1">&#39;math&#39;</span><span class="p">,</span> <span class="s1">&#39;english&#39;</span><span class="p">]})</span>
 
-<p>The data model is as follows :</p>
+<span class="n">In</span> <span class="p">[</span><span class="mi">22</span><span class="p">]:</span> <span class="n">example</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">fillvalue</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">22</span><span class="p">]:</span> 
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="s1">&#39;Ilist&#39;</span> <span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span>
+<span class="n">array</span><span class="p">([[</span><span class="mf">15.</span><span class="p">,</span> <span class="mf">12.</span><span class="p">],</span>
+       <span class="p">[</span><span class="n">nan</span><span class="p">,</span> <span class="mf">10.</span><span class="p">]])</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+  <span class="o">*</span> <span class="n">name</span>     <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">U4</span> <span class="s1">&#39;lea&#39;</span> <span class="s1">&#39;paul&#39;</span>
+    <span class="n">age</span>      <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">int32</span> <span class="mi">15</span> <span class="mi">16</span>
+  <span class="o">*</span> <span class="n">subject</span>  <span class="p">(</span><span class="n">subject</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">U7</span> <span class="s1">&#39;english&#39;</span> <span class="s1">&#39;math&#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">23</span><span class="p">]:</span> <span class="n">example</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">23</span><span class="p">]:</span> 
+<span class="p">{</span><span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;subject&#39;</span><span class="p">],</span>
+ <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;paul&#39;</span><span class="p">,</span> <span class="s1">&#39;lea&#39;</span><span class="p">],</span>
+ <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>
+ <span class="s1">&#39;subject&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;math&#39;</span><span class="p">,</span> <span class="s1">&#39;english&#39;</span><span class="p">],</span>
+ <span class="s1">&#39;score&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>
+ <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]}</span>
+</code></pre></div>
+
+<p>The Ilist data model includes two levels :</p>
+
+<ul>
+<li>external level (user data)</li>
+<li>internal level (key data)</li>
+</ul>
 
 <p><img src="./ilist_data_structure.png" width="500"></p>
 
@@ -364,11 +411,11 @@ much simpler</li>
 <li>the index user data (extidx) are dynamic to reduce the size of data.</li>
 </ul>
 
-<h1 id="main-principles">Main principles</h1>
+<hr />
 
-<h2 id="index-properties">Index properties</h2>
+<h1 id="index-properties">Index properties</h1>
 
-<h3 id="index-categories">Index categories</h3>
+<h2 id="index-categories">Index categories</h2>
 
 <p>Indexes can be characterized according to the link between external values and internal keys :</p>
 
@@ -378,9 +425,9 @@ much simpler</li>
 <li>mixte index : index not complete and not unique</li>
 </ul>
 
-<p><img src="./ilist_index_category.png" width="800"></p>
+<p><img src="./ilist_index_category.png" width="600"></p>
 
-<h3 id="index-relationships">Index relationships</h3>
+<h2 id="index-relationships">Index relationships</h2>
 
 <p>An index can also be characterized based on relationships with another index</p>
 
@@ -395,16 +442,16 @@ much simpler</li>
 
 <p><img src="./ilist_link_category.png" width="800"></p>
 
-<p>If one index is complete, all the indexes are derived from it.
-If one index is unique, it is derived from all indexes.
-If A is derived from B and B is derived from C, A is derived from C.
-If A is coupled from B, all the relationships with other indexes are identical.</p>
+<p>If one index is complete, all the indexes are derived from it.<br>
+If one index is unique, it is derived from all indexes.<br>
+If A is derived from B and B is derived from C, A is derived from C.<br> 
+If A is coupled from B, all the relationships with other indexes are identical.    </p>
 
 <p>The indicated ratio is defined to measure the 'proximity' between to indexes. The value is 
 between 0% (the indexes are dependant - coupled or derived) and 100% (the indexes are independant : 
 crossed or linked).</p>
 
-<h3 id="global-properties">Global properties</h3>
+<h2 id="global-properties">Global properties</h2>
 
 <p><strong>Index definition</strong></p>
 
@@ -427,20 +474,18 @@ with each other non coupled index</li>
 <p><strong>Properties</strong></p>
 
 <ul>
+<li>A derived or coupled index is derived or coupled from a single primary index</li>
 <li>The number of values of a full indexset is the product of the primary indexes lenght</li>
 <li>A full indexSet is complete</li>
 <li>A full IndexSet can be transformed in a Matrix with the dimension of the indexset</li>
 <li>A complete Indexset can be expressed in a flat list of values (without detailed indexes)</li>
 </ul>
 
-<h3 id="functions">Functions</h3>
+<h2 id="canonical-format">Canonical format</h2>
 
-<p>These properties can be used to modify an indexset in particular to transform an 
-Ilist object into a matrix of chosen dimension    </p>
+<p>These properties allow to build a canonical format :</p>
 
-<p><img src="./ilist_process.png" width="800"></p>
-
-<h3 id="example">Example</h3>
+<p><img src="./ilist_canonical.png" width="600"></p>
 
 <p>In the example below, 3 columns are linked (Full name, Course, Examen),
 3 columns are derived (First name, Last name, Group), 1 column is coupled (Surname),
@@ -448,21 +493,33 @@ Ilist object into a matrix of chosen dimension    </p>
 
 <p><img src="./ilist_index.png" width="800"></p>
 
+<h2 id="functions">Functions</h2>
+
+<p>The index properties can be used to modify an indexset in particular to transform an 
+Ilist object into a matrix of chosen dimension    </p>
+
+<p><img src="./ilist_functions.png" width="700"></p>
+
 <p>If an index is not primary, index values can be calculated from primary indexes.
 This property is very usefull if new values have to be added to the Ilist, for example,
-if we decide to have all the combinations of independant index.</p>
+if we decide to have all the combinations of primary indexes.</p>
 
-<p>In this example, the 'full' method generates missing data for all combinations
-of primary indexes fullname, course and examen.</p>
+<p>In the example below (only Anne White), the 'full' method generates missing data for all 
+combinations of primary indexes fullname, course and examen.</p>
 
 <p><img src="./ilist_full.png" width="800"></p>
 
-<p>The completed ilist can then be transformed into a 3 dimensions matrix (e.g. Xarray)
- with one dimension for each primary index.
-If the dimension required is lower than ilist dimension, the function to_xarray 
-merge the indexes with the lowest coupling rate. </p>
+<h2 id="matrix-generation-process">Matrix generation process</h2>
 
-<p>In the example below, a new index 'course-full name' with 'full name' and 'course' is created.
+<p>The process to transform an Ilist in a matrix is as follow :</p>
+
+<p><img src="./ilist_process.png" width="800"></p>
+
+<p>When the Ilist is full, it can then be transformed into a matrix with one dimension
+ for each primary index. If the dimension required is lower than Ilist dimension, 
+ the function to_xarray merge the indexes with the lowest coupling rate. </p>
+
+<p>In the example below (dimmax = 2), a new index 'course-full name' is created.
 So 'course' and 'full name' become derived from the new index and the dimension 
 now becomes 2 :</p>
 
@@ -510,6 +567,35 @@ now becomes 2 :</p>
   <span class="o">*</span> <span class="p">[</span><span class="s2">&quot;course&quot;</span><span class="p">,</span> <span class="s2">&quot;full name&quot;</span><span class="p">]</span>  <span class="p">([</span><span class="s2">&quot;course&quot;</span><span class="p">,</span> <span class="s2">&quot;full name&quot;</span><span class="p">])</span> <span class="o">&lt;</span><span class="n">U6</span> <span class="s1">&#39;(0, 0)&#39;</span> <span class="o">...</span> <span class="s1">&#39;(2, 3)&#39;</span>
 </code></pre></div>
 
+<hr />
+
+<h1 id="aggregation-process">Aggregation process</h1>
+
+<p>One of the properties of Ilist object is to be able to index any type of objects and 
+in particular Ilist objects. This indexing can be recursive, which makes it possible 
+to preserve the integrity of the data.</p>
+
+<p>A 'merge' method transform the Ilist object thus aggregated 
+into a flat Ilist object.</p>
+
+<p><img src="./ilist_aggregation.png" width="800"></p>
+
+<p>In the example below, an Ilist object is build for each person.
+These Ilist objects are then assembled into a summary object which can be 
+disassembled by the function 'merge'.</p>
+
+<p><img src="./ilist_merge.png" width="800"></p>
+
+<hr />
+
+<h1 id="data-representation">data representation</h1>
+
+<h2 id="format">format</h2>
+
+<p>Several formats are available to share or store Ilist :</p>
+
+<p><img src="./ilist_format.png" width="600"></p>
+
 <h2 id="ilist-size">Ilist size</h2>
 
 <p>A list of values (e.g. ['Paul', 'John', 'Marie', 'John']) is represented in an indexed list by :</p>
@@ -526,27 +612,7 @@ The graph below shows the size difference between simple list and indexed list.<
 
 <p><img src="./ilist_size2.png" width="800"></p>
 
-<p>If the values are small (e.g. int, float), the indexed list is bigger than simple list.
-If the unicity ratio (number of different values / number of values) is high (&gt; 90%), 
-the indexed list is bigger than simple list.
-In the other cases, the indexed list is smaller than a simple list (general case of csv files)</p>
-
-<h2 id="aggregation">aggregation</h2>
-
-<p>One of the properties of Ilist object is to be able to index any type of object and 
-in particular Ilist objects. This indexing can be recursive, which makes it possible 
-to preserve the integrity of the data.</p>
-
-<p>A 'merge' method transform the Ilist object thus aggregated 
-into a flat Ilist object.</p>
-
-<p><img src="./ilist_aggregation.png" width="800"></p>
-
-<p>In the example below, an Ilist object is build for each person.
-These Ilist objects are then assembled into a summary object which can be 
-disassembled by the function 'merge'.</p>
-
-<p><img src="./ilist_merge.png" width="800"></p>
+<hr />
 </div>
 
                         <details>
@@ -559,20 +625,56 @@ disassembled by the function 'merge'.</p>
 
 <span class="sd">The `ES.ilist` module contains the `Ilist` class.</span>
 
+<span class="sd">---</span>
 <span class="sd"># What is the Ilist Object ?</span>
 
-<span class="sd">The Ilist Object is a combination of a set of data and properties (index) that describe it.</span>
+<span class="sd">The Ilist Object (Indexed List) is a combination of a list of values (indexed values) </span>
+<span class="sd">and a list of properties (index) that describe it.</span>
+
+<span class="sd">For example, csv file, log, measurement are indexed lists.</span>
+
+<span class="sd">*Note : indexed values and index values can be every kind of object (not only textual or numerical)*.</span>
+
+<span class="sd">&lt;img src=&quot;./ilist_ilist.png&quot; width=&quot;500&quot;&gt;</span>
+
 <span class="sd">In the example below, the set of data is scores of students and the properties are the name,</span>
 <span class="sd"> the age and the subject.</span>
 
 <span class="sd">&lt;img src=&quot;./ilist_example.png&quot; width=&quot;500&quot;&gt;</span>
 
-<span class="sd">The Ilist Object has many properties and can be converted into a matrix (e.g. numpy</span>
-<span class="sd">or Xarray object to perform statistical processing) or into several formats (e.g. json, csv, bytes).</span>
+<span class="sd">The Ilist Object has many properties and can be converted into a matrix (e.g. Xarray</span>
+<span class="sd">object to perform statistical processing) or into several formats (e.g. json, csv, bytes).</span>
 
-<span class="sd">&lt;img src=&quot;./ilist_xarray.png&quot; width=&quot;400&quot;&gt;</span>
+<span class="sd">```python</span>
+<span class="sd">In [21]: example = Ilist.Iedic({&#39;score&#39;   : [10, 12, 15]}, </span>
+<span class="sd">    ...:                       {&#39;name&#39;    : [&#39;paul&#39;, &#39;lea&#39;, &#39;lea&#39;],</span>
+<span class="sd">    ...:                        &#39;age&#39;     : [16, 15, 15],</span>
+<span class="sd">    ...:                        &#39;subject&#39; : [&#39;math&#39;, &#39;math&#39;, &#39;english&#39;]})</span>
 
-<span class="sd">The data model is as follows :</span>
+<span class="sd">In [22]: example.to_xarray(fillvalue=math.nan)</span>
+<span class="sd">Out[22]: </span>
+<span class="sd">&lt;xarray.DataArray &#39;Ilist&#39; (name: 2, subject: 2)&gt;</span>
+<span class="sd">array([[15., 12.],</span>
+<span class="sd">       [nan, 10.]])</span>
+<span class="sd">Coordinates:</span>
+<span class="sd">  * name     (name) &lt;U4 &#39;lea&#39; &#39;paul&#39;</span>
+<span class="sd">    age      (name) int32 15 16</span>
+<span class="sd">  * subject  (subject) &lt;U7 &#39;english&#39; &#39;math&#39;</span>
+
+<span class="sd">In [23]: example.json()</span>
+<span class="sd">Out[23]: </span>
+<span class="sd">{&#39;order&#39;: [&#39;name&#39;, &#39;age&#39;, &#39;subject&#39;],</span>
+<span class="sd"> &#39;name&#39;: [&#39;paul&#39;, &#39;lea&#39;],</span>
+<span class="sd"> &#39;age&#39;: [16, 15],</span>
+<span class="sd"> &#39;subject&#39;: [&#39;math&#39;, &#39;english&#39;],</span>
+<span class="sd"> &#39;score&#39;: [10, 12, 15],</span>
+<span class="sd"> &#39;index&#39;: [[0, 1, 1], [0, 1, 1], [0, 0, 1]]}</span>
+<span class="sd">```</span>
+
+<span class="sd">The Ilist data model includes two levels :</span>
+<span class="sd">    </span>
+<span class="sd">- external level (user data)</span>
+<span class="sd">- internal level (key data)</span>
 
 <span class="sd">&lt;img src=&quot;./ilist_data_structure.png&quot; width=&quot;500&quot;&gt;</span>
 
@@ -581,11 +683,10 @@ disassembled by the function 'merge'.</p>
 <span class="sd"> much simpler</span>
 <span class="sd">- the index user data (extidx) are dynamic to reduce the size of data.</span>
 
-<span class="sd"># Main principles</span>
+<span class="sd">---</span>
+<span class="sd"># Index properties</span>
 
-<span class="sd">## Index properties</span>
-
-<span class="sd">### Index categories</span>
+<span class="sd">## Index categories</span>
 
 <span class="sd">Indexes can be characterized according to the link between external values and internal keys :</span>
 <span class="sd">    </span>
@@ -593,9 +694,9 @@ disassembled by the function 'merge'.</p>
 <span class="sd">- unique index : one internal key for all external values </span>
 <span class="sd">- mixte index : index not complete and not unique</span>
 
-<span class="sd">&lt;img src=&quot;./ilist_index_category.png&quot; width=&quot;800&quot;&gt;</span>
+<span class="sd">&lt;img src=&quot;./ilist_index_category.png&quot; width=&quot;600&quot;&gt;</span>
 
-<span class="sd">### Index relationships</span>
+<span class="sd">## Index relationships</span>
 
 <span class="sd">An index can also be characterized based on relationships with another index</span>
 
@@ -608,16 +709,16 @@ disassembled by the function 'merge'.</p>
 
 <span class="sd">&lt;img src=&quot;./ilist_link_category.png&quot; width=&quot;800&quot;&gt;</span>
 
-<span class="sd">If one index is complete, all the indexes are derived from it.</span>
-<span class="sd">If one index is unique, it is derived from all indexes.</span>
-<span class="sd">If A is derived from B and B is derived from C, A is derived from C.</span>
-<span class="sd">If A is coupled from B, all the relationships with other indexes are identical.</span>
+<span class="sd">If one index is complete, all the indexes are derived from it.&lt;br&gt;</span>
+<span class="sd">If one index is unique, it is derived from all indexes.&lt;br&gt;</span>
+<span class="sd">If A is derived from B and B is derived from C, A is derived from C.&lt;br&gt; </span>
+<span class="sd">If A is coupled from B, all the relationships with other indexes are identical.    </span>
 
 <span class="sd">The indicated ratio is defined to measure the &#39;proximity&#39; between to indexes. The value is </span>
 <span class="sd">between 0% (the indexes are dependant - coupled or derived) and 100% (the indexes are independant : </span>
 <span class="sd">crossed or linked).</span>
 
-<span class="sd">### Global properties</span>
+<span class="sd">## Global properties</span>
 
 <span class="sd">**Index definition**</span>
 
@@ -635,41 +736,51 @@ disassembled by the function 'merge'.</p>
 
 <span class="sd">**Properties**</span>
 
+<span class="sd">- A derived or coupled index is derived or coupled from a single primary index</span>
 <span class="sd">- The number of values of a full indexset is the product of the primary indexes lenght</span>
 <span class="sd">- A full indexSet is complete</span>
 <span class="sd">- A full IndexSet can be transformed in a Matrix with the dimension of the indexset</span>
 <span class="sd">- A complete Indexset can be expressed in a flat list of values (without detailed indexes)</span>
 
-<span class="sd">### Functions</span>
+<span class="sd">##Canonical format</span>
 
-<span class="sd">These properties can be used to modify an indexset in particular to transform an </span>
-<span class="sd">Ilist object into a matrix of chosen dimension    </span>
-
-<span class="sd">&lt;img src=&quot;./ilist_process.png&quot; width=&quot;800&quot;&gt;</span>
-
-<span class="sd">### Example</span>
-
+<span class="sd">These properties allow to build a canonical format :</span>
+<span class="sd">    </span>
+<span class="sd">&lt;img src=&quot;./ilist_canonical.png&quot; width=&quot;600&quot;&gt;</span>
+<span class="sd">   </span>
 <span class="sd">In the example below, 3 columns are linked (Full name, Course, Examen),</span>
 <span class="sd">3 columns are derived (First name, Last name, Group), 1 column is coupled (Surname),</span>
 <span class="sd">1 column is unique (Year).</span>
 
 <span class="sd">&lt;img src=&quot;./ilist_index.png&quot; width=&quot;800&quot;&gt;</span>
 
+<span class="sd">## Functions</span>
+
+<span class="sd">The index properties can be used to modify an indexset in particular to transform an </span>
+<span class="sd">Ilist object into a matrix of chosen dimension    </span>
+
+<span class="sd">&lt;img src=&quot;./ilist_functions.png&quot; width=&quot;700&quot;&gt;</span>
+
 <span class="sd">If an index is not primary, index values can be calculated from primary indexes.</span>
 <span class="sd">This property is very usefull if new values have to be added to the Ilist, for example,</span>
-<span class="sd">if we decide to have all the combinations of independant index.</span>
+<span class="sd">if we decide to have all the combinations of primary indexes.</span>
 
-<span class="sd">In this example, the &#39;full&#39; method generates missing data for all combinations</span>
-<span class="sd">of primary indexes fullname, course and examen.</span>
+<span class="sd">In the example below (only Anne White), the &#39;full&#39; method generates missing data for all </span>
+<span class="sd">combinations of primary indexes fullname, course and examen.</span>
 
 <span class="sd">&lt;img src=&quot;./ilist_full.png&quot; width=&quot;800&quot;&gt;</span>
 
-<span class="sd">The completed ilist can then be transformed into a 3 dimensions matrix (e.g. Xarray)</span>
-<span class="sd"> with one dimension for each primary index.</span>
-<span class="sd">If the dimension required is lower than ilist dimension, the function to_xarray </span>
-<span class="sd">merge the indexes with the lowest coupling rate. </span>
+<span class="sd">## Matrix generation process</span>
 
-<span class="sd">In the example below, a new index &#39;course-full name&#39; with &#39;full name&#39; and &#39;course&#39; is created.</span>
+<span class="sd">The process to transform an Ilist in a matrix is as follow :</span>
+
+<span class="sd">&lt;img src=&quot;./ilist_process.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">When the Ilist is full, it can then be transformed into a matrix with one dimension</span>
+<span class="sd"> for each primary index. If the dimension required is lower than Ilist dimension, </span>
+<span class="sd"> the function to_xarray merge the indexes with the lowest coupling rate. </span>
+
+<span class="sd">In the example below (dimmax = 2), a new index &#39;course-full name&#39; is created.</span>
 <span class="sd">So &#39;course&#39; and &#39;full name&#39; become derived from the new index and the dimension </span>
 <span class="sd">now becomes 2 :</span>
 
@@ -717,7 +828,34 @@ disassembled by the function 'merge'.</p>
 <span class="sd">  * examen                   (examen) &lt;U2 &#39;t1&#39; &#39;t2&#39; &#39;t3&#39;</span>
 <span class="sd">  * [&quot;course&quot;, &quot;full name&quot;]  ([&quot;course&quot;, &quot;full name&quot;]) &lt;U6 &#39;(0, 0)&#39; ... &#39;(2, 3)&#39;</span>
 <span class="sd">```</span>
+<span class="sd">---</span>
+<span class="sd"># Aggregation process</span>
 
+<span class="sd">One of the properties of Ilist object is to be able to index any type of objects and </span>
+<span class="sd">in particular Ilist objects. This indexing can be recursive, which makes it possible </span>
+<span class="sd">to preserve the integrity of the data.</span>
+
+<span class="sd">A &#39;merge&#39; method transform the Ilist object thus aggregated </span>
+<span class="sd">into a flat Ilist object.</span>
+
+<span class="sd">&lt;img src=&quot;./ilist_aggregation.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">In the example below, an Ilist object is build for each person.</span>
+<span class="sd">These Ilist objects are then assembled into a summary object which can be </span>
+<span class="sd">disassembled by the function &#39;merge&#39;.</span>
+
+<span class="sd">&lt;img src=&quot;./ilist_merge.png&quot; width=&quot;800&quot;&gt;</span>
+
+<span class="sd">---</span>
+<span class="sd"># data representation</span>
+
+<span class="sd">## format</span>
+
+<span class="sd">Several formats are available to share or store Ilist :</span>
+<span class="sd">    </span>
+<span class="sd">&lt;img src=&quot;./ilist_format.png&quot; width=&quot;600&quot;&gt;</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
 <span class="sd">## Ilist size</span>
 
 <span class="sd">A list of values (e.g. [&#39;Paul&#39;, &#39;John&#39;, &#39;Marie&#39;, &#39;John&#39;]) is represented in an indexed list by :</span>
@@ -732,28 +870,7 @@ disassembled by the function 'merge'.</p>
 
 <span class="sd">&lt;img src=&quot;./ilist_size2.png&quot; width=&quot;800&quot;&gt;</span>
 
-<span class="sd">If the values are small (e.g. int, float), the indexed list is bigger than simple list.</span>
-<span class="sd">If the unicity ratio (number of different values / number of values) is high (&gt; 90%), </span>
-<span class="sd">the indexed list is bigger than simple list.</span>
-<span class="sd">In the other cases, the indexed list is smaller than a simple list (general case of csv files)</span>
-
-<span class="sd">## aggregation</span>
-
-<span class="sd">One of the properties of Ilist object is to be able to index any type of object and </span>
-<span class="sd">in particular Ilist objects. This indexing can be recursive, which makes it possible </span>
-<span class="sd">to preserve the integrity of the data.</span>
-
-<span class="sd">A &#39;merge&#39; method transform the Ilist object thus aggregated </span>
-<span class="sd">into a flat Ilist object.</span>
-
-<span class="sd">&lt;img src=&quot;./ilist_aggregation.png&quot; width=&quot;800&quot;&gt;</span>
-
-<span class="sd">In the example below, an Ilist object is build for each person.</span>
-<span class="sd">These Ilist objects are then assembled into a summary object which can be </span>
-<span class="sd">disassembled by the function &#39;merge&#39;.</span>
-
-<span class="sd">&lt;img src=&quot;./ilist_merge.png&quot; width=&quot;800&quot;&gt;</span>
-<span class="sd">    </span>
+<span class="sd">--- </span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span><span class="p">,</span> <span class="n">deepcopy</span>
