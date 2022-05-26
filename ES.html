@@ -69,9 +69,11 @@
                 <li><a href="ES/ESObservation.html">ES.ESObservation</a></li>
                 <li><a href="ES/ESValue.html">ES.ESValue</a></li>
                 <li><a href="ES/ESconstante.html">ES.ESconstante</a></li>
+                <li><a href="ES/iindex.html">ES.iindex</a></li>
                 <li><a href="ES/ilist.html">ES.ilist</a></li>
                 <li><a href="ES/openlocationcode.html">ES.openlocationcode</a></li>
                 <li><a href="ES/test_esvalue.html">ES.test_esvalue</a></li>
+                <li><a href="ES/test_iindex.html">ES.test_iindex</a></li>
                 <li><a href="ES/test_ilist.html">ES.test_ilist</a></li>
                 <li><a href="ES/test_mongo.html">ES.test_mongo</a></li>
                 <li><a href="ES/test_observation.html">ES.test_observation</a></li>
@@ -213,10 +215,10 @@ their composition (e.g. bounding boxes, type of observation, volume, etc.).   </
 <li>spatial (LocationValue objects)</li>
 <li>temporal (DatingValue objects)</li>
 <li>properties (PropertyValue objects)</li>
-<li>others (VariableValue objects)</li>
+<li>others (NamedValue, ExternValue objects)</li>
 </ul>
 
-<p>to results (ResultValue objects).</p>
+<p>to results (any objects).</p>
 
 <p><img src="./ES/ESmodel.png" width="600"></p>
 
@@ -271,7 +273,7 @@ key / value e.g.:
 <li><em>'datation' : [ { <strong>'first campaign'</strong> : '2021-01-01' } , { <strong>'second campaign'</strong> : ''2021-03-01' } ]</li>
 <li>'property' : [ { <strong>'inside'</strong> : 'Temp' } , { <strong>'outside'</strong> : 'Temp' } ]</em></li>
 </ul></li>
-<li>individual : Each ResultValue may be annotate e.g.:
+<li>individual : Each Result value may be annotate e.g.:
 <ul>
 <li><em>'result' : { <strong>'first result'</strong> : 'high' }</li>
 <li>'result' : {<strong>'https://loco-philippe.github.io/ES.html'</strong> : 'high' }</em></li>
@@ -288,9 +290,9 @@ key / value e.g.:
 <li><p>between two Observation :</p>
 
 <ul>
-<li>Addition function : The ResultValues are added</li>
+<li>Addition function : The Result values are added</li>
 <li>Extend function : The axes are added (e.g. template Observation)</li>
-<li>Append function : An Observation is included as a ResultValue (e.g. tree structure)</li>
+<li>Append function : An Observation is included as a Result value (e.g. tree structure)</li>
 </ul></li>
 </ul>
 
@@ -302,7 +304,7 @@ key / value e.g.:
 <ul>
 <li>Sort function : changing the order of data according to the axes order</li>
 <li>Find function : selecting some data </li>
-<li>Full function : add empty ResultValue to complete an Observation</li>
+<li>Full function : add empty Result value to complete an Observation</li>
 </ul></li>
 </ul>
 
@@ -428,7 +430,7 @@ This chapter introduces you to the to binary interface and explain you:
 
 <p>In this example, we show you Observations with differents dimensions (1 to 3).</p>
 
-<p>We also present how ResultValue without index can be loaded with the 'order' parameter.</p>
+<p>We also present how Result values without index can be loaded with the 'order' parameter.</p>
 
 <p><a href="./Example/dimension.html" target="_blank">(see the page here)</a> :</p>
 
@@ -516,7 +518,7 @@ for location, TimeSlot for Datation)</li>
 
 <ul>
 <li><code><a href="ES/ESValue.html">ES.ESValue</a></code>(<code><a href="ES/ESValue.html#DatationValue">ES.ESValue.DatationValue</a></code>, <code><a href="ES/ESValue.html#LocationValue">ES.ESValue.LocationValue</a></code>, <code><a href="ES/ESValue.html#PropertyValue">ES.ESValue.PropertyValue</a></code>,
-<code><a href="ES/ESValue.html#ResultValue">ES.ESValue.ResultValue</a></code>, <code><a href="ES/ESValue.html#ESValue">ES.ESValue.ESValue</a></code>)</li>
+<code><a href="ES/ESValue.html#NamedValue">ES.ESValue.NamedValue</a></code>, <code><a href="ES/ESValue.html#ExternValue">ES.ESValue.ExternValue</a></code>, <code><a href="ES/ESValue.html#ESValue">ES.ESValue.ESValue</a></code>)</li>
 </ul></li>
 <li><p>Ilist : </p>
 
@@ -648,9 +650,9 @@ for location, TimeSlot for Datation)</li>
 <span class="sd">- spatial (LocationValue objects)</span>
 <span class="sd">- temporal (DatingValue objects)</span>
 <span class="sd">- properties (PropertyValue objects)</span>
-<span class="sd">- others (VariableValue objects)</span>
+<span class="sd">- others (NamedValue, ExternValue objects)</span>
 
-<span class="sd">to results (ResultValue objects).</span>
+<span class="sd">to results (any objects).</span>
 
 <span class="sd">&lt;img src=&quot;./ES/ESmodel.png&quot; width=&quot;600&quot;&gt;</span>
 
@@ -698,7 +700,7 @@ for location, TimeSlot for Datation)</li>
 <span class="sd">- local : We may customize the &#39;name&#39; attribute e.g.:</span>
 <span class="sd">    - *&#39;datation&#39; : [ { **&#39;first campaign&#39;** : &#39;2021-01-01&#39; } , { **&#39;second campaign&#39;** : &#39;&#39;2021-03-01&#39; } ]</span>
 <span class="sd">    - &#39;property&#39; : [ { **&#39;inside&#39;** : &#39;Temp&#39; } , { **&#39;outside&#39;** : &#39;Temp&#39; } ]*</span>
-<span class="sd">- individual : Each ResultValue may be annotate e.g.:</span>
+<span class="sd">- individual : Each Result value may be annotate e.g.:</span>
 <span class="sd">    - *&#39;result&#39; : { **&#39;first result&#39;** : &#39;high&#39; }</span>
 <span class="sd">    - &#39;result&#39; : {**&#39;https://loco-philippe.github.io/ES.html&#39;** : &#39;high&#39; }*</span>
 
@@ -710,9 +712,9 @@ for location, TimeSlot for Datation)</li>
 
 <span class="sd">- between two Observation :</span>
 <span class="sd">    </span>
-<span class="sd">    - Addition function : The ResultValues are added</span>
+<span class="sd">    - Addition function : The Result values are added</span>
 <span class="sd">    - Extend function : The axes are added (e.g. template Observation)</span>
-<span class="sd">    - Append function : An Observation is included as a ResultValue (e.g. tree structure)</span>
+<span class="sd">    - Append function : An Observation is included as a Result value (e.g. tree structure)</span>
 
 <span class="sd">&lt;img src=&quot;./ES/extension.png&quot; width=&quot;800&quot;&gt;</span>
 
@@ -720,7 +722,7 @@ for location, TimeSlot for Datation)</li>
 <span class="sd">    </span>
 <span class="sd">    - Sort function : changing the order of data according to the axes order</span>
 <span class="sd">    - Find function : selecting some data </span>
-<span class="sd">    - Full function : add empty ResultValue to complete an Observation</span>
+<span class="sd">    - Full function : add empty Result value to complete an Observation</span>
 
 <span class="sd">&lt;img src=&quot;./ES/extraction.png&quot; width=&quot;800&quot;&gt;</span>
 
@@ -835,7 +837,7 @@ for location, TimeSlot for Datation)</li>
 
 <span class="sd">In this example, we show you Observations with differents dimensions (1 to 3).</span>
 
-<span class="sd">We also present how ResultValue without index can be loaded with the &#39;order&#39; parameter.</span>
+<span class="sd">We also present how Result values without index can be loaded with the &#39;order&#39; parameter.</span>
 
 <span class="sd">&lt;a href=&quot;./Example/dimension.html&quot; target=&quot;_blank&quot;&gt;(see the page here)&lt;/a&gt; :</span>
 <span class="sd">    </span>
@@ -910,7 +912,7 @@ for location, TimeSlot for Datation)</li>
 <span class="sd">- ESValue : </span>
 <span class="sd">    </span>
 <span class="sd">    - `ES.ESValue`(`ES.ESValue.DatationValue`, `ES.ESValue.LocationValue`, `ES.ESValue.PropertyValue`,</span>
-<span class="sd">    `ES.ESValue.ResultValue`, `ES.ESValue.ESValue`)</span>
+<span class="sd">    `ES.ESValue.NamedValue`, `ES.ESValue.ExternValue`, `ES.ESValue.ESValue`)</span>
 <span class="sd">    </span>
 <span class="sd">- Ilist : </span>
 <span class="sd">    </span>
