@@ -874,6 +874,7 @@ The graph below shows the size difference between simple list and indexed list.<
 <span class="sd">--- </span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="c1">#%% declarations</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span><span class="p">,</span> <span class="n">deepcopy</span>
 <span class="kn">import</span> <span class="nn">datetime</span><span class="o">,</span> <span class="nn">cbor2</span>
@@ -889,7 +890,6 @@ The graph below shows the size difference between simple list and indexed list.<
 <span class="kn">from</span> <span class="nn">ESValue</span> <span class="kn">import</span> <span class="n">LocationValue</span><span class="p">,</span> <span class="n">DatationValue</span><span class="p">,</span> <span class="n">PropertyValue</span><span class="p">,</span> <span class="n">NamedValue</span> <span class="c1">#, ReesultValue</span>
 <span class="kn">from</span> <span class="nn">ESValue</span> <span class="kn">import</span> <span class="n">ESValue</span><span class="p">,</span> <span class="n">ExternValue</span>
 <span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
 <span class="kn">from</span> <span class="nn">ESconstante</span> <span class="kn">import</span> <span class="n">ES</span><span class="p">,</span> <span class="n">_classval</span><span class="p">,</span> <span class="n">_classESval</span>
 <span class="kn">from</span> <span class="nn">timeslot</span> <span class="kn">import</span> <span class="n">TimeSlot</span>
 <span class="c1">#import ESObservation</span>
@@ -2978,6 +2978,12 @@ The graph below shows the size difference between simple list and indexed list.<
 <span class="sd">        setext = list(set(ext))</span>
 <span class="sd">        if setext == [] or not isinstance(setext[0], tuple): return setext</span>
 <span class="sd">        return list(map(list, setext))&#39;&#39;&#39;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_transpose</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;index not transposable&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[[</span><span class="n">ix</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]))]</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_tuple</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span> 
@@ -5370,6 +5376,12 @@ including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <cod
 <span class="sd">        setext = list(set(ext))</span>
 <span class="sd">        if setext == [] or not isinstance(setext[0], tuple): return setext</span>
 <span class="sd">        return list(map(list, setext))&#39;&#39;&#39;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_transpose</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;index not transposable&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[[</span><span class="n">ix</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]))]</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_tuple</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span> 

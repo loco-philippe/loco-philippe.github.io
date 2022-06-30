@@ -482,6 +482,7 @@ measurable properties) and groups common properties and concepts  :</p>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;equal if value and name are equal&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">ESValue</span><span class="p">):</span> <span class="k">return</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">EStype</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>            <span class="k">return</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">==</span> <span class="mi">100</span><span class="p">:</span>          <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
@@ -721,7 +722,7 @@ measurable properties) and groups common properties and concepts  :</p>
             <span class="k">try</span><span class="p">:</span> <span class="n">dic</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span> <span class="n">dic</span> <span class="o">=</span> <span class="n">val</span>  
         <span class="k">else</span><span class="p">:</span> <span class="n">dic</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dic</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span> 
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dic</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span> 
             <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">nam_clsName</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dic</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span> 
             <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">nam_clsName</span>
@@ -731,7 +732,8 @@ measurable properties) and groups common properties and concepts  :</p>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">dic</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span> 
                 <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">nam_clsName</span>
             <span class="k">return</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">valClassName</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">dic</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">nam_clsName</span>
+        <span class="c1">#return None</span>
 
     <span class="k">def</span> <span class="nf">vName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genName</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1476,104 +1478,10 @@ measurable properties) and groups common properties and concepts  :</p>
                                     <span class="n">json_info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">json_res_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">json_param</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 
-<span class="sd">&quot;&quot;&quot;class ResultValue (ESValue):               # !!! début ResValue</span>
-<span class="sd">#%% res</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-<span class="sd">    This class represent the Result of an Observation.</span>
-
-<span class="sd">    *Attributes (for @property see methods)* :</span>
-
-<span class="sd">    - **value** : any kind of object</span>
-<span class="sd">    - **name** : String</span>
-
-<span class="sd">    The methods defined in this class are :</span>
-
-<span class="sd">    *getters*</span>
-
-<span class="sd">    - `vSimple`</span>
-
-<span class="sd">    *exports - imports*</span>
-
-<span class="sd">    - `to_float`</span>
-
-<span class="sd">    &#39;&#39;&#39;</span>
-<span class="sd">    valName     = ES.res_valName</span>
-
-<span class="sd">    def __init__(self, val = ES.nullVal, name=ES.nullName):</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        Several ResultValue creation modes :</span>
-
-<span class="sd">        - ResultValue({name : value})</span>
-<span class="sd">        - ResultValue(value)</span>
-<span class="sd">        - ResultValue(resval)</span>
-<span class="sd">        - ResultValue(value, ind=ind, name=name)</span>
-
-<span class="sd">        where &#39;resval&#39; is a ResultValue(copy), &#39;value&#39; is a &#39;result&#39; or [&#39;result&#39;, &#39;ind&#39;],</span>
-<span class="sd">        &#39;result&#39; is an Object, &#39;ind&#39; is a list with three integer and &#39;name&#39; is a string.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        ESValue.__init__(self, val, name)</span>
-<span class="sd">        if self.value != self.nullValue(): self.EStype = 32</span>
-<span class="sd">        if self.name != ES.nullName: self.EStype += 100</span>
-
-<span class="sd">    def from_bytes(self, byt, forma = ES.nullDict):</span>
-<span class="sd">        formaPrp = ES.prop[forma][1]</span>
-<span class="sd">        leng = ES.prop[forma][2]</span>
-<span class="sd">        dexp = ES.prop[forma][3]</span>
-<span class="sd">        bexp = ES.prop[forma][4]        </span>
-<span class="sd">        self.__init__(val=struct.unpack(&#39;&lt;&#39;+ formaPrp, byt[0:leng])[0] * 10**dexp * 2**bexp)</span>
-<span class="sd">        return leng</span>
-
-<span class="sd">    @staticmethod</span>
-<span class="sd">    def nullValue() : return ES.nullVal</span>
-
-<span class="sd">    def to_bytes(self, forma = ES.nullDict):</span>
-<span class="sd">        formaPrp = ES.prop[forma][1]</span>
-<span class="sd">        dexp = ES.prop[forma][3]</span>
-<span class="sd">        bexp = ES.prop[forma][4]</span>
-<span class="sd">        val = self.value * 10**-dexp * 2**-bexp</span>
-<span class="sd">        return struct.pack(&#39;&lt;&#39; + formaPrp, val)</span>
-<span class="sd">    </span>
-<span class="sd">    def vSimple(self, string=False) :</span>
-<span class="sd">        &#39;&#39;&#39;float value&#39;&#39;&#39;</span>
-<span class="sd">        if string : return str(self.to_float())</span>
-<span class="sd">        return self.to_float()</span>
-
-<span class="sd">    def _init(self, val = None):</span>
-<span class="sd">        try :</span>
-<span class="sd">            self.name = val.name</span>
-<span class="sd">            self.value = val.value</span>
-<span class="sd">        except :</span>
-<span class="sd">            if type(val) == dict :</span>
-<span class="sd">                self.name, val = list(val.items())[0]</span>
-<span class="sd">            if type(val) == str :</span>
-<span class="sd">                self.value = val</span>
-<span class="sd">            else: self.value = val</span>
-
-<span class="sd">    def _jsonValue(self, **option) :</span>
-<span class="sd">        &#39;&#39;&#39;return a json/bson dict for the value &#39;&#39;&#39;</span>
-<span class="sd">        if type(self.value) in [int, str, float, bool, list, dict, datetime.datetime, type(None), bytes]:</span>
-<span class="sd">            return self.value</span>
-<span class="sd">        &#39;&#39;&#39;if option[&#39;encode_format&#39;] == &#39;bson&#39;:</span>
-<span class="sd">            try : return self.value.__to_bytes__(encoded=False)</span>
-<span class="sd">            except : raise ESValueError(&quot;impossible to apply __to_bytes__ method to object &quot; + str(type(self.value)))</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        try: return self.value.to_json(encoded=False, encode_format=&#39;json&#39;,</span>
-<span class="sd">                                    json_info=False, json_res_index=True, json_param=True)</span>
-<span class="sd">        except : return object.__repr__(self.value)&quot;&quot;&quot;</span>
 
 <span class="k">class</span> <span class="nc">ESValueError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="c1">#%% ES except</span>
     <span class="sd">&#39;&#39;&#39; ESValue Exception&#39;&#39;&#39;</span>
-
-<span class="sd">&quot;&quot;&quot;_EsClassValue: dict = {ES.dat_classES : DatationValue,</span>
-<span class="sd">                       ES.loc_classES : LocationValue,</span>
-<span class="sd">                       ES.prp_classES : PropertyValue,</span>
-<span class="sd">                       #ES.nam_classES : NamedValue,</span>
-<span class="sd">                       #ES.ext_classES : ExternValue,</span>
-<span class="sd">                       #ES.res_classES : ReesultValue}</span>
-<span class="sd">                       ES.res_classES : NamedValue}</span>
-<span class="sd">                       #ES.timeslot    : TimeSlot}</span>
-<span class="sd">&#39;&#39;&#39;dict classES : ESValue class &#39;&#39;&#39;&quot;&quot;&quot;</span>
 </pre></div>
 
         </details>
@@ -1726,6 +1634,7 @@ implement default like this::</p>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;equal if value and name are equal&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">ESValue</span><span class="p">):</span> <span class="k">return</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">EStype</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>            <span class="k">return</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">==</span> <span class="mi">100</span><span class="p">:</span>          <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
@@ -1965,7 +1874,7 @@ implement default like this::</p>
             <span class="k">try</span><span class="p">:</span> <span class="n">dic</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span> <span class="n">dic</span> <span class="o">=</span> <span class="n">val</span>  
         <span class="k">else</span><span class="p">:</span> <span class="n">dic</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dic</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span> 
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dic</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span> 
             <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">nam_clsName</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dic</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span> 
             <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">nam_clsName</span>
@@ -1975,7 +1884,8 @@ implement default like this::</p>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">dic</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span> 
                 <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">nam_clsName</span>
             <span class="k">return</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">valClassName</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">dic</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">nam_clsName</span>
+        <span class="c1">#return None</span>
 
     <span class="k">def</span> <span class="nf">vName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genName</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -2679,7 +2589,7 @@ Other ESValue : ()</p>
             <span class="k">try</span><span class="p">:</span> <span class="n">dic</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span> <span class="n">dic</span> <span class="o">=</span> <span class="n">val</span>  
         <span class="k">else</span><span class="p">:</span> <span class="n">dic</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dic</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span> 
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dic</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span> 
             <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">nam_clsName</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dic</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span> 
             <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">nam_clsName</span>
@@ -2689,7 +2599,8 @@ Other ESValue : ()</p>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">dic</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span> 
                 <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">nam_clsName</span>
             <span class="k">return</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">valClassName</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">dic</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">nam_clsName</span>
+        <span class="c1">#return None</span>
 </pre></div>
 
         </details>

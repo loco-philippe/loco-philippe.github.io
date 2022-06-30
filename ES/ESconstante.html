@@ -356,8 +356,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">ili_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ili_clsName</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">coo_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">coo_clsName</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">tim_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tim_clsName</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">slo_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">slo_clsName</span><span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">slo_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">slo_clsName</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_clsName</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_clsName</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_clsName</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ES_clsName</span><span class="p">,</span>
+            <span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">valname</span> <span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">typeName</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">className</span> <span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">typeName</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
         
         <span class="c1">#%% reserved</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reserved</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span>
@@ -597,6 +603,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">coo_clsName</span>      <span class="o">=</span> <span class="s1">&#39;coordinate&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tim_clsName</span>      <span class="o">=</span> <span class="s1">&#39;datetime&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">slo_clsName</span>      <span class="o">=</span> <span class="s1">&#39;TimeSlot&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ES_clsName</span>       <span class="o">=</span> <span class="s1">&#39;ESValue&#39;</span>
 
     <span class="k">def</span> <span class="nf">_initReferenceValue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="c1">#%% init reference value</span>
@@ -836,8 +843,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">ili_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ili_clsName</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">coo_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">coo_clsName</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">tim_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tim_clsName</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">slo_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">slo_clsName</span><span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">slo_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">slo_clsName</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_clsName</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_clsName</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_clsName</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ES_clsName</span><span class="p">,</span>
+            <span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">valname</span> <span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">typeName</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">className</span> <span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">typeName</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
         
         <span class="c1">#%% reserved</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reserved</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span>
@@ -1077,6 +1090,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">coo_clsName</span>      <span class="o">=</span> <span class="s1">&#39;coordinate&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tim_clsName</span>      <span class="o">=</span> <span class="s1">&#39;datetime&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">slo_clsName</span>      <span class="o">=</span> <span class="s1">&#39;TimeSlot&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ES_clsName</span>       <span class="o">=</span> <span class="s1">&#39;ESValue&#39;</span>
 
     <span class="k">def</span> <span class="nf">_initReferenceValue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="c1">#%% init reference value</span>
@@ -1308,8 +1322,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">ili_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ili_clsName</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">coo_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">coo_clsName</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">tim_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tim_clsName</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">slo_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">slo_clsName</span><span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">slo_valName</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">slo_clsName</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dat_classES</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dat_clsName</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loc_classES</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc_clsName</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prp_classES</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prp_clsName</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_classES</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ES_clsName</span><span class="p">,</span>
+            <span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">valname</span> <span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">typeName</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">className</span> <span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">typeName</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
         
         <span class="c1">#%% reserved</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reserved</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span>
