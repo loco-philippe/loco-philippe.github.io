@@ -13126,15 +13126,20 @@ div#notebook {
 <li>identifier les apports que pourraient avoir ce type d'outil</li>
 </ul>
 <h2 id="R&#233;sultats">R&#233;sultats<a class="anchor-link" href="#R&#233;sultats">&#182;</a></h2><ul>
-<li>l'outil fonctionne correctement (pas d'erreur identifiées), les temps de réponse sont à améliorer</li>
-<li>l'analyse montre que les données présentent des incohérences (la majorité des index sont 'linked' alors qu'ils devraient être 'derived') -&gt; cf exemple dans la dernière cellule qui identifie 44 données sur 4500 qui seraient à corriger (ou à expliquer)</li>
-<li>le gain en taille de fichier varie de 50% (format texte non optimisé) à 80% (taille divisée par 5 !) dans un format optimisé et binaire</li>
+<li>l'outil fonctionne correctement (pas d'erreur identifiées, les temps de réponse restent néanmoins à améliorer).</li>
+<li>l'analyse identifie des données anormales qui seraient à corriger (ou à expliquer) -&gt; cf exemple dans la dernière cellule</li>
+<li>le gain en taille de fichier varie de 50% (format texte non optimisé) à 80% (taille divisée par 5 !) dans un format optimisé et binaire. Ce niveau d'optimisation est tout à fait notable.</li>
 <li>l'analyse permet de (re)trouver la logique de dépendance entre les colonnes</li>
 </ul>
 <h2 id="Usages-possibles">Usages possibles<a class="anchor-link" href="#Usages-possibles">&#182;</a></h2><ul>
-<li>les indicateurs utilisés permettent de qualifier la nature du fichier csv (niveau de duplication des données) ainsi que le niveau de codage des données). Ce type d'indicateur est déployable simplement.</li>
+<li>les indicateurs utilisés permettent de qualifier le fichier csv et sont déployables simplement:<ul>
+<li>niveau de duplication des données</li>
+<li>lien de dépendance entre les colonnes (permet un codage réduit des données).</li>
+</ul>
+</li>
 <li>l'usage de format de données moins gourmand (sans dégradation des données) peut également être intéressant à déployer</li>
-<li>la qualité des données peut également faire l'objet d'un indicateur qui mesure l'écart entre les données attendues et les données existantes. </li>
+<li>les schémas de données pourraient intégrer cette dépendance entre colonnes (ex. s'il y a une colonne "mois" et une colonne "trimestre", on peut indiquer que la colonne "trimestre" est "dérivée" de la colonne "mois", ou bien si on a une colonne "nom prénom" et une colonne "n° sécurité sociale", on peut indiquer que les deux colonnes sont "couplées". </li>
+<li>la qualité des données peut faire l'objet d'un indicateur qui mesure l'écart (existant / attendu) des relations entre colonnes. </li>
 </ul>
 <h2 id="Autres-points">Autres points<a class="anchor-link" href="#Autres-points">&#182;</a></h2><ul>
 <li>capacité ok de l'objet Iindexset à traiter des structures de données importantes (50 colonnes)</li>
@@ -13306,7 +13311,7 @@ minsize 1388222 1.8562648296356201
 <li>le gain de taille de fichier par rapport à un fichier "quoté" est de 61%</li>
 <li>l'analyse de la structure montre que les données sont principalement du type "linked" (non ou peu structuré)</li>
 <li>quelques colonnes sont de type "derived". Par exemple les index longitude(43) et latitude(44) sont bien dérivés de l'index coordonneesXY(13)</li>
-<li>le taux de couplage ("linkrate") pour chacun des index est très proche de 0, ce qui signifie que les données devraient être de type "derived" (lien de dépendance par exemple comme entre les trimestres et les mois)</li>
+<li>le taux de couplage ("linkrate") pour chacun des index est très proche de 0, ce qui signifie que les données devraient être de type "derived" (lien de dépendance par exemple comme entre les trimestres et les mois) ou "coupled" (lien biunivoque).</li>
 </ul>
 
 </div>
@@ -13699,7 +13704,7 @@ controle égalité : True 0.24997305870056152
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
-<h2 id="Exemple-de-donn&#233;es-incoh&#233;rentes">Exemple de donn&#233;es incoh&#233;rentes<a class="anchor-link" href="#Exemple-de-donn&#233;es-incoh&#233;rentes">&#182;</a></h2><ul>
+<h2 id="Exemple-de-donn&#233;es-anormales">Exemple de donn&#233;es anormales<a class="anchor-link" href="#Exemple-de-donn&#233;es-anormales">&#182;</a></h2><ul>
 <li>l'index coordonneesXY(13) est lié à l'index nom_station(9) avec un taux de couplage très faible, par ailleurs, le nombre de valeurs de ces deux index sont très proches (4503 nom_station pour 4459 coordonneesXY), ce qui signifie que dans la majorité des cas, on associe de façon unique une station et une position</li>
 <li>les exemples ci-dessous montrent les écarts les plus important :<ul>
 <li>la position [1.106329, 49.474202] est associée à 10 stations</li>
@@ -13713,7 +13718,7 @@ controle égalité : True 0.24997305870056152
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Couplage entre &#39;</span><span class="p">,</span> <span class="n">idxs</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39; et &#39;</span><span class="p">,</span> <span class="n">idxs</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39; : &#39;</span><span class="p">,</span> <span class="n">idxs</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="o">.</span><span class="n">couplinginfos</span><span class="p">(</span><span class="n">idxs</span><span class="p">[</span><span class="mi">9</span><span class="p">])[</span><span class="s1">&#39;typecoupl&#39;</span><span class="p">])</span>
@@ -13726,7 +13731,6 @@ controle égalité : True 0.24997305870056152
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;les 5 positions avec le plus de stations: &#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;liste des stations associées à la position&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39; : &#39;</span><span class="p">,</span> 
       <span class="p">[</span><span class="n">nom_station</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">coordonneesXY</span><span class="o">.</span><span class="n">recordfromvalue</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])],</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="n">nom_station</span> <span class="o">=</span> <span class="n">idxs</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">tostdcodec</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">coordonneesXY</span> <span class="o">=</span> <span class="n">idxs</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="o">.</span><span class="n">tostdcodec</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">nom_station</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="n">coordonneesXY</span><span class="p">)</span>
 <span class="n">c</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">nom_station</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
