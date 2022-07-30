@@ -410,8 +410,8 @@ measurable properties) and groups common properties and concepts  :</p>
 
 <span class="sd">    - **name**  : name  of `ESValue.ESValue` objects</span>
 <span class="sd">    - **value** : value of `ESValue.ESValue` objects</span>
-<span class="sd">    - `bounds` (@property) : boundary  of `ESValue.ESValue` objects</span>
-<span class="sd">    - `simple` (@property) : simplified value of `ESValue.ESValue` objects</span>
+<span class="sd">    - `ESValue.bounds` (@property) : boundary  of `ESValue.ESValue` objects</span>
+<span class="sd">    - `ESValue.simple` (@property) : simplified value of `ESValue.ESValue` objects</span>
 
 <span class="sd">    The methods defined in this class are :</span>
 
@@ -438,7 +438,7 @@ measurable properties) and groups common properties and concepts  :</p>
 <span class="sd">    - `ESValue.setValue`</span>
 <span class="sd">    - `ESValue.simple`</span>
 <span class="sd">    - `ESValue.to_float`</span>
-<span class="sd">    - `ESValue.vClassName`</span>
+<span class="sd">    - `ESValue.valClassName`</span>
 <span class="sd">    - `ESValue.vName`</span>
 <span class="sd">    - `ESValue.vSimple`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -567,10 +567,11 @@ measurable properties) and groups common properties and concepts  :</p>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;list or tuple (@property)</span>
-<span class="sd">            DatationValue : boundingBox (tmin, tmax)</span>
-<span class="sd">            LocationValue : boundingBox (minx, miny, maxx, maxy)</span>
-<span class="sd">            PropertyValue : boundingBox (list of type property)</span>
-<span class="sd">            Other ESValue : () &#39;&#39;&#39;</span>
+<span class="sd">        </span>
+<span class="sd">            - DatationValue : boundingBox (tmin, tmax)</span>
+<span class="sd">            - LocationValue : boundingBox (minx, miny, maxx, maxy)</span>
+<span class="sd">            - PropertyValue : boundingBox (list of type property)</span>
+<span class="sd">            - Other ESValue : () &#39;&#39;&#39;</span>
         <span class="k">try</span> <span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PropertyValue</span><span class="p">):</span> <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">])</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">bounds</span>
@@ -580,8 +581,8 @@ measurable properties) and groups common properties and concepts  :</p>
     <span class="k">def</span> <span class="nf">boxUnion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        return a new `ESValue` with :</span>
-<span class="sd">            name : parameters</span>
-<span class="sd">            value : union between box(self) and box(other)</span>
+<span class="sd">            - name : parameters</span>
+<span class="sd">            - value : union between box(self) and box(other)</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">==</span> <span class="n">PropertyValue</span> <span class="p">:</span>
             <span class="k">return</span> <span class="n">PropertyValue</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_setprp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">])</span> <span class="o">|</span>
@@ -1384,8 +1385,8 @@ implement default like this::</p>
 
 <span class="sd">    - **name**  : name  of `ESValue.ESValue` objects</span>
 <span class="sd">    - **value** : value of `ESValue.ESValue` objects</span>
-<span class="sd">    - `bounds` (@property) : boundary  of `ESValue.ESValue` objects</span>
-<span class="sd">    - `simple` (@property) : simplified value of `ESValue.ESValue` objects</span>
+<span class="sd">    - `ESValue.bounds` (@property) : boundary  of `ESValue.ESValue` objects</span>
+<span class="sd">    - `ESValue.simple` (@property) : simplified value of `ESValue.ESValue` objects</span>
 
 <span class="sd">    The methods defined in this class are :</span>
 
@@ -1412,7 +1413,7 @@ implement default like this::</p>
 <span class="sd">    - `ESValue.setValue`</span>
 <span class="sd">    - `ESValue.simple`</span>
 <span class="sd">    - `ESValue.to_float`</span>
-<span class="sd">    - `ESValue.vClassName`</span>
+<span class="sd">    - `ESValue.valClassName`</span>
 <span class="sd">    - `ESValue.vName`</span>
 <span class="sd">    - `ESValue.vSimple`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1541,10 +1542,11 @@ implement default like this::</p>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;list or tuple (@property)</span>
-<span class="sd">            DatationValue : boundingBox (tmin, tmax)</span>
-<span class="sd">            LocationValue : boundingBox (minx, miny, maxx, maxy)</span>
-<span class="sd">            PropertyValue : boundingBox (list of type property)</span>
-<span class="sd">            Other ESValue : () &#39;&#39;&#39;</span>
+<span class="sd">        </span>
+<span class="sd">            - DatationValue : boundingBox (tmin, tmax)</span>
+<span class="sd">            - LocationValue : boundingBox (minx, miny, maxx, maxy)</span>
+<span class="sd">            - PropertyValue : boundingBox (list of type property)</span>
+<span class="sd">            - Other ESValue : () &#39;&#39;&#39;</span>
         <span class="k">try</span> <span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PropertyValue</span><span class="p">):</span> <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">])</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">bounds</span>
@@ -1554,8 +1556,8 @@ implement default like this::</p>
     <span class="k">def</span> <span class="nf">boxUnion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        return a new `ESValue` with :</span>
-<span class="sd">            name : parameters</span>
-<span class="sd">            value : union between box(self) and box(other)</span>
+<span class="sd">            - name : parameters</span>
+<span class="sd">            - value : union between box(self) and box(other)</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">==</span> <span class="n">PropertyValue</span> <span class="p">:</span>
             <span class="k">return</span> <span class="n">PropertyValue</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_setprp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">])</span> <span class="o">|</span>
@@ -1718,8 +1720,8 @@ implement default like this::</p>
 <ul>
 <li><strong>name</strong>  : name  of <code>ESValue.ESValue</code> objects</li>
 <li><strong>value</strong> : value of <code>ESValue.ESValue</code> objects</li>
-<li><code><a href="#ESValue.bounds">bounds</a></code> (@property) : boundary  of <code>ESValue.ESValue</code> objects</li>
-<li><code><a href="#ESValue.simple">simple</a></code> (@property) : simplified value of <code>ESValue.ESValue</code> objects</li>
+<li><code><a href="#ESValue.bounds">ESValue.bounds</a></code> (@property) : boundary  of <code>ESValue.ESValue</code> objects</li>
+<li><code><a href="#ESValue.simple">ESValue.simple</a></code> (@property) : simplified value of <code>ESValue.ESValue</code> objects</li>
 </ul>
 
 <p>The methods defined in this class are :</p>
@@ -1750,7 +1752,7 @@ implement default like this::</p>
 <li><code><a href="#ESValue.setValue">ESValue.setValue</a></code></li>
 <li><code><a href="#ESValue.simple">ESValue.simple</a></code></li>
 <li><code><a href="#ESValue.to_float">ESValue.to_float</a></code></li>
-<li><code>ESValue.vClassName</code></li>
+<li><code><a href="#ESValue.valClassName">ESValue.valClassName</a></code></li>
 <li><code><a href="#ESValue.vName">ESValue.vName</a></code></li>
 <li><code><a href="#ESValue.vSimple">ESValue.vSimple</a></code></li>
 </ul>
@@ -2059,11 +2061,14 @@ Several configurations for bs parameters (name and type are string) :
     </div>
 
     
-            <div class="docstring"><p>list or tuple (@property)
-DatationValue : boundingBox (tmin, tmax)
-LocationValue : boundingBox (minx, miny, maxx, maxy)
-PropertyValue : boundingBox (list of type property)
-Other ESValue : ()</p>
+            <div class="docstring"><p>list or tuple (@property)</p>
+
+<ul>
+<li>DatationValue : boundingBox (tmin, tmax)</li>
+<li>LocationValue : boundingBox (minx, miny, maxx, maxy)</li>
+<li>PropertyValue : boundingBox (list of type property)</li>
+<li>Other ESValue : ()</li>
+</ul>
 </div>
 
 
@@ -2081,8 +2086,8 @@ Other ESValue : ()</p>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">boxUnion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        return a new `ESValue` with :</span>
-<span class="sd">            name : parameters</span>
-<span class="sd">            value : union between box(self) and box(other)</span>
+<span class="sd">            - name : parameters</span>
+<span class="sd">            - value : union between box(self) and box(other)</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">==</span> <span class="n">PropertyValue</span> <span class="p">:</span>
             <span class="k">return</span> <span class="n">PropertyValue</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_setprp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">])</span> <span class="o">|</span>
@@ -2100,8 +2105,8 @@ Other ESValue : ()</p>
         </details>
 
             <div class="docstring"><p>return a new <code><a href="#ESValue">ESValue</a></code> with :
-    name : parameters
-    value : union between box(self) and box(other)</p>
+    - name : parameters
+    - value : union between box(self) and box(other)</p>
 </div>
 
 
