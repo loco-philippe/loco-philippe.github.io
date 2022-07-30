@@ -579,11 +579,9 @@ measurable properties) and groups common properties and concepts  :</p>
             <span class="k">return</span> <span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">boxUnion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        return a new `ESValue` with :</span>
-<span class="sd">            - name : parameters</span>
-<span class="sd">            - value : union between box(self) and box(other)</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;return a new `ESValue` with :</span>
+<span class="sd">        - name : parameters</span>
+<span class="sd">        - value : union between box(self) and box(other)  &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">==</span> <span class="n">PropertyValue</span> <span class="p">:</span>
             <span class="k">return</span> <span class="n">PropertyValue</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_setprp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">])</span> <span class="o">|</span>
                                           <span class="bp">self</span><span class="o">.</span><span class="n">_setprp</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">]))),</span>
@@ -1554,11 +1552,9 @@ implement default like this::</p>
             <span class="k">return</span> <span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">boxUnion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        return a new `ESValue` with :</span>
-<span class="sd">            - name : parameters</span>
-<span class="sd">            - value : union between box(self) and box(other)</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;return a new `ESValue` with :</span>
+<span class="sd">        - name : parameters</span>
+<span class="sd">        - value : union between box(self) and box(other)  &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">==</span> <span class="n">PropertyValue</span> <span class="p">:</span>
             <span class="k">return</span> <span class="n">PropertyValue</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_setprp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">])</span> <span class="o">|</span>
                                           <span class="bp">self</span><span class="o">.</span><span class="n">_setprp</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">]))),</span>
@@ -2084,11 +2080,9 @@ Several configurations for bs parameters (name and type are string) :
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">boxUnion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        return a new `ESValue` with :</span>
-<span class="sd">            - name : parameters</span>
-<span class="sd">            - value : union between box(self) and box(other)</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;return a new `ESValue` with :</span>
+<span class="sd">        - name : parameters</span>
+<span class="sd">        - value : union between box(self) and box(other)  &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">==</span> <span class="n">PropertyValue</span> <span class="p">:</span>
             <span class="k">return</span> <span class="n">PropertyValue</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_setprp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">])</span> <span class="o">|</span>
                                           <span class="bp">self</span><span class="o">.</span><span class="n">_setprp</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">]))),</span>
@@ -2104,9 +2098,12 @@ Several configurations for bs parameters (name and type are string) :
 
         </details>
 
-            <div class="docstring"><p>return a new <code><a href="#ESValue">ESValue</a></code> with :
-    - name : parameters
-    - value : union between box(self) and box(other)</p>
+            <div class="docstring"><p>return a new <code><a href="#ESValue">ESValue</a></code> with :</p>
+
+<ul>
+<li>name : parameters</li>
+<li>value : union between box(self) and box(other)</li>
+</ul>
 </div>
 
 
