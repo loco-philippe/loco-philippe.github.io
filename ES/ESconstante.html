@@ -127,14 +127,14 @@
     <span class="c1">#def _inv(self, mp)     : return dict(zip(mp.values(), mp.keys()))</span>
     <span class="k">def</span> <span class="nf">_invnum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mp</span><span class="p">)</span>  <span class="p">:</span> <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">([</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">mp</span><span class="o">.</span><span class="n">values</span><span class="p">())],</span> <span class="n">mp</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">defnone</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initName</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initReferenceValue</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initStruct</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initByte</span><span class="p">()</span>
         <span class="c1">#&#39;&#39;&#39;Application initialization (boolean)&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_initDefaultValue</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initDefaultValue</span><span class="p">(</span><span class="n">defnone</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_initStruct</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
         <span class="c1">#%% option initialization (dict)</span>
@@ -615,15 +615,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">nullValues</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nullDate</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullInd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullName</span><span class="p">,</span>
                            <span class="bp">self</span><span class="o">.</span><span class="n">nullAtt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullVal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullPrp</span><span class="p">)</span>
         
-    <span class="k">def</span> <span class="nf">_initDefaultValue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="c1">#%% init reference value</span>
+    <span class="k">def</span> <span class="nf">_initDefaultValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">defnone</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="c1">#%% init default value</span>
         <span class="sd">&#39;&#39;&#39; Default value initialization &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">def_clsName</span>      <span class="o">=</span> <span class="kc">None</span>
-        <span class="c1">#self.def_clsName      = self.nam_clsName</span>
+        <span class="k">if</span> <span class="n">defnone</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">def_clsName</span>      <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">def_clsName</span>      <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nam_clsName</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">def_dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">def_dtype</span> <span class="o">=</span> <span class="kc">None</span>
 
-<span class="n">ES</span> <span class="o">=</span> <span class="n">Es</span><span class="p">()</span>
+<span class="n">ES</span> <span class="o">=</span> <span class="n">Es</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -648,14 +648,14 @@
     <span class="c1">#def _inv(self, mp)     : return dict(zip(mp.values(), mp.keys()))</span>
     <span class="k">def</span> <span class="nf">_invnum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mp</span><span class="p">)</span>  <span class="p">:</span> <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">([</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">mp</span><span class="o">.</span><span class="n">values</span><span class="p">())],</span> <span class="n">mp</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">defnone</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initName</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initReferenceValue</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initStruct</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initByte</span><span class="p">()</span>
         <span class="c1">#&#39;&#39;&#39;Application initialization (boolean)&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_initDefaultValue</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initDefaultValue</span><span class="p">(</span><span class="n">defnone</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_initStruct</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
         <span class="c1">#%% option initialization (dict)</span>
@@ -1136,11 +1136,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">nullValues</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nullDate</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullCoor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullInd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullName</span><span class="p">,</span>
                            <span class="bp">self</span><span class="o">.</span><span class="n">nullAtt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullDict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullVal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullPrp</span><span class="p">)</span>
         
-    <span class="k">def</span> <span class="nf">_initDefaultValue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="c1">#%% init reference value</span>
+    <span class="k">def</span> <span class="nf">_initDefaultValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">defnone</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="c1">#%% init default value</span>
         <span class="sd">&#39;&#39;&#39; Default value initialization &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">def_clsName</span>      <span class="o">=</span> <span class="kc">None</span>
-        <span class="c1">#self.def_clsName      = self.nam_clsName</span>
+        <span class="k">if</span> <span class="n">defnone</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">def_clsName</span>      <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">def_clsName</span>      <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nam_clsName</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">def_dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">def_dtype</span> <span class="o">=</span> <span class="kc">None</span>
 </pre></div>
@@ -1155,19 +1155,19 @@
                                         <div class="attr function"><a class="headerlink" href="#Es.__init__">#&nbsp;&nbsp</a>
 
         
-            <span class="name">Es</span><span class="signature">()</span>
+            <span class="name">Es</span><span class="signature">(defnone=True)</span>
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">defnone</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initName</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initReferenceValue</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initStruct</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initByte</span><span class="p">()</span>
         <span class="c1">#&#39;&#39;&#39;Application initialization (boolean)&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_initDefaultValue</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initDefaultValue</span><span class="p">(</span><span class="n">defnone</span><span class="p">)</span>
 </pre></div>
 
         </details>

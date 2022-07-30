@@ -410,7 +410,6 @@ measurable properties) and groups common properties and concepts  :</p>
 
 <span class="sd">    - **name**  : name  of `ESValue.ESValue` objects</span>
 <span class="sd">    - **value** : value of `ESValue.ESValue` objects</span>
-<span class="sd">    - **EStype** : type of `ESValue.ESValue` objects</span>
 <span class="sd">    - `bounds` (@property) : boundary  of `ESValue.ESValue` objects</span>
 <span class="sd">    - `simple` (@property) : simplified value of `ESValue.ESValue` objects</span>
 
@@ -418,30 +417,30 @@ measurable properties) and groups common properties and concepts  :</p>
 
 <span class="sd">    **binary predicates**</span>
 
-<span class="sd">    - `contains`</span>
-<span class="sd">    - `equals`</span>
-<span class="sd">    - `intersects`</span>
-<span class="sd">    - `within`</span>
-<span class="sd">    - `disjoint`</span>
-<span class="sd">    - `isEqual`</span>
-<span class="sd">    - `isNotNull`</span>
-<span class="sd">    - `isName`</span>
+<span class="sd">    - `ESValue.contains`</span>
+<span class="sd">    - `ESValue.equals`</span>
+<span class="sd">    - `ESValue.intersects`</span>
+<span class="sd">    - `ESValue.within`</span>
+<span class="sd">    - `ESValue.disjoint`</span>
+<span class="sd">    - `ESValue.isEqual`</span>
+<span class="sd">    - `ESValue.isNotNull`</span>
+<span class="sd">    - `ESValue.isName`</span>
 
 <span class="sd">    **other methods**</span>
 
-<span class="sd">    - `from_obj` (@classmethod)</span>
-<span class="sd">    - `bounds`</span>
-<span class="sd">    - `boxUnion`</span>
-<span class="sd">    - `getValue`</span>
-<span class="sd">    - `getName`</span>
-<span class="sd">    - `json`</span>
-<span class="sd">    - `setName`</span>
-<span class="sd">    - `setValue`</span>
-<span class="sd">    - `simple`</span>
-<span class="sd">    - `to_float`</span>
-<span class="sd">    - `vClassName`</span>
-<span class="sd">    - `vName`</span>
-<span class="sd">    - `vSimple`</span>
+<span class="sd">    - `ESValue.from_obj` (@classmethod)</span>
+<span class="sd">    - `ESValue.bounds`</span>
+<span class="sd">    - `ESValue.boxUnion`</span>
+<span class="sd">    - `ESValue.getValue`</span>
+<span class="sd">    - `ESValue.getName`</span>
+<span class="sd">    - `ESValue.json`</span>
+<span class="sd">    - `ESValue.setName`</span>
+<span class="sd">    - `ESValue.setValue`</span>
+<span class="sd">    - `ESValue.simple`</span>
+<span class="sd">    - `ESValue.to_float`</span>
+<span class="sd">    - `ESValue.vClassName`</span>
+<span class="sd">    - `ESValue.vName`</span>
+<span class="sd">    - `ESValue.vSimple`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <span class="c1">#%% constructor               </span>
     <span class="nd">@staticmethod</span>
@@ -478,7 +477,6 @@ measurable properties) and groups common properties and concepts  :</p>
         <span class="sd">&#39;&#39;&#39;Initialize &#39;name&#39; and &#39;value&#39; attribute&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullValue</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">0</span>
 
 <span class="c1">#%% special</span>
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -639,10 +637,6 @@ measurable properties) and groups common properties and concepts  :</p>
 
 <span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">nam</span>
-        <span class="k">if</span> <span class="n">nam</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">&gt;=</span> <span class="mi">100</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">-=</span> <span class="mi">100</span>
 
     <span class="k">def</span> <span class="nf">setValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -655,7 +649,6 @@ measurable properties) and groups common properties and concepts  :</p>
 <span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
         <span class="n">ESval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span>  <span class="o">=</span> <span class="n">ESval</span><span class="o">.</span><span class="n">value</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="n">ESval</span><span class="o">.</span><span class="n">EStype</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">simple</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -754,23 +747,18 @@ measurable properties) and groups common properties and concepts  :</p>
 
 <span class="sd">    *constructor (@classmethod)*</span>
 
-<span class="sd">    - `Simple`  (instant)</span>
-<span class="sd">    - `Box`     (interval)</span>
-<span class="sd">    - `from_obj`(see  `ESValue.from_obj`)</span>
+<span class="sd">    - `DatationValue.Simple`  (instant)</span>
+<span class="sd">    - `DatationValue.Box`     (interval)</span>
+<span class="sd">    - `DatationValue.from_obj`(see  `ESValue.from_obj`)</span>
 <span class="sd">        </span>
 
 <span class="sd">    *getters*</span>
 
-<span class="sd">    - `getInstant`</span>
-<span class="sd">    - `getInterval`</span>
-<span class="sd">    - `vSimple`</span>
-<span class="sd">    - `vInterval`</span>
-<span class="sd">    - `link`</span>
-<span class="sd">    </span>
-<span class="sd">    *conversion (static method)*</span>
-
-<span class="sd">    - `link`</span>
-<span class="sd">    </span>
+<span class="sd">    - `DatationValue.getInstant`</span>
+<span class="sd">    - `DatationValue.getInterval`</span>
+<span class="sd">    - `DatationValue.vSimple`</span>
+<span class="sd">    - `DatationValue.vInterval`</span>
+<span class="sd">    - `DatationValue.link`    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">Simple</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">instant</span><span class="p">):</span>
@@ -809,9 +797,6 @@ measurable properties) and groups common properties and concepts  :</p>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">name</span><span class="p">:</span> <span class="k">raise</span> <span class="n">ESValueError</span><span class="p">(</span><span class="s1">&#39;name and val inconsistent&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">TimeSlot</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullDate</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">ntypevalue</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">stype</span><span class="p">]</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 
     <span class="k">def</span> <span class="nf">getInstant</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;return datetime if &#39;instant&#39;, none else&#39;&#39;&#39;</span>
@@ -875,27 +860,24 @@ measurable properties) and groups common properties and concepts  :</p>
 
 <span class="sd">    *constructor (@classmethod)*</span>
 
-<span class="sd">    - `Simple`   (point)</span>
-<span class="sd">    - `Box`</span>
-<span class="sd">    - `from_obj` (see  `ESValue.from_obj`)</span>
+<span class="sd">    - `LocationValue.Simple`   (point)</span>
+<span class="sd">    - `LocationValue.Box`</span>
+<span class="sd">    - `LocationValue.from_obj` (see  `ESValue.from_obj`)</span>
 <span class="sd">    </span>
 <span class="sd">    *getters (@property)*</span>
 
-<span class="sd">    - `coords`</span>
-<span class="sd">    - `coorInv`</span>
+<span class="sd">    - `LocationValue.coords`</span>
+<span class="sd">    - `LocationValue.coorInv`</span>
 
 <span class="sd">    *getters*</span>
 
-<span class="sd">    - `getPoint`</span>
-<span class="sd">    - `vSimple`</span>
-<span class="sd">    - `vPointInv`</span>
-<span class="sd">    - `vPointX`</span>
-<span class="sd">    - `vPointY`</span>
-<span class="sd">    - `vCodePlus`</span>
-
-<span class="sd">    *conversion (static method)*</span>
-
-<span class="sd">    - `link`</span>
+<span class="sd">    - `LocationValue.getPoint`</span>
+<span class="sd">    - `LocationValue.vSimple`</span>
+<span class="sd">    - `LocationValue.vPointInv`</span>
+<span class="sd">    - `LocationValue.vPointX`</span>
+<span class="sd">    - `LocationValue.vPointY`</span>
+<span class="sd">    - `LocationValue.vCodePlus`</span>
+<span class="sd">    - `LocationValue.link`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">Simple</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">coord</span><span class="p">):</span>
@@ -939,9 +921,6 @@ measurable properties) and groups common properties and concepts  :</p>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">name</span><span class="p">:</span> <span class="k">raise</span> <span class="n">ESValueError</span><span class="p">(</span><span class="s1">&#39;name and val inconsistent&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullValue</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">ntypevalue</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">geom_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 
     <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return minimal distance between a fixed point&#39;&#39;&#39;</span>
@@ -1051,17 +1030,14 @@ measurable properties) and groups common properties and concepts  :</p>
 
 <span class="sd">    *constructor (@classmethod)*</span>
 
-<span class="sd">    - `Simple`   (property type)</span>
-<span class="sd">    - `Box`      (set of property type)</span>
-<span class="sd">    - `from_obj` (see  `ESValue.from_obj`)</span>
+<span class="sd">    - `PropertyValue.Simple`   (property type)</span>
+<span class="sd">    - `PropertyValue.Box`      (set of property type)</span>
+<span class="sd">    - `PropertyValue.from_obj` (see  `ESValue.from_obj`)</span>
 <span class="sd">    </span>
 <span class="sd">    *getters*</span>
 
-<span class="sd">    - `vSimple`</span>
-
-<span class="sd">    *functions*</span>
-
-<span class="sd">    - `link`</span>
+<span class="sd">    - `PropertyValue.vSimple`</span>
+<span class="sd">    - `PropertyValue.link`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">Simple</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">prp</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span> <span class="n">prp_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -1102,18 +1078,10 @@ measurable properties) and groups common properties and concepts  :</p>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="k">raise</span> <span class="n">ESValueError</span><span class="p">(</span><span class="s2">&quot;type property not defined&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">24</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">prp_dict</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">]</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ESValueError</span><span class="p">(</span><span class="s2">&quot;property not present in standard dictionnary&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">PropertyValue</span><span class="o">.</span><span class="n">nullValue</span><span class="p">():</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">22</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_unit</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">22</span>
-            <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">23</span>
             <span class="k">if</span> <span class="n">prp_dict</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_unit</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">]][</span><span class="mi">5</span><span class="p">]</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 
     <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;lower if string simple value + name is lower&quot;&quot;&quot;</span>
@@ -1167,23 +1135,6 @@ measurable properties) and groups common properties and concepts  :</p>
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">li</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">li</span>
 
-    <span class="k">def</span> <span class="nf">_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="p">{},</span> <span class="n">className</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>  <span class="n">val</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span>
-                <span class="k">return</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]],</span> <span class="nb">dict</span><span class="p">):</span>
-                                            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
-                                            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">|=</span> <span class="n">val</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]]</span>
-            <span class="k">else</span><span class="p">:</span>                           <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">|=</span> <span class="n">val</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">PropertyValue</span><span class="p">)</span> <span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
-        <span class="k">else</span><span class="p">:</span> <span class="k">raise</span> <span class="n">ESValueError</span><span class="p">(</span><span class="s1">&#39;type data not compatible with PropertyValue&#39;</span><span class="p">)</span>
-        <span class="k">return</span>
-
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_setprp</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
@@ -1203,11 +1154,11 @@ measurable properties) and groups common properties and concepts  :</p>
 
 <span class="sd">    *constructor*</span>
 
-<span class="sd">    - `from_obj` (see  `ESValue.from_obj`)</span>
+<span class="sd">    - `NamedValue.from_obj` (see  `ESValue.from_obj`)</span>
 <span class="sd">    </span>
 <span class="sd">    *getters*</span>
 
-<span class="sd">    - `vSimple`</span>
+<span class="sd">    - `NamedValue.vSimple`</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="nd">@classmethod</span> 
     <span class="k">def</span> <span class="nf">from_obj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="p">):</span> 
@@ -1237,8 +1188,6 @@ measurable properties) and groups common properties and concepts  :</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullValue</span><span class="p">():</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">32</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">nullValue</span><span class="p">()</span> <span class="p">:</span> 
@@ -1269,11 +1218,11 @@ measurable properties) and groups common properties and concepts  :</p>
 
 <span class="sd">    *constructor*</span>
 
-<span class="sd">    - `from_obj` (see  `ESValue.from_obj`)</span>
+<span class="sd">    - `ExternValue.from_obj` (see  `ESValue.from_obj`)</span>
 <span class="sd">    </span>
 <span class="sd">    *getters*</span>
 
-<span class="sd">    - `vSimple`</span>
+<span class="sd">    - `ExternValue.vSimple`</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="nd">@classmethod</span> 
     <span class="k">def</span> <span class="nf">from_obj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="p">):</span>
@@ -1282,7 +1231,7 @@ measurable properties) and groups common properties and concepts  :</p>
     
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullVal</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        NamedValue constructor.</span>
+<span class="sd">        ExternValue constructor.</span>
 
 <span class="sd">        *Parameters*</span>
 
@@ -1300,8 +1249,6 @@ measurable properties) and groups common properties and concepts  :</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">_classval</span><span class="p">()[</span><span class="n">className</span><span class="p">](</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">ntypevalue</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">ESValue</span><span class="o">.</span><span class="n">valClassName</span><span class="p">(</span><span class="n">val</span><span class="p">)]]</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">nullValue</span><span class="p">()</span> <span class="p">:</span> 
@@ -1327,198 +1274,7 @@ measurable properties) and groups common properties and concepts  :</p>
 <span class="k">class</span> <span class="nc">ESValueError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="c1">#%% ES except</span>
     <span class="sd">&#39;&#39;&#39; ESValue Exception&#39;&#39;&#39;</span>
-
-
-<span class="sd">&quot;&quot;&quot;@classmethod</span>
-<span class="sd">    def cast(cls, value):</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        tranform a value (unique or list) in a list of `ESValue`</span>
-
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **value** : value to transform</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **list** : list of `ESValue`</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        ValueClass = cls</span>
-<span class="sd">        if isinstance(value, list):</span>
-<span class="sd">            try :</span>
-<span class="sd">                return [ValueClass(val) for val in value]</span>
-<span class="sd">            except :</span>
-<span class="sd">                return [ValueClass(value)]</span>
-<span class="sd">        else : return  [ValueClass(value)]&quot;&quot;&quot;</span>
-        
-<span class="sd">&quot;&quot;&quot;        def __to_bytes__(self, **option):</span>
-<span class="sd">            js = self.json(encoded=False, encode_format=&#39;cbor&#39;)</span>
-<span class="sd">            if option[&#39;encoded&#39;]: return bson.encode(js)</span>
-<span class="sd">            return js</span>
-
-<span class="sd">        @staticmethod</span>
-<span class="sd">        def __from_bytes__(bs):</span>
-<span class="sd">            if not isinstance(bs, (bytes, dict)): raise ESValueError(&quot;parameter is not dict or bytes&quot;)</span>
-<span class="sd">            if isinstance(bs, bytes): dic = cbor2.loads(bs)</span>
-<span class="sd">            else: dic = bs</span>
-<span class="sd">            return dic&quot;&quot;&quot;</span>
-        
-<span class="sd">&quot;&quot;&quot;def _to_strBytes(self, simple=False, mini=False):</span>
-<span class="sd">            &#39;&#39;&#39;not available&#39;&#39;&#39;</span>
-<span class="sd">            bval = str.encode(self.name)</span>
-<span class="sd">            if simple and mini : </span>
-<span class="sd">                #form=&#39;{:&lt;&#39;+str(ES.miniStr)+&#39;}&#39; </span>
-<span class="sd">                #return str.encode(form.format(self.name[0:ES.miniStr]))</span>
-<span class="sd">                return str.encode(self.name[0:ES.miniStr].ljust(ES.miniStr))</span>
-<span class="sd">            if simple and not mini : return bval</span>
-<span class="sd">            return struct.pack(&#39;&gt;B&#39;, len(bval)) + bval</span>
-
-<span class="sd">        def _from_strBytes(self, byt, simple=False):</span>
-<span class="sd">            &#39;&#39;&#39;not available&#39;&#39;&#39;</span>
-<span class="sd">            if simple :</span>
-<span class="sd">                siz = len(byt) - 1</span>
-<span class="sd">                name = bytes.decode(byt).rstrip()          </span>
-<span class="sd">            else :</span>
-<span class="sd">                siz = struct.unpack(&#39;&gt;B&#39;, byt[0:1])[0]</span>
-<span class="sd">                name = bytes.decode(byt[1: siz + 1]).rstrip()</span>
-<span class="sd">            self._init(name)</span>
-<span class="sd">            return siz + 1&quot;&quot;&quot;</span>
-        
-<span class="sd">&quot;&quot;&quot;        def from_bytes(self, byt, mini=False):</span>
-<span class="sd">            &#39;&#39;&#39;</span>
-<span class="sd">            Complete an empty `DatationValue` with binary data.</span>
-
-<span class="sd">            *Parameters*</span>
-
-<span class="sd">            - **byt** : binary representation of a DatationValue (datetime)</span>
-
-<span class="sd">            *Returns*</span>
-
-<span class="sd">            - **int** : number of bytes used to decode a dateTime = 7</span>
-<span class="sd">            &#39;&#39;&#39;</span>
-<span class="sd">            if mini:</span>
-<span class="sd">                dt = struct.unpack(&#39;&lt;HBB&#39;, byt[0:4])</span>
-<span class="sd">                self._init(datetime.datetime(dt[0], dt[1], dt[2]))</span>
-<span class="sd">                return 4</span>
-<span class="sd">            dt = struct.unpack(&#39;&lt;HBBBBB&#39;, byt[0:7])</span>
-<span class="sd">            self._init(datetime.datetime(dt[0], dt[1], dt[2], dt[3], dt[4], dt[5]))</span>
-<span class="sd">            return 7&quot;&quot;&quot;</span>
-<span class="sd">&quot;&quot;&quot;    def to_bytes(self, mini=False):</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        Export in binary format.</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **bytes** : binary representation of the `DatationValue` (datetime)</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        if mini: return struct.pack(&#39;&lt;HBB&#39;, self.simple.year, self.simple.month,</span>
-<span class="sd">                           self.simple.day)</span>
-<span class="sd">        return struct.pack(&#39;&lt;HBBBBB&#39;, self.simple.year, self.simple.month,</span>
-<span class="sd">                           self.simple.day, self.simple.hour,</span>
-<span class="sd">                           self.simple.minute, self.simple.second)&quot;&quot;&quot;</span>
-<span class="sd">&quot;&quot;&quot;    def from_bytes(self, byt, mini=False):</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        Complete an empty `LocationValue` with binary data (point)</span>
-
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **byt** : binary representation of a DatationValue (point)</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **int** : number of bytes used to decode a point = 8</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        pt = list(struct.unpack(&#39;&lt;ll&#39;, byt[0:8]))</span>
-<span class="sd">        self._init(list((pt[0] *10**-7, pt[1] *10**-7)))</span>
-<span class="sd">        return 8</span>
-
-<span class="sd">    def to_bytes(self, mini=False):</span>
-<span class="sd">        &#39;&#39;&#39;Export in binary format.</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **bytes** : binary representation of the `LocationValue` (point coordinates)</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        return struct.pack(&#39;&lt;ll&#39;,round(self.vSimple()[0]*10**7), round(self.vSimple()[1]*10**7))</span>
-
-<span class="sd">    def from_bytes(self, byt, mini):</span>
-<span class="sd">        if mini: </span>
-<span class="sd">            self.value[ES.prp_type]   = ES.invProp[struct.unpack(&#39;&lt;B&#39;, byt[0:1])[0]]</span>
-<span class="sd">            return 1</span>
-<span class="sd">        bytl = byt[0:6] + b&#39;\x00&#39; +byt[6:9] + b&#39;\x00&#39; + byt[9:10]</span>
-<span class="sd">        prp = struct.unpack(&#39;&lt;BBBLLB&#39;, bytl)</span>
-<span class="sd">        #for i in [3,4,5]:</span>
-<span class="sd">        self.value[ES.prp_type]       = ES.invProp[prp[0]]</span>
-<span class="sd">        self.value[ES.prp_unit]       = ES.prop[ES.invProp[prp[0]]][5]</span>
-<span class="sd">        self.value[ES.prp_sampling]   = ES.invSampling[prp[1]]</span>
-<span class="sd">        self.value[ES.prp_appli]      = ES.invApplication[prp[2]]</span>
-<span class="sd">        self.value[ES.prp_period]     = prp[3]</span>
-<span class="sd">        self.value[ES.prp_interval]   = prp[4]</span>
-<span class="sd">        self.value[ES.prp_uncertain]  = prp[5] // 2</span>
-<span class="sd">        return 10</span>
-
-<span class="sd">    def to_bytes(self, mini):</span>
-<span class="sd">        if mini: return struct.pack(&#39;&lt;B&#39;, ES.prop[self.simple][0])</span>
-<span class="sd">        if ES.prp_sampling in self.value : sampling = self.value[ES.prp_sampling]</span>
-<span class="sd">        else : sampling = ES.nullDict</span>
-<span class="sd">        if ES.prp_appli in self.value    : appli    = self.value[ES.prp_appli]</span>
-<span class="sd">        else : appli    = ES.nullDict</span>
-<span class="sd">        if ES.prp_period in self.value   : period   = self.value[ES.prp_period]</span>
-<span class="sd">        #else : period   = ES.nullVal</span>
-<span class="sd">        else : period   = ES.nullInt</span>
-<span class="sd">        if ES.prp_interval in self.value : interval = self.value[ES.prp_interval]</span>
-<span class="sd">        else : interval = ES.nullInt</span>
-<span class="sd">        #else : interval = ES.nullVal</span>
-<span class="sd">        if ES.prp_uncertain in self.value: uncertain= self.value[ES.prp_uncertain]</span>
-<span class="sd">        else : uncertain = ES.nullInt</span>
-<span class="sd">        #else : uncertain = ES.nullVal</span>
-<span class="sd">        byt = struct.pack(&#39;&lt;BBBLLB&#39;, ES.prop[self.simple][0],</span>
-<span class="sd">                           ES.sampling[sampling],</span>
-<span class="sd">                           ES.application[appli],</span>
-<span class="sd">                           period, interval, uncertain * 2 )</span>
-<span class="sd">        return byt[0:6] +byt[7:10] + byt[11:12]</span>
-<span class="sd">    </span>
-<span class="sd">    def from_bytes(self, byt, forma = ES.nullDict):</span>
-<span class="sd">        formaPrp = ES.prop[forma][1]</span>
-<span class="sd">        leng = ES.prop[forma][2]</span>
-<span class="sd">        dexp = ES.prop[forma][3]</span>
-<span class="sd">        bexp = ES.prop[forma][4]        </span>
-<span class="sd">        self.__init__(val=struct.unpack(&#39;&lt;&#39;+ formaPrp, byt[0:leng])[0] * 10**dexp * 2**bexp)</span>
-<span class="sd">        return leng</span>
-<span class="sd">    </span>
-<span class="sd">    def to_bytes(self, forma = ES.nullDict):</span>
-<span class="sd">        formaPrp = ES.prop[forma][1]</span>
-<span class="sd">        dexp = ES.prop[forma][3]</span>
-<span class="sd">        bexp = ES.prop[forma][4]</span>
-<span class="sd">        val = self.value * 10**-dexp * 2**-bexp</span>
-<span class="sd">        return struct.pack(&#39;&lt;&#39; + formaPrp, val)</span>
-<span class="sd">    </span>
-<span class="sd">    def _init(self, val=None, className=None):</span>
-<span class="sd">        &#39;&#39;&#39;if isinstance(val, dict) :</span>
-<span class="sd">            self.name, val = list(val.items())[0]&#39;&#39;&#39;</span>
-<span class="sd">        if   isinstance(val, (int, str, float, bool, tuple, datetime.datetime, type(None), bytes)) :</span>
-<span class="sd">            self.value = val</span>
-<span class="sd">        elif isinstance(val, list) :</span>
-<span class="sd">            self.value = tuple(val)</span>
-<span class="sd">        elif isinstance(val, dict) :</span>
-<span class="sd">            self.value = json.dumps(val)</span>
-<span class="sd">        else: </span>
-<span class="sd">            try:</span>
-<span class="sd">                self.name = val.name</span>
-<span class="sd">                self.value = val.value</span>
-<span class="sd">            except:</span>
-<span class="sd">                self.value = val</span>
-
-<span class="sd">    def _init(self, val=None, className=None):</span>
-<span class="sd">        if isinstance(val, ExternValue):</span>
-<span class="sd">            self.name = val.name</span>
-<span class="sd">            self.value = val.value</span>
-<span class="sd">        else:</span>
-<span class="sd">            if type(val) == dict and len(val) == 1:</span>
-<span class="sd">                self.name, val = list(val.items())[0]</span>
-<span class="sd">            #self.value = _classval()[ESValue.valClassName(val)](val)</span>
-<span class="sd">            self.value = _classval()[className](val)</span>
-
-<span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
 </pre></div>
 
         </details>
@@ -1628,7 +1384,6 @@ implement default like this::</p>
 
 <span class="sd">    - **name**  : name  of `ESValue.ESValue` objects</span>
 <span class="sd">    - **value** : value of `ESValue.ESValue` objects</span>
-<span class="sd">    - **EStype** : type of `ESValue.ESValue` objects</span>
 <span class="sd">    - `bounds` (@property) : boundary  of `ESValue.ESValue` objects</span>
 <span class="sd">    - `simple` (@property) : simplified value of `ESValue.ESValue` objects</span>
 
@@ -1636,30 +1391,30 @@ implement default like this::</p>
 
 <span class="sd">    **binary predicates**</span>
 
-<span class="sd">    - `contains`</span>
-<span class="sd">    - `equals`</span>
-<span class="sd">    - `intersects`</span>
-<span class="sd">    - `within`</span>
-<span class="sd">    - `disjoint`</span>
-<span class="sd">    - `isEqual`</span>
-<span class="sd">    - `isNotNull`</span>
-<span class="sd">    - `isName`</span>
+<span class="sd">    - `ESValue.contains`</span>
+<span class="sd">    - `ESValue.equals`</span>
+<span class="sd">    - `ESValue.intersects`</span>
+<span class="sd">    - `ESValue.within`</span>
+<span class="sd">    - `ESValue.disjoint`</span>
+<span class="sd">    - `ESValue.isEqual`</span>
+<span class="sd">    - `ESValue.isNotNull`</span>
+<span class="sd">    - `ESValue.isName`</span>
 
 <span class="sd">    **other methods**</span>
 
-<span class="sd">    - `from_obj` (@classmethod)</span>
-<span class="sd">    - `bounds`</span>
-<span class="sd">    - `boxUnion`</span>
-<span class="sd">    - `getValue`</span>
-<span class="sd">    - `getName`</span>
-<span class="sd">    - `json`</span>
-<span class="sd">    - `setName`</span>
-<span class="sd">    - `setValue`</span>
-<span class="sd">    - `simple`</span>
-<span class="sd">    - `to_float`</span>
-<span class="sd">    - `vClassName`</span>
-<span class="sd">    - `vName`</span>
-<span class="sd">    - `vSimple`</span>
+<span class="sd">    - `ESValue.from_obj` (@classmethod)</span>
+<span class="sd">    - `ESValue.bounds`</span>
+<span class="sd">    - `ESValue.boxUnion`</span>
+<span class="sd">    - `ESValue.getValue`</span>
+<span class="sd">    - `ESValue.getName`</span>
+<span class="sd">    - `ESValue.json`</span>
+<span class="sd">    - `ESValue.setName`</span>
+<span class="sd">    - `ESValue.setValue`</span>
+<span class="sd">    - `ESValue.simple`</span>
+<span class="sd">    - `ESValue.to_float`</span>
+<span class="sd">    - `ESValue.vClassName`</span>
+<span class="sd">    - `ESValue.vName`</span>
+<span class="sd">    - `ESValue.vSimple`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <span class="c1">#%% constructor               </span>
     <span class="nd">@staticmethod</span>
@@ -1696,7 +1451,6 @@ implement default like this::</p>
         <span class="sd">&#39;&#39;&#39;Initialize &#39;name&#39; and &#39;value&#39; attribute&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullValue</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">0</span>
 
 <span class="c1">#%% special</span>
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -1857,10 +1611,6 @@ implement default like this::</p>
 
 <span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">nam</span>
-        <span class="k">if</span> <span class="n">nam</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">&gt;=</span> <span class="mi">100</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">-=</span> <span class="mi">100</span>
 
     <span class="k">def</span> <span class="nf">setValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1873,7 +1623,6 @@ implement default like this::</p>
 <span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
         <span class="n">ESval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span>  <span class="o">=</span> <span class="n">ESval</span><span class="o">.</span><span class="n">value</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="n">ESval</span><span class="o">.</span><span class="n">EStype</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">simple</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1969,7 +1718,6 @@ implement default like this::</p>
 <ul>
 <li><strong>name</strong>  : name  of <code>ESValue.ESValue</code> objects</li>
 <li><strong>value</strong> : value of <code>ESValue.ESValue</code> objects</li>
-<li><strong>EStype</strong> : type of <code>ESValue.ESValue</code> objects</li>
 <li><code><a href="#ESValue.bounds">bounds</a></code> (@property) : boundary  of <code>ESValue.ESValue</code> objects</li>
 <li><code><a href="#ESValue.simple">simple</a></code> (@property) : simplified value of <code>ESValue.ESValue</code> objects</li>
 </ul>
@@ -1979,32 +1727,32 @@ implement default like this::</p>
 <p><strong>binary predicates</strong></p>
 
 <ul>
-<li><code><a href="#ESValue.contains">contains</a></code></li>
-<li><code><a href="#ESValue.equals">equals</a></code></li>
-<li><code><a href="#ESValue.intersects">intersects</a></code></li>
-<li><code><a href="#ESValue.within">within</a></code></li>
-<li><code><a href="#ESValue.disjoint">disjoint</a></code></li>
-<li><code><a href="#ESValue.isEqual">isEqual</a></code></li>
-<li><code><a href="#ESValue.isNotNull">isNotNull</a></code></li>
-<li><code><a href="#ESValue.isName">isName</a></code></li>
+<li><code><a href="#ESValue.contains">ESValue.contains</a></code></li>
+<li><code><a href="#ESValue.equals">ESValue.equals</a></code></li>
+<li><code><a href="#ESValue.intersects">ESValue.intersects</a></code></li>
+<li><code><a href="#ESValue.within">ESValue.within</a></code></li>
+<li><code><a href="#ESValue.disjoint">ESValue.disjoint</a></code></li>
+<li><code><a href="#ESValue.isEqual">ESValue.isEqual</a></code></li>
+<li><code><a href="#ESValue.isNotNull">ESValue.isNotNull</a></code></li>
+<li><code><a href="#ESValue.isName">ESValue.isName</a></code></li>
 </ul>
 
 <p><strong>other methods</strong></p>
 
 <ul>
-<li><code><a href="#ESValue.from_obj">from_obj</a></code> (@classmethod)</li>
-<li><code><a href="#ESValue.bounds">bounds</a></code></li>
-<li><code><a href="#ESValue.boxUnion">boxUnion</a></code></li>
-<li><code><a href="#ESValue.getValue">getValue</a></code></li>
-<li><code><a href="#ESValue.getName">getName</a></code></li>
-<li><code><a href="#ESValue.json">json</a></code></li>
-<li><code><a href="#ESValue.setName">setName</a></code></li>
-<li><code><a href="#ESValue.setValue">setValue</a></code></li>
-<li><code><a href="#ESValue.simple">simple</a></code></li>
-<li><code><a href="#ESValue.to_float">to_float</a></code></li>
-<li><code>vClassName</code></li>
-<li><code><a href="#ESValue.vName">vName</a></code></li>
-<li><code><a href="#ESValue.vSimple">vSimple</a></code></li>
+<li><code><a href="#ESValue.from_obj">ESValue.from_obj</a></code> (@classmethod)</li>
+<li><code><a href="#ESValue.bounds">ESValue.bounds</a></code></li>
+<li><code><a href="#ESValue.boxUnion">ESValue.boxUnion</a></code></li>
+<li><code><a href="#ESValue.getValue">ESValue.getValue</a></code></li>
+<li><code><a href="#ESValue.getName">ESValue.getName</a></code></li>
+<li><code><a href="#ESValue.json">ESValue.json</a></code></li>
+<li><code><a href="#ESValue.setName">ESValue.setName</a></code></li>
+<li><code><a href="#ESValue.setValue">ESValue.setValue</a></code></li>
+<li><code><a href="#ESValue.simple">ESValue.simple</a></code></li>
+<li><code><a href="#ESValue.to_float">ESValue.to_float</a></code></li>
+<li><code>ESValue.vClassName</code></li>
+<li><code><a href="#ESValue.vName">ESValue.vName</a></code></li>
+<li><code><a href="#ESValue.vSimple">ESValue.vSimple</a></code></li>
 </ul>
 </div>
 
@@ -2022,7 +1770,6 @@ implement default like this::</p>
         <span class="sd">&#39;&#39;&#39;Initialize &#39;name&#39; and &#39;value&#39; attribute&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullValue</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">0</span>
 </pre></div>
 
         </details>
@@ -2475,10 +2222,6 @@ Other ESValue : ()</p>
 
 <span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">nam</span>
-        <span class="k">if</span> <span class="n">nam</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">&gt;=</span> <span class="mi">100</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">-=</span> <span class="mi">100</span>
 </pre></div>
 
         </details>
@@ -2517,7 +2260,6 @@ Other ESValue : ()</p>
 <span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
         <span class="n">ESval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span>  <span class="o">=</span> <span class="n">ESval</span><span class="o">.</span><span class="n">value</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="n">ESval</span><span class="o">.</span><span class="n">EStype</span>
 </pre></div>
 
         </details>
@@ -2711,23 +2453,18 @@ Other ESValue : ()</p>
 
 <span class="sd">    *constructor (@classmethod)*</span>
 
-<span class="sd">    - `Simple`  (instant)</span>
-<span class="sd">    - `Box`     (interval)</span>
-<span class="sd">    - `from_obj`(see  `ESValue.from_obj`)</span>
+<span class="sd">    - `DatationValue.Simple`  (instant)</span>
+<span class="sd">    - `DatationValue.Box`     (interval)</span>
+<span class="sd">    - `DatationValue.from_obj`(see  `ESValue.from_obj`)</span>
 <span class="sd">        </span>
 
 <span class="sd">    *getters*</span>
 
-<span class="sd">    - `getInstant`</span>
-<span class="sd">    - `getInterval`</span>
-<span class="sd">    - `vSimple`</span>
-<span class="sd">    - `vInterval`</span>
-<span class="sd">    - `link`</span>
-<span class="sd">    </span>
-<span class="sd">    *conversion (static method)*</span>
-
-<span class="sd">    - `link`</span>
-<span class="sd">    </span>
+<span class="sd">    - `DatationValue.getInstant`</span>
+<span class="sd">    - `DatationValue.getInterval`</span>
+<span class="sd">    - `DatationValue.vSimple`</span>
+<span class="sd">    - `DatationValue.vInterval`</span>
+<span class="sd">    - `DatationValue.link`    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">Simple</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">instant</span><span class="p">):</span>
@@ -2766,9 +2503,6 @@ Other ESValue : ()</p>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">name</span><span class="p">:</span> <span class="k">raise</span> <span class="n">ESValueError</span><span class="p">(</span><span class="s1">&#39;name and val inconsistent&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">TimeSlot</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullDate</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">ntypevalue</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">stype</span><span class="p">]</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 
     <span class="k">def</span> <span class="nf">getInstant</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;return datetime if &#39;instant&#39;, none else&#39;&#39;&#39;</span>
@@ -2835,25 +2569,19 @@ Other ESValue : ()</p>
 <p><em>constructor (@classmethod)</em></p>
 
 <ul>
-<li><code><a href="#DatationValue.Simple">Simple</a></code>  (instant)</li>
-<li><code><a href="#DatationValue.Box">Box</a></code>     (interval)</li>
-<li><code><a href="#DatationValue.from_obj">from_obj</a></code>(see  <code><a href="#ESValue.from_obj">ESValue.from_obj</a></code>)</li>
+<li><code><a href="#DatationValue.Simple">DatationValue.Simple</a></code>  (instant)</li>
+<li><code><a href="#DatationValue.Box">DatationValue.Box</a></code>     (interval)</li>
+<li><code><a href="#DatationValue.from_obj">DatationValue.from_obj</a></code>(see  <code><a href="#ESValue.from_obj">ESValue.from_obj</a></code>)</li>
 </ul>
 
 <p><em>getters</em></p>
 
 <ul>
-<li><code><a href="#DatationValue.getInstant">getInstant</a></code></li>
-<li><code><a href="#DatationValue.getInterval">getInterval</a></code></li>
-<li><code><a href="#DatationValue.vSimple">vSimple</a></code></li>
-<li><code><a href="#DatationValue.vInterval">vInterval</a></code></li>
-<li><code><a href="#DatationValue.link">link</a></code></li>
-</ul>
-
-<p><em>conversion (static method)</em></p>
-
-<ul>
-<li><code><a href="#DatationValue.link">link</a></code></li>
+<li><code><a href="#DatationValue.getInstant">DatationValue.getInstant</a></code></li>
+<li><code><a href="#DatationValue.getInterval">DatationValue.getInterval</a></code></li>
+<li><code><a href="#DatationValue.vSimple">DatationValue.vSimple</a></code></li>
+<li><code><a href="#DatationValue.vInterval">DatationValue.vInterval</a></code></li>
+<li><code><a href="#DatationValue.link">DatationValue.link</a></code></li>
 </ul>
 </div>
 
@@ -2890,9 +2618,6 @@ Other ESValue : ()</p>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">name</span><span class="p">:</span> <span class="k">raise</span> <span class="n">ESValueError</span><span class="p">(</span><span class="s1">&#39;name and val inconsistent&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">TimeSlot</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullDate</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">ntypevalue</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">stype</span><span class="p">]</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 </pre></div>
 
         </details>
@@ -3209,27 +2934,24 @@ Other ESValue : ()</p>
 
 <span class="sd">    *constructor (@classmethod)*</span>
 
-<span class="sd">    - `Simple`   (point)</span>
-<span class="sd">    - `Box`</span>
-<span class="sd">    - `from_obj` (see  `ESValue.from_obj`)</span>
+<span class="sd">    - `LocationValue.Simple`   (point)</span>
+<span class="sd">    - `LocationValue.Box`</span>
+<span class="sd">    - `LocationValue.from_obj` (see  `ESValue.from_obj`)</span>
 <span class="sd">    </span>
 <span class="sd">    *getters (@property)*</span>
 
-<span class="sd">    - `coords`</span>
-<span class="sd">    - `coorInv`</span>
+<span class="sd">    - `LocationValue.coords`</span>
+<span class="sd">    - `LocationValue.coorInv`</span>
 
 <span class="sd">    *getters*</span>
 
-<span class="sd">    - `getPoint`</span>
-<span class="sd">    - `vSimple`</span>
-<span class="sd">    - `vPointInv`</span>
-<span class="sd">    - `vPointX`</span>
-<span class="sd">    - `vPointY`</span>
-<span class="sd">    - `vCodePlus`</span>
-
-<span class="sd">    *conversion (static method)*</span>
-
-<span class="sd">    - `link`</span>
+<span class="sd">    - `LocationValue.getPoint`</span>
+<span class="sd">    - `LocationValue.vSimple`</span>
+<span class="sd">    - `LocationValue.vPointInv`</span>
+<span class="sd">    - `LocationValue.vPointX`</span>
+<span class="sd">    - `LocationValue.vPointY`</span>
+<span class="sd">    - `LocationValue.vCodePlus`</span>
+<span class="sd">    - `LocationValue.link`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">Simple</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">coord</span><span class="p">):</span>
@@ -3273,9 +2995,6 @@ Other ESValue : ()</p>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">name</span><span class="p">:</span> <span class="k">raise</span> <span class="n">ESValueError</span><span class="p">(</span><span class="s1">&#39;name and val inconsistent&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullValue</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">ntypevalue</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">geom_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 
     <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return minimal distance between a fixed point&#39;&#39;&#39;</span>
@@ -3388,33 +3107,28 @@ Other ESValue : ()</p>
 <p><em>constructor (@classmethod)</em></p>
 
 <ul>
-<li><code><a href="#LocationValue.Simple">Simple</a></code>   (point)</li>
-<li><code><a href="#LocationValue.Box">Box</a></code></li>
-<li><code><a href="#LocationValue.from_obj">from_obj</a></code> (see  <code><a href="#ESValue.from_obj">ESValue.from_obj</a></code>)</li>
+<li><code><a href="#LocationValue.Simple">LocationValue.Simple</a></code>   (point)</li>
+<li><code><a href="#LocationValue.Box">LocationValue.Box</a></code></li>
+<li><code><a href="#LocationValue.from_obj">LocationValue.from_obj</a></code> (see  <code><a href="#ESValue.from_obj">ESValue.from_obj</a></code>)</li>
 </ul>
 
 <p><em>getters (@property)</em></p>
 
 <ul>
-<li><code><a href="#LocationValue.coords">coords</a></code></li>
-<li><code><a href="#LocationValue.coorInv">coorInv</a></code></li>
+<li><code><a href="#LocationValue.coords">LocationValue.coords</a></code></li>
+<li><code><a href="#LocationValue.coorInv">LocationValue.coorInv</a></code></li>
 </ul>
 
 <p><em>getters</em></p>
 
 <ul>
-<li><code><a href="#LocationValue.getPoint">getPoint</a></code></li>
-<li><code><a href="#LocationValue.vSimple">vSimple</a></code></li>
-<li><code><a href="#LocationValue.vPointInv">vPointInv</a></code></li>
-<li><code><a href="#LocationValue.vPointX">vPointX</a></code></li>
-<li><code><a href="#LocationValue.vPointY">vPointY</a></code></li>
-<li><code><a href="#LocationValue.vCodePlus">vCodePlus</a></code></li>
-</ul>
-
-<p><em>conversion (static method)</em></p>
-
-<ul>
-<li><code><a href="#LocationValue.link">link</a></code></li>
+<li><code><a href="#LocationValue.getPoint">LocationValue.getPoint</a></code></li>
+<li><code><a href="#LocationValue.vSimple">LocationValue.vSimple</a></code></li>
+<li><code><a href="#LocationValue.vPointInv">LocationValue.vPointInv</a></code></li>
+<li><code><a href="#LocationValue.vPointX">LocationValue.vPointX</a></code></li>
+<li><code><a href="#LocationValue.vPointY">LocationValue.vPointY</a></code></li>
+<li><code><a href="#LocationValue.vCodePlus">LocationValue.vCodePlus</a></code></li>
+<li><code><a href="#LocationValue.link">LocationValue.link</a></code></li>
 </ul>
 </div>
 
@@ -3453,9 +3167,6 @@ Other ESValue : ()</p>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">name</span><span class="p">:</span> <span class="k">raise</span> <span class="n">ESValueError</span><span class="p">(</span><span class="s1">&#39;name and val inconsistent&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullValue</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">ntypevalue</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">geom_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 </pre></div>
 
         </details>
@@ -3829,17 +3540,14 @@ in a list format [y, x]</p>
 
 <span class="sd">    *constructor (@classmethod)*</span>
 
-<span class="sd">    - `Simple`   (property type)</span>
-<span class="sd">    - `Box`      (set of property type)</span>
-<span class="sd">    - `from_obj` (see  `ESValue.from_obj`)</span>
+<span class="sd">    - `PropertyValue.Simple`   (property type)</span>
+<span class="sd">    - `PropertyValue.Box`      (set of property type)</span>
+<span class="sd">    - `PropertyValue.from_obj` (see  `ESValue.from_obj`)</span>
 <span class="sd">    </span>
 <span class="sd">    *getters*</span>
 
-<span class="sd">    - `vSimple`</span>
-
-<span class="sd">    *functions*</span>
-
-<span class="sd">    - `link`</span>
+<span class="sd">    - `PropertyValue.vSimple`</span>
+<span class="sd">    - `PropertyValue.link`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">Simple</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">prp</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span> <span class="n">prp_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -3880,18 +3588,10 @@ in a list format [y, x]</p>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="k">raise</span> <span class="n">ESValueError</span><span class="p">(</span><span class="s2">&quot;type property not defined&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">24</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">prp_dict</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">]</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ESValueError</span><span class="p">(</span><span class="s2">&quot;property not present in standard dictionnary&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">PropertyValue</span><span class="o">.</span><span class="n">nullValue</span><span class="p">():</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">22</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_unit</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">22</span>
-            <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">23</span>
             <span class="k">if</span> <span class="n">prp_dict</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_unit</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">]][</span><span class="mi">5</span><span class="p">]</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 
     <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;lower if string simple value + name is lower&quot;&quot;&quot;</span>
@@ -3945,23 +3645,6 @@ in a list format [y, x]</p>
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">li</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">li</span>
 
-    <span class="k">def</span> <span class="nf">_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="p">{},</span> <span class="n">className</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>  <span class="n">val</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">val</span>
-                <span class="k">return</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]],</span> <span class="nb">dict</span><span class="p">):</span>
-                                            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
-                                            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">|=</span> <span class="n">val</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]]</span>
-            <span class="k">else</span><span class="p">:</span>                           <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">|=</span> <span class="n">val</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">PropertyValue</span><span class="p">)</span> <span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
-        <span class="k">else</span><span class="p">:</span> <span class="k">raise</span> <span class="n">ESValueError</span><span class="p">(</span><span class="s1">&#39;type data not compatible with PropertyValue&#39;</span><span class="p">)</span>
-        <span class="k">return</span>
-
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_setprp</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
@@ -3984,21 +3667,16 @@ in a list format [y, x]</p>
 <p><em>constructor (@classmethod)</em></p>
 
 <ul>
-<li><code><a href="#PropertyValue.Simple">Simple</a></code>   (property type)</li>
-<li><code><a href="#PropertyValue.Box">Box</a></code>      (set of property type)</li>
-<li><code><a href="#PropertyValue.from_obj">from_obj</a></code> (see  <code><a href="#ESValue.from_obj">ESValue.from_obj</a></code>)</li>
+<li><code><a href="#PropertyValue.Simple">PropertyValue.Simple</a></code>   (property type)</li>
+<li><code><a href="#PropertyValue.Box">PropertyValue.Box</a></code>      (set of property type)</li>
+<li><code><a href="#PropertyValue.from_obj">PropertyValue.from_obj</a></code> (see  <code><a href="#ESValue.from_obj">ESValue.from_obj</a></code>)</li>
 </ul>
 
 <p><em>getters</em></p>
 
 <ul>
-<li><code><a href="#PropertyValue.vSimple">vSimple</a></code></li>
-</ul>
-
-<p><em>functions</em></p>
-
-<ul>
-<li><code><a href="#PropertyValue.link">link</a></code></li>
+<li><code><a href="#PropertyValue.vSimple">PropertyValue.vSimple</a></code></li>
+<li><code><a href="#PropertyValue.link">PropertyValue.link</a></code></li>
 </ul>
 </div>
 
@@ -4036,18 +3714,10 @@ in a list format [y, x]</p>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="k">raise</span> <span class="n">ESValueError</span><span class="p">(</span><span class="s2">&quot;type property not defined&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">24</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">prp_dict</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">]</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ESValueError</span><span class="p">(</span><span class="s2">&quot;property not present in standard dictionnary&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">PropertyValue</span><span class="o">.</span><span class="n">nullValue</span><span class="p">():</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">22</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">ES</span><span class="o">.</span><span class="n">prp_unit</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">22</span>
-            <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">23</span>
             <span class="k">if</span> <span class="n">prp_dict</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_unit</span><span class="p">]</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">prop</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">prp_type</span><span class="p">]][</span><span class="mi">5</span><span class="p">]</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 </pre></div>
 
         </details>
@@ -4288,11 +3958,11 @@ in a list format [y, x]</p>
 
 <span class="sd">    *constructor*</span>
 
-<span class="sd">    - `from_obj` (see  `ESValue.from_obj`)</span>
+<span class="sd">    - `NamedValue.from_obj` (see  `ESValue.from_obj`)</span>
 <span class="sd">    </span>
 <span class="sd">    *getters*</span>
 
-<span class="sd">    - `vSimple`</span>
+<span class="sd">    - `NamedValue.vSimple`</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="nd">@classmethod</span> 
     <span class="k">def</span> <span class="nf">from_obj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="p">):</span> 
@@ -4322,8 +3992,6 @@ in a list format [y, x]</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullValue</span><span class="p">():</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">32</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">nullValue</span><span class="p">()</span> <span class="p">:</span> 
@@ -4357,13 +4025,13 @@ in a list format [y, x]</p>
 <p><em>constructor</em></p>
 
 <ul>
-<li><code><a href="#NamedValue.from_obj">from_obj</a></code> (see  <code><a href="#ESValue.from_obj">ESValue.from_obj</a></code>)</li>
+<li><code><a href="#NamedValue.from_obj">NamedValue.from_obj</a></code> (see  <code><a href="#ESValue.from_obj">ESValue.from_obj</a></code>)</li>
 </ul>
 
 <p><em>getters</em></p>
 
 <ul>
-<li><code><a href="#NamedValue.vSimple">vSimple</a></code></li>
+<li><code><a href="#NamedValue.vSimple">NamedValue.vSimple</a></code></li>
 </ul>
 </div>
 
@@ -4400,8 +4068,6 @@ in a list format [y, x]</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nullValue</span><span class="p">():</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="mi">32</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 </pre></div>
 
         </details>
@@ -4541,11 +4207,11 @@ in a list format [y, x]</p>
 
 <span class="sd">    *constructor*</span>
 
-<span class="sd">    - `from_obj` (see  `ESValue.from_obj`)</span>
+<span class="sd">    - `ExternValue.from_obj` (see  `ESValue.from_obj`)</span>
 <span class="sd">    </span>
 <span class="sd">    *getters*</span>
 
-<span class="sd">    - `vSimple`</span>
+<span class="sd">    - `ExternValue.vSimple`</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="nd">@classmethod</span> 
     <span class="k">def</span> <span class="nf">from_obj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="p">):</span>
@@ -4554,7 +4220,7 @@ in a list format [y, x]</p>
     
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullVal</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        NamedValue constructor.</span>
+<span class="sd">        ExternValue constructor.</span>
 
 <span class="sd">        *Parameters*</span>
 
@@ -4572,8 +4238,6 @@ in a list format [y, x]</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">_classval</span><span class="p">()[</span><span class="n">className</span><span class="p">](</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">ntypevalue</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">ESValue</span><span class="o">.</span><span class="n">valClassName</span><span class="p">(</span><span class="n">val</span><span class="p">)]]</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">nullValue</span><span class="p">()</span> <span class="p">:</span> 
@@ -4612,13 +4276,13 @@ in a list format [y, x]</p>
 <p><em>constructor</em></p>
 
 <ul>
-<li><code><a href="#ExternValue.from_obj">from_obj</a></code> (see  <code><a href="#ESValue.from_obj">ESValue.from_obj</a></code>)</li>
+<li><code><a href="#ExternValue.from_obj">ExternValue.from_obj</a></code> (see  <code><a href="#ESValue.from_obj">ESValue.from_obj</a></code>)</li>
 </ul>
 
 <p><em>getters</em></p>
 
 <ul>
-<li><code><a href="#ExternValue.vSimple">vSimple</a></code></li>
+<li><code><a href="#ExternValue.vSimple">ExternValue.vSimple</a></code></li>
 </ul>
 </div>
 
@@ -4634,7 +4298,7 @@ in a list format [y, x]</p>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullVal</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        NamedValue constructor.</span>
+<span class="sd">        ExternValue constructor.</span>
 
 <span class="sd">        *Parameters*</span>
 
@@ -4652,13 +4316,11 @@ in a list format [y, x]</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">_classval</span><span class="p">()[</span><span class="n">className</span><span class="p">](</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">ntypevalue</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">ESValue</span><span class="o">.</span><span class="n">valClassName</span><span class="p">(</span><span class="n">val</span><span class="p">)]]</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EStype</span> <span class="o">+=</span> <span class="mi">100</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>NamedValue constructor.</p>
+            <div class="docstring"><p>ExternValue constructor.</p>
 
 <p><em>Parameters</em></p>
 
@@ -4783,6 +4445,7 @@ in a list format [y, x]</p>
             <div class="pdoc-code codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ESValueError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="c1">#%% ES except</span>
     <span class="sd">&#39;&#39;&#39; ESValue Exception&#39;&#39;&#39;</span>
+    <span class="k">pass</span>
 </pre></div>
 
         </details>
