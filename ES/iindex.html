@@ -74,13 +74,10 @@
                                 <a class="function" href="#Iindex.derkeys">derkeys</a>
                         </li>
                         <li>
-                                <a class="function" href="#Iindex.keysfromderkeys">keysfromderkeys</a>
-                        </li>
-                        <li>
-                                <a class="function" href="#Iindex.setkeys">setkeys</a>
-                        </li>
-                        <li>
                                 <a class="function" href="#Iindex.extendkeys">extendkeys</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Iindex.getduplicates">getduplicates</a>
                         </li>
                         <li>
                                 <a class="function" href="#Iindex.iscrossed">iscrossed</a>
@@ -101,6 +98,9 @@
                                 <a class="function" href="#Iindex.keytoval">keytoval</a>
                         </li>
                         <li>
+                                <a class="function" href="#Iindex.keysfromderkeys">keysfromderkeys</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Iindex.recordfromvalue">recordfromvalue</a>
                         </li>
                         <li>
@@ -111,6 +111,9 @@
                         </li>
                         <li>
                                 <a class="function" href="#Iindex.setcodecvalue">setcodecvalue</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Iindex.setkeys">setkeys</a>
                         </li>
                         <li>
                                 <a class="function" href="#Iindex.setname">setname</a>
@@ -187,7 +190,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">ESconstante</span> <span class="kn">import</span> <span class="n">ES</span>
 <span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">identity</span>
-
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span><span class="p">,</span> <span class="n">Counter</span>
 
 <span class="k">class</span> <span class="nc">Iindex</span><span class="p">:</span>
 <span class="c1">#%% intro</span>
@@ -229,12 +232,10 @@
 <span class="sd">    *transform methods*</span>
 
 <span class="sd">    - `Iindex.coupling`</span>
-<span class="sd">    - `Iindex.toextendcodec`</span>
 <span class="sd">    - `Iindex.extendkeys`</span>
 <span class="sd">    - `Iindex.reindex`</span>
 <span class="sd">    - `Iindex.reorder`</span>
 <span class="sd">    - `Iindex.sort`</span>
-<span class="sd">    - `Iindex.tocrossed`</span>
 <span class="sd">    - `Iindex.tocoupled`</span>
 <span class="sd">    - `Iindex.tostdcodec`</span>
 <span class="sd">    </span>
@@ -242,6 +243,7 @@
 
 <span class="sd">    - `Iindex.couplinginfos`</span>
 <span class="sd">    - `Iindex.derkeys`</span>
+<span class="sd">    - `Iindex.getduplicates`</span>
 <span class="sd">    - `Iindex.iscrossed`</span>
 <span class="sd">    - `Iindex.iscoupled`</span>
 <span class="sd">    - `Iindex.isderived`</span>
@@ -500,7 +502,7 @@
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **idx** : index to be coupled or derived.</span>
+<span class="sd">        - **idx** : single Iindex or list of Iindex to be coupled or derived.</span>
 <span class="sd">        - **derived** : boolean (default : True)</span>
 
 <span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
@@ -563,34 +565,6 @@
         <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">derkey</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">IindexError</span><span class="p">(</span><span class="s2">&quot;parent is not a derive Iindex&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">derkey</span>
-    
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">keysfromderkeys</span><span class="p">(</span><span class="n">parentkeys</span><span class="p">,</span> <span class="n">derkeys</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;return keys from parent keys and derkeys</span>
-<span class="sd">        </span>
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **parentkeys** : list of keys from parent</span>
-<span class="sd">        - **derkeys** : list of derived keys</span>
-
-<span class="sd">        *Returns* : list of keys&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">derkeys</span><span class="p">[</span><span class="n">parentkeys</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">parentkeys</span><span class="p">))]</span>
-    
-    <span class="k">def</span> <span class="nf">setkeys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;apply new keys (replace codec with extended codec from parent keys)</span>
-
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **keys** : list of keys to apply</span>
-<span class="sd">        - **inplace** : if True, update self data, else create a new Iindex</span>
-
-<span class="sd">        *Returns* : self or new Iindex&#39;&#39;&#39;</span>
-        <span class="n">codec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">tocodec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">inplace</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>  <span class="o">=</span> <span class="n">keys</span>
-            <span class="k">return</span> <span class="bp">self</span>
-        <span class="k">return</span> <span class="n">Iindex</span><span class="p">(</span><span class="n">codec</span><span class="o">=</span><span class="n">codec</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">extendkeys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;add keys to the Iindex</span>
@@ -603,6 +577,19 @@
         <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">max</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span> 
             <span class="k">raise</span> <span class="n">IindexError</span><span class="p">(</span><span class="s1">&#39;keys not consistent with codec&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">+=</span> <span class="n">keys</span>
+    
+    <span class="k">def</span> <span class="nf">getduplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; return list of items with duplicate codec&#39;&#39;&#39;</span>
+        <span class="n">co</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span>
+        <span class="n">defcodec</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">co</span> <span class="o">-</span> <span class="n">Counter</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">co</span><span class="p">)))</span>       
+        <span class="n">dkeys</span>  <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">l</span><span class="p">,</span><span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)))):</span> <span class="n">dkeys</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">dcodec</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">l</span><span class="p">,</span><span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">)))):</span> <span class="n">dcodec</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>       
+        <span class="n">duplicates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">defcodec</span><span class="p">:</span> 
+            <span class="k">for</span> <span class="n">codecitem</span> <span class="ow">in</span> <span class="n">dcodec</span><span class="p">[</span><span class="n">item</span><span class="p">]:</span> <span class="n">duplicates</span> <span class="o">+=</span> <span class="n">dkeys</span><span class="p">[</span><span class="n">codecitem</span><span class="p">]</span>    
+        <span class="k">return</span> <span class="n">duplicates</span>
     
     <span class="k">def</span> <span class="nf">iscrossed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return True if self is crossed to other&#39;&#39;&#39;</span>
@@ -635,12 +622,12 @@
         <span class="k">return</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
 
     <span class="k">def</span> <span class="nf">keytoval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; return the first value of a key</span>
+        <span class="sd">&#39;&#39;&#39; return the value of a key</span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **key** : key to convert into values</span>
-<span class="sd">        - **extern** : if True, return strin representation else, internal value</span>
+<span class="sd">        - **extern** : if True, return string representation else, internal value</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 
@@ -649,6 +636,18 @@
         <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cod</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">keysfromderkeys</span><span class="p">(</span><span class="n">parentkeys</span><span class="p">,</span> <span class="n">derkeys</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;return keys from parent keys and derkeys</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **parentkeys** : list of keys from parent</span>
+<span class="sd">        - **derkeys** : list of derived keys</span>
+
+<span class="sd">        *Returns* : list of keys&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">derkeys</span><span class="p">[</span><span class="n">parentkeys</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">parentkeys</span><span class="p">))]</span>
+    
     <span class="k">def</span> <span class="nf">recordfromvalue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return a list of record number with value</span>
 <span class="sd">        </span>
@@ -724,6 +723,22 @@
                 <span class="n">rank</span> <span class="o">=</span> <span class="n">i</span>
         <span class="k">return</span> <span class="n">rank</span>
     
+    <span class="k">def</span> <span class="nf">setkeys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;apply new keys (replace codec with extended codec from parent keys)</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **keys** : list of keys to apply</span>
+<span class="sd">        - **inplace** : if True, update self data, else create a new Iindex</span>
+
+<span class="sd">        *Returns* : self or new Iindex&#39;&#39;&#39;</span>
+        <span class="n">codec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">tocodec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">inplace</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>  <span class="o">=</span> <span class="n">keys</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">return</span> <span class="n">Iindex</span><span class="p">(</span><span class="n">codec</span><span class="o">=</span><span class="n">codec</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">setname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;update the Iindex name </span>
 <span class="sd">        </span>
@@ -966,12 +981,10 @@
 <span class="sd">    *transform methods*</span>
 
 <span class="sd">    - `Iindex.coupling`</span>
-<span class="sd">    - `Iindex.toextendcodec`</span>
 <span class="sd">    - `Iindex.extendkeys`</span>
 <span class="sd">    - `Iindex.reindex`</span>
 <span class="sd">    - `Iindex.reorder`</span>
 <span class="sd">    - `Iindex.sort`</span>
-<span class="sd">    - `Iindex.tocrossed`</span>
 <span class="sd">    - `Iindex.tocoupled`</span>
 <span class="sd">    - `Iindex.tostdcodec`</span>
 <span class="sd">    </span>
@@ -979,6 +992,7 @@
 
 <span class="sd">    - `Iindex.couplinginfos`</span>
 <span class="sd">    - `Iindex.derkeys`</span>
+<span class="sd">    - `Iindex.getduplicates`</span>
 <span class="sd">    - `Iindex.iscrossed`</span>
 <span class="sd">    - `Iindex.iscoupled`</span>
 <span class="sd">    - `Iindex.isderived`</span>
@@ -1237,7 +1251,7 @@
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **idx** : index to be coupled or derived.</span>
+<span class="sd">        - **idx** : single Iindex or list of Iindex to be coupled or derived.</span>
 <span class="sd">        - **derived** : boolean (default : True)</span>
 
 <span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
@@ -1300,34 +1314,6 @@
         <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">derkey</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">IindexError</span><span class="p">(</span><span class="s2">&quot;parent is not a derive Iindex&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">derkey</span>
-    
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">keysfromderkeys</span><span class="p">(</span><span class="n">parentkeys</span><span class="p">,</span> <span class="n">derkeys</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;return keys from parent keys and derkeys</span>
-<span class="sd">        </span>
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **parentkeys** : list of keys from parent</span>
-<span class="sd">        - **derkeys** : list of derived keys</span>
-
-<span class="sd">        *Returns* : list of keys&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">derkeys</span><span class="p">[</span><span class="n">parentkeys</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">parentkeys</span><span class="p">))]</span>
-    
-    <span class="k">def</span> <span class="nf">setkeys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;apply new keys (replace codec with extended codec from parent keys)</span>
-
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **keys** : list of keys to apply</span>
-<span class="sd">        - **inplace** : if True, update self data, else create a new Iindex</span>
-
-<span class="sd">        *Returns* : self or new Iindex&#39;&#39;&#39;</span>
-        <span class="n">codec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">tocodec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">inplace</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>  <span class="o">=</span> <span class="n">keys</span>
-            <span class="k">return</span> <span class="bp">self</span>
-        <span class="k">return</span> <span class="n">Iindex</span><span class="p">(</span><span class="n">codec</span><span class="o">=</span><span class="n">codec</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">extendkeys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;add keys to the Iindex</span>
@@ -1340,6 +1326,19 @@
         <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">max</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span> 
             <span class="k">raise</span> <span class="n">IindexError</span><span class="p">(</span><span class="s1">&#39;keys not consistent with codec&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">+=</span> <span class="n">keys</span>
+    
+    <span class="k">def</span> <span class="nf">getduplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; return list of items with duplicate codec&#39;&#39;&#39;</span>
+        <span class="n">co</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span>
+        <span class="n">defcodec</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">co</span> <span class="o">-</span> <span class="n">Counter</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">co</span><span class="p">)))</span>       
+        <span class="n">dkeys</span>  <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">l</span><span class="p">,</span><span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)))):</span> <span class="n">dkeys</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">dcodec</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">l</span><span class="p">,</span><span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">)))):</span> <span class="n">dcodec</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>       
+        <span class="n">duplicates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">defcodec</span><span class="p">:</span> 
+            <span class="k">for</span> <span class="n">codecitem</span> <span class="ow">in</span> <span class="n">dcodec</span><span class="p">[</span><span class="n">item</span><span class="p">]:</span> <span class="n">duplicates</span> <span class="o">+=</span> <span class="n">dkeys</span><span class="p">[</span><span class="n">codecitem</span><span class="p">]</span>    
+        <span class="k">return</span> <span class="n">duplicates</span>
     
     <span class="k">def</span> <span class="nf">iscrossed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return True if self is crossed to other&#39;&#39;&#39;</span>
@@ -1372,12 +1371,12 @@
         <span class="k">return</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
 
     <span class="k">def</span> <span class="nf">keytoval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; return the first value of a key</span>
+        <span class="sd">&#39;&#39;&#39; return the value of a key</span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **key** : key to convert into values</span>
-<span class="sd">        - **extern** : if True, return strin representation else, internal value</span>
+<span class="sd">        - **extern** : if True, return string representation else, internal value</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 
@@ -1386,6 +1385,18 @@
         <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cod</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">keysfromderkeys</span><span class="p">(</span><span class="n">parentkeys</span><span class="p">,</span> <span class="n">derkeys</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;return keys from parent keys and derkeys</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **parentkeys** : list of keys from parent</span>
+<span class="sd">        - **derkeys** : list of derived keys</span>
+
+<span class="sd">        *Returns* : list of keys&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">derkeys</span><span class="p">[</span><span class="n">parentkeys</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">parentkeys</span><span class="p">))]</span>
+    
     <span class="k">def</span> <span class="nf">recordfromvalue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return a list of record number with value</span>
 <span class="sd">        </span>
@@ -1461,6 +1472,22 @@
                 <span class="n">rank</span> <span class="o">=</span> <span class="n">i</span>
         <span class="k">return</span> <span class="n">rank</span>
     
+    <span class="k">def</span> <span class="nf">setkeys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;apply new keys (replace codec with extended codec from parent keys)</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **keys** : list of keys to apply</span>
+<span class="sd">        - **inplace** : if True, update self data, else create a new Iindex</span>
+
+<span class="sd">        *Returns* : self or new Iindex&#39;&#39;&#39;</span>
+        <span class="n">codec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">tocodec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">inplace</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>  <span class="o">=</span> <span class="n">keys</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">return</span> <span class="n">Iindex</span><span class="p">(</span><span class="n">codec</span><span class="o">=</span><span class="n">codec</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">setname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;update the Iindex name </span>
 <span class="sd">        </span>
@@ -1693,12 +1720,10 @@
 
 <ul>
 <li><code><a href="#Iindex.coupling">Iindex.coupling</a></code></li>
-<li><code>Iindex.toextendcodec</code></li>
 <li><code><a href="#Iindex.extendkeys">Iindex.extendkeys</a></code></li>
 <li><code><a href="#Iindex.reindex">Iindex.reindex</a></code></li>
 <li><code><a href="#Iindex.reorder">Iindex.reorder</a></code></li>
 <li><code><a href="#Iindex.sort">Iindex.sort</a></code></li>
-<li><code>Iindex.tocrossed</code></li>
 <li><code><a href="#Iindex.tocoupled">Iindex.tocoupled</a></code></li>
 <li><code><a href="#Iindex.tostdcodec">Iindex.tostdcodec</a></code></li>
 </ul>
@@ -1708,6 +1733,7 @@
 <ul>
 <li><code><a href="#Iindex.couplinginfos">Iindex.couplinginfos</a></code></li>
 <li><code><a href="#Iindex.derkeys">Iindex.derkeys</a></code></li>
+<li><code><a href="#Iindex.getduplicates">Iindex.getduplicates</a></code></li>
 <li><code><a href="#Iindex.iscrossed">Iindex.iscrossed</a></code></li>
 <li><code><a href="#Iindex.iscoupled">Iindex.iscoupled</a></code></li>
 <li><code><a href="#Iindex.isderived">Iindex.isderived</a></code></li>
@@ -2104,7 +2130,7 @@ a keys list (derived Iindex)</p>
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **idx** : index to be coupled or derived.</span>
+<span class="sd">        - **idx** : single Iindex or list of Iindex to be coupled or derived.</span>
 <span class="sd">        - **derived** : boolean (default : True)</span>
 
 <span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
@@ -2127,7 +2153,7 @@ else, both are coupled and both codec are extended.</p>
 <p><em>Parameters</em></p>
 
 <ul>
-<li><strong>idx</strong> : index to be coupled or derived.</li>
+<li><strong>idx</strong> : single Iindex or list of Iindex to be coupled or derived.</li>
 <li><strong>derived</strong> : boolean (default : True)</li>
 </ul>
 
@@ -2241,89 +2267,6 @@ disttomin, disttomax, distmin, distmax, diff, typecoupl)</p>
 
 
                             </div>
-                            <div id="Iindex.keysfromderkeys" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#Iindex.keysfromderkeys">#&nbsp;&nbsp</a>
-
-                <div class="decorator">@staticmethod</div>
-
-            <span class="def">def</span>
-            <span class="name">keysfromderkeys</span><span class="signature">(parentkeys, derkeys)</span>:
-    </div>
-
-            <details>
-            <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">keysfromderkeys</span><span class="p">(</span><span class="n">parentkeys</span><span class="p">,</span> <span class="n">derkeys</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;return keys from parent keys and derkeys</span>
-<span class="sd">        </span>
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **parentkeys** : list of keys from parent</span>
-<span class="sd">        - **derkeys** : list of derived keys</span>
-
-<span class="sd">        *Returns* : list of keys&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">derkeys</span><span class="p">[</span><span class="n">parentkeys</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">parentkeys</span><span class="p">))]</span>
-</pre></div>
-
-        </details>
-
-            <div class="docstring"><p>return keys from parent keys and derkeys</p>
-
-<p><em>Parameters</em></p>
-
-<ul>
-<li><strong>parentkeys</strong> : list of keys from parent</li>
-<li><strong>derkeys</strong> : list of derived keys</li>
-</ul>
-
-<p><em>Returns</em> : list of keys</p>
-</div>
-
-
-                            </div>
-                            <div id="Iindex.setkeys" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#Iindex.setkeys">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">setkeys</span><span class="signature">(self, keys, inplace=True)</span>:
-    </div>
-
-            <details>
-            <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">setkeys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;apply new keys (replace codec with extended codec from parent keys)</span>
-
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **keys** : list of keys to apply</span>
-<span class="sd">        - **inplace** : if True, update self data, else create a new Iindex</span>
-
-<span class="sd">        *Returns* : self or new Iindex&#39;&#39;&#39;</span>
-        <span class="n">codec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">tocodec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">inplace</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>  <span class="o">=</span> <span class="n">keys</span>
-            <span class="k">return</span> <span class="bp">self</span>
-        <span class="k">return</span> <span class="n">Iindex</span><span class="p">(</span><span class="n">codec</span><span class="o">=</span><span class="n">codec</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">)</span>
-</pre></div>
-
-        </details>
-
-            <div class="docstring"><p>apply new keys (replace codec with extended codec from parent keys)</p>
-
-<p><em>Parameters</em></p>
-
-<ul>
-<li><strong>keys</strong> : list of keys to apply</li>
-<li><strong>inplace</strong> : if True, update self data, else create a new Iindex</li>
-</ul>
-
-<p><em>Returns</em> : self or new Iindex</p>
-</div>
-
-
-                            </div>
                             <div id="Iindex.extendkeys" class="classattr">
                                         <div class="attr function"><a class="headerlink" href="#Iindex.extendkeys">#&nbsp;&nbsp</a>
 
@@ -2358,6 +2301,37 @@ disttomin, disttomax, distmin, distmax, diff, typecoupl)</p>
 </ul>
 
 <p><em>Returns</em> : None</p>
+</div>
+
+
+                            </div>
+                            <div id="Iindex.getduplicates" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Iindex.getduplicates">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">getduplicates</span><span class="signature">(self)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">getduplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; return list of items with duplicate codec&#39;&#39;&#39;</span>
+        <span class="n">co</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span>
+        <span class="n">defcodec</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">co</span> <span class="o">-</span> <span class="n">Counter</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">co</span><span class="p">)))</span>       
+        <span class="n">dkeys</span>  <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">l</span><span class="p">,</span><span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)))):</span> <span class="n">dkeys</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">dcodec</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">l</span><span class="p">,</span><span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">)))):</span> <span class="n">dcodec</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>       
+        <span class="n">duplicates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">defcodec</span><span class="p">:</span> 
+            <span class="k">for</span> <span class="n">codecitem</span> <span class="ow">in</span> <span class="n">dcodec</span><span class="p">[</span><span class="n">item</span><span class="p">]:</span> <span class="n">duplicates</span> <span class="o">+=</span> <span class="n">dkeys</span><span class="p">[</span><span class="n">codecitem</span><span class="p">]</span>    
+        <span class="k">return</span> <span class="n">duplicates</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>return list of items with duplicate codec</p>
 </div>
 
 
@@ -2501,12 +2475,12 @@ else, internal</li>
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">keytoval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; return the first value of a key</span>
+        <span class="sd">&#39;&#39;&#39; return the value of a key</span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **key** : key to convert into values</span>
-<span class="sd">        - **extern** : if True, return strin representation else, internal value</span>
+<span class="sd">        - **extern** : if True, return string representation else, internal value</span>
 <span class="sd">        </span>
 <span class="sd">        *Returns*</span>
 
@@ -2518,13 +2492,13 @@ else, internal</li>
 
         </details>
 
-            <div class="docstring"><p>return the first value of a key</p>
+            <div class="docstring"><p>return the value of a key</p>
 
 <p><em>Parameters</em></p>
 
 <ul>
 <li><strong>key</strong> : key to convert into values</li>
-<li><strong>extern</strong> : if True, return strin representation else, internal value</li>
+<li><strong>extern</strong> : if True, return string representation else, internal value</li>
 </ul>
 
 <p><em>Returns</em></p>
@@ -2532,6 +2506,46 @@ else, internal</li>
 <ul>
 <li><strong>int</strong> : first key finded (None else)</li>
 </ul>
+</div>
+
+
+                            </div>
+                            <div id="Iindex.keysfromderkeys" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Iindex.keysfromderkeys">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@staticmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">keysfromderkeys</span><span class="signature">(parentkeys, derkeys)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">keysfromderkeys</span><span class="p">(</span><span class="n">parentkeys</span><span class="p">,</span> <span class="n">derkeys</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;return keys from parent keys and derkeys</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **parentkeys** : list of keys from parent</span>
+<span class="sd">        - **derkeys** : list of derived keys</span>
+
+<span class="sd">        *Returns* : list of keys&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">derkeys</span><span class="p">[</span><span class="n">parentkeys</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">parentkeys</span><span class="p">))]</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>return keys from parent keys and derkeys</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>parentkeys</strong> : list of keys from parent</li>
+<li><strong>derkeys</strong> : list of derived keys</li>
+</ul>
+
+<p><em>Returns</em> : list of keys</p>
 </div>
 
 
@@ -2726,6 +2740,49 @@ if False a new Iindex is created.</li>
 </ul>
 
 <p><em>Returns</em> : int - last codec rank updated (-1 if None)</p>
+</div>
+
+
+                            </div>
+                            <div id="Iindex.setkeys" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Iindex.setkeys">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">setkeys</span><span class="signature">(self, keys, inplace=True)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">setkeys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;apply new keys (replace codec with extended codec from parent keys)</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **keys** : list of keys to apply</span>
+<span class="sd">        - **inplace** : if True, update self data, else create a new Iindex</span>
+
+<span class="sd">        *Returns* : self or new Iindex&#39;&#39;&#39;</span>
+        <span class="n">codec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">tocodec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">inplace</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>  <span class="o">=</span> <span class="n">keys</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">return</span> <span class="n">Iindex</span><span class="p">(</span><span class="n">codec</span><span class="o">=</span><span class="n">codec</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>apply new keys (replace codec with extended codec from parent keys)</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>keys</strong> : list of keys to apply</li>
+<li><strong>inplace</strong> : if True, update self data, else create a new Iindex</li>
+</ul>
+
+<p><em>Returns</em> : self or new Iindex</p>
 </div>
 
 

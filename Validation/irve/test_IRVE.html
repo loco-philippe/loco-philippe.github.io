@@ -13129,7 +13129,8 @@ div#notebook {
 <li>l'outil fonctionne correctement (pas d'erreur identifiées, les temps de réponse restent néanmoins à améliorer).</li>
 <li>l'analyse identifie des données anormales qui seraient à corriger (ou à expliquer) -&gt; cf exemple dans la dernière cellule</li>
 <li>le gain en taille de fichier varie de 50% (format texte non optimisé) à 80% (taille divisée par 5 !) dans un format optimisé et binaire. Ce niveau d'optimisation est tout à fait notable.</li>
-<li>l'analyse permet de (re)trouver la logique de dépendance entre les colonnes</li>
+<li>l'analyse permet de (re)trouver la logique de dépendance entre les colonnes qui minimise les incohérences</li>
+<li>elle permet également de vérifier que les données respectent bien une structure imposée</li>
 </ul>
 <h2 id="Usages-possibles">Usages possibles<a class="anchor-link" href="#Usages-possibles">&#182;</a></h2><ul>
 <li>les indicateurs utilisés permettent de qualifier le fichier csv et sont déployables simplement:<ul>
@@ -13139,7 +13140,8 @@ div#notebook {
 </li>
 <li>l'usage de format de données moins gourmand (sans dégradation des données) peut également être intéressant à déployer</li>
 <li>les schémas de données pourraient intégrer cette dépendance entre colonnes (ex. s'il y a une colonne "mois" et une colonne "trimestre", on peut indiquer que la colonne "trimestre" est "dérivée" de la colonne "mois", ou bien si on a une colonne "nom prénom" et une colonne "n° sécurité sociale", on peut indiquer que les deux colonnes sont "couplées". </li>
-<li>la qualité des données peut faire l'objet d'un indicateur qui mesure l'écart (existant / attendu) des relations entre colonnes. </li>
+<li>la qualité des données peut faire l'objet d'un indicateur qui mesure l'écart (existant / attendu) des relations entre colonnes</li>
+<li>l'identification des enregistrements ne respectant pas une structure imposée permet de les éliminer ou de les corriger</li>
 </ul>
 <h2 id="Autres-points">Autres points<a class="anchor-link" href="#Autres-points">&#182;</a></h2><ul>
 <li>capacité ok de l'objet Iindexset à traiter des structures de données importantes (50 colonnes)</li>
@@ -13167,7 +13169,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
@@ -13176,12 +13178,12 @@ div#notebook {
 <span class="kn">import</span> <span class="nn">csv</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;C:/Users/a179227/OneDrive - Alliance/perso Wx/ES standard/python ESstandard/ES&#39;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">iindex</span> <span class="kn">import</span> <span class="n">Iindex</span><span class="p">,</span> <span class="n">util</span>
-<span class="kn">from</span> <span class="nn">iindexset</span> <span class="kn">import</span> <span class="n">Iindexset</span>
+<span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">ilist</span> <span class="kn">import</span> <span class="n">Ilist</span>
+<span class="kn">from</span> <span class="nn">ESconstante</span> <span class="kn">import</span> <span class="n">ES</span>
 
 <span class="n">chemin</span> <span class="o">=</span> <span class="s1">&#39;C:/Users/a179227/OneDrive - Alliance/perso Wx/ES standard/python ESstandard/validation/irve/&#39;</span>
-
-<span class="n">file</span> <span class="o">=</span> <span class="n">chemin</span> <span class="o">+</span> <span class="s1">&#39;consolidation-etalab-schema-irve-v-2.0.2-20220606-propre.csv&#39;</span>
+<span class="n">file</span> <span class="o">=</span> <span class="n">chemin</span> <span class="o">+</span> <span class="s1">&#39;consolidation-etalab-schema-irve-v-2.0.2-20220606-propre2.csv&#39;</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;file size : &#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">st_size</span><span class="p">)</span>
 </pre></div>
@@ -13200,7 +13202,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>file size :  7467244
+<pre>file size :  7467241
 </pre>
 </div>
 </div>
@@ -13211,7 +13213,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
@@ -13238,7 +13240,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>data 0.5849692821502686
+<pre>data 0.4981510639190674
 </pre>
 </div>
 </div>
@@ -13251,7 +13253,7 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
-<h2 id="initialisation-de-l'objet-Iindexset">initialisation de l'objet Iindexset<a class="anchor-link" href="#initialisation-de-l'objet-Iindexset">&#182;</a></h2><ul>
+<h2 id="initialisation-de-l'objet-Ilist">initialisation de l'objet Ilist<a class="anchor-link" href="#initialisation-de-l'objet-Ilist">&#182;</a></h2><ul>
 <li>l'initialisation pourrait être automatisée à partir du fichier csv</li>
 <li>identification de 64 775 valeurs différentes sur un total de 11 163 x 49 valeurs ("taux d'unicité" de 12%)</li>
 <li>la taille minimale serait de 1,4 Mo (données csv "quotées") pour un maximum de 9,6 Mo (données csv "quotées")</li>
@@ -13262,11 +13264,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">t0</span><span class="o">=</span><span class="n">time</span><span class="p">()</span>
-<span class="n">idxs</span> <span class="o">=</span> <span class="n">Iindexset</span><span class="o">.</span><span class="n">Iext</span><span class="p">(</span><span class="n">data2</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">idxs</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">Iext</span><span class="p">(</span><span class="n">data2</span><span class="p">,</span> <span class="n">names</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;idxs (len, lenlidx, sumcodec) : &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">idxs</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">idxs</span><span class="o">.</span><span class="n">idxlen</span><span class="p">),</span> <span class="nb">sum</span><span class="p">(</span><span class="n">idxs</span><span class="o">.</span><span class="n">idxlen</span><span class="p">),</span> <span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span>
 <span class="n">t0</span><span class="o">=</span><span class="n">time</span><span class="p">()</span>
 <span class="n">fullsize</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">idxs</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
@@ -13290,9 +13292,9 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>idxs (len, lenlidx, sumcodec) :  11163 49 64775 1.9536161422729492
-fullsize 9615178 13.746973037719727
-minsize 1388222 1.8562648296356201
+<pre>idxs (len, lenlidx, sumcodec) :  11163 49 64772 4.542364835739136
+fullsize 9594041 3.2261507511138916
+minsize 1379841 0.7584912776947021
 </pre>
 </div>
 </div>
@@ -13319,7 +13321,7 @@ minsize 1388222 1.8562648296356201
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">t0</span><span class="o">=</span><span class="n">time</span><span class="p">()</span>
@@ -13344,22 +13346,22 @@ minsize 1388222 1.8562648296356201
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>defaultsize 3725037 2.2882091999053955
-indicator default :  {&#39;unique values&#39;: 64824, &#39;unicity level&#39;: 0.116, &#39;mean size&#39;: 5.287, &#39;object lightness&#39;: 0.307, &#39;gain&#39;: 0.613}
-[{&#39;lencodec&#39;: 481, &#39;name&#39;: &#39;\ufeffnom_amenageur&#39;, &#39;num&#39;: 0, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;linked&#39;},
+<pre>defaultsize 3705386 0.8420917987823486
+indicator default :  {&#39;unique values&#39;: 64821, &#39;unicity level&#39;: 0.116, &#39;mean size&#39;: 5.252, &#39;object lightness&#39;: 0.306, &#39;gain&#39;: 0.614}
+[{&#39;lencodec&#39;: 481, &#39;name&#39;: &#39;nom_amenageur&#39;, &#39;num&#39;: 0, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 670, &#39;name&#39;: &#39;siren_amenageur&#39;, &#39;num&#39;: 1, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 388, &#39;name&#39;: &#39;contact_amenageur&#39;, &#39;num&#39;: 2, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 152, &#39;name&#39;: &#39;nom_operateur&#39;, &#39;num&#39;: 3, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 159, &#39;name&#39;: &#39;contact_operateur&#39;, &#39;num&#39;: 4, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;linked&#39;},
- {&#39;lencodec&#39;: 215, &#39;name&#39;: &#39;telephone_operateur&#39;, &#39;num&#39;: 5, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;linked&#39;},
+ {&#39;lencodec&#39;: 215, &#39;name&#39;: &#39;telephone_operateur&#39;, &#39;num&#39;: 5, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 764, &#39;name&#39;: &#39;nom_enseigne&#39;, &#39;num&#39;: 6, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 7060, &#39;name&#39;: &#39;id_station_itinerance&#39;, &#39;num&#39;: 7, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 3838, &#39;name&#39;: &#39;id_station_local&#39;, &#39;num&#39;: 8, &#39;parent&#39;: 16, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 4503, &#39;name&#39;: &#39;nom_station&#39;, &#39;num&#39;: 9, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 5, &#39;name&#39;: &#39;implantation_station&#39;, &#39;num&#39;: 10, &#39;parent&#39;: 8, &#39;typecoupl&#39;: &#39;linked&#39;},
- {&#39;lencodec&#39;: 4392, &#39;name&#39;: &#39;adresse_station&#39;, &#39;num&#39;: 11, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;linked&#39;},
+ {&#39;lencodec&#39;: 4392, &#39;name&#39;: &#39;adresse_station&#39;, &#39;num&#39;: 11, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 2593, &#39;name&#39;: &#39;code_insee_commune&#39;, &#39;num&#39;: 12, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;linked&#39;},
- {&#39;lencodec&#39;: 4459, &#39;name&#39;: &#39;coordonneesXY&#39;, &#39;num&#39;: 13, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;linked&#39;},
+ {&#39;lencodec&#39;: 4456, &#39;name&#39;: &#39;coordonneesXY&#39;, &#39;num&#39;: 13, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 32, &#39;name&#39;: &#39;nbre_pdc&#39;, &#39;num&#39;: 14, &#39;parent&#39;: 7, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 10322, &#39;name&#39;: &#39;id_pdc_itinerance&#39;, &#39;num&#39;: 15, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;crossed&#39;},
  {&#39;lencodec&#39;: 7095, &#39;name&#39;: &#39;id_pdc_local&#39;, &#39;num&#39;: 16, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;linked&#39;},
@@ -13370,7 +13372,7 @@ indicator default :  {&#39;unique values&#39;: 64824, &#39;unicity level&#39;: 0
  {&#39;lencodec&#39;: 7, &#39;name&#39;: &#39;prise_type_chademo&#39;, &#39;num&#39;: 21, &#39;parent&#39;: 22, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 8, &#39;name&#39;: &#39;prise_type_autre&#39;, &#39;num&#39;: 22, &#39;parent&#39;: 20, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 9, &#39;name&#39;: &#39;gratuit&#39;, &#39;num&#39;: 23, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;linked&#39;},
- {&#39;lencodec&#39;: 9, &#39;name&#39;: &#39;paiement_acte&#39;, &#39;num&#39;: 24, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;linked&#39;},
+ {&#39;lencodec&#39;: 9, &#39;name&#39;: &#39;paiement_acte&#39;, &#39;num&#39;: 24, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 8, &#39;name&#39;: &#39;paiement_cb&#39;, &#39;num&#39;: 25, &#39;parent&#39;: 23, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 9, &#39;name&#39;: &#39;paiement_autre&#39;, &#39;num&#39;: 26, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 128, &#39;name&#39;: &#39;tarification&#39;, &#39;num&#39;: 27, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;linked&#39;},
@@ -13379,7 +13381,7 @@ indicator default :  {&#39;unique values&#39;: 64824, &#39;unicity level&#39;: 0
  {&#39;lencodec&#39;: 140, &#39;name&#39;: &#39;horaires&#39;, &#39;num&#39;: 30, &#39;parent&#39;: 11, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 5, &#39;name&#39;: &#39;accessibilite_pmr&#39;, &#39;num&#39;: 31, &#39;parent&#39;: 16, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 97, &#39;name&#39;: &#39;restriction_gabarit&#39;, &#39;num&#39;: 32, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;linked&#39;},
- {&#39;lencodec&#39;: 7, &#39;name&#39;: &#39;station_deux_roues&#39;, &#39;num&#39;: 33, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;lencodec&#39;: 7, &#39;name&#39;: &#39;station_deux_roues&#39;, &#39;num&#39;: 33, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 3, &#39;name&#39;: &#39;raccordement&#39;, &#39;num&#39;: 34, &#39;parent&#39;: 16, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 1371, &#39;name&#39;: &#39;num_pdl&#39;, &#39;num&#39;: 35, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;linked&#39;},
  {&#39;lencodec&#39;: 1102, &#39;name&#39;: &#39;date_mise_en_service&#39;, &#39;num&#39;: 36, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;linked&#39;},
@@ -13400,15 +13402,15 @@ indicator default :  {&#39;unique values&#39;: 64824, &#39;unicity level&#39;: 0
  {&#39;linkrate&#39;: 2.8691753588334162e-06},
  {&#39;linkrate&#39;: 0.00015481207534187667},
  {&#39;linkrate&#39;: 0.00011507479861910241},
- {&#39;linkrate&#39;: 4.7158639567565756e-05},
+ {&#39;linkrate&#39;: 4.9811029407186485e-05},
  {&#39;linkrate&#39;: 4.162071652246398e-05},
  {&#39;linkrate&#39;: 5.764242640688488e-07},
  {&#39;linkrate&#39;: 7.126192190832081e-06},
  {&#39;linkrate&#39;: 5.939361188133914e-06},
  {&#39;linkrate&#39;: 0.0003908285565398645},
- {&#39;linkrate&#39;: 2.0940302313612285e-06},
+ {&#39;linkrate&#39;: 2.1747186129058017e-06},
  {&#39;linkrate&#39;: 7.710908776864807e-07},
- {&#39;linkrate&#39;: 2.1918491704897e-06},
+ {&#39;linkrate&#39;: 2.1933251631971005e-06},
  {&#39;linkrate&#39;: 8.224435712327516e-05},
  {&#39;linkrate&#39;: 1.0},
  {&#39;linkrate&#39;: 3.8784955829124845e-06},
@@ -13419,7 +13421,7 @@ indicator default :  {&#39;unique values&#39;: 64824, &#39;unicity level&#39;: 0
  {&#39;linkrate&#39;: 0.0625},
  {&#39;linkrate&#39;: 0.08928571428571429},
  {&#39;linkrate&#39;: 6.0550280953303626e-05},
- {&#39;linkrate&#39;: 0.00011213276519398969},
+ {&#39;linkrate&#39;: 0.00013879635798356651},
  {&#39;linkrate&#39;: 0.07936507936507936},
  {&#39;linkrate&#39;: 0.0012987012987012987},
  {&#39;linkrate&#39;: 3.147507960572217e-05},
@@ -13428,9 +13430,9 @@ indicator default :  {&#39;unique values&#39;: 64824, &#39;unicity level&#39;: 0
  {&#39;linkrate&#39;: 3.931281204544561e-05},
  {&#39;linkrate&#39;: 7.047216349541931e-05},
  {&#39;linkrate&#39;: 1.156636316529721e-05},
- {&#39;linkrate&#39;: 0.0},
+ {&#39;linkrate&#39;: 3.701236212895107e-05},
  {&#39;linkrate&#39;: 7.047216349541931e-05},
- {&#39;linkrate&#39;: 9.658150578752397e-06},
+ {&#39;linkrate&#39;: 1.0156075954343525e-05},
  {&#39;linkrate&#39;: 1.7422642148961477e-05},
  {&#39;linkrate&#39;: 0.0004155844155844156},
  {&#39;linkrate&#39;: 0.0015603799185888738},
@@ -13465,14 +13467,12 @@ indicator default :  {&#39;unique values&#39;: 64824, &#39;unicity level&#39;: 0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">t0</span><span class="o">=</span><span class="n">time</span><span class="p">()</span>
-<span class="n">infos</span> <span class="o">=</span> <span class="n">idxs</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="n">fast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">infos</span> <span class="o">=</span> <span class="n">idxs</span><span class="o">.</span><span class="n">coupling</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;coupling&#39;</span><span class="p">,</span> <span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span>
-<span class="n">pprint</span><span class="p">(</span><span class="n">idxs</span><span class="o">.</span><span class="n">indexinfos</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;num&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;parent&#39;</span><span class="p">,</span> <span class="s1">&#39;typecoupl&#39;</span><span class="p">]),</span> <span class="n">width</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
-<span class="n">pprint</span><span class="p">(</span><span class="n">idxs</span><span class="o">.</span><span class="n">indexinfos</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;num&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;parent&#39;</span><span class="p">,</span> <span class="s1">&#39;typecoupl&#39;</span><span class="p">]),</span> <span class="n">width</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13489,105 +13489,7 @@ indicator default :  {&#39;unique values&#39;: 64824, &#39;unicity level&#39;: 0
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>coupling 55.95050048828125
-[{&#39;name&#39;: &#39;\ufeffnom_amenageur&#39;, &#39;num&#39;: 0, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;siren_amenageur&#39;, &#39;num&#39;: 1, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;contact_amenageur&#39;, &#39;num&#39;: 2, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;nom_operateur&#39;, &#39;num&#39;: 3, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;contact_operateur&#39;, &#39;num&#39;: 4, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;telephone_operateur&#39;, &#39;num&#39;: 5, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;nom_enseigne&#39;, &#39;num&#39;: 6, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;id_station_itinerance&#39;, &#39;num&#39;: 7, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;id_station_local&#39;, &#39;num&#39;: 8, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;nom_station&#39;, &#39;num&#39;: 9, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;implantation_station&#39;, &#39;num&#39;: 10, &#39;parent&#39;: 8, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;adresse_station&#39;, &#39;num&#39;: 11, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;code_insee_commune&#39;, &#39;num&#39;: 12, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;coordonneesXY&#39;, &#39;num&#39;: 13, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;nbre_pdc&#39;, &#39;num&#39;: 14, &#39;parent&#39;: 7, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;id_pdc_itinerance&#39;, &#39;num&#39;: 15, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;crossed&#39;},
- {&#39;name&#39;: &#39;id_pdc_local&#39;, &#39;num&#39;: 16, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;puissance_nominale&#39;, &#39;num&#39;: 17, &#39;parent&#39;: 37, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;prise_type_ef&#39;, &#39;num&#39;: 18, &#39;parent&#39;: 16, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;prise_type_2&#39;, &#39;num&#39;: 19, &#39;parent&#39;: 20, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;prise_type_combo_ccs&#39;, &#39;num&#39;: 20, &#39;parent&#39;: 30, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;prise_type_chademo&#39;, &#39;num&#39;: 21, &#39;parent&#39;: 22, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;prise_type_autre&#39;, &#39;num&#39;: 22, &#39;parent&#39;: 20, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;gratuit&#39;, &#39;num&#39;: 23, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;paiement_acte&#39;, &#39;num&#39;: 24, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;paiement_cb&#39;, &#39;num&#39;: 25, &#39;parent&#39;: 23, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;paiement_autre&#39;, &#39;num&#39;: 26, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;tarification&#39;, &#39;num&#39;: 27, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;condition_acces&#39;, &#39;num&#39;: 28, &#39;parent&#39;: 11, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;reservation&#39;, &#39;num&#39;: 29, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;horaires&#39;, &#39;num&#39;: 30, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;accessibilite_pmr&#39;, &#39;num&#39;: 31, &#39;parent&#39;: 16, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;restriction_gabarit&#39;, &#39;num&#39;: 32, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;station_deux_roues&#39;, &#39;num&#39;: 33, &#39;parent&#39;: 11, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;raccordement&#39;, &#39;num&#39;: 34, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;num_pdl&#39;, &#39;num&#39;: 35, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;date_mise_en_service&#39;, &#39;num&#39;: 36, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;observations&#39;, &#39;num&#39;: 37, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;date_maj&#39;, &#39;num&#39;: 38, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;last_modified&#39;, &#39;num&#39;: 39, &#39;parent&#39;: 6, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;datagouv_dataset_id&#39;, &#39;num&#39;: 40, &#39;parent&#39;: 41, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;datagouv_resource_id&#39;, &#39;num&#39;: 41, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;datagouv_organization_or_owner&#39;, &#39;num&#39;: 42, &#39;parent&#39;: 40, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;consolidated_longitude&#39;, &#39;num&#39;: 43, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;consolidated_latitude&#39;, &#39;num&#39;: 44, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;consolidated_code_postal&#39;, &#39;num&#39;: 45, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;consolidated_commune&#39;, &#39;num&#39;: 46, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;consolidated_is_lon_lat_correct&#39;, &#39;num&#39;: 47, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;consolidated_is_code_insee_verified&#39;, &#39;num&#39;: 48, &#39;parent&#39;: 45, &#39;typecoupl&#39;: &#39;derived&#39;}]
-[{&#39;name&#39;: &#39;\ufeffnom_amenageur&#39;, &#39;num&#39;: 0, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;siren_amenageur&#39;, &#39;num&#39;: 1, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;contact_amenageur&#39;, &#39;num&#39;: 2, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;nom_operateur&#39;, &#39;num&#39;: 3, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;contact_operateur&#39;, &#39;num&#39;: 4, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;telephone_operateur&#39;, &#39;num&#39;: 5, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;nom_enseigne&#39;, &#39;num&#39;: 6, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;id_station_itinerance&#39;, &#39;num&#39;: 7, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;id_station_local&#39;, &#39;num&#39;: 8, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;nom_station&#39;, &#39;num&#39;: 9, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;implantation_station&#39;, &#39;num&#39;: 10, &#39;parent&#39;: 8, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;adresse_station&#39;, &#39;num&#39;: 11, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;code_insee_commune&#39;, &#39;num&#39;: 12, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;coordonneesXY&#39;, &#39;num&#39;: 13, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;nbre_pdc&#39;, &#39;num&#39;: 14, &#39;parent&#39;: 7, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;id_pdc_itinerance&#39;, &#39;num&#39;: 15, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;crossed&#39;},
- {&#39;name&#39;: &#39;id_pdc_local&#39;, &#39;num&#39;: 16, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;puissance_nominale&#39;, &#39;num&#39;: 17, &#39;parent&#39;: 37, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;prise_type_ef&#39;, &#39;num&#39;: 18, &#39;parent&#39;: 16, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;prise_type_2&#39;, &#39;num&#39;: 19, &#39;parent&#39;: 20, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;prise_type_combo_ccs&#39;, &#39;num&#39;: 20, &#39;parent&#39;: 30, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;prise_type_chademo&#39;, &#39;num&#39;: 21, &#39;parent&#39;: 22, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;prise_type_autre&#39;, &#39;num&#39;: 22, &#39;parent&#39;: 20, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;gratuit&#39;, &#39;num&#39;: 23, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;paiement_acte&#39;, &#39;num&#39;: 24, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;paiement_cb&#39;, &#39;num&#39;: 25, &#39;parent&#39;: 23, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;paiement_autre&#39;, &#39;num&#39;: 26, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;tarification&#39;, &#39;num&#39;: 27, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;condition_acces&#39;, &#39;num&#39;: 28, &#39;parent&#39;: 11, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;reservation&#39;, &#39;num&#39;: 29, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;horaires&#39;, &#39;num&#39;: 30, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;accessibilite_pmr&#39;, &#39;num&#39;: 31, &#39;parent&#39;: 16, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;restriction_gabarit&#39;, &#39;num&#39;: 32, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;station_deux_roues&#39;, &#39;num&#39;: 33, &#39;parent&#39;: 11, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;raccordement&#39;, &#39;num&#39;: 34, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;num_pdl&#39;, &#39;num&#39;: 35, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;date_mise_en_service&#39;, &#39;num&#39;: 36, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;observations&#39;, &#39;num&#39;: 37, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;date_maj&#39;, &#39;num&#39;: 38, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;last_modified&#39;, &#39;num&#39;: 39, &#39;parent&#39;: 6, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;datagouv_dataset_id&#39;, &#39;num&#39;: 40, &#39;parent&#39;: 41, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;datagouv_resource_id&#39;, &#39;num&#39;: 41, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;datagouv_organization_or_owner&#39;, &#39;num&#39;: 42, &#39;parent&#39;: 40, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;consolidated_longitude&#39;, &#39;num&#39;: 43, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;consolidated_latitude&#39;, &#39;num&#39;: 44, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;consolidated_code_postal&#39;, &#39;num&#39;: 45, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;consolidated_commune&#39;, &#39;num&#39;: 46, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;consolidated_is_lon_lat_correct&#39;, &#39;num&#39;: 47, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
- {&#39;name&#39;: &#39;consolidated_is_code_insee_verified&#39;, &#39;num&#39;: 48, &#39;parent&#39;: 45, &#39;typecoupl&#39;: &#39;derived&#39;}]
+<pre>coupling 41.87414216995239
 </pre>
 </div>
 </div>
@@ -13612,7 +13514,7 @@ indicator default :  {&#39;unique values&#39;: 64824, &#39;unicity level&#39;: 0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">t0</span><span class="o">=</span><span class="n">time</span><span class="p">()</span>
@@ -13640,10 +13542,10 @@ indicator default :  {&#39;unique values&#39;: 64824, &#39;unicity level&#39;: 0
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>optimizesize  2495885 10.116098403930664
-indicator optimize :  {&#39;unique values&#39;: 67357, &#39;unicity level&#39;: 0.121, &#39;mean size&#39;: 2.721, &#39;object lightness&#39;: 0.158, &#39;gain&#39;: 0.74}
-cborsize 1717876 10.97364854812622
-indicator cbor :  {&#39;unique values&#39;: 67357, &#39;unicity level&#39;: 0.121, &#39;mean size&#39;: 1.136, &#39;object lightness&#39;: 0.066, &#39;gain&#39;: 0.821}
+<pre>optimizesize  2484182 6.370341062545776
+indicator optimize :  {&#39;unique values&#39;: 67284, &#39;unicity level&#39;: 0.121, &#39;mean size&#39;: 2.705, &#39;object lightness&#39;: 0.157, &#39;gain&#39;: 0.741}
+cborsize 1697866 9.29279637336731
+indicator cbor :  {&#39;unique values&#39;: 67284, &#39;unicity level&#39;: 0.121, &#39;mean size&#39;: 1.103, &#39;object lightness&#39;: 0.064, &#39;gain&#39;: 0.823}
 </pre>
 </div>
 </div>
@@ -13665,11 +13567,11 @@ indicator cbor :  {&#39;unique values&#39;: 67357, &#39;unicity level&#39;: 0.12
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">t0</span><span class="o">=</span><span class="n">time</span><span class="p">()</span>
-<span class="n">idxs2</span> <span class="o">=</span> <span class="n">Iindexset</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+<span class="n">idxs2</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;fromcbor&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">idxs2</span><span class="p">),</span> <span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span>
 <span class="n">t0</span><span class="o">=</span><span class="n">time</span><span class="p">()</span>
 <span class="n">verif</span> <span class="o">=</span> <span class="n">idxs2</span> <span class="o">==</span> <span class="n">idxs</span>
@@ -13690,8 +13592,8 @@ indicator cbor :  {&#39;unique values&#39;: 67357, &#39;unicity level&#39;: 0.12
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>fromcbor 11163 3.348214864730835
-controle égalité : True 0.24997305870056152
+<pre>fromcbor 11163 1.3785426616668701
+controle égalité : True 5.205086946487427
 </pre>
 </div>
 </div>
@@ -13706,10 +13608,13 @@ controle égalité : True 0.24997305870056152
 <hr>
 <h2 id="Exemple-de-donn&#233;es-anormales">Exemple de donn&#233;es anormales<a class="anchor-link" href="#Exemple-de-donn&#233;es-anormales">&#182;</a></h2><ul>
 <li>l'index coordonneesXY(13) est lié à l'index nom_station(9) avec un taux de couplage très faible, par ailleurs, le nombre de valeurs de ces deux index sont très proches (4503 nom_station pour 4459 coordonneesXY), ce qui signifie que dans la majorité des cas, on associe de façon unique une station et une position</li>
-<li>les exemples ci-dessous montrent les écarts les plus important :<ul>
+<li><p>les exemples ci-dessous montrent les écarts les plus important :</p>
+<ul>
 <li>la position [1.106329, 49.474202] est associée à 10 stations</li>
 <li>la station Camping Arinella est associée à 5 positions</li>
 </ul>
+</li>
+<li><p>de même pour l'index coordonneesXY(13) qui est lié à l'index adresse_station(11), le taux de couplage est très faible avec 44 enregistrements sur 4456 en écart. On a par exemple quatre enregistrements avec la position (6.3491347, 47.3517596) et des adresses différentes ('58 Avenue du PrÃ©sident Kennedy 26', '58 Avenue du PrÃ©sident Kennedy 28', '58 Avenue du PrÃ©sident Kennedy 27', '58 Avenue du PrÃ©sident Kennedy 25')</p>
 </li>
 </ul>
 
@@ -13718,25 +13623,26 @@ controle égalité : True 0.24997305870056152
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Couplage entre &#39;</span><span class="p">,</span> <span class="n">idxs</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39; et &#39;</span><span class="p">,</span> <span class="n">idxs</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39; : &#39;</span><span class="p">,</span> <span class="n">idxs</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="o">.</span><span class="n">couplinginfos</span><span class="p">(</span><span class="n">idxs</span><span class="p">[</span><span class="mi">9</span><span class="p">])[</span><span class="s1">&#39;typecoupl&#39;</span><span class="p">])</span>
-<span class="n">infosdefault</span> <span class="o">=</span> <span class="n">idxs</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">couplinginfos</span><span class="p">(</span><span class="n">idxs</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">champ</span> <span class="o">=</span> <span class="n">idxs</span><span class="o">.</span><span class="n">lindex</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Couplage entre &#39;</span><span class="p">,</span> <span class="n">champ</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39; et &#39;</span><span class="p">,</span> <span class="n">champ</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39; : &#39;</span><span class="p">,</span> <span class="n">champ</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="o">.</span><span class="n">couplinginfos</span><span class="p">(</span><span class="n">champ</span><span class="p">[</span><span class="mi">9</span><span class="p">])[</span><span class="s1">&#39;typecoupl&#39;</span><span class="p">])</span>
+<span class="n">infosdefault</span> <span class="o">=</span> <span class="n">champ</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">couplinginfos</span><span class="p">(</span><span class="n">champ</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Ecart : &#39;</span><span class="p">,</span> <span class="n">infosdefault</span><span class="p">[</span><span class="s1">&#39;disttomin&#39;</span><span class="p">],</span> <span class="s1">&#39;positions sur &#39;</span><span class="p">,</span> <span class="n">infosdefault</span><span class="p">[</span><span class="s1">&#39;distmin&#39;</span><span class="p">],</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="c1"># moins de 1%</span>
-<span class="n">nom_station</span> <span class="o">=</span> <span class="n">idxs</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">tostdcodec</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">coordonneesXY</span> <span class="o">=</span> <span class="n">idxs</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="o">.</span><span class="n">tostdcodec</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
+<span class="n">nom_station</span> <span class="o">=</span> <span class="n">champ</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">tostdcodec</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">coordonneesXY</span> <span class="o">=</span> <span class="n">champ</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="o">.</span><span class="n">tostdcodec</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
 <span class="n">coordonneesXY</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="n">nom_station</span><span class="p">)</span>
 <span class="n">c</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">coordonneesXY</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;les 5 positions avec le plus de stations: &#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;liste des stations associées à la position&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39; : &#39;</span><span class="p">,</span> 
-      <span class="p">[</span><span class="n">nom_station</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">coordonneesXY</span><span class="o">.</span><span class="n">recordfromvalue</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])],</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="n">coordonneesXY</span> <span class="o">=</span> <span class="n">idxs</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="o">.</span><span class="n">tostdcodec</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+      <span class="nb">set</span><span class="p">([</span><span class="n">nom_station</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">coordonneesXY</span><span class="o">.</span><span class="n">recordfromvalue</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])]),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">coordonneesXY</span> <span class="o">=</span> <span class="n">champ</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="o">.</span><span class="n">tostdcodec</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">nom_station</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="n">coordonneesXY</span><span class="p">)</span>
 <span class="n">c</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">nom_station</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;les 5 stations avec le plus de positions: &#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;liste des positions associées à la station&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39; : &#39;</span><span class="p">,</span> 
-      <span class="p">[</span><span class="n">coordonneesXY</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">nom_station</span><span class="o">.</span><span class="n">recordfromvalue</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])])</span>
+      <span class="nb">set</span><span class="p">([</span><span class="n">coordonneesXY</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">nom_station</span><span class="o">.</span><span class="n">recordfromvalue</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])]))</span>
 </pre></div>
 
     </div>
@@ -13756,13 +13662,328 @@ controle égalité : True 0.24997305870056152
 <pre>Couplage entre  coordonneesXY  et  nom_station  :  derived
 Ecart :  44 positions sur  4503 
 
-les 5 positions avec le plus de stations:  [(&#39;[1.106329, 49.474202]&#39;, 10), (&#39;[1.313367, 49.137233]&#39;, 6), (&#39;[3.080477, 50.675889]&#39;, 6), (&#39;[2.523685, 48.9908]&#39;, 5), (&#39;[3.1557445, 50.5161745]&#39;, 4)] 
+les 5 positions avec le plus de stations:  [((1.106329, 49.474202), 10), ((1.313367, 49.137233), 6), ((3.080477, 50.675889), 6), ((2.523685, 48.9908), 5), ((2.298185, 43.212574), 4)] 
 
-liste des stations associées à la position [1.106329, 49.474202]  :  [&#39;SCH01&#39;, &#39;SCH10&#39;, &#39;SCH09&#39;, &#39;SCH07&#39;, &#39;SCH06&#39;, &#39;SCH05&#39;, &#39;SCH04&#39;, &#39;SCH03&#39;, &#39;SCH02&#39;, &#39;SCH08&#39;] 
+liste des stations associées à la position (1.106329, 49.474202)  :  {&#39;SCH10&#39;, &#39;SCH09&#39;, &#39;SCH02&#39;, &#39;SCH06&#39;, &#39;SCH05&#39;, &#39;SCH08&#39;, &#39;SCH01&#39;, &#39;SCH07&#39;, &#39;SCH04&#39;, &#39;SCH03&#39;} 
 
-les 5 stations avec le plus de positions:  [(&#39;Camping Arinella&#39;, 5), (&#39;GUERET&#39;, 4), (&#39;Noues de Sienne, Le Bourg&#39;, 3), (&#39;PONTORSON - aire de covoiturage&#39;, 2), (&#39;Beaumont Saint-Cyr&#39;, 2)] 
+les 5 stations avec le plus de positions:  [(&#39;Camping Arinella&#39;, 5), (&#39;GUERET&#39;, 4), (&#39;Noues de Sienne, Le Bourg&#39;, 3), (&#39;ARGENTEUIL&#39;, 2), (&#39;SUN DEVELOPPEMENT&#39;, 2)] 
 
-liste des positions associées à la station Camping Arinella  :  [&#39;[9.445075, 41.995246]&#39;, &#39;[9.445074, 41.995246]&#39;, &#39;[9.445073, 41.995246]&#39;, &#39;[9.445072, 41.995246]&#39;, &#39;[9.445071, 41.995246]&#39;]
+liste des positions associées à la station Camping Arinella  :  {(9.445075, 41.995246), (9.445073, 41.995246), (9.445072, 41.995246), (9.445074, 41.995246), (9.445071, 41.995246)}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Couplage entre &#39;</span><span class="p">,</span> <span class="n">champ</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39; et &#39;</span><span class="p">,</span> <span class="n">champ</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39; : &#39;</span><span class="p">,</span> <span class="n">champ</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span><span class="o">.</span><span class="n">couplinginfos</span><span class="p">(</span><span class="n">champ</span><span class="p">[</span><span class="mi">13</span><span class="p">])[</span><span class="s1">&#39;typecoupl&#39;</span><span class="p">])</span>
+<span class="n">infosdefault</span> <span class="o">=</span> <span class="n">champ</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="o">.</span><span class="n">couplinginfos</span><span class="p">(</span><span class="n">champ</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Ecart : &#39;</span><span class="p">,</span> <span class="n">infosdefault</span><span class="p">[</span><span class="s1">&#39;disttomin&#39;</span><span class="p">],</span> <span class="s1">&#39;positions sur &#39;</span><span class="p">,</span> <span class="n">infosdefault</span><span class="p">[</span><span class="s1">&#39;distmin&#39;</span><span class="p">],</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="c1"># moins de 1%</span>
+<span class="n">coordonneesXY</span> <span class="o">=</span> <span class="n">champ</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="o">.</span><span class="n">tostdcodec</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">adresse_station</span> <span class="o">=</span> <span class="n">champ</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span><span class="o">.</span><span class="n">tostdcodec</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
+<span class="n">adresse_station</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="n">coordonneesXY</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">adresse_station</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;les 5 adresses avec le plus de positions : &#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;liste des position associées à l adresse :&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39; : &#39;</span><span class="p">,</span> 
+      <span class="nb">set</span><span class="p">([</span><span class="n">coordonneesXY</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">adresse_station</span><span class="o">.</span><span class="n">recordfromvalue</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])]),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">adresse_station</span> <span class="o">=</span> <span class="n">champ</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span><span class="o">.</span><span class="n">tostdcodec</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">coordonneesXY</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="n">adresse_station</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">coordonneesXY</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;les 5 positions avec le plus d adresses: &#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;liste des adresses associées à la position&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39; : &#39;</span><span class="p">,</span> 
+      <span class="nb">set</span><span class="p">([</span><span class="n">adresse_station</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">coordonneesXY</span><span class="o">.</span><span class="n">recordfromvalue</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Couplage entre  adresse_station  et  coordonneesXY  :  linked
+Ecart :  44 positions sur  4456 
+
+les 5 adresses avec le plus de positions :  [(&#34;rue de l&#39;Ã©glise&#34;, 7), (&#39;place de la mairie&#39;, 6), (&#39;Place de la Mairie&#39;, 6), (&#39;Place du Champ de Foire&#39;, 5), (&#39;rue Grande&#39;, 5)] 
+
+liste des position associées à l adresse : rue de l&#39;Ã©glise  :  {(2.9614005, 48.4189934), (2.76525, 48.448495), (3.2265338, 48.6845989), (2.5653149, 48.5803653), (2.7603113, 48.97101), (3.3512623, 48.4528516), (3.343567, 48.693841)} 
+
+les 5 positions avec le plus d adresses:  [((0.654826, 47.353958), 4), ((6.3491347, 47.3517596), 4), ((7.61, 48.85), 3), ((0.9605582, 49.5355585), 3), (&#39;&#39;, 3)] 
+
+liste des adresses associées à la position (0.654826, 47.353958)  :  {&#39;12 RUE DENIS PAPIN 37300&#39;, &#39;12 RUE denis papin 37300&#39;, &#39;12 RUE DENIS PAPIN 37&#39;, &#39;12 RUE DENIS PAPIN 37300 JOUE&#39;}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h2 id="D&#233;tection-des-incoh&#233;rences-de-relations-entre-champs">D&#233;tection des incoh&#233;rences de relations entre champs<a class="anchor-link" href="#D&#233;tection-des-incoh&#233;rences-de-relations-entre-champs">&#182;</a></h2><ul>
+<li>la fonction coupling permet de réorganiser la structure des relations en isolant les enregistrements incohérents</li>
+<li>dans le cas ci-dessous, elle est appliquée de façon automatique (minimisation des incohérences)</li>
+<li>les incohérences minimales sont dans le cas présent de 12%</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">idxs3</span> <span class="o">=</span> <span class="n">Ilist</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+<span class="n">idxs3</span><span class="o">.</span><span class="n">coupling</span><span class="p">()</span>
+<span class="n">duplic</span> <span class="o">=</span> <span class="n">idxs3</span><span class="o">.</span><span class="n">getduplicates</span><span class="p">(</span><span class="n">newindex</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">filter</span><span class="p">)</span>
+<span class="c1">#duplic = idxs3.getduplicates(idxs3.lname, ES.filter)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;nombre d enregistrements incohérents : &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">duplic</span><span class="p">))</span>
+<span class="n">idxs3</span><span class="o">.</span><span class="n">applyfilter</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;nombre d enregistrements cohérents et liste des indexs non dérivés : &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">idxs3</span><span class="p">),</span> <span class="n">idxs3</span><span class="o">.</span><span class="n">primary</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>nombre d enregistrements incohérents :  1310
+nombre d enregistrements cohérents et liste des indexs non dérivés :  9853 [15]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h2 id="V&#233;rification-par-rapport-&#224;-une-structure-impos&#233;e">V&#233;rification par rapport &#224; une structure impos&#233;e<a class="anchor-link" href="#V&#233;rification-par-rapport-&#224;-une-structure-impos&#233;e">&#182;</a></h2><ul>
+<li>une autre utilisation possible est de vérifier les données par rapport à un modèle de données défini</li>
+<li>dans cet exemple, on peut regrouper les colonnes suivant quatre entités (ceci revient à considérer les colonnes comme des attributs de chacune des entités) : les opérateurs (colonne 6), les aménageurs (colonne 1), les stations (colonne 9), les pdc (colonne 15) -&gt; cf quatre premières lignes ci-dessous</li>
+<li>on peut également indiquer les dépendances entre les quatre entités (les opérateurs et aménageurs sont dérivés par rapport aux stations qui elles sont dérivées par rapport aux pdc.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">row_operateur</span>   <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">row_amenageur</span>   <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">row_station</span>     <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">27</span><span class="p">,</span><span class="mi">28</span><span class="p">,</span><span class="mi">29</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">36</span><span class="p">,</span>
+                   <span class="mi">43</span><span class="p">,</span><span class="mi">44</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">46</span><span class="p">,</span><span class="mi">47</span><span class="p">,</span><span class="mi">48</span><span class="p">]</span>
+<span class="n">row_pdc</span>         <span class="o">=</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">37</span><span class="p">,</span><span class="mi">38</span><span class="p">,</span><span class="mi">39</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">41</span><span class="p">,</span><span class="mi">42</span><span class="p">]</span>
+
+<span class="n">champ</span> <span class="o">=</span> <span class="n">idxs2</span><span class="o">.</span><span class="n">lindex</span>
+<span class="n">operateur</span>       <span class="o">=</span> <span class="p">[</span><span class="n">champ</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">row_operateur</span><span class="p">]</span>
+<span class="n">amenageur</span>       <span class="o">=</span> <span class="p">[</span><span class="n">champ</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">row_amenageur</span><span class="p">]</span>
+<span class="n">station</span>         <span class="o">=</span> <span class="p">[</span><span class="n">champ</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">row_station</span><span class="p">]</span>
+<span class="n">pdc</span>             <span class="o">=</span> <span class="p">[</span><span class="n">champ</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">row_pdc</span><span class="p">]</span>
+
+<span class="n">operateur</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="n">operateur</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+<span class="n">amenageur</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="n">amenageur</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+<span class="n">station</span>  <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="n">station</span>  <span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+<span class="n">pdc</span>      <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="n">pdc</span>      <span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+<span class="n">station</span>  <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coupling</span><span class="p">([</span><span class="n">operateur</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">amenageur</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">pdc</span>      <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="n">station</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">idxs2</span><span class="o">.</span><span class="n">indexinfos</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;num&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;parent&#39;</span><span class="p">,</span> <span class="s1">&#39;typecoupl&#39;</span><span class="p">]),</span> <span class="n">width</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[{&#39;name&#39;: &#39;nom_amenageur&#39;, &#39;num&#39;: 0, &#39;parent&#39;: 1, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;siren_amenageur&#39;, &#39;num&#39;: 1, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;contact_amenageur&#39;, &#39;num&#39;: 2, &#39;parent&#39;: 1, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;nom_operateur&#39;, &#39;num&#39;: 3, &#39;parent&#39;: 6, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;contact_operateur&#39;, &#39;num&#39;: 4, &#39;parent&#39;: 6, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;telephone_operateur&#39;, &#39;num&#39;: 5, &#39;parent&#39;: 6, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;nom_enseigne&#39;, &#39;num&#39;: 6, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;id_station_itinerance&#39;, &#39;num&#39;: 7, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;id_station_local&#39;, &#39;num&#39;: 8, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;nom_station&#39;, &#39;num&#39;: 9, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;implantation_station&#39;, &#39;num&#39;: 10, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;adresse_station&#39;, &#39;num&#39;: 11, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;code_insee_commune&#39;, &#39;num&#39;: 12, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;coordonneesXY&#39;, &#39;num&#39;: 13, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;nbre_pdc&#39;, &#39;num&#39;: 14, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;id_pdc_itinerance&#39;, &#39;num&#39;: 15, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;crossed&#39;},
+ {&#39;name&#39;: &#39;id_pdc_local&#39;, &#39;num&#39;: 16, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;puissance_nominale&#39;, &#39;num&#39;: 17, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;prise_type_ef&#39;, &#39;num&#39;: 18, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;prise_type_2&#39;, &#39;num&#39;: 19, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;prise_type_combo_ccs&#39;, &#39;num&#39;: 20, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;prise_type_chademo&#39;, &#39;num&#39;: 21, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;prise_type_autre&#39;, &#39;num&#39;: 22, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;gratuit&#39;, &#39;num&#39;: 23, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;paiement_acte&#39;, &#39;num&#39;: 24, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;paiement_cb&#39;, &#39;num&#39;: 25, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;paiement_autre&#39;, &#39;num&#39;: 26, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;tarification&#39;, &#39;num&#39;: 27, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;condition_acces&#39;, &#39;num&#39;: 28, &#39;parent&#39;: 11, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;reservation&#39;, &#39;num&#39;: 29, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;horaires&#39;, &#39;num&#39;: 30, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;accessibilite_pmr&#39;, &#39;num&#39;: 31, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;restriction_gabarit&#39;, &#39;num&#39;: 32, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;station_deux_roues&#39;, &#39;num&#39;: 33, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;raccordement&#39;, &#39;num&#39;: 34, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;num_pdl&#39;, &#39;num&#39;: 35, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;date_mise_en_service&#39;, &#39;num&#39;: 36, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;observations&#39;, &#39;num&#39;: 37, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;date_maj&#39;, &#39;num&#39;: 38, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;last_modified&#39;, &#39;num&#39;: 39, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;datagouv_dataset_id&#39;, &#39;num&#39;: 40, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;datagouv_resource_id&#39;, &#39;num&#39;: 41, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;coupled&#39;},
+ {&#39;name&#39;: &#39;datagouv_organization_or_owner&#39;, &#39;num&#39;: 42, &#39;parent&#39;: 40, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;consolidated_longitude&#39;, &#39;num&#39;: 43, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;consolidated_latitude&#39;, &#39;num&#39;: 44, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;consolidated_code_postal&#39;, &#39;num&#39;: 45, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;consolidated_commune&#39;, &#39;num&#39;: 46, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;consolidated_is_lon_lat_correct&#39;, &#39;num&#39;: 47, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;consolidated_is_code_insee_verified&#39;, &#39;num&#39;: 48, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;}]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Mise-en-coh&#233;rence-des-donn&#233;es">Mise en coh&#233;rence des donn&#233;es<a class="anchor-link" href="#Mise-en-coh&#233;rence-des-donn&#233;es">&#182;</a></h2><ul>
+<li>l'application de la structure imposée permet d'identifie les enregistrements qui ne respectent pas la structure (cf exemples indiqués plus haut).</li>
+<li>dans l'exemple proposé, on identifie 48% des données ne respectant pas la structure</li>
+<li>on vérifie également qu'avec les données restantes, la structure est bien respectée</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">duplic</span> <span class="o">=</span> <span class="n">idxs2</span><span class="o">.</span><span class="n">getduplicates</span><span class="p">(</span><span class="n">idxs2</span><span class="o">.</span><span class="n">lname</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">filter</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">idxs2</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="mi">49</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">))</span>
+<span class="n">idxs2</span><span class="o">.</span><span class="n">applyfilter</span><span class="p">()</span>
+<span class="n">idxs2</span><span class="o">.</span><span class="n">to_csv</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idxs2</span><span class="p">),</span> <span class="n">idxs2</span><span class="o">.</span><span class="n">primary</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">idxs2</span><span class="o">.</span><span class="n">indexinfos</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;num&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;parent&#39;</span><span class="p">,</span> <span class="s1">&#39;typecoupl&#39;</span><span class="p">]),</span> <span class="n">width</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Counter({1: 5775, 0: 5388})
+5775 [15]
+[{&#39;name&#39;: &#39;nom_amenageur&#39;, &#39;num&#39;: 0, &#39;parent&#39;: 1, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;siren_amenageur&#39;, &#39;num&#39;: 1, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;contact_amenageur&#39;, &#39;num&#39;: 2, &#39;parent&#39;: 1, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;nom_operateur&#39;, &#39;num&#39;: 3, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;contact_operateur&#39;, &#39;num&#39;: 4, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;telephone_operateur&#39;, &#39;num&#39;: 5, &#39;parent&#39;: 6, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;nom_enseigne&#39;, &#39;num&#39;: 6, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;id_station_itinerance&#39;, &#39;num&#39;: 7, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;id_station_local&#39;, &#39;num&#39;: 8, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;nom_station&#39;, &#39;num&#39;: 9, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;implantation_station&#39;, &#39;num&#39;: 10, &#39;parent&#39;: 43, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;adresse_station&#39;, &#39;num&#39;: 11, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;code_insee_commune&#39;, &#39;num&#39;: 12, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;coordonneesXY&#39;, &#39;num&#39;: 13, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;nbre_pdc&#39;, &#39;num&#39;: 14, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;id_pdc_itinerance&#39;, &#39;num&#39;: 15, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;crossed&#39;},
+ {&#39;name&#39;: &#39;id_pdc_local&#39;, &#39;num&#39;: 16, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;puissance_nominale&#39;, &#39;num&#39;: 17, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;prise_type_ef&#39;, &#39;num&#39;: 18, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;prise_type_2&#39;, &#39;num&#39;: 19, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;prise_type_combo_ccs&#39;, &#39;num&#39;: 20, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;prise_type_chademo&#39;, &#39;num&#39;: 21, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;prise_type_autre&#39;, &#39;num&#39;: 22, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;gratuit&#39;, &#39;num&#39;: 23, &#39;parent&#39;: 43, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;paiement_acte&#39;, &#39;num&#39;: 24, &#39;parent&#39;: 40, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;paiement_cb&#39;, &#39;num&#39;: 25, &#39;parent&#39;: 44, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;paiement_autre&#39;, &#39;num&#39;: 26, &#39;parent&#39;: 40, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;tarification&#39;, &#39;num&#39;: 27, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;condition_acces&#39;, &#39;num&#39;: 28, &#39;parent&#39;: 0, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;reservation&#39;, &#39;num&#39;: 29, &#39;parent&#39;: 40, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;horaires&#39;, &#39;num&#39;: 30, &#39;parent&#39;: 11, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;accessibilite_pmr&#39;, &#39;num&#39;: 31, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;restriction_gabarit&#39;, &#39;num&#39;: 32, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;station_deux_roues&#39;, &#39;num&#39;: 33, &#39;parent&#39;: 40, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;raccordement&#39;, &#39;num&#39;: 34, &#39;parent&#39;: 43, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;num_pdl&#39;, &#39;num&#39;: 35, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;date_mise_en_service&#39;, &#39;num&#39;: 36, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;observations&#39;, &#39;num&#39;: 37, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;date_maj&#39;, &#39;num&#39;: 38, &#39;parent&#39;: 15, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;last_modified&#39;, &#39;num&#39;: 39, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;datagouv_dataset_id&#39;, &#39;num&#39;: 40, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;datagouv_resource_id&#39;, &#39;num&#39;: 41, &#39;parent&#39;: 39, &#39;typecoupl&#39;: &#39;coupled&#39;},
+ {&#39;name&#39;: &#39;datagouv_organization_or_owner&#39;, &#39;num&#39;: 42, &#39;parent&#39;: 40, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;consolidated_longitude&#39;, &#39;num&#39;: 43, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;consolidated_latitude&#39;, &#39;num&#39;: 44, &#39;parent&#39;: 13, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;consolidated_code_postal&#39;, &#39;num&#39;: 45, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;consolidated_commune&#39;, &#39;num&#39;: 46, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;consolidated_is_lon_lat_correct&#39;, &#39;num&#39;: 47, &#39;parent&#39;: 9, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;consolidated_is_code_insee_verified&#39;, &#39;num&#39;: 48, &#39;parent&#39;: 45, &#39;typecoupl&#39;: &#39;derived&#39;}]
 </pre>
 </div>
 </div>

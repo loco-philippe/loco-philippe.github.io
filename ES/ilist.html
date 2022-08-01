@@ -166,6 +166,9 @@
                                 <a class="function" href="#Ilist.full">full</a>
                         </li>
                         <li>
+                                <a class="function" href="#Ilist.getduplicates">getduplicates</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Ilist.isvaluesindex">isvaluesindex</a>
                         </li>
                         <li>
@@ -801,6 +804,113 @@ The graph below shows the size difference between simple list and indexed list.<
 
 <span class="k">class</span> <span class="nc">Ilist</span><span class="p">:</span>
 <span class="c1">#%% intro</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    An `Ilist` is a representation of an indexed list.</span>
+
+<span class="sd">    *Attributes (for @property see methods)* :</span>
+
+<span class="sd">    - **lindex** : list of index</span>
+<span class="sd">    - **lvarname** : variable name (list of string)</span>
+
+<span class="sd">    The methods defined in this class are :</span>
+
+<span class="sd">    *constructor (classmethod))*</span>
+
+<span class="sd">    - `Ilist.Idic`</span>
+<span class="sd">    - `Ilist.Iext`</span>
+
+<span class="sd">    *dynamic value property (getters)*</span>
+
+<span class="sd">    - `Ilist.extidx`</span>
+<span class="sd">    - `Ilist.extidxext`</span>
+<span class="sd">    - `Ilist.idxname`</span>
+<span class="sd">    - `Ilist.idxref`</span>
+<span class="sd">    - `Ilist.idxlen`</span>
+<span class="sd">    - `Ilist.iidx`</span>
+<span class="sd">    - `Ilist.iidx`</span>
+<span class="sd">    - `Ilist.iidx`</span>
+<span class="sd">    - `Ilist.iidx`</span>
+<span class="sd">    - `Ilist.iidx`</span>
+
+<span class="sd">    *global property (getters)*</span>
+
+<span class="sd">    - `Ilist.axes`</span>
+<span class="sd">    - `Ilist.axesall`</span>
+<span class="sd">    - `Ilist.axesmin`</span>
+<span class="sd">    - `Ilist.axesmono`</span>
+<span class="sd">    - `Ilist.axesmulti`</span>
+<span class="sd">    - `Ilist.complete`</span>
+<span class="sd">    - `Ilist.completefull`</span>
+<span class="sd">    - `Ilist.consistent`</span>
+<span class="sd">    - `Ilist.dimension`</span>
+<span class="sd">    - `Ilist.lencomplete`</span>
+<span class="sd">    - `Ilist.lencompletefull`</span>
+<span class="sd">    - `Ilist.rate`</span>
+<span class="sd">    - `Ilist.setvallen`</span>
+<span class="sd">    - `Ilist.zip`</span>
+
+<span class="sd">    *idx property (getters)*</span>
+
+<span class="sd">    - `Ilist.dicidxref`</span>
+<span class="sd">    - `Ilist.idxcoupled`</span>
+<span class="sd">    - `Ilist.idxderived`</span>
+<span class="sd">    - `Ilist.idxder`</span>
+<span class="sd">    - `Ilist.idxlen`</span>
+<span class="sd">    - `Ilist.idxref`</span>
+<span class="sd">    - `Ilist.idxunique`</span>
+<span class="sd">    - `Ilist.ind`</span>
+<span class="sd">    - `Ilist.lenidx`</span>
+<span class="sd">    - `Ilist.minMaxIndex`</span>
+
+<span class="sd">    *add - update methods*</span>
+
+<span class="sd">    - `Ilist.addextidx`</span>
+<span class="sd">    - `Ilist.addlistidx`</span>
+<span class="sd">    - `Ilist.append`</span>
+<span class="sd">    - `Ilist.appendi`</span>
+<span class="sd">    - `Ilist.updateidx`</span>
+<span class="sd">    - `Ilist.updatelist`</span>
+
+<span class="sd">    *selecting methods*</span>
+
+<span class="sd">    - `Ilist.extidxtoi`</span>
+<span class="sd">    - `Ilist.iidxtoext`</span>
+<span class="sd">    - `Ilist.iloc`</span>
+<span class="sd">    - `Ilist.iseIndex`</span>
+<span class="sd">    - `Ilist.isiIndex`</span>
+<span class="sd">    - `Ilist.isValue`</span>
+<span class="sd">    - `Ilist.loc`</span>
+<span class="sd">    - `Ilist.setname`</span>
+<span class="sd">    - `Ilist.unconsistent`</span>
+
+<span class="sd">    *management - conversion methods*</span>
+
+<span class="sd">    - `Ilist.axescoupling`</span>
+<span class="sd">    - `Ilist.couplingmatrix`</span>
+<span class="sd">    - `Ilist.derived_to_coupled`</span>
+<span class="sd">    - `Ilist.full`</span>
+<span class="sd">    - `Ilist.merge`</span>
+<span class="sd">    - `Ilist.mergeidx`</span>
+<span class="sd">    - `Ilist.reindex`</span>
+<span class="sd">    - `Ilist.reorder`</span>
+<span class="sd">    - `Ilist.setfilter`</span>
+<span class="sd">    - `Ilist.sort`</span>
+<span class="sd">    - `Ilist.sortidx`</span>
+<span class="sd">    - `Ilist.swapindex`</span>
+
+<span class="sd">    *exports methods*</span>
+
+<span class="sd">    - `Ilist.from_obj` (classmethod)</span>
+<span class="sd">    - `Ilist.from_csv` (classmethod)</span>
+<span class="sd">    - `Ilist.from_file` (classmethod)</span>
+<span class="sd">    - `Ilist.json`</span>
+<span class="sd">    - `Ilist.to_obj`</span>
+<span class="sd">    - `Ilist.to_csv`</span>
+<span class="sd">    - `Ilist.to_file`</span>
+<span class="sd">    - `Ilist.to_numpy`</span>
+<span class="sd">    - `Ilist.to_xarray`</span>
+<span class="sd">    - `Ilist.vlist`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">Idic</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">idxdic</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -809,7 +919,9 @@ The graph below shows the size difference between simple list and indexed list.<
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **idxdic** : {name : values}  (see data model)</span>
-<span class="sd">        - **fullcodec** : boolean (default False) - full codec if True&#39;&#39;&#39;</span>
+<span class="sd">        - **typevalue** : str (default ES.def_clsName) - default value class (None or NamedValue)</span>
+<span class="sd">        - **fullcodec** : boolean (default False) - full codec if True</span>
+<span class="sd">        - **var** :  int (default None) - row of the variable&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">idxdic</span><span class="p">:</span> <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">Iext</span><span class="p">(</span><span class="n">idxval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idxname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">typevalue</span><span class="p">,</span> 
                                           <span class="n">fullcodec</span><span class="o">=</span><span class="n">fullcodec</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="n">var</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idxdic</span><span class="p">,</span> <span class="n">Ilist</span><span class="p">):</span> <span class="k">return</span> <span class="n">idxdic</span>
@@ -817,16 +929,18 @@ The graph below shows the size difference between simple list and indexed list.<
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">Iext</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">idxdic</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="nb">list</span><span class="p">(</span><span class="n">idxdic</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="n">typevalue</span><span class="p">,</span> <span class="n">fullcodec</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">Iext</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">idxval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idxname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">Iext</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">idxval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idxname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> 
+             <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Ilist constructor (external index).</span>
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **extidx** : index list (see data model)</span>
+<span class="sd">        - **idxval** : list of values (see data model)</span>
 <span class="sd">        - **idxname** : list of string (default None) - name of index list (see data model)</span>
-<span class="sd">        </span>
-<span class="sd">        *Returns* : Ilist&#39;&#39;&#39;</span>
+<span class="sd">        - **typevalue** : str (default ES.def_clsName) - default value class (None or NamedValue)</span>
+<span class="sd">        - **fullcodec** : boolean (default False) - full codec if True</span>
+<span class="sd">        - **var** :  int (default None) - row of the variable&#39;&#39;&#39;</span>
         <span class="c1">#print(&#39;debut iext&#39;)</span>
         <span class="c1">#t0 = time()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">idxname</span><span class="p">:</span> <span class="n">idxname</span><span class="o">=</span><span class="p">[]</span>
@@ -846,7 +960,7 @@ The graph below shows the size difference between simple list and indexed list.<
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;ilist.csv&#39;</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
-                 <span class="n">optcsv</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;quoting&#39;</span><span class="p">:</span> <span class="n">csv</span><span class="o">.</span><span class="n">QUOTE_NONNUMERIC</span><span class="p">},</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                 <span class="n">optcsv</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;quoting&#39;</span><span class="p">:</span> <span class="n">csv</span><span class="o">.</span><span class="n">QUOTE_NONNUMERIC</span><span class="p">},</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Ilist constructor (from a csv file). Each column represents index values.</span>
 
@@ -856,11 +970,8 @@ The graph below shows the size difference between simple list and indexed list.<
 <span class="sd">        - **var** : integer (default None). column row for variable data</span>
 <span class="sd">        - **header** : boolean (default True). If True, the first raw is dedicated to names</span>
 <span class="sd">        - **dtype** : list of string (default None) - data type for each column (default str)</span>
-<span class="sd">        - **kwargs** : see csv.reader options</span>
-
-<span class="sd">        *Returns* : Ilist&#39;&#39;&#39;</span>
+<span class="sd">        - **optcsv** : dict (default : quoting) - see csv.reader options&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">optcsv</span><span class="p">:</span> <span class="n">optcsv</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="c1">#optcsv = {&#39;quoting&#39;: csv.QUOTE_NONNUMERIC} | optcsv</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">**</span><span class="n">optcsv</span><span class="p">)</span>
             <span class="n">first</span><span class="o">=</span><span class="kc">True</span>
@@ -869,8 +980,7 @@ The graph below shows the size difference between simple list and indexed list.<
                     <span class="k">if</span> <span class="n">dtype</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="n">dtype</span> <span class="o">=</span> <span class="p">[</span><span class="n">dtype</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
                     <span class="n">idxval</span>  <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">))]</span>
                     <span class="n">idxname</span> <span class="o">=</span> <span class="kc">None</span>
-                <span class="k">if</span> <span class="n">first</span> <span class="ow">and</span> <span class="n">header</span><span class="p">:</span>
-                    <span class="n">idxname</span> <span class="o">=</span> <span class="n">row</span>
+                <span class="k">if</span> <span class="n">first</span> <span class="ow">and</span> <span class="n">header</span><span class="p">:</span>  <span class="n">idxname</span> <span class="o">=</span> <span class="n">row</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">dtype</span><span class="p">:</span> 
                         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="p">:</span> <span class="n">idxval</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
@@ -882,13 +992,12 @@ The graph below shows the size difference between simple list and indexed list.<
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_obj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Generate an Ilist Object from a bytes, json or dict value</span>
+<span class="sd">        Generate an Ilist Object from a bytes, string or list value</span>
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **bs** : bytes or string data to convert</span>
-
-<span class="sd">        *Returns* : Ilist &#39;&#39;&#39;</span>
+<span class="sd">        - **bs** : bytes, string or list data to convert</span>
+<span class="sd">        - **reindex** : boolean (default True) - if True, default codec for each index&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">bs</span><span class="p">:</span> <span class="n">bs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span>   <span class="nb">isinstance</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span> <span class="n">lis</span> <span class="o">=</span> <span class="n">cbor2</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>  <span class="p">:</span> <span class="n">lis</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">CborDecoder</span><span class="p">()</span><span class="o">.</span><span class="n">codecbor</span><span class="p">)</span>
@@ -903,9 +1012,11 @@ The graph below shows the size difference between simple list and indexed list.<
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **listidx** :  list (default None) - list of compatible Iindex</span>
+<span class="sd">        - **listidx** :  list (default None) - list of compatible Iindex data</span>
 <span class="sd">        - **var** :  int (default None) - row of the variable</span>
-<span class="sd">        - **length** :  int (default None)  - len of each Iindex&#39;&#39;&#39;</span>
+<span class="sd">        - **length** :  int (default None)  - len of each Iindex</span>
+<span class="sd">        - **reindex** : boolean (default True) - if True, default codec for each index</span>
+<span class="sd">        - **typevalue** : str (default ES.def_clsName) - default value class (None or NamedValue)&#39;&#39;&#39;</span>
         <span class="c1">#init self.lidx</span>
         <span class="c1">#print(&#39;debut&#39;)</span>
         <span class="c1">#t0 = time()</span>
@@ -976,6 +1087,7 @@ The graph below shows the size difference between simple list and indexed list.<
         <span class="k">return</span> <span class="kc">None</span>
                 
     <span class="k">def</span> <span class="nf">_addiidx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rang</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">iidx</span><span class="p">,</span> <span class="n">codind</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;creation Iindex and update lindex&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">code</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">_addiidx</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">codind</span><span class="p">[</span><span class="n">code</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">codind</span><span class="p">[</span><span class="n">code</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">codind</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">iidx</span><span class="o">.</span><span class="n">keys</span> <span class="o">==</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iidx</span><span class="o">.</span><span class="n">codec</span><span class="p">))):</span> <span class="c1">#coupled format</span>
@@ -1188,6 +1300,7 @@ The graph below shows the size difference between simple list and indexed list.<
         <span class="sd">&#39;&#39;&#39;return a zip format for textidx : tuple(tuple(idx)&#39;&#39;&#39;</span>
         <span class="n">textidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textidx</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">textidx</span><span class="p">)</span>
+    
     <span class="c1">#%% methods</span>
     <span class="k">def</span> <span class="nf">addindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">merge</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">update</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;add a new index.</span>
@@ -1342,7 +1455,18 @@ The graph below shows the size difference between simple list and indexed list.<
             <span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">codec</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">keysadd</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">codec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">fillvalue</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span><span class="p">))</span>
         <span class="k">return</span> <span class="kc">None</span>
-        
+
+    <span class="k">def</span> <span class="nf">getduplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indexname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">newindex</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">indexname</span><span class="p">:</span> <span class="n">primary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">primary</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">indexname</span><span class="p">]</span>
+        <span class="n">duplicates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">primary</span><span class="p">:</span> <span class="n">duplicates</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">getduplicates</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">newindex</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">newindex</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">newidx</span> <span class="o">=</span> <span class="n">Iindex</span><span class="p">([</span><span class="kc">True</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)))],</span> <span class="n">name</span><span class="o">=</span><span class="n">newindex</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">duplicates</span><span class="p">:</span> <span class="n">newidx</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addindex</span><span class="p">(</span><span class="n">newidx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">duplicates</span>
+            
     <span class="k">def</span> <span class="nf">isvaluesindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listval</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return True if listval is a valid record.</span>
@@ -1771,6 +1895,113 @@ The graph below shows the size difference between simple list and indexed list.<
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Ilist</span><span class="p">:</span>
 <span class="c1">#%% intro</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    An `Ilist` is a representation of an indexed list.</span>
+
+<span class="sd">    *Attributes (for @property see methods)* :</span>
+
+<span class="sd">    - **lindex** : list of index</span>
+<span class="sd">    - **lvarname** : variable name (list of string)</span>
+
+<span class="sd">    The methods defined in this class are :</span>
+
+<span class="sd">    *constructor (classmethod))*</span>
+
+<span class="sd">    - `Ilist.Idic`</span>
+<span class="sd">    - `Ilist.Iext`</span>
+
+<span class="sd">    *dynamic value property (getters)*</span>
+
+<span class="sd">    - `Ilist.extidx`</span>
+<span class="sd">    - `Ilist.extidxext`</span>
+<span class="sd">    - `Ilist.idxname`</span>
+<span class="sd">    - `Ilist.idxref`</span>
+<span class="sd">    - `Ilist.idxlen`</span>
+<span class="sd">    - `Ilist.iidx`</span>
+<span class="sd">    - `Ilist.iidx`</span>
+<span class="sd">    - `Ilist.iidx`</span>
+<span class="sd">    - `Ilist.iidx`</span>
+<span class="sd">    - `Ilist.iidx`</span>
+
+<span class="sd">    *global property (getters)*</span>
+
+<span class="sd">    - `Ilist.axes`</span>
+<span class="sd">    - `Ilist.axesall`</span>
+<span class="sd">    - `Ilist.axesmin`</span>
+<span class="sd">    - `Ilist.axesmono`</span>
+<span class="sd">    - `Ilist.axesmulti`</span>
+<span class="sd">    - `Ilist.complete`</span>
+<span class="sd">    - `Ilist.completefull`</span>
+<span class="sd">    - `Ilist.consistent`</span>
+<span class="sd">    - `Ilist.dimension`</span>
+<span class="sd">    - `Ilist.lencomplete`</span>
+<span class="sd">    - `Ilist.lencompletefull`</span>
+<span class="sd">    - `Ilist.rate`</span>
+<span class="sd">    - `Ilist.setvallen`</span>
+<span class="sd">    - `Ilist.zip`</span>
+
+<span class="sd">    *idx property (getters)*</span>
+
+<span class="sd">    - `Ilist.dicidxref`</span>
+<span class="sd">    - `Ilist.idxcoupled`</span>
+<span class="sd">    - `Ilist.idxderived`</span>
+<span class="sd">    - `Ilist.idxder`</span>
+<span class="sd">    - `Ilist.idxlen`</span>
+<span class="sd">    - `Ilist.idxref`</span>
+<span class="sd">    - `Ilist.idxunique`</span>
+<span class="sd">    - `Ilist.ind`</span>
+<span class="sd">    - `Ilist.lenidx`</span>
+<span class="sd">    - `Ilist.minMaxIndex`</span>
+
+<span class="sd">    *add - update methods*</span>
+
+<span class="sd">    - `Ilist.addextidx`</span>
+<span class="sd">    - `Ilist.addlistidx`</span>
+<span class="sd">    - `Ilist.append`</span>
+<span class="sd">    - `Ilist.appendi`</span>
+<span class="sd">    - `Ilist.updateidx`</span>
+<span class="sd">    - `Ilist.updatelist`</span>
+
+<span class="sd">    *selecting methods*</span>
+
+<span class="sd">    - `Ilist.extidxtoi`</span>
+<span class="sd">    - `Ilist.iidxtoext`</span>
+<span class="sd">    - `Ilist.iloc`</span>
+<span class="sd">    - `Ilist.iseIndex`</span>
+<span class="sd">    - `Ilist.isiIndex`</span>
+<span class="sd">    - `Ilist.isValue`</span>
+<span class="sd">    - `Ilist.loc`</span>
+<span class="sd">    - `Ilist.setname`</span>
+<span class="sd">    - `Ilist.unconsistent`</span>
+
+<span class="sd">    *management - conversion methods*</span>
+
+<span class="sd">    - `Ilist.axescoupling`</span>
+<span class="sd">    - `Ilist.couplingmatrix`</span>
+<span class="sd">    - `Ilist.derived_to_coupled`</span>
+<span class="sd">    - `Ilist.full`</span>
+<span class="sd">    - `Ilist.merge`</span>
+<span class="sd">    - `Ilist.mergeidx`</span>
+<span class="sd">    - `Ilist.reindex`</span>
+<span class="sd">    - `Ilist.reorder`</span>
+<span class="sd">    - `Ilist.setfilter`</span>
+<span class="sd">    - `Ilist.sort`</span>
+<span class="sd">    - `Ilist.sortidx`</span>
+<span class="sd">    - `Ilist.swapindex`</span>
+
+<span class="sd">    *exports methods*</span>
+
+<span class="sd">    - `Ilist.from_obj` (classmethod)</span>
+<span class="sd">    - `Ilist.from_csv` (classmethod)</span>
+<span class="sd">    - `Ilist.from_file` (classmethod)</span>
+<span class="sd">    - `Ilist.json`</span>
+<span class="sd">    - `Ilist.to_obj`</span>
+<span class="sd">    - `Ilist.to_csv`</span>
+<span class="sd">    - `Ilist.to_file`</span>
+<span class="sd">    - `Ilist.to_numpy`</span>
+<span class="sd">    - `Ilist.to_xarray`</span>
+<span class="sd">    - `Ilist.vlist`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">Idic</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">idxdic</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1779,7 +2010,9 @@ The graph below shows the size difference between simple list and indexed list.<
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **idxdic** : {name : values}  (see data model)</span>
-<span class="sd">        - **fullcodec** : boolean (default False) - full codec if True&#39;&#39;&#39;</span>
+<span class="sd">        - **typevalue** : str (default ES.def_clsName) - default value class (None or NamedValue)</span>
+<span class="sd">        - **fullcodec** : boolean (default False) - full codec if True</span>
+<span class="sd">        - **var** :  int (default None) - row of the variable&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">idxdic</span><span class="p">:</span> <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">Iext</span><span class="p">(</span><span class="n">idxval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idxname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">typevalue</span><span class="p">,</span> 
                                           <span class="n">fullcodec</span><span class="o">=</span><span class="n">fullcodec</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="n">var</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idxdic</span><span class="p">,</span> <span class="n">Ilist</span><span class="p">):</span> <span class="k">return</span> <span class="n">idxdic</span>
@@ -1787,16 +2020,18 @@ The graph below shows the size difference between simple list and indexed list.<
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">Iext</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">idxdic</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="nb">list</span><span class="p">(</span><span class="n">idxdic</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="n">typevalue</span><span class="p">,</span> <span class="n">fullcodec</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">Iext</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">idxval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idxname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">Iext</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">idxval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idxname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> 
+             <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Ilist constructor (external index).</span>
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **extidx** : index list (see data model)</span>
+<span class="sd">        - **idxval** : list of values (see data model)</span>
 <span class="sd">        - **idxname** : list of string (default None) - name of index list (see data model)</span>
-<span class="sd">        </span>
-<span class="sd">        *Returns* : Ilist&#39;&#39;&#39;</span>
+<span class="sd">        - **typevalue** : str (default ES.def_clsName) - default value class (None or NamedValue)</span>
+<span class="sd">        - **fullcodec** : boolean (default False) - full codec if True</span>
+<span class="sd">        - **var** :  int (default None) - row of the variable&#39;&#39;&#39;</span>
         <span class="c1">#print(&#39;debut iext&#39;)</span>
         <span class="c1">#t0 = time()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">idxname</span><span class="p">:</span> <span class="n">idxname</span><span class="o">=</span><span class="p">[]</span>
@@ -1816,7 +2051,7 @@ The graph below shows the size difference between simple list and indexed list.<
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;ilist.csv&#39;</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
-                 <span class="n">optcsv</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;quoting&#39;</span><span class="p">:</span> <span class="n">csv</span><span class="o">.</span><span class="n">QUOTE_NONNUMERIC</span><span class="p">},</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                 <span class="n">optcsv</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;quoting&#39;</span><span class="p">:</span> <span class="n">csv</span><span class="o">.</span><span class="n">QUOTE_NONNUMERIC</span><span class="p">},</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Ilist constructor (from a csv file). Each column represents index values.</span>
 
@@ -1826,11 +2061,8 @@ The graph below shows the size difference between simple list and indexed list.<
 <span class="sd">        - **var** : integer (default None). column row for variable data</span>
 <span class="sd">        - **header** : boolean (default True). If True, the first raw is dedicated to names</span>
 <span class="sd">        - **dtype** : list of string (default None) - data type for each column (default str)</span>
-<span class="sd">        - **kwargs** : see csv.reader options</span>
-
-<span class="sd">        *Returns* : Ilist&#39;&#39;&#39;</span>
+<span class="sd">        - **optcsv** : dict (default : quoting) - see csv.reader options&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">optcsv</span><span class="p">:</span> <span class="n">optcsv</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="c1">#optcsv = {&#39;quoting&#39;: csv.QUOTE_NONNUMERIC} | optcsv</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">**</span><span class="n">optcsv</span><span class="p">)</span>
             <span class="n">first</span><span class="o">=</span><span class="kc">True</span>
@@ -1839,8 +2071,7 @@ The graph below shows the size difference between simple list and indexed list.<
                     <span class="k">if</span> <span class="n">dtype</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="n">dtype</span> <span class="o">=</span> <span class="p">[</span><span class="n">dtype</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
                     <span class="n">idxval</span>  <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">))]</span>
                     <span class="n">idxname</span> <span class="o">=</span> <span class="kc">None</span>
-                <span class="k">if</span> <span class="n">first</span> <span class="ow">and</span> <span class="n">header</span><span class="p">:</span>
-                    <span class="n">idxname</span> <span class="o">=</span> <span class="n">row</span>
+                <span class="k">if</span> <span class="n">first</span> <span class="ow">and</span> <span class="n">header</span><span class="p">:</span>  <span class="n">idxname</span> <span class="o">=</span> <span class="n">row</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">dtype</span><span class="p">:</span> 
                         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="p">:</span> <span class="n">idxval</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
@@ -1852,13 +2083,12 @@ The graph below shows the size difference between simple list and indexed list.<
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_obj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Generate an Ilist Object from a bytes, json or dict value</span>
+<span class="sd">        Generate an Ilist Object from a bytes, string or list value</span>
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **bs** : bytes or string data to convert</span>
-
-<span class="sd">        *Returns* : Ilist &#39;&#39;&#39;</span>
+<span class="sd">        - **bs** : bytes, string or list data to convert</span>
+<span class="sd">        - **reindex** : boolean (default True) - if True, default codec for each index&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">bs</span><span class="p">:</span> <span class="n">bs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span>   <span class="nb">isinstance</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span> <span class="n">lis</span> <span class="o">=</span> <span class="n">cbor2</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>  <span class="p">:</span> <span class="n">lis</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">CborDecoder</span><span class="p">()</span><span class="o">.</span><span class="n">codecbor</span><span class="p">)</span>
@@ -1873,9 +2103,11 @@ The graph below shows the size difference between simple list and indexed list.<
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **listidx** :  list (default None) - list of compatible Iindex</span>
+<span class="sd">        - **listidx** :  list (default None) - list of compatible Iindex data</span>
 <span class="sd">        - **var** :  int (default None) - row of the variable</span>
-<span class="sd">        - **length** :  int (default None)  - len of each Iindex&#39;&#39;&#39;</span>
+<span class="sd">        - **length** :  int (default None)  - len of each Iindex</span>
+<span class="sd">        - **reindex** : boolean (default True) - if True, default codec for each index</span>
+<span class="sd">        - **typevalue** : str (default ES.def_clsName) - default value class (None or NamedValue)&#39;&#39;&#39;</span>
         <span class="c1">#init self.lidx</span>
         <span class="c1">#print(&#39;debut&#39;)</span>
         <span class="c1">#t0 = time()</span>
@@ -1946,6 +2178,7 @@ The graph below shows the size difference between simple list and indexed list.<
         <span class="k">return</span> <span class="kc">None</span>
                 
     <span class="k">def</span> <span class="nf">_addiidx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rang</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">iidx</span><span class="p">,</span> <span class="n">codind</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;creation Iindex and update lindex&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">code</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">_addiidx</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">codind</span><span class="p">[</span><span class="n">code</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">codind</span><span class="p">[</span><span class="n">code</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">codind</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">iidx</span><span class="o">.</span><span class="n">keys</span> <span class="o">==</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iidx</span><span class="o">.</span><span class="n">codec</span><span class="p">))):</span> <span class="c1">#coupled format</span>
@@ -2158,6 +2391,7 @@ The graph below shows the size difference between simple list and indexed list.<
         <span class="sd">&#39;&#39;&#39;return a zip format for textidx : tuple(tuple(idx)&#39;&#39;&#39;</span>
         <span class="n">textidx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textidx</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">textidx</span><span class="p">)</span>
+    
     <span class="c1">#%% methods</span>
     <span class="k">def</span> <span class="nf">addindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">merge</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">update</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;add a new index.</span>
@@ -2312,7 +2546,18 @@ The graph below shows the size difference between simple list and indexed list.<
             <span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">codec</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">keysadd</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">codec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">fillvalue</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span><span class="p">))</span>
         <span class="k">return</span> <span class="kc">None</span>
-        
+
+    <span class="k">def</span> <span class="nf">getduplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indexname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">newindex</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">indexname</span><span class="p">:</span> <span class="n">primary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">primary</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">indexname</span><span class="p">]</span>
+        <span class="n">duplicates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">primary</span><span class="p">:</span> <span class="n">duplicates</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">getduplicates</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">newindex</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">newindex</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">newidx</span> <span class="o">=</span> <span class="n">Iindex</span><span class="p">([</span><span class="kc">True</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)))],</span> <span class="n">name</span><span class="o">=</span><span class="n">newindex</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">duplicates</span><span class="p">:</span> <span class="n">newidx</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addindex</span><span class="p">(</span><span class="n">newidx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">duplicates</span>
+            
     <span class="k">def</span> <span class="nf">isvaluesindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listval</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return True if listval is a valid record.</span>
@@ -2723,7 +2968,131 @@ The graph below shows the size difference between simple list and indexed list.<
 
         </details>
 
-    
+            <div class="docstring"><p>An <code><a href="#Ilist">Ilist</a></code> is a representation of an indexed list.</p>
+
+<p><em>Attributes (for @property see methods)</em> :</p>
+
+<ul>
+<li><strong>lindex</strong> : list of index</li>
+<li><strong>lvarname</strong> : variable name (list of string)</li>
+</ul>
+
+<p>The methods defined in this class are :</p>
+
+<p><em>constructor (classmethod))</em></p>
+
+<ul>
+<li><code><a href="#Ilist.Idic">Ilist.Idic</a></code></li>
+<li><code><a href="#Ilist.Iext">Ilist.Iext</a></code></li>
+</ul>
+
+<p><em>dynamic value property (getters)</em></p>
+
+<ul>
+<li><code><a href="#Ilist.extidx">Ilist.extidx</a></code></li>
+<li><code><a href="#Ilist.extidxext">Ilist.extidxext</a></code></li>
+<li><code><a href="#Ilist.idxname">Ilist.idxname</a></code></li>
+<li><code><a href="#Ilist.idxref">Ilist.idxref</a></code></li>
+<li><code><a href="#Ilist.idxlen">Ilist.idxlen</a></code></li>
+<li><code><a href="#Ilist.iidx">Ilist.iidx</a></code></li>
+<li><code><a href="#Ilist.iidx">Ilist.iidx</a></code></li>
+<li><code><a href="#Ilist.iidx">Ilist.iidx</a></code></li>
+<li><code><a href="#Ilist.iidx">Ilist.iidx</a></code></li>
+<li><code><a href="#Ilist.iidx">Ilist.iidx</a></code></li>
+</ul>
+
+<p><em>global property (getters)</em></p>
+
+<ul>
+<li><code>Ilist.axes</code></li>
+<li><code>Ilist.axesall</code></li>
+<li><code>Ilist.axesmin</code></li>
+<li><code>Ilist.axesmono</code></li>
+<li><code>Ilist.axesmulti</code></li>
+<li><code><a href="#Ilist.complete">Ilist.complete</a></code></li>
+<li><code>Ilist.completefull</code></li>
+<li><code><a href="#Ilist.consistent">Ilist.consistent</a></code></li>
+<li><code><a href="#Ilist.dimension">Ilist.dimension</a></code></li>
+<li><code><a href="#Ilist.lencomplete">Ilist.lencomplete</a></code></li>
+<li><code>Ilist.lencompletefull</code></li>
+<li><code>Ilist.rate</code></li>
+<li><code>Ilist.setvallen</code></li>
+<li><code><a href="#Ilist.zip">Ilist.zip</a></code></li>
+</ul>
+
+<p><em>idx property (getters)</em></p>
+
+<ul>
+<li><code>Ilist.dicidxref</code></li>
+<li><code>Ilist.idxcoupled</code></li>
+<li><code>Ilist.idxderived</code></li>
+<li><code>Ilist.idxder</code></li>
+<li><code><a href="#Ilist.idxlen">Ilist.idxlen</a></code></li>
+<li><code><a href="#Ilist.idxref">Ilist.idxref</a></code></li>
+<li><code>Ilist.idxunique</code></li>
+<li><code>Ilist.ind</code></li>
+<li><code><a href="#Ilist.lenidx">Ilist.lenidx</a></code></li>
+<li><code>Ilist.minMaxIndex</code></li>
+</ul>
+
+<p><em>add - update methods</em></p>
+
+<ul>
+<li><code>Ilist.addextidx</code></li>
+<li><code>Ilist.addlistidx</code></li>
+<li><code><a href="#Ilist.append">Ilist.append</a></code></li>
+<li><code>Ilist.appendi</code></li>
+<li><code>Ilist.updateidx</code></li>
+<li><code>Ilist.updatelist</code></li>
+</ul>
+
+<p><em>selecting methods</em></p>
+
+<ul>
+<li><code>Ilist.extidxtoi</code></li>
+<li><code>Ilist.iidxtoext</code></li>
+<li><code>Ilist.iloc</code></li>
+<li><code>Ilist.iseIndex</code></li>
+<li><code>Ilist.isiIndex</code></li>
+<li><code>Ilist.isValue</code></li>
+<li><code><a href="#Ilist.loc">Ilist.loc</a></code></li>
+<li><code>Ilist.setname</code></li>
+<li><code>Ilist.unconsistent</code></li>
+</ul>
+
+<p><em>management - conversion methods</em></p>
+
+<ul>
+<li><code>Ilist.axescoupling</code></li>
+<li><code><a href="#Ilist.couplingmatrix">Ilist.couplingmatrix</a></code></li>
+<li><code>Ilist.derived_to_coupled</code></li>
+<li><code><a href="#Ilist.full">Ilist.full</a></code></li>
+<li><code><a href="#Ilist.merge">Ilist.merge</a></code></li>
+<li><code>Ilist.mergeidx</code></li>
+<li><code><a href="#Ilist.reindex">Ilist.reindex</a></code></li>
+<li><code>Ilist.reorder</code></li>
+<li><code><a href="#Ilist.setfilter">Ilist.setfilter</a></code></li>
+<li><code>Ilist.sort</code></li>
+<li><code>Ilist.sortidx</code></li>
+<li><code><a href="#Ilist.swapindex">Ilist.swapindex</a></code></li>
+</ul>
+
+<p><em>exports methods</em></p>
+
+<ul>
+<li><code><a href="#Ilist.from_obj">Ilist.from_obj</a></code> (classmethod)</li>
+<li><code><a href="#Ilist.from_csv">Ilist.from_csv</a></code> (classmethod)</li>
+<li><code>Ilist.from_file</code> (classmethod)</li>
+<li><code><a href="#Ilist.json">Ilist.json</a></code></li>
+<li><code><a href="#Ilist.to_obj">Ilist.to_obj</a></code></li>
+<li><code><a href="#Ilist.to_csv">Ilist.to_csv</a></code></li>
+<li><code>Ilist.to_file</code></li>
+<li><code>Ilist.to_numpy</code></li>
+<li><code>Ilist.to_xarray</code></li>
+<li><code><a href="#Ilist.vlist">Ilist.vlist</a></code></li>
+</ul>
+</div>
+
 
                             <div id="Ilist.__init__" class="classattr">
                                         <div class="attr function"><a class="headerlink" href="#Ilist.__init__">#&nbsp;&nbsp</a>
@@ -2741,9 +3110,11 @@ The graph below shows the size difference between simple list and indexed list.<
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **listidx** :  list (default None) - list of compatible Iindex</span>
+<span class="sd">        - **listidx** :  list (default None) - list of compatible Iindex data</span>
 <span class="sd">        - **var** :  int (default None) - row of the variable</span>
-<span class="sd">        - **length** :  int (default None)  - len of each Iindex&#39;&#39;&#39;</span>
+<span class="sd">        - **length** :  int (default None)  - len of each Iindex</span>
+<span class="sd">        - **reindex** : boolean (default True) - if True, default codec for each index</span>
+<span class="sd">        - **typevalue** : str (default ES.def_clsName) - default value class (None or NamedValue)&#39;&#39;&#39;</span>
         <span class="c1">#init self.lidx</span>
         <span class="c1">#print(&#39;debut&#39;)</span>
         <span class="c1">#t0 = time()</span>
@@ -2821,9 +3192,11 @@ The graph below shows the size difference between simple list and indexed list.<
 <p><em>Parameters</em></p>
 
 <ul>
-<li><strong>listidx</strong> :  list (default None) - list of compatible Iindex</li>
+<li><strong>listidx</strong> :  list (default None) - list of compatible Iindex data</li>
 <li><strong>var</strong> :  int (default None) - row of the variable</li>
 <li><strong>length</strong> :  int (default None)  - len of each Iindex</li>
+<li><strong>reindex</strong> : boolean (default True) - if True, default codec for each index</li>
+<li><strong>typevalue</strong> : str (default ES.def_clsName) - default value class (None or NamedValue)</li>
 </ul>
 </div>
 
@@ -2848,7 +3221,9 @@ The graph below shows the size difference between simple list and indexed list.<
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **idxdic** : {name : values}  (see data model)</span>
-<span class="sd">        - **fullcodec** : boolean (default False) - full codec if True&#39;&#39;&#39;</span>
+<span class="sd">        - **typevalue** : str (default ES.def_clsName) - default value class (None or NamedValue)</span>
+<span class="sd">        - **fullcodec** : boolean (default False) - full codec if True</span>
+<span class="sd">        - **var** :  int (default None) - row of the variable&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">idxdic</span><span class="p">:</span> <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">Iext</span><span class="p">(</span><span class="n">idxval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idxname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">typevalue</span><span class="p">,</span> 
                                           <span class="n">fullcodec</span><span class="o">=</span><span class="n">fullcodec</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="n">var</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idxdic</span><span class="p">,</span> <span class="n">Ilist</span><span class="p">):</span> <span class="k">return</span> <span class="n">idxdic</span>
@@ -2864,7 +3239,9 @@ The graph below shows the size difference between simple list and indexed list.<
 
 <ul>
 <li><strong>idxdic</strong> : {name : values}  (see data model)</li>
+<li><strong>typevalue</strong> : str (default ES.def_clsName) - default value class (None or NamedValue)</li>
 <li><strong>fullcodec</strong> : boolean (default False) - full codec if True</li>
+<li><strong>var</strong> :  int (default None) - row of the variable</li>
 </ul>
 </div>
 
@@ -2889,16 +3266,18 @@ The graph below shows the size difference between simple list and indexed list.<
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">Iext</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">idxval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idxname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">Iext</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">idxval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idxname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> 
+             <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Ilist constructor (external index).</span>
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **extidx** : index list (see data model)</span>
+<span class="sd">        - **idxval** : list of values (see data model)</span>
 <span class="sd">        - **idxname** : list of string (default None) - name of index list (see data model)</span>
-<span class="sd">        </span>
-<span class="sd">        *Returns* : Ilist&#39;&#39;&#39;</span>
+<span class="sd">        - **typevalue** : str (default ES.def_clsName) - default value class (None or NamedValue)</span>
+<span class="sd">        - **fullcodec** : boolean (default False) - full codec if True</span>
+<span class="sd">        - **var** :  int (default None) - row of the variable&#39;&#39;&#39;</span>
         <span class="c1">#print(&#39;debut iext&#39;)</span>
         <span class="c1">#t0 = time()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">idxname</span><span class="p">:</span> <span class="n">idxname</span><span class="o">=</span><span class="p">[]</span>
@@ -2924,11 +3303,12 @@ The graph below shows the size difference between simple list and indexed list.<
 <p><em>Parameters</em></p>
 
 <ul>
-<li><strong>extidx</strong> : index list (see data model)</li>
+<li><strong>idxval</strong> : list of values (see data model)</li>
 <li><strong>idxname</strong> : list of string (default None) - name of index list (see data model)</li>
+<li><strong>typevalue</strong> : str (default ES.def_clsName) - default value class (None or NamedValue)</li>
+<li><strong>fullcodec</strong> : boolean (default False) - full codec if True</li>
+<li><strong>var</strong> :  int (default None) - row of the variable</li>
 </ul>
-
-<p><em>Returns</em> : Ilist</p>
 </div>
 
 
@@ -2945,8 +3325,7 @@ The graph below shows the size difference between simple list and indexed list.<
     var=None,
     header=True,
     optcsv={&#39;quoting&#39;: 2},
-    dtype=None,
-    **kwargs
+    dtype=None
 )</span>:
     </div>
 
@@ -2954,7 +3333,7 @@ The graph below shows the size difference between simple list and indexed list.<
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;ilist.csv&#39;</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
-                 <span class="n">optcsv</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;quoting&#39;</span><span class="p">:</span> <span class="n">csv</span><span class="o">.</span><span class="n">QUOTE_NONNUMERIC</span><span class="p">},</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                 <span class="n">optcsv</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;quoting&#39;</span><span class="p">:</span> <span class="n">csv</span><span class="o">.</span><span class="n">QUOTE_NONNUMERIC</span><span class="p">},</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Ilist constructor (from a csv file). Each column represents index values.</span>
 
@@ -2964,11 +3343,8 @@ The graph below shows the size difference between simple list and indexed list.<
 <span class="sd">        - **var** : integer (default None). column row for variable data</span>
 <span class="sd">        - **header** : boolean (default True). If True, the first raw is dedicated to names</span>
 <span class="sd">        - **dtype** : list of string (default None) - data type for each column (default str)</span>
-<span class="sd">        - **kwargs** : see csv.reader options</span>
-
-<span class="sd">        *Returns* : Ilist&#39;&#39;&#39;</span>
+<span class="sd">        - **optcsv** : dict (default : quoting) - see csv.reader options&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">optcsv</span><span class="p">:</span> <span class="n">optcsv</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="c1">#optcsv = {&#39;quoting&#39;: csv.QUOTE_NONNUMERIC} | optcsv</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">**</span><span class="n">optcsv</span><span class="p">)</span>
             <span class="n">first</span><span class="o">=</span><span class="kc">True</span>
@@ -2977,8 +3353,7 @@ The graph below shows the size difference between simple list and indexed list.<
                     <span class="k">if</span> <span class="n">dtype</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="n">dtype</span> <span class="o">=</span> <span class="p">[</span><span class="n">dtype</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
                     <span class="n">idxval</span>  <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">))]</span>
                     <span class="n">idxname</span> <span class="o">=</span> <span class="kc">None</span>
-                <span class="k">if</span> <span class="n">first</span> <span class="ow">and</span> <span class="n">header</span><span class="p">:</span>
-                    <span class="n">idxname</span> <span class="o">=</span> <span class="n">row</span>
+                <span class="k">if</span> <span class="n">first</span> <span class="ow">and</span> <span class="n">header</span><span class="p">:</span>  <span class="n">idxname</span> <span class="o">=</span> <span class="n">row</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">dtype</span><span class="p">:</span> 
                         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="p">:</span> <span class="n">idxval</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
@@ -2999,10 +3374,8 @@ The graph below shows the size difference between simple list and indexed list.<
 <li><strong>var</strong> : integer (default None). column row for variable data</li>
 <li><strong>header</strong> : boolean (default True). If True, the first raw is dedicated to names</li>
 <li><strong>dtype</strong> : list of string (default None) - data type for each column (default str)</li>
-<li><strong>kwargs</strong> : see csv.reader options</li>
+<li><strong>optcsv</strong> : dict (default : quoting) - see csv.reader options</li>
 </ul>
-
-<p><em>Returns</em> : Ilist</p>
 </div>
 
 
@@ -3021,13 +3394,12 @@ The graph below shows the size difference between simple list and indexed list.<
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_obj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Generate an Ilist Object from a bytes, json or dict value</span>
+<span class="sd">        Generate an Ilist Object from a bytes, string or list value</span>
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **bs** : bytes or string data to convert</span>
-
-<span class="sd">        *Returns* : Ilist &#39;&#39;&#39;</span>
+<span class="sd">        - **bs** : bytes, string or list data to convert</span>
+<span class="sd">        - **reindex** : boolean (default True) - if True, default codec for each index&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">bs</span><span class="p">:</span> <span class="n">bs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span>   <span class="nb">isinstance</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span> <span class="n">lis</span> <span class="o">=</span> <span class="n">cbor2</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>  <span class="p">:</span> <span class="n">lis</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">CborDecoder</span><span class="p">()</span><span class="o">.</span><span class="n">codecbor</span><span class="p">)</span>
@@ -3038,15 +3410,14 @@ The graph below shows the size difference between simple list and indexed list.<
 
         </details>
 
-            <div class="docstring"><p>Generate an Ilist Object from a bytes, json or dict value</p>
+            <div class="docstring"><p>Generate an Ilist Object from a bytes, string or list value</p>
 
 <p><em>Parameters</em></p>
 
 <ul>
-<li><strong>bs</strong> : bytes or string data to convert</li>
+<li><strong>bs</strong> : bytes, string or list data to convert</li>
+<li><strong>reindex</strong> : boolean (default True) - if True, default codec for each index</li>
 </ul>
-
-<p><em>Returns</em> : Ilist</p>
 </div>
 
 
@@ -3679,6 +4050,33 @@ is returned.</li>
             <span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">codec</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">keysadd</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">codec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">fillvalue</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span><span class="p">))</span>
         <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+
+        </details>
+
+    
+
+                            </div>
+                            <div id="Ilist.getduplicates" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Ilist.getduplicates">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">getduplicates</span><span class="signature">(self, indexname=None, newindex=None)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">getduplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indexname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">newindex</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">indexname</span><span class="p">:</span> <span class="n">primary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">primary</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">indexname</span><span class="p">]</span>
+        <span class="n">duplicates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">primary</span><span class="p">:</span> <span class="n">duplicates</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">getduplicates</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">newindex</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">newindex</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">newidx</span> <span class="o">=</span> <span class="n">Iindex</span><span class="p">([</span><span class="kc">True</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)))],</span> <span class="n">name</span><span class="o">=</span><span class="n">newindex</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">duplicates</span><span class="p">:</span> <span class="n">newidx</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addindex</span><span class="p">(</span><span class="n">newidx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">duplicates</span>
 </pre></div>
 
         </details>
