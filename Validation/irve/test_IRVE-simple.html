@@ -13405,6 +13405,98 @@ coordonneesXY est couplé avec id_station :  False
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
+<h2 id="Application-d'une-structure-impos&#233;e">Application d'une structure impos&#233;e<a class="anchor-link" href="#Application-d'une-structure-impos&#233;e">&#182;</a></h2><p>On peut également rechercher les enregistrements qui ne sont pas cohérents par rapport à un modèle de données défini. Dans cet exemple, on peut regrouper les colonnes suivant deux entités (ceci revient à considérer les colonnes comme des attributs de chacune des entités) : les stations (colonnes 0 à 4), les stations (colonne 5).</p>
+<p>Pour identifier les données incohérentes, on impose les couplages (cf détail dans la cellule).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">id_station</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="n">operateur</span><span class="p">,</span> <span class="n">derived</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">id_pdc</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="n">id_station</span><span class="p">)</span>
+<span class="n">id_station</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="n">nom_station</span><span class="p">,</span> <span class="n">derived</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">id_station</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="n">adresse</span><span class="p">,</span> <span class="n">derived</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">id_station</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">derived</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">irve</span><span class="o">.</span><span class="n">indexinfos</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;num&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;parent&#39;</span><span class="p">,</span> <span class="s1">&#39;typecoupl&#39;</span><span class="p">]),</span> <span class="n">width</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[{&#39;name&#39;: &#39;nom_operateur&#39;, &#39;num&#39;: 0, &#39;parent&#39;: 5, &#39;typecoupl&#39;: &#39;derived&#39;},
+ {&#39;name&#39;: &#39;id_station_itinerance&#39;, &#39;num&#39;: 1, &#39;parent&#39;: 0, &#39;typecoupl&#39;: &#39;coupled&#39;},
+ {&#39;name&#39;: &#39;nom_station&#39;, &#39;num&#39;: 2, &#39;parent&#39;: 0, &#39;typecoupl&#39;: &#39;coupled&#39;},
+ {&#39;name&#39;: &#39;adresse_station&#39;, &#39;num&#39;: 3, &#39;parent&#39;: 0, &#39;typecoupl&#39;: &#39;coupled&#39;},
+ {&#39;name&#39;: &#39;coordonneesXY&#39;, &#39;num&#39;: 4, &#39;parent&#39;: 0, &#39;typecoupl&#39;: &#39;coupled&#39;},
+ {&#39;name&#39;: &#39;id_pdc_itinerance&#39;, &#39;num&#39;: 5, &#39;parent&#39;: 5, &#39;typecoupl&#39;: &#39;crossed&#39;}]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="V&#233;rification-par-rapport-&#224;-la-structure-impos&#233;e">V&#233;rification par rapport &#224; la structure impos&#233;e<a class="anchor-link" href="#V&#233;rification-par-rapport-&#224;-la-structure-impos&#233;e">&#182;</a></h2><p>Le forcage de la structure se traduit par des données supplémentaires qui sont vérifiées par la fonction 'getduplicates'. Une nouvelle colonne est ajoutée qui indique True lorsqu'un enregistrement respecte la structure et False sinon.</p>
+<p>Dans l'exemple considéré, les trois derniers enregistrements correspondant à l'opérateur DEBELEC sont corrects (pour plus de détail, on aurait pu avoir cette information pour chacun des couplages définis.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">duplic</span> <span class="o">=</span> <span class="n">irve</span><span class="o">.</span><span class="n">getduplicates</span><span class="p">(</span><span class="n">irve</span><span class="o">.</span><span class="n">lname</span><span class="p">,</span> <span class="s1">&#39;$filter&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">irve</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[False, False, False, False, False, False, False, False, False, True, True, True]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
 <h2 id="correction-des-donn&#233;es">correction des donn&#233;es<a class="anchor-link" href="#correction-des-donn&#233;es">&#182;</a></h2><p>Les corrections à apporter pour respecter la spécification pourraient être les suivantes :</p>
 <ul>
 <li>champ id_station : FRSEVP1SCH (3 premiers), FRS35PSD35711 (2 suivants), FRE10E2092 (4 suivants)</li>
@@ -13527,7 +13619,7 @@ coordonneesXY est couplé avec id_station :  False
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">id_station</span><span class="o">.</span><span class="n">setvalue</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;FRSEVP1SCH&#39;</span><span class="p">)</span>
@@ -13558,13 +13650,13 @@ coordonneesXY est couplé avec id_station :  False
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[3]:</div>
+    <div class="prompt output_prompt">Out[5]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>Ilist[12, 6]</pre>
+<pre>Ilist[12, 7]</pre>
 </div>
 
 </div>
@@ -13583,7 +13675,7 @@ coordonneesXY est couplé avec id_station :  False
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;operateur est couplé avec id_station : &#39;</span><span class="p">,</span> <span class="n">id_station</span><span class="o">.</span><span class="n">iscoupled</span><span class="p">(</span><span class="n">operateur</span><span class="p">))</span>
