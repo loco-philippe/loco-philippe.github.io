@@ -197,23 +197,22 @@
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    An `Iindex` is a representation of an index list .</span>
 
-<span class="sd">    *Attributes (for @property see methods)* :</span>
+<span class="sd">    *Attributes (for dynamic attributes see @property methods)* :</span>
 
-<span class="sd">    - **values** : list of data to be indexed (dynamic value)</span>
-<span class="sd">    - **name** : name of the list</span>
+<span class="sd">    - **name** : name of the Iindex</span>
 <span class="sd">    - **codec** : list of values for each key</span>
 <span class="sd">    - **keys** : list of code values</span>
 
 <span class="sd">    The methods defined in this class are :</span>
 
-<span class="sd">    *constructor (classmethod))*</span>
+<span class="sd">    *constructor (@classmethod)*</span>
 
 <span class="sd">    - `Iindex.Idic`</span>
 <span class="sd">    - `Iindex.Iext`</span>
 <span class="sd">    - `Iindex.from_parent`</span>
 <span class="sd">    - `Iindex.from_obj`</span>
 
-<span class="sd">    *dynamic value property (getters)*</span>
+<span class="sd">    *dynamic value (getters @property)*</span>
 
 <span class="sd">    - `Iindex.values`</span>
 <span class="sd">    - `Iindex.val`</span>
@@ -239,7 +238,7 @@
 <span class="sd">    - `Iindex.tocoupled`</span>
 <span class="sd">    - `Iindex.tostdcodec`</span>
 <span class="sd">    </span>
-<span class="sd">    *idx property (getters)*</span>
+<span class="sd">    *getters methods*</span>
 
 <span class="sd">    - `Iindex.couplinginfos`</span>
 <span class="sd">    - `Iindex.derkeys`</span>
@@ -254,7 +253,7 @@
 <span class="sd">    - `Iindex.recordfromvalue`   </span>
 <span class="sd">    - `Iindex.valtokey`   </span>
 
-<span class="sd">    *export function*</span>
+<span class="sd">    *export methods*</span>
 <span class="sd">    </span>
 <span class="sd">    - `Iindex.to_obj`</span>
 <span class="sd">    - `Iindex.to_numpy`   </span>
@@ -435,8 +434,8 @@
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Copy all the data (deepcopy)&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="sd">&#39;&#39;&#39; Copy all the data &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">Iindex</span><span class="p">([</span><span class="n">copy</span><span class="p">(</span><span class="n">cod</span><span class="p">)</span> <span class="k">for</span> <span class="n">cod</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">],</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">))</span>
 
 <span class="c1">#%% property</span>
     <span class="nd">@property</span>
@@ -946,23 +945,22 @@
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    An `Iindex` is a representation of an index list .</span>
 
-<span class="sd">    *Attributes (for @property see methods)* :</span>
+<span class="sd">    *Attributes (for dynamic attributes see @property methods)* :</span>
 
-<span class="sd">    - **values** : list of data to be indexed (dynamic value)</span>
-<span class="sd">    - **name** : name of the list</span>
+<span class="sd">    - **name** : name of the Iindex</span>
 <span class="sd">    - **codec** : list of values for each key</span>
 <span class="sd">    - **keys** : list of code values</span>
 
 <span class="sd">    The methods defined in this class are :</span>
 
-<span class="sd">    *constructor (classmethod))*</span>
+<span class="sd">    *constructor (@classmethod)*</span>
 
 <span class="sd">    - `Iindex.Idic`</span>
 <span class="sd">    - `Iindex.Iext`</span>
 <span class="sd">    - `Iindex.from_parent`</span>
 <span class="sd">    - `Iindex.from_obj`</span>
 
-<span class="sd">    *dynamic value property (getters)*</span>
+<span class="sd">    *dynamic value (getters @property)*</span>
 
 <span class="sd">    - `Iindex.values`</span>
 <span class="sd">    - `Iindex.val`</span>
@@ -988,7 +986,7 @@
 <span class="sd">    - `Iindex.tocoupled`</span>
 <span class="sd">    - `Iindex.tostdcodec`</span>
 <span class="sd">    </span>
-<span class="sd">    *idx property (getters)*</span>
+<span class="sd">    *getters methods*</span>
 
 <span class="sd">    - `Iindex.couplinginfos`</span>
 <span class="sd">    - `Iindex.derkeys`</span>
@@ -1003,7 +1001,7 @@
 <span class="sd">    - `Iindex.recordfromvalue`   </span>
 <span class="sd">    - `Iindex.valtokey`   </span>
 
-<span class="sd">    *export function*</span>
+<span class="sd">    *export methods*</span>
 <span class="sd">    </span>
 <span class="sd">    - `Iindex.to_obj`</span>
 <span class="sd">    - `Iindex.to_numpy`   </span>
@@ -1184,8 +1182,8 @@
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Copy all the data (deepcopy)&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="sd">&#39;&#39;&#39; Copy all the data &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">Iindex</span><span class="p">([</span><span class="n">copy</span><span class="p">(</span><span class="n">cod</span><span class="p">)</span> <span class="k">for</span> <span class="n">cod</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">],</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">))</span>
 
 <span class="c1">#%% property</span>
     <span class="nd">@property</span>
@@ -1676,18 +1674,17 @@
 
             <div class="docstring"><p>An <code><a href="#Iindex">Iindex</a></code> is a representation of an index list .</p>
 
-<p><em>Attributes (for @property see methods)</em> :</p>
+<p><em>Attributes (for dynamic attributes see @property methods)</em> :</p>
 
 <ul>
-<li><strong>values</strong> : list of data to be indexed (dynamic value)</li>
-<li><strong>name</strong> : name of the list</li>
+<li><strong>name</strong> : name of the Iindex</li>
 <li><strong>codec</strong> : list of values for each key</li>
 <li><strong>keys</strong> : list of code values</li>
 </ul>
 
 <p>The methods defined in this class are :</p>
 
-<p><em>constructor (classmethod))</em></p>
+<p><em>constructor (@classmethod)</em></p>
 
 <ul>
 <li><code><a href="#Iindex.Idic">Iindex.Idic</a></code></li>
@@ -1696,7 +1693,7 @@
 <li><code><a href="#Iindex.from_obj">Iindex.from_obj</a></code></li>
 </ul>
 
-<p><em>dynamic value property (getters)</em></p>
+<p><em>dynamic value (getters @property)</em></p>
 
 <ul>
 <li><code><a href="#Iindex.values">Iindex.values</a></code></li>
@@ -1728,7 +1725,7 @@
 <li><code><a href="#Iindex.tostdcodec">Iindex.tostdcodec</a></code></li>
 </ul>
 
-<p><em>idx property (getters)</em></p>
+<p><em>getters methods</em></p>
 
 <ul>
 <li><code><a href="#Iindex.couplinginfos">Iindex.couplinginfos</a></code></li>
@@ -1745,7 +1742,7 @@
 <li><code><a href="#Iindex.valtokey">Iindex.valtokey</a></code>   </li>
 </ul>
 
-<p><em>export function</em></p>
+<p><em>export methods</em></p>
 
 <ul>
 <li><code><a href="#Iindex.to_obj">Iindex.to_obj</a></code></li>

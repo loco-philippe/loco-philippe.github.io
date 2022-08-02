@@ -110,7 +110,7 @@
                                 <a class="function" href="#util.json">json</a>
                         </li>
                         <li>
-                                <a class="function" href="#util.keyscrossed">keyscrossed</a>
+                                <a class="function" href="#util.canonorder">canonorder</a>
                         </li>
                         <li>
                                 <a class="function" href="#util.list">list</a>
@@ -232,7 +232,7 @@
         <span class="k">return</span> <span class="n">dic2</span>
 
 <span class="k">class</span> <span class="nc">IindexEncoder</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;add a new json encoder for Iindex and Ilist&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;new json encoder for Iindex and Ilist&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span> <span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
         <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;encode_format&#39;</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">}</span>
@@ -245,7 +245,7 @@
             <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
     
 <span class="k">class</span> <span class="nc">util</span><span class="p">:</span>
-    <span class="sd">&#39;&#39;&#39; functions for Iindex and Ilist class&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39; common functions for Iindex and Ilist class&#39;&#39;&#39;</span>
 <span class="c1">#%% util</span>
     <span class="n">c1</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;\d+\.?\d*[,\-_ ;:]&#39;</span><span class="p">)</span>
     <span class="n">c2</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[,\-_ ;:]\d+\.?\d*&#39;</span><span class="p">)</span>
@@ -481,7 +481,7 @@
 
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">keyscrossed</span><span class="p">(</span><span class="n">lenidx</span><span class="p">):</span> 
+    <span class="k">def</span> <span class="nf">canonorder</span><span class="p">(</span><span class="n">lenidx</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;return a list of crossed keys from a list of number of values&#39;&#39;&#39;</span>
         <span class="n">listrange</span> <span class="o">=</span> <span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">lidx</span><span class="p">)</span> <span class="k">for</span> <span class="n">lidx</span> <span class="ow">in</span> <span class="n">lenidx</span><span class="p">]</span> 
         <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">listrange</span><span class="p">))))</span>
@@ -734,7 +734,7 @@ including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <cod
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span><span class="k">class</span> <span class="nc">IindexEncoder</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;add a new json encoder for Iindex and Ilist&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;new json encoder for Iindex and Ilist&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span> <span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
         <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;encode_format&#39;</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">}</span>
@@ -749,7 +749,7 @@ including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <cod
 
         </details>
 
-            <div class="docstring"><p>add a new json encoder for Iindex and Ilist</p>
+            <div class="docstring"><p>new json encoder for Iindex and Ilist</p>
 </div>
 
 
@@ -824,7 +824,7 @@ implement default like this::</p>
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span><span class="k">class</span> <span class="nc">util</span><span class="p">:</span>
-    <span class="sd">&#39;&#39;&#39; functions for Iindex and Ilist class&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39; common functions for Iindex and Ilist class&#39;&#39;&#39;</span>
 <span class="c1">#%% util</span>
     <span class="n">c1</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;\d+\.?\d*[,\-_ ;:]&#39;</span><span class="p">)</span>
     <span class="n">c2</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[,\-_ ;:]\d+\.?\d*&#39;</span><span class="p">)</span>
@@ -1060,7 +1060,7 @@ implement default like this::</p>
 
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">keyscrossed</span><span class="p">(</span><span class="n">lenidx</span><span class="p">):</span> 
+    <span class="k">def</span> <span class="nf">canonorder</span><span class="p">(</span><span class="n">lenidx</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;return a list of crossed keys from a list of number of values&#39;&#39;&#39;</span>
         <span class="n">listrange</span> <span class="o">=</span> <span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">lidx</span><span class="p">)</span> <span class="k">for</span> <span class="n">lidx</span> <span class="ow">in</span> <span class="n">lenidx</span><span class="p">]</span> 
         <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">listrange</span><span class="p">))))</span>
@@ -1156,7 +1156,7 @@ implement default like this::</p>
 
         </details>
 
-            <div class="docstring"><p>functions for Iindex and Ilist class</p>
+            <div class="docstring"><p>common functions for Iindex and Ilist class</p>
 </div>
 
 
@@ -1727,19 +1727,19 @@ Return the list of index with True result.</p>
 
 
                             </div>
-                            <div id="util.keyscrossed" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#util.keyscrossed">#&nbsp;&nbsp</a>
+                            <div id="util.canonorder" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#util.canonorder">#&nbsp;&nbsp</a>
 
                 <div class="decorator">@staticmethod</div>
 
             <span class="def">def</span>
-            <span class="name">keyscrossed</span><span class="signature">(lenidx)</span>:
+            <span class="name">canonorder</span><span class="signature">(lenidx)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">keyscrossed</span><span class="p">(</span><span class="n">lenidx</span><span class="p">):</span> 
+    <span class="k">def</span> <span class="nf">canonorder</span><span class="p">(</span><span class="n">lenidx</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;return a list of crossed keys from a list of number of values&#39;&#39;&#39;</span>
         <span class="n">listrange</span> <span class="o">=</span> <span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">lidx</span><span class="p">)</span> <span class="k">for</span> <span class="n">lidx</span> <span class="ow">in</span> <span class="n">lenidx</span><span class="p">]</span> 
         <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">listrange</span><span class="p">))))</span>
