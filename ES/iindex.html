@@ -47,6 +47,9 @@
                                 <a class="function" href="#Iindex.from_parent">from_parent</a>
                         </li>
                         <li>
+                                <a class="function" href="#Iindex.Iobj">Iobj</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Iindex.from_obj">from_obj</a>
                         </li>
                         <li>
@@ -93,6 +96,9 @@
                         </li>
                         <li>
                                 <a class="function" href="#Iindex.isvalue">isvalue</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Iindex.json">json</a>
                         </li>
                         <li>
                                 <a class="function" href="#Iindex.keytoval">keytoval</a>
@@ -145,6 +151,9 @@
                         <li>
                                 <a class="function" href="#Iindex.vlist">vlist</a>
                         </li>
+                        <li>
+                                <a class="function" href="#Iindex.vSimple">vSimple</a>
+                        </li>
                 </ul>
 
             </li>
@@ -185,12 +194,14 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="c1">#%% declarations</span>
 <span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">util</span>
+<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span><span class="p">,</span> <span class="n">deepcopy</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">ESconstante</span> <span class="kn">import</span> <span class="n">ES</span>
 <span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">identity</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span><span class="p">,</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">ESValue</span> <span class="kn">import</span> <span class="n">ESValueEncoder</span><span class="p">,</span> <span class="n">ESValue</span>
 
 <span class="k">class</span> <span class="nc">Iindex</span><span class="p">:</span>
 <span class="c1">#%% intro</span>
@@ -209,6 +220,7 @@
 
 <span class="sd">    - `Iindex.Idic`</span>
 <span class="sd">    - `Iindex.Iext`</span>
+<span class="sd">    - `Iindex.Iobj`</span>
 <span class="sd">    - `Iindex.from_parent`</span>
 <span class="sd">    - `Iindex.from_obj`</span>
 
@@ -258,6 +270,7 @@
 <span class="sd">    - `Iindex.to_obj`</span>
 <span class="sd">    - `Iindex.to_numpy`   </span>
 <span class="sd">    - `Iindex.vlist`</span>
+<span class="sd">    - `Iindex.vSimple`</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">codec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> 
                  <span class="n">lendefault</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
@@ -277,27 +290,28 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">codec</span><span class="p">,</span> <span class="n">Iindex</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>  <span class="o">=</span> <span class="n">codec</span><span class="o">.</span><span class="n">keys</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span><span class="o">.</span><span class="n">codec</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">=</span> <span class="n">codec</span><span class="o">.</span><span class="n">name</span>            
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">=</span> <span class="n">codec</span><span class="o">.</span><span class="n">name</span>     
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">keys</span><span class="p">:</span> <span class="n">keys</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">codec</span><span class="p">:</span> <span class="n">codec</span> <span class="o">=</span><span class="p">[]</span>
+        <span class="n">leng</span> <span class="o">=</span> <span class="n">lendefault</span>
+        <span class="k">if</span> <span class="n">codec</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">leng</span><span class="p">:</span> <span class="n">leng</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">keys</span> <span class="p">:</span> <span class="n">leng</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">defaultindex</span> 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">keys</span><span class="p">:</span> <span class="n">keys</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">codec</span><span class="p">:</span> <span class="n">codec</span> <span class="o">=</span><span class="p">[]</span>
-            <span class="n">leng</span> <span class="o">=</span> <span class="n">lendefault</span>
-            <span class="k">if</span> <span class="n">codec</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="n">leng</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">keys</span> <span class="p">:</span> <span class="n">leng</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;default index&#39;</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">:</span> <span class="n">typevalue</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ES&#39;</span><span class="p">:</span>   <span class="n">typevalue</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">ES_clsName</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="k">raise</span> <span class="n">IindexError</span><span class="p">(</span><span class="s2">&quot;keys not list&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">keys</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">leng</span>
-                <span class="k">else</span><span class="p">:</span>  <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">leng</span><span class="p">))</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">codec</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="k">raise</span> <span class="n">IindexError</span><span class="p">(</span><span class="s2">&quot;codec not list&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">codec</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span> <span class="n">codec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">tocodec</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
-            <span class="n">codec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">castobj</span><span class="p">(</span><span class="n">codec</span><span class="p">,</span> <span class="n">typevalue</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>  <span class="o">=</span> <span class="n">keys</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">=</span> <span class="n">name</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">:</span> <span class="n">typevalue</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ES&#39;</span><span class="p">:</span>   <span class="n">typevalue</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">ES_clsName</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="k">raise</span> <span class="n">IindexError</span><span class="p">(</span><span class="s2">&quot;keys not list&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">leng</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">leng</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">codec</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="k">raise</span> <span class="n">IindexError</span><span class="p">(</span><span class="s2">&quot;codec not list&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">codec</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span> <span class="n">codec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">tocodec</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+        <span class="c1">#codec = util.castobj(codec, typevalue)</span>
+        <span class="n">codec</span> <span class="o">=</span> <span class="p">[</span><span class="n">ESValue</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">typevalue</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">codec</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>  <span class="o">=</span> <span class="n">keys</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">=</span> <span class="n">name</span>
         <span class="c1">#print(&#39;time&#39;, time()-t0)</span>
 
     <span class="nd">@classmethod</span>
@@ -360,6 +374,20 @@
         <span class="k">return</span> <span class="n">Iindex</span><span class="p">(</span><span class="n">codec</span><span class="o">=</span><span class="n">codec</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">keys</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">typevalue</span><span class="p">)</span>
     
     <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">Iobj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="p">,</span> <span class="n">extkeys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Generate an Iindex Object from a bytes, json or dict value and from </span>
+<span class="sd">        a keys list (derived Iindex)</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **bs** : bytes, string or dict data to convert</span>
+<span class="sd">        - **typevalue** : string (default ES.def_clsName) - typevalue to apply to codec</span>
+<span class="sd">        - **extkeys** : list (default None) of int, string or dict data to convert in keys</span>
+
+<span class="sd">        *Returns* : tuple(code, Iindex) &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">Iindex</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="n">extkeys</span><span class="o">=</span><span class="n">extkeys</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">typevalue</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_obj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="p">,</span> <span class="n">extkeys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Generate an Iindex Object from a bytes, json or dict value and from </span>
 <span class="sd">        a keys list (derived Iindex)</span>
@@ -388,7 +416,7 @@
    
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return json string format&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">untyped</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; equal if class and values are equal&#39;&#39;&#39;</span>
@@ -404,7 +432,8 @@
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ind</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return val item (value conversion)&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
+        <span class="c1">#return self.val[ind]</span>
+        <span class="k">return</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; modify values item&#39;&#39;&#39;</span>
@@ -435,8 +464,9 @@
 
     <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Copy all the data &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">Iindex</span><span class="p">([</span><span class="n">copy</span><span class="p">(</span><span class="n">cod</span><span class="p">)</span> <span class="k">for</span> <span class="n">cod</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">],</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">))</span>
-
+        <span class="c1">#return Iindex([copy(cod) for cod in self.codec], copy(self.name), copy(self.keys))</span>
+        <span class="k">return</span> <span class="n">Iindex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    
 <span class="c1">#%% property</span>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -446,14 +476,16 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">val</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return values conversion to string &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">fullcodec</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">simpleval</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1">#if ES.def_clsName: return [self.codec[key].json(encoded=False) for key in self.keys]</span>
+        <span class="c1">#return self.values</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">cod</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return codec conversion to string &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">cod</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">cod</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">simpleval</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1">#if ES.def_clsName: return [cod.json(encoded=False) for cod in self.codec]</span>
+        <span class="c1">#return self.codec</span>
         
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">infos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -476,16 +508,19 @@
                 <span class="s1">&#39;disttomin&#39;</span><span class="p">:</span> <span class="n">disttomin</span><span class="p">,</span> <span class="s1">&#39;disttomax&#39;</span><span class="p">:</span> <span class="n">disttomax</span><span class="p">}</span>
 
 <span class="c1">#%% methods</span>
-    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span>  <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;add a new value</span>
 
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **value** : new object value</span>
+<span class="sd">        - **typevalue** : string (default ES.def_clsName) - typevalue to apply to value</span>
 <span class="sd">        - **unique** :  boolean (default True) - If False, duplication codec if value is present</span>
 
 <span class="sd">        *Returns* : key of value &#39;&#39;&#39;</span>        
-        <span class="n">value</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">typevalue</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">typevalue</span><span class="p">]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">:</span> <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span> 
             <span class="n">key</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span>
@@ -619,6 +654,31 @@
 <span class="sd">        else, internal&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span>
         <span class="k">return</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">simpleval</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+             <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Return a formatted object (string, bytes or dict) for the Iindex</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **keys** : list (default None) - list: List of keys to include - None: no list - else: Iindex keys</span>
+<span class="sd">        - **typevalue** : string (default None) - type to convert values</span>
+<span class="sd">        - **fullcodec** : boolean (default False) - if True, use a full codec</span>
+<span class="sd">        - **simpleval** : boolean (default False) - if True, only codec is included</span>
+<span class="sd">        - **parent** : integer (default None) - index number of the parent in indexset</span>
+
+<span class="sd">        *Parameters (kwargs)*</span>
+
+<span class="sd">        - **encoded** : boolean (default False) - choice for return format (string/bytes if True, dict else)</span>
+<span class="sd">        - **encode_format**  : string (default &#39;json&#39;)- choice for return format (json, cbor)</span>
+<span class="sd">        - **codif** : dict (default ES.codeb). Numerical value for string in CBOR encoder</span>
+<span class="sd">        - **untyped** : boolean (default True) - include dtype in the json if True</span>
+
+<span class="sd">        *Returns* : string, bytes or dict&#39;&#39;&#39;</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;encode_format&#39;</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="s1">&#39;untyped&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                  <span class="s1">&#39;codif&#39;</span><span class="p">:</span> <span class="p">{}</span> <span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span>        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">typevalue</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="n">fullcodec</span><span class="p">,</span> 
+                           <span class="n">simpleval</span><span class="o">=</span><span class="n">simpleval</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">keytoval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return the value of a key</span>
@@ -762,7 +822,11 @@
 <span class="sd">        - **dtype** : str (default None) - cast to apply to the new value </span>
 
 <span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">extern</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span>
+        <span class="c1">#if extern and not dtype: dtype = ES.def_dtype</span>
+        <span class="k">if</span> <span class="n">extern</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dtype</span><span class="p">:</span> 
+            <span class="n">classname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="k">if</span> <span class="n">classname</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">classname</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span>
         <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
         <span class="n">values</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">resetidx</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
@@ -866,13 +930,16 @@
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">to_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">to_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">simpleval</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+               <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Return a formatted object (string, bytes or dict) for the Iindex</span>
 
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **keys** : list (default None) - list: List of keys to include - None: no list - else: Iindex keys</span>
 <span class="sd">        - **typevalue** : string (default None) - type to convert values</span>
+<span class="sd">        - **fullcodec** : boolean (default False) - if True, use a full codec</span>
+<span class="sd">        - **simpleval** : boolean (default False) - if True, only codec is included</span>
 <span class="sd">        - **parent** : integer (default None) - index number of the parent in indexset</span>
 
 <span class="sd">        *Parameters (kwargs)*</span>
@@ -880,17 +947,19 @@
 <span class="sd">        - **encoded** : boolean (default False) - choice for return format (string/bytes if True, dict else)</span>
 <span class="sd">        - **encode_format**  : string (default &#39;json&#39;)- choice for return format (json, cbor)</span>
 <span class="sd">        - **codif** : dict (default ES.codeb). Numerical value for string in CBOR encoder</span>
+<span class="sd">        - **untyped** : boolean (default False) - include dtype if True</span>
 
 <span class="sd">        *Returns* : string, bytes or dict&#39;&#39;&#39;</span>
         <span class="k">if</span>   <span class="n">keys</span> <span class="ow">and</span>     <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>   <span class="n">keyslist</span> <span class="o">=</span> <span class="n">keys</span>
         <span class="k">elif</span> <span class="n">keys</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>   <span class="n">keyslist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>
         <span class="k">else</span><span class="p">:</span>                                       <span class="n">keyslist</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;default index&#39;</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">else</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-        <span class="n">codeclist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span>
-        <span class="k">if</span> <span class="n">typevalue</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">typevalue</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">encodeobj</span><span class="p">(</span><span class="n">codeclist</span><span class="p">,</span> <span class="n">keyslist</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>    
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">defaultindex</span><span class="p">:</span>    <span class="n">idxname</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>                               <span class="n">idxname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="n">fullcodec</span><span class="p">:</span>                       <span class="n">codeclist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span> 
+        <span class="k">else</span><span class="p">:</span>                               <span class="n">codeclist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span>
+        <span class="k">if</span> <span class="n">typevalue</span><span class="p">:</span>                       <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">typevalue</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>                               <span class="n">dtype</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">encodeobj</span><span class="p">(</span><span class="n">codeclist</span><span class="p">,</span> <span class="n">keyslist</span><span class="p">,</span> <span class="n">idxname</span><span class="p">,</span> <span class="n">simpleval</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>    
     
     <span class="k">def</span> <span class="nf">valtokey</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;convert a value to a key </span>
@@ -920,6 +989,19 @@
 <span class="sd">        *Returns* : list of func result&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">funclist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">funclist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">vSimple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Apply a vSimple function to values and return the result.</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **string** : boolean(default False) - if True the values returned are string</span>
+
+<span class="sd">        *Returns* : list of vSimple values (string or not)&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">string</span><span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="s1">&#39;simple&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">],</span>
+                                   <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>    
+        <span class="k">return</span> <span class="p">[</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="s1">&#39;simple&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
 
 <span class="k">class</span> <span class="nc">IindexError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39; Iindex Exception&#39;&#39;&#39;</span>
@@ -957,6 +1039,7 @@
 
 <span class="sd">    - `Iindex.Idic`</span>
 <span class="sd">    - `Iindex.Iext`</span>
+<span class="sd">    - `Iindex.Iobj`</span>
 <span class="sd">    - `Iindex.from_parent`</span>
 <span class="sd">    - `Iindex.from_obj`</span>
 
@@ -1006,6 +1089,7 @@
 <span class="sd">    - `Iindex.to_obj`</span>
 <span class="sd">    - `Iindex.to_numpy`   </span>
 <span class="sd">    - `Iindex.vlist`</span>
+<span class="sd">    - `Iindex.vSimple`</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">codec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> 
                  <span class="n">lendefault</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
@@ -1025,27 +1109,28 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">codec</span><span class="p">,</span> <span class="n">Iindex</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>  <span class="o">=</span> <span class="n">codec</span><span class="o">.</span><span class="n">keys</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span><span class="o">.</span><span class="n">codec</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">=</span> <span class="n">codec</span><span class="o">.</span><span class="n">name</span>            
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">=</span> <span class="n">codec</span><span class="o">.</span><span class="n">name</span>     
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">keys</span><span class="p">:</span> <span class="n">keys</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">codec</span><span class="p">:</span> <span class="n">codec</span> <span class="o">=</span><span class="p">[]</span>
+        <span class="n">leng</span> <span class="o">=</span> <span class="n">lendefault</span>
+        <span class="k">if</span> <span class="n">codec</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">leng</span><span class="p">:</span> <span class="n">leng</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">keys</span> <span class="p">:</span> <span class="n">leng</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">defaultindex</span> 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">keys</span><span class="p">:</span> <span class="n">keys</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">codec</span><span class="p">:</span> <span class="n">codec</span> <span class="o">=</span><span class="p">[]</span>
-            <span class="n">leng</span> <span class="o">=</span> <span class="n">lendefault</span>
-            <span class="k">if</span> <span class="n">codec</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="n">leng</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">keys</span> <span class="p">:</span> <span class="n">leng</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;default index&#39;</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">:</span> <span class="n">typevalue</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ES&#39;</span><span class="p">:</span>   <span class="n">typevalue</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">ES_clsName</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="k">raise</span> <span class="n">IindexError</span><span class="p">(</span><span class="s2">&quot;keys not list&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">keys</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">leng</span>
-                <span class="k">else</span><span class="p">:</span>  <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">leng</span><span class="p">))</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">codec</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="k">raise</span> <span class="n">IindexError</span><span class="p">(</span><span class="s2">&quot;codec not list&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">codec</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span> <span class="n">codec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">tocodec</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
-            <span class="n">codec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">castobj</span><span class="p">(</span><span class="n">codec</span><span class="p">,</span> <span class="n">typevalue</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>  <span class="o">=</span> <span class="n">keys</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">=</span> <span class="n">name</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">:</span> <span class="n">typevalue</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ES&#39;</span><span class="p">:</span>   <span class="n">typevalue</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">ES_clsName</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="k">raise</span> <span class="n">IindexError</span><span class="p">(</span><span class="s2">&quot;keys not list&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">leng</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">leng</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">codec</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="k">raise</span> <span class="n">IindexError</span><span class="p">(</span><span class="s2">&quot;codec not list&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">codec</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span> <span class="n">codec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">tocodec</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+        <span class="c1">#codec = util.castobj(codec, typevalue)</span>
+        <span class="n">codec</span> <span class="o">=</span> <span class="p">[</span><span class="n">ESValue</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">typevalue</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">codec</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>  <span class="o">=</span> <span class="n">keys</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">=</span> <span class="n">name</span>
         <span class="c1">#print(&#39;time&#39;, time()-t0)</span>
 
     <span class="nd">@classmethod</span>
@@ -1108,6 +1193,20 @@
         <span class="k">return</span> <span class="n">Iindex</span><span class="p">(</span><span class="n">codec</span><span class="o">=</span><span class="n">codec</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">keys</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">typevalue</span><span class="p">)</span>
     
     <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">Iobj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="p">,</span> <span class="n">extkeys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Generate an Iindex Object from a bytes, json or dict value and from </span>
+<span class="sd">        a keys list (derived Iindex)</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **bs** : bytes, string or dict data to convert</span>
+<span class="sd">        - **typevalue** : string (default ES.def_clsName) - typevalue to apply to codec</span>
+<span class="sd">        - **extkeys** : list (default None) of int, string or dict data to convert in keys</span>
+
+<span class="sd">        *Returns* : tuple(code, Iindex) &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">Iindex</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="n">extkeys</span><span class="o">=</span><span class="n">extkeys</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">typevalue</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_obj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="p">,</span> <span class="n">extkeys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Generate an Iindex Object from a bytes, json or dict value and from </span>
 <span class="sd">        a keys list (derived Iindex)</span>
@@ -1136,7 +1235,7 @@
    
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return json string format&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">untyped</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; equal if class and values are equal&#39;&#39;&#39;</span>
@@ -1152,7 +1251,8 @@
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ind</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return val item (value conversion)&#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
+        <span class="c1">#return self.val[ind]</span>
+        <span class="k">return</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; modify values item&#39;&#39;&#39;</span>
@@ -1183,8 +1283,9 @@
 
     <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Copy all the data &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">Iindex</span><span class="p">([</span><span class="n">copy</span><span class="p">(</span><span class="n">cod</span><span class="p">)</span> <span class="k">for</span> <span class="n">cod</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">],</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">))</span>
-
+        <span class="c1">#return Iindex([copy(cod) for cod in self.codec], copy(self.name), copy(self.keys))</span>
+        <span class="k">return</span> <span class="n">Iindex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    
 <span class="c1">#%% property</span>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1194,14 +1295,16 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">val</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return values conversion to string &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">fullcodec</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">simpleval</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1">#if ES.def_clsName: return [self.codec[key].json(encoded=False) for key in self.keys]</span>
+        <span class="c1">#return self.values</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">cod</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return codec conversion to string &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">cod</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">cod</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">simpleval</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1">#if ES.def_clsName: return [cod.json(encoded=False) for cod in self.codec]</span>
+        <span class="c1">#return self.codec</span>
         
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">infos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1224,16 +1327,19 @@
                 <span class="s1">&#39;disttomin&#39;</span><span class="p">:</span> <span class="n">disttomin</span><span class="p">,</span> <span class="s1">&#39;disttomax&#39;</span><span class="p">:</span> <span class="n">disttomax</span><span class="p">}</span>
 
 <span class="c1">#%% methods</span>
-    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span>  <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;add a new value</span>
 
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **value** : new object value</span>
+<span class="sd">        - **typevalue** : string (default ES.def_clsName) - typevalue to apply to value</span>
 <span class="sd">        - **unique** :  boolean (default True) - If False, duplication codec if value is present</span>
 
 <span class="sd">        *Returns* : key of value &#39;&#39;&#39;</span>        
-        <span class="n">value</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">typevalue</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">typevalue</span><span class="p">]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">:</span> <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span> 
             <span class="n">key</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span>
@@ -1367,6 +1473,31 @@
 <span class="sd">        else, internal&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span>
         <span class="k">return</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">simpleval</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+             <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Return a formatted object (string, bytes or dict) for the Iindex</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **keys** : list (default None) - list: List of keys to include - None: no list - else: Iindex keys</span>
+<span class="sd">        - **typevalue** : string (default None) - type to convert values</span>
+<span class="sd">        - **fullcodec** : boolean (default False) - if True, use a full codec</span>
+<span class="sd">        - **simpleval** : boolean (default False) - if True, only codec is included</span>
+<span class="sd">        - **parent** : integer (default None) - index number of the parent in indexset</span>
+
+<span class="sd">        *Parameters (kwargs)*</span>
+
+<span class="sd">        - **encoded** : boolean (default False) - choice for return format (string/bytes if True, dict else)</span>
+<span class="sd">        - **encode_format**  : string (default &#39;json&#39;)- choice for return format (json, cbor)</span>
+<span class="sd">        - **codif** : dict (default ES.codeb). Numerical value for string in CBOR encoder</span>
+<span class="sd">        - **untyped** : boolean (default True) - include dtype in the json if True</span>
+
+<span class="sd">        *Returns* : string, bytes or dict&#39;&#39;&#39;</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;encode_format&#39;</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="s1">&#39;untyped&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                  <span class="s1">&#39;codif&#39;</span><span class="p">:</span> <span class="p">{}</span> <span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span>        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">typevalue</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="n">fullcodec</span><span class="p">,</span> 
+                           <span class="n">simpleval</span><span class="o">=</span><span class="n">simpleval</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">keytoval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return the value of a key</span>
@@ -1510,7 +1641,11 @@
 <span class="sd">        - **dtype** : str (default None) - cast to apply to the new value </span>
 
 <span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">extern</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span>
+        <span class="c1">#if extern and not dtype: dtype = ES.def_dtype</span>
+        <span class="k">if</span> <span class="n">extern</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dtype</span><span class="p">:</span> 
+            <span class="n">classname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="k">if</span> <span class="n">classname</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">classname</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span>
         <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
         <span class="n">values</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">resetidx</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
@@ -1614,13 +1749,16 @@
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">to_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">to_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">simpleval</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+               <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Return a formatted object (string, bytes or dict) for the Iindex</span>
 
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **keys** : list (default None) - list: List of keys to include - None: no list - else: Iindex keys</span>
 <span class="sd">        - **typevalue** : string (default None) - type to convert values</span>
+<span class="sd">        - **fullcodec** : boolean (default False) - if True, use a full codec</span>
+<span class="sd">        - **simpleval** : boolean (default False) - if True, only codec is included</span>
 <span class="sd">        - **parent** : integer (default None) - index number of the parent in indexset</span>
 
 <span class="sd">        *Parameters (kwargs)*</span>
@@ -1628,17 +1766,19 @@
 <span class="sd">        - **encoded** : boolean (default False) - choice for return format (string/bytes if True, dict else)</span>
 <span class="sd">        - **encode_format**  : string (default &#39;json&#39;)- choice for return format (json, cbor)</span>
 <span class="sd">        - **codif** : dict (default ES.codeb). Numerical value for string in CBOR encoder</span>
+<span class="sd">        - **untyped** : boolean (default False) - include dtype if True</span>
 
 <span class="sd">        *Returns* : string, bytes or dict&#39;&#39;&#39;</span>
         <span class="k">if</span>   <span class="n">keys</span> <span class="ow">and</span>     <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>   <span class="n">keyslist</span> <span class="o">=</span> <span class="n">keys</span>
         <span class="k">elif</span> <span class="n">keys</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>   <span class="n">keyslist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>
         <span class="k">else</span><span class="p">:</span>                                       <span class="n">keyslist</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;default index&#39;</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">else</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-        <span class="n">codeclist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span>
-        <span class="k">if</span> <span class="n">typevalue</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">typevalue</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">encodeobj</span><span class="p">(</span><span class="n">codeclist</span><span class="p">,</span> <span class="n">keyslist</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>    
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">defaultindex</span><span class="p">:</span>    <span class="n">idxname</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>                               <span class="n">idxname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="n">fullcodec</span><span class="p">:</span>                       <span class="n">codeclist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span> 
+        <span class="k">else</span><span class="p">:</span>                               <span class="n">codeclist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span>
+        <span class="k">if</span> <span class="n">typevalue</span><span class="p">:</span>                       <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">typevalue</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>                               <span class="n">dtype</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">encodeobj</span><span class="p">(</span><span class="n">codeclist</span><span class="p">,</span> <span class="n">keyslist</span><span class="p">,</span> <span class="n">idxname</span><span class="p">,</span> <span class="n">simpleval</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>    
     
     <span class="k">def</span> <span class="nf">valtokey</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;convert a value to a key </span>
@@ -1668,6 +1808,19 @@
 <span class="sd">        *Returns* : list of func result&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">funclist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">funclist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">vSimple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Apply a vSimple function to values and return the result.</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **string** : boolean(default False) - if True the values returned are string</span>
+
+<span class="sd">        *Returns* : list of vSimple values (string or not)&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">string</span><span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="s1">&#39;simple&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">],</span>
+                                   <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>    
+        <span class="k">return</span> <span class="p">[</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="s1">&#39;simple&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
 </pre></div>
 
         </details>
@@ -1689,6 +1842,7 @@
 <ul>
 <li><code><a href="#Iindex.Idic">Iindex.Idic</a></code></li>
 <li><code><a href="#Iindex.Iext">Iindex.Iext</a></code></li>
+<li><code><a href="#Iindex.Iobj">Iindex.Iobj</a></code></li>
 <li><code><a href="#Iindex.from_parent">Iindex.from_parent</a></code></li>
 <li><code><a href="#Iindex.from_obj">Iindex.from_obj</a></code></li>
 </ul>
@@ -1748,6 +1902,7 @@
 <li><code><a href="#Iindex.to_obj">Iindex.to_obj</a></code></li>
 <li><code><a href="#Iindex.to_numpy">Iindex.to_numpy</a></code>   </li>
 <li><code><a href="#Iindex.vlist">Iindex.vlist</a></code></li>
+<li><code><a href="#Iindex.vSimple">Iindex.vSimple</a></code></li>
 </ul>
 </div>
 
@@ -1779,27 +1934,28 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">codec</span><span class="p">,</span> <span class="n">Iindex</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>  <span class="o">=</span> <span class="n">codec</span><span class="o">.</span><span class="n">keys</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span><span class="o">.</span><span class="n">codec</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">=</span> <span class="n">codec</span><span class="o">.</span><span class="n">name</span>            
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">=</span> <span class="n">codec</span><span class="o">.</span><span class="n">name</span>     
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">keys</span><span class="p">:</span> <span class="n">keys</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">codec</span><span class="p">:</span> <span class="n">codec</span> <span class="o">=</span><span class="p">[]</span>
+        <span class="n">leng</span> <span class="o">=</span> <span class="n">lendefault</span>
+        <span class="k">if</span> <span class="n">codec</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">leng</span><span class="p">:</span> <span class="n">leng</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">keys</span> <span class="p">:</span> <span class="n">leng</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">defaultindex</span> 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">keys</span><span class="p">:</span> <span class="n">keys</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">codec</span><span class="p">:</span> <span class="n">codec</span> <span class="o">=</span><span class="p">[]</span>
-            <span class="n">leng</span> <span class="o">=</span> <span class="n">lendefault</span>
-            <span class="k">if</span> <span class="n">codec</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="n">leng</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">keys</span> <span class="p">:</span> <span class="n">leng</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;default index&#39;</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">:</span> <span class="n">typevalue</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ES&#39;</span><span class="p">:</span>   <span class="n">typevalue</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">ES_clsName</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="k">raise</span> <span class="n">IindexError</span><span class="p">(</span><span class="s2">&quot;keys not list&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">keys</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">leng</span>
-                <span class="k">else</span><span class="p">:</span>  <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">leng</span><span class="p">))</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">codec</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="k">raise</span> <span class="n">IindexError</span><span class="p">(</span><span class="s2">&quot;codec not list&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">codec</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span> <span class="n">codec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">tocodec</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
-            <span class="n">codec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">castobj</span><span class="p">(</span><span class="n">codec</span><span class="p">,</span> <span class="n">typevalue</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>  <span class="o">=</span> <span class="n">keys</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">=</span> <span class="n">name</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">:</span> <span class="n">typevalue</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ES&#39;</span><span class="p">:</span>   <span class="n">typevalue</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">ES_clsName</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="k">raise</span> <span class="n">IindexError</span><span class="p">(</span><span class="s2">&quot;keys not list&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">codec</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">leng</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">leng</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">codec</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="k">raise</span> <span class="n">IindexError</span><span class="p">(</span><span class="s2">&quot;codec not list&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">codec</span> <span class="o">==</span> <span class="p">[]</span> <span class="p">:</span> <span class="n">codec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">tocodec</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+        <span class="c1">#codec = util.castobj(codec, typevalue)</span>
+        <span class="n">codec</span> <span class="o">=</span> <span class="p">[</span><span class="n">ESValue</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">typevalue</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">codec</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>  <span class="o">=</span> <span class="n">keys</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">=</span> <span class="n">name</span>
         <span class="c1">#print(&#39;time&#39;, time()-t0)</span>
 </pre></div>
 
@@ -1965,6 +2121,50 @@ if no keys is defined</li>
 
 
                             </div>
+                            <div id="Iindex.Iobj" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Iindex.Iobj">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@classmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">Iobj</span><span class="signature">(cls, bs, extkeys=None, typevalue=None)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">Iobj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="p">,</span> <span class="n">extkeys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Generate an Iindex Object from a bytes, json or dict value and from </span>
+<span class="sd">        a keys list (derived Iindex)</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **bs** : bytes, string or dict data to convert</span>
+<span class="sd">        - **typevalue** : string (default ES.def_clsName) - typevalue to apply to codec</span>
+<span class="sd">        - **extkeys** : list (default None) of int, string or dict data to convert in keys</span>
+
+<span class="sd">        *Returns* : tuple(code, Iindex) &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">Iindex</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="n">extkeys</span><span class="o">=</span><span class="n">extkeys</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">typevalue</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Generate an Iindex Object from a bytes, json or dict value and from 
+a keys list (derived Iindex)</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>bs</strong> : bytes, string or dict data to convert</li>
+<li><strong>typevalue</strong> : string (default ES.def_clsName) - typevalue to apply to codec</li>
+<li><strong>extkeys</strong> : list (default None) of int, string or dict data to convert in keys</li>
+</ul>
+
+<p><em>Returns</em> : tuple(code, Iindex)</p>
+</div>
+
+
+                            </div>
                             <div id="Iindex.from_obj" class="classattr">
                                         <div class="attr function"><a class="headerlink" href="#Iindex.from_obj">#&nbsp;&nbsp</a>
 
@@ -2070,21 +2270,24 @@ a keys list (derived Iindex)</p>
 
         
             <span class="def">def</span>
-            <span class="name">append</span><span class="signature">(self, value, unique=True)</span>:
+            <span class="name">append</span><span class="signature">(self, value, typevalue=None, unique=True)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span>  <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;add a new value</span>
 
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **value** : new object value</span>
+<span class="sd">        - **typevalue** : string (default ES.def_clsName) - typevalue to apply to value</span>
 <span class="sd">        - **unique** :  boolean (default True) - If False, duplication codec if value is present</span>
 
 <span class="sd">        *Returns* : key of value &#39;&#39;&#39;</span>        
-        <span class="n">value</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">typevalue</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">typevalue</span><span class="p">]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">:</span> <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span> 
             <span class="n">key</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span>
@@ -2101,6 +2304,7 @@ a keys list (derived Iindex)</p>
 
 <ul>
 <li><strong>value</strong> : new object value</li>
+<li><strong>typevalue</strong> : string (default ES.def_clsName) - typevalue to apply to value</li>
 <li><strong>unique</strong> :  boolean (default True) - If False, duplication codec if value is present</li>
 </ul>
 
@@ -2457,6 +2661,78 @@ disttomin, disttomax, distmin, distmax, diff, typecoupl)</p>
 <li><strong>extern</strong> : if True, compare value to external representation of self.value, 
 else, internal</li>
 </ul>
+</div>
+
+
+                            </div>
+                            <div id="Iindex.json" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Iindex.json">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">json</span><span class="signature">(
+    self,
+    keys=None,
+    typevalue=None,
+    fullcodec=False,
+    simpleval=False,
+    parent=-2,
+    **kwargs
+)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">simpleval</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+             <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Return a formatted object (string, bytes or dict) for the Iindex</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **keys** : list (default None) - list: List of keys to include - None: no list - else: Iindex keys</span>
+<span class="sd">        - **typevalue** : string (default None) - type to convert values</span>
+<span class="sd">        - **fullcodec** : boolean (default False) - if True, use a full codec</span>
+<span class="sd">        - **simpleval** : boolean (default False) - if True, only codec is included</span>
+<span class="sd">        - **parent** : integer (default None) - index number of the parent in indexset</span>
+
+<span class="sd">        *Parameters (kwargs)*</span>
+
+<span class="sd">        - **encoded** : boolean (default False) - choice for return format (string/bytes if True, dict else)</span>
+<span class="sd">        - **encode_format**  : string (default &#39;json&#39;)- choice for return format (json, cbor)</span>
+<span class="sd">        - **codif** : dict (default ES.codeb). Numerical value for string in CBOR encoder</span>
+<span class="sd">        - **untyped** : boolean (default True) - include dtype in the json if True</span>
+
+<span class="sd">        *Returns* : string, bytes or dict&#39;&#39;&#39;</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;encode_format&#39;</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="s1">&#39;untyped&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                  <span class="s1">&#39;codif&#39;</span><span class="p">:</span> <span class="p">{}</span> <span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span>        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">typevalue</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="n">fullcodec</span><span class="p">,</span> 
+                           <span class="n">simpleval</span><span class="o">=</span><span class="n">simpleval</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Return a formatted object (string, bytes or dict) for the Iindex</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>keys</strong> : list (default None) - list: List of keys to include - None: no list - else: Iindex keys</li>
+<li><strong>typevalue</strong> : string (default None) - type to convert values</li>
+<li><strong>fullcodec</strong> : boolean (default False) - if True, use a full codec</li>
+<li><strong>simpleval</strong> : boolean (default False) - if True, only codec is included</li>
+<li><strong>parent</strong> : integer (default None) - index number of the parent in indexset</li>
+</ul>
+
+<p><em>Parameters (kwargs)</em></p>
+
+<ul>
+<li><strong>encoded</strong> : boolean (default False) - choice for return format (string/bytes if True, dict else)</li>
+<li><strong>encode_format</strong>  : string (default 'json')- choice for return format (json, cbor)</li>
+<li><strong>codif</strong> : dict (default ES.codeb). Numerical value for string in CBOR encoder</li>
+<li><strong>untyped</strong> : boolean (default True) - include dtype in the json if True</li>
+</ul>
+
+<p><em>Returns</em> : string, bytes or dict</p>
 </div>
 
 
@@ -2844,7 +3120,11 @@ if False a new Iindex is created.</li>
 <span class="sd">        - **dtype** : str (default None) - cast to apply to the new value </span>
 
 <span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">extern</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span>
+        <span class="c1">#if extern and not dtype: dtype = ES.def_dtype</span>
+        <span class="k">if</span> <span class="n">extern</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dtype</span><span class="p">:</span> 
+            <span class="n">classname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="k">if</span> <span class="n">classname</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">classname</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">def_dtype</span>
         <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
         <span class="n">values</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">resetidx</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
@@ -3119,18 +3399,29 @@ If func is the 'index' string, values are replaced by raw values.</li>
 
         
             <span class="def">def</span>
-            <span class="name">to_obj</span><span class="signature">(self, keys=None, typevalue=None, parent=-2, **kwargs)</span>:
+            <span class="name">to_obj</span><span class="signature">(
+    self,
+    keys=None,
+    typevalue=None,
+    fullcodec=False,
+    simpleval=False,
+    parent=-2,
+    **kwargs
+)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">simpleval</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+               <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Return a formatted object (string, bytes or dict) for the Iindex</span>
 
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **keys** : list (default None) - list: List of keys to include - None: no list - else: Iindex keys</span>
 <span class="sd">        - **typevalue** : string (default None) - type to convert values</span>
+<span class="sd">        - **fullcodec** : boolean (default False) - if True, use a full codec</span>
+<span class="sd">        - **simpleval** : boolean (default False) - if True, only codec is included</span>
 <span class="sd">        - **parent** : integer (default None) - index number of the parent in indexset</span>
 
 <span class="sd">        *Parameters (kwargs)*</span>
@@ -3138,17 +3429,19 @@ If func is the 'index' string, values are replaced by raw values.</li>
 <span class="sd">        - **encoded** : boolean (default False) - choice for return format (string/bytes if True, dict else)</span>
 <span class="sd">        - **encode_format**  : string (default &#39;json&#39;)- choice for return format (json, cbor)</span>
 <span class="sd">        - **codif** : dict (default ES.codeb). Numerical value for string in CBOR encoder</span>
+<span class="sd">        - **untyped** : boolean (default False) - include dtype if True</span>
 
 <span class="sd">        *Returns* : string, bytes or dict&#39;&#39;&#39;</span>
         <span class="k">if</span>   <span class="n">keys</span> <span class="ow">and</span>     <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>   <span class="n">keyslist</span> <span class="o">=</span> <span class="n">keys</span>
         <span class="k">elif</span> <span class="n">keys</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>   <span class="n">keyslist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>
         <span class="k">else</span><span class="p">:</span>                                       <span class="n">keyslist</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;default index&#39;</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">else</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-        <span class="n">codeclist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span>
-        <span class="k">if</span> <span class="n">typevalue</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">typevalue</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">encodeobj</span><span class="p">(</span><span class="n">codeclist</span><span class="p">,</span> <span class="n">keyslist</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>    
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">defaultindex</span><span class="p">:</span>    <span class="n">idxname</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>                               <span class="n">idxname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="n">fullcodec</span><span class="p">:</span>                       <span class="n">codeclist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span> 
+        <span class="k">else</span><span class="p">:</span>                               <span class="n">codeclist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span>
+        <span class="k">if</span> <span class="n">typevalue</span><span class="p">:</span>                       <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">typevalue</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>                               <span class="n">dtype</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">encodeobj</span><span class="p">(</span><span class="n">codeclist</span><span class="p">,</span> <span class="n">keyslist</span><span class="p">,</span> <span class="n">idxname</span><span class="p">,</span> <span class="n">simpleval</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>    
 </pre></div>
 
         </details>
@@ -3160,6 +3453,8 @@ If func is the 'index' string, values are replaced by raw values.</li>
 <ul>
 <li><strong>keys</strong> : list (default None) - list: List of keys to include - None: no list - else: Iindex keys</li>
 <li><strong>typevalue</strong> : string (default None) - type to convert values</li>
+<li><strong>fullcodec</strong> : boolean (default False) - if True, use a full codec</li>
+<li><strong>simpleval</strong> : boolean (default False) - if True, only codec is included</li>
 <li><strong>parent</strong> : integer (default None) - index number of the parent in indexset</li>
 </ul>
 
@@ -3169,6 +3464,7 @@ If func is the 'index' string, values are replaced by raw values.</li>
 <li><strong>encoded</strong> : boolean (default False) - choice for return format (string/bytes if True, dict else)</li>
 <li><strong>encode_format</strong>  : string (default 'json')- choice for return format (json, cbor)</li>
 <li><strong>codif</strong> : dict (default ES.codeb). Numerical value for string in CBOR encoder</li>
+<li><strong>untyped</strong> : boolean (default False) - include dtype if True</li>
 </ul>
 
 <p><em>Returns</em> : string, bytes or dict</p>
@@ -3260,6 +3556,45 @@ If func is the 'index' string, values are replaced by raw values.</li>
 </ul>
 
 <p><em>Returns</em> : list of func result</p>
+</div>
+
+
+                            </div>
+                            <div id="Iindex.vSimple" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Iindex.vSimple">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">vSimple</span><span class="signature">(self, string=False)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">vSimple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Apply a vSimple function to values and return the result.</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **string** : boolean(default False) - if True the values returned are string</span>
+
+<span class="sd">        *Returns* : list of vSimple values (string or not)&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">string</span><span class="p">:</span> <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="s1">&#39;simple&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">],</span>
+                                   <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>    
+        <span class="k">return</span> <span class="p">[</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="s1">&#39;simple&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Apply a vSimple function to values and return the result.</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>string</strong> : boolean(default False) - if True the values returned are string</li>
+</ul>
+
+<p><em>Returns</em> : list of vSimple values (string or not)</p>
 </div>
 
 
