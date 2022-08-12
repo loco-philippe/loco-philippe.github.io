@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>simple_value</title>
+<title>structure</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13121,9 +13121,9 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Iindex-:-Values-included-in-Iindex">Iindex : Values included in Iindex<a class="anchor-link" href="#Iindex-:-Values-included-in-Iindex">&#182;</a></h1><h2 id="Goals">Goals<a class="anchor-link" href="#Goals">&#182;</a></h2><ul>
-<li>show the diversity of values objects</li>
-<li>present the representations of values</li>
+<h1 id="Iindex-:-structure">Iindex : structure<a class="anchor-link" href="#Iindex-:-structure">&#182;</a></h1><h2 id="Goals">Goals<a class="anchor-link" href="#Goals">&#182;</a></h2><ul>
+<li>understand the structure of Iindex object</li>
+<li>introduce methods for updating data</li>
 </ul>
 <hr>
 
@@ -13137,12 +13137,7 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;C:/Users/a179227/OneDrive - Alliance/perso Wx/ES standard/python ESstandard/ES&#39;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ESValue</span> <span class="kn">import</span> <span class="n">LocationValue</span><span class="p">,</span> <span class="n">DatationValue</span><span class="p">,</span> <span class="n">PropertyValue</span><span class="p">,</span> <span class="n">NamedValue</span><span class="p">,</span> <span class="n">ExternValue</span><span class="p">,</span> <span class="n">ESValue</span>
 <span class="kn">from</span> <span class="nn">iindex</span> <span class="kn">import</span> <span class="n">Iindex</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="n">dpt75</span> <span class="o">=</span> <span class="p">[[[</span><span class="mf">2.4163</span><span class="p">,</span> <span class="mf">48.8492</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.4622</span><span class="p">,</span> <span class="mf">48.8425</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.4626</span><span class="p">,</span> <span class="mf">48.8190</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.4384</span><span class="p">,</span> <span class="mf">48.8182</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.4006</span><span class="p">,</span> <span class="mf">48.8290</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.3639</span><span class="p">,</span> <span class="mf">48.8163</span><span class="p">],</span>
-          <span class="p">[</span><span class="mf">2.3318</span><span class="p">,</span> <span class="mf">48.8170</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.2790</span><span class="p">,</span> <span class="mf">48.8324</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.2242</span><span class="p">,</span> <span class="mf">48.8535</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.2317</span><span class="p">,</span> <span class="mf">48.8690</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.2584</span><span class="p">,</span> <span class="mf">48.8803</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.2774</span><span class="p">,</span> <span class="mf">48.8779</span><span class="p">],</span>
-          <span class="p">[</span><span class="mf">2.3198</span><span class="p">,</span> <span class="mf">48.9004</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.3851</span><span class="p">,</span> <span class="mf">48.9020</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.4139</span><span class="p">,</span> <span class="mf">48.8708</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.4163</span><span class="p">,</span> <span class="mf">48.8492</span><span class="p">]]]</span>
 </pre></div>
 
     </div>
@@ -13153,10 +13148,13 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Usual-data">Usual data<a class="anchor-link" href="#Usual-data">&#182;</a></h2><p>Every kind of data can be included in Iindex objects.</p>
-<p>Each value included has several representations.</p>
-<p>Index representations respect the Json format.</p>
-<p>The example below is an Iindex build with usual data.</p>
+<h2 id="Values,-codec-and-keys">Values, codec and keys<a class="anchor-link" href="#Values,-codec-and-keys">&#182;</a></h2><p>In a list, data is only a value list.</p>
+<p>In a Iindex object, data is a 'codec' list and a 'keys' list</p>
+<p>Two main codec are defined :</p>
+<ul>
+<li>full codec : codec is the list of values</li>
+<li>default codec : codec is the list of different values</li>
+</ul>
 
 </div>
 </div>
@@ -13166,11 +13164,17 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># simple data</span>
-<span class="n">simple</span> <span class="o">=</span> <span class="n">Iindex</span><span class="p">([</span><span class="mi">21</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;test&#39;</span><span class="p">:</span><span class="mi">21</span><span class="p">},</span> <span class="p">{</span><span class="mi">21</span><span class="p">:</span><span class="mi">211</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;ko&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;kobis&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">},</span> <span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">],</span> <span class="s1">&#39;2021-01-21&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;default : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">simple</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;obj simple : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">simple</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;complete json obj : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">simple</span><span class="o">.</span><span class="n">json</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">idx</span> <span class="o">=</span> <span class="n">Iindex</span><span class="p">([</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">2019</span><span class="p">,</span> <span class="mi">2020</span><span class="p">,</span> <span class="mi">2020</span><span class="p">,</span> <span class="mi">2021</span><span class="p">,</span> <span class="mi">2021</span><span class="p">,</span> <span class="mi">2019</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;values : &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;full codec : &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;full keys  : &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">keys</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;full infos : &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">infos</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">idx</span><span class="o">.</span><span class="n">reindex</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;default codec : &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;default keys  : &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">keys</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;default infos : &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">infos</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13187,14 +13191,15 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>default :  
- [21, 21, 211, &#34;{\&#34;ko\&#34;: 2, \&#34;kobis\&#34;: 2}&#34;, [1.2, 3.4], &#34;2021-01-21T00:00:00+00:00&#34;, &#34;name&#34;]
+<pre>values :  [2021, 2019, 2020, 2020, 2021, 2021, 2019]
 
-obj simple :  
- [21, 21, 211, &#39;{&#34;ko&#34;: 2, &#34;kobis&#34;: 2}&#39;, [1.2, 3.4], datetime.datetime(2021, 1, 21, 0, 0, tzinfo=datetime.timezone.utc), &#39;name&#39;] 
+full codec :  [2021, 2019, 2020, 2020, 2021, 2021, 2019]
+full keys  :  [0, 1, 2, 3, 4, 5, 6]
+full infos :  {&#39;lencodec&#39;: 7, &#39;min&#39;: 3, &#39;max&#39;: 7, &#39;typecodec&#39;: &#39;full&#39;, &#39;rate&#39;: 0.0, &#39;disttomin&#39;: 4, &#39;disttomax&#39;: 0} 
 
-complete json obj :  
- [21, 21, 211, &#39;{&#34;ko&#34;: 2, &#34;kobis&#34;: 2}&#39;, [1.2, 3.4], datetime.datetime(2021, 1, 21, 0, 0, tzinfo=datetime.timezone.utc), &#39;name&#39;] 
+default codec :  [2019, 2020, 2021]
+default keys  :  [2, 0, 1, 1, 2, 2, 0]
+default infos :  {&#39;lencodec&#39;: 3, &#39;min&#39;: 3, &#39;max&#39;: 7, &#39;typecodec&#39;: &#39;default&#39;, &#39;rate&#39;: 1.0, &#39;disttomin&#39;: 0, &#39;disttomax&#39;: 4} 
 
 </pre>
 </div>
@@ -13207,7 +13212,7 @@ complete json obj :
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Json-compatibility">Json compatibility<a class="anchor-link" href="#Json-compatibility">&#182;</a></h2><p>Iindex objects are completely defined by their Json representation (i.e. the object reconstructed from its json representation is identical to the initial object).</p>
+<h2 id="codec-update">codec update<a class="anchor-link" href="#codec-update">&#182;</a></h2><p>For the same list of values, we can have change the order of codec or create a specific codec</p>
 
 </div>
 </div>
@@ -13217,10 +13222,16 @@ complete json obj :
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># obj et json format</span>
-<span class="n">simple2</span> <span class="o">=</span> <span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">simple</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
-<span class="n">simple3</span> <span class="o">=</span> <span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">simple</span><span class="o">.</span><span class="n">to_obj</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">simple3</span><span class="o">==</span><span class="n">simple2</span><span class="o">==</span><span class="n">simple</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">idx</span><span class="o">.</span><span class="n">reindex</span><span class="p">([</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">2021</span><span class="p">,</span> <span class="mi">2019</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;new default codec : &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;new default keys  : &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">keys</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;new default infos :&#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">infos</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">idx</span><span class="o">.</span><span class="n">setkeys</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;specific codec : &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;specific keys  : &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">keys</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;specific infos : &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">infos</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;specific values: &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13237,7 +13248,16 @@ complete json obj :
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>True
+<pre>new default codec :  [2020, 2021, 2019]
+new default keys  :  [1, 2, 0, 0, 1, 1, 2]
+new default infos : {&#39;lencodec&#39;: 3, &#39;min&#39;: 3, &#39;max&#39;: 7, &#39;typecodec&#39;: &#39;default&#39;, &#39;rate&#39;: 1.0, &#39;disttomin&#39;: 0, &#39;disttomax&#39;: 4} 
+
+specific codec :  [2021, 2019, 2020, 2020]
+specific keys  :  [0, 1, 2, 3, 0, 0, 1]
+specific infos :  {&#39;lencodec&#39;: 4, &#39;min&#39;: 3, &#39;max&#39;: 7, &#39;typecodec&#39;: &#39;mixed&#39;, &#39;rate&#39;: 0.75, &#39;disttomin&#39;: 1, &#39;disttomax&#39;: 3}
+specific values:  [2021, 2019, 2020, 2020, 2021, 2021, 2019]
+ 
+
 </pre>
 </div>
 </div>
@@ -13249,33 +13269,28 @@ complete json obj :
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr>
-<h2 id="Dedicated-formats">Dedicated formats<a class="anchor-link" href="#Dedicated-formats">&#182;</a></h2><p>Formats (objects) adapted to environmental data (ESValue) are also supported:</p>
-<ul>
-<li>LocationValue : spatial data</li>
-<li>DatationValue : temporal data</li>
-<li>PropertyValue : property data</li>
-<li>NamedValue : Annotated data</li>
-</ul>
-<p>All ESValue objects are build with a name (string) and a value (specific for each object). ESValue objects have several representations : {type:{name: value}}, {type: value}, {type: name}, {name: value}, {value} and several formats : dict, str, byte.</p>
-<p>The val method return values with an usual format.</p>
-<p>The ESValue object can be defined automatically.</p>
+<h2 id="values-update">values update<a class="anchor-link" href="#values-update">&#182;</a></h2><p>With a specific codec, we can update some of the data</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">es</span> <span class="o">=</span> <span class="n">Iindex</span><span class="p">([</span><span class="mi">21</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;test&#39;</span><span class="p">:</span><span class="mi">21</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;locvalue&#39;</span><span class="p">:[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">]},</span> <span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">],</span> <span class="p">{</span><span class="s1">&#39;datvalue&#39;</span><span class="p">:</span><span class="s1">&#39;2021-11-21&#39;</span><span class="p">},</span> <span class="s1">&#39;2021-11-21&#39;</span><span class="p">,</span>
-             <span class="p">{</span><span class="s1">&#39;dict&#39;</span><span class="p">:</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;example&#39;</span><span class="p">:</span> <span class="mf">212.8</span><span class="p">}],</span> <span class="n">typevalue</span><span class="o">=</span><span class="s1">&#39;ESValue&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">idx</span><span class="o">.</span><span class="n">codec</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2022</span>                          <span class="c1"># updated part of the 2020 years</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;changed codec : &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;changed keys  : &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">keys</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;changed values: &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;default : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">es</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;obj simple : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">es</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;complete json obj : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">es</span><span class="o">.</span><span class="n">json</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;only values : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">es</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
+<span class="n">idx</span><span class="o">.</span><span class="n">reindex</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;reindexed idx: &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">idx</span><span class="o">.</span><span class="n">codec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2018</span>                          <span class="c1"># updated all the 2019 years</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;changed codec : &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;changed keys  : &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">keys</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;changed values: &#39;</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13292,387 +13307,18 @@ complete json obj :
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>default :  
- [21, {&#34;test&#34;: 21}, [1.2, 3.4], [1.2, 3.4], &#34;2021-11-21T00:00:00+00:00&#34;, &#34;2021-11-21T00:00:00+00:00&#34;, {&#34;dict&#34;: &#34;test&#34;, &#34;example&#34;: 212.8}]
+<pre>changed codec :  [2021, 2019, 2020, 2022]
+changed keys  :  [0, 1, 2, 3, 0, 0, 1]
+changed values:  [2021, 2019, 2020, 2022, 2021, 2021, 2019]
+ 
 
-obj simple :  
- [21, {&#39;test&#39;: 21}, [1.2, 3.4], [1.2, 3.4], datetime.datetime(2021, 11, 21, 0, 0, tzinfo=datetime.timezone.utc), datetime.datetime(2021, 11, 21, 0, 0, tzinfo=datetime.timezone.utc), {&#39;dict&#39;: &#39;test&#39;, &#39;example&#39;: 212.8}] 
+reindexed idx:  [2021, 2019, 2020, 2022, 2021, 2021, 2019]
+ [2019, 2020, 2021, 2022] 
 
-complete json obj :  
- [{&#39;namvalue&#39;: 21}, {&#39;namvalue&#39;: {&#39;test&#39;: 21}}, {&#39;locvalue&#39;: [1.2, 3.4]}, {&#39;namvalue&#39;: [1.2, 3.4]}, {&#39;datvalue&#39;: datetime.datetime(2021, 11, 21, 0, 0, tzinfo=datetime.timezone.utc)}, {&#39;namvalue&#39;: datetime.datetime(2021, 11, 21, 0, 0, tzinfo=datetime.timezone.utc)}, {&#39;prpvalue&#39;: {&#39;dict&#39;: &#39;test&#39;, &#39;example&#39;: 212.8}}] 
+changed codec :  [2018, 2020, 2021, 2022]
+changed keys  :  [2, 0, 1, 3, 2, 2, 0]
+changed values:  [2021, 2018, 2020, 2022, 2021, 2021, 2018]
 
-only values :  
- [21, 21, [1.2, 3.4], [1.2, 3.4], datetime.datetime(2021, 11, 21, 0, 0, tzinfo=datetime.timezone.utc), datetime.datetime(2021, 11, 21, 0, 0, tzinfo=datetime.timezone.utc), {&#39;dict&#39;: &#39;test&#39;, &#39;example&#39;: 212.8}]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="LocationValue">LocationValue<a class="anchor-link" href="#LocationValue">&#182;</a></h2><p>A location can be defined by a label (string), a position (geojson position coordinates), a geographical area (geojson polygon coordinates). Coordinates are conform to geoJSON standard.</p>
-<p>The vSimple method returns a single value from a LocationValue object (centroid for polygons)</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">paris</span>       <span class="o">=</span> <span class="p">[</span><span class="mf">2.35</span><span class="p">,</span> <span class="mf">48.87</span><span class="p">]</span>
-<span class="n">lyon</span>        <span class="o">=</span> <span class="p">[</span><span class="mf">4.83</span><span class="p">,</span> <span class="mf">45.76</span><span class="p">]</span>
-<span class="n">marseille</span>   <span class="o">=</span> <span class="p">[</span><span class="mf">5.38</span><span class="p">,</span> <span class="mf">43.3</span><span class="p">]</span>
-
-<span class="n">loc</span> <span class="o">=</span> <span class="n">Iindex</span><span class="p">([</span><span class="s1">&#39;marseille&#39;</span><span class="p">,</span> <span class="n">paris</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;lyon&#39;</span><span class="p">:</span> <span class="n">lyon</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;dpt75&#39;</span><span class="p">:</span> <span class="n">dpt75</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;locvalue&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;marseille&#39;</span><span class="p">:</span> <span class="n">marseille</span><span class="p">}}],</span> 
-            <span class="n">typevalue</span><span class="o">=</span><span class="s1">&#39;LocationValue&#39;</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;default : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;obj simple : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;only simple values : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">.</span><span class="n">vSimple</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>default :  
- [&#34;marseille&#34;, [2.35, 48.87], {&#34;lyon&#34;: [4.83, 45.76]}, {&#34;dpt75&#34;: [[[2.4163, 48.8492], [2.4622, 48.8425], [2.4626, 48.819], [2.4384, 48.8182], [2.4006, 48.829], [2.3639, 48.8163], [2.3318, 48.817], [2.279, 48.8324], [2.2242, 48.8535], [2.2317, 48.869], [2.2584, 48.8803], [2.2774, 48.8779], [2.3198, 48.9004], [2.3851, 48.902], [2.4139, 48.8708], [2.4163, 48.8492]]]}, {&#34;marseille&#34;: [5.38, 43.3]}]
-
-obj simple :  
- [&#39;marseille&#39;, [2.35, 48.87], {&#39;lyon&#39;: [4.83, 45.76]}, {&#39;dpt75&#39;: [[[2.4163, 48.8492], [2.4622, 48.8425], [2.4626, 48.819], [2.4384, 48.8182], [2.4006, 48.829], [2.3639, 48.8163], [2.3318, 48.817], [2.279, 48.8324], [2.2242, 48.8535], [2.2317, 48.869], [2.2584, 48.8803], [2.2774, 48.8779], [2.3198, 48.9004], [2.3851, 48.902], [2.4139, 48.8708], [2.4163, 48.8492]]]}, {&#39;marseille&#39;: [5.38, 43.3]}] 
-
-only simple values :  
- [[-1.0, -1.0], [2.35, 48.87], [4.83, 45.76], [2.34386, 48.85628], [5.38, 43.3]]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="DatationValue">DatationValue<a class="anchor-link" href="#DatationValue">&#182;</a></h2><p>Just like for locations, datations can be defined by a description, an instant, an interval or a set of intervals.</p>
-<p>The vSimple method returns a single value from a DatationValue object ("centroid" of the set of intervals).</p>
-<p>All ESValue objects have binary representation.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">morning</span> <span class="o">=</span> <span class="p">[</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">12</span><span class="p">)]</span>
-<span class="n">afternoon</span>  <span class="o">=</span> <span class="p">[</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">18</span><span class="p">)]</span>
-
-<span class="n">dat</span> <span class="o">=</span> <span class="n">Iindex</span><span class="p">([</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;2021-11-21&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;monday&#39;</span><span class="p">:</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2021</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">)},</span> <span class="p">{</span><span class="s1">&#39;morning&#39;</span><span class="p">:</span> <span class="n">morning</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;working&#39;</span><span class="p">:[</span><span class="n">morning</span><span class="p">,</span> <span class="n">afternoon</span><span class="p">]}],</span> 
-            <span class="n">typevalue</span><span class="o">=</span><span class="s1">&#39;DatationValue&#39;</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;default : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">dat</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;complete json text : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">dat</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;only simple values : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">dat</span><span class="o">.</span><span class="n">vSimple</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;binary format : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">dat</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s1">&#39;cbor&#39;</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>default :  
- [&#34;morning&#34;, &#34;2021-11-21T00:00:00+00:00&#34;, {&#34;monday&#34;: &#34;2021-10-01T00:00:00+00:00&#34;}, {&#34;morning&#34;: [&#34;2020-02-04T08:00:00+00:00&#34;, &#34;2020-02-04T12:00:00+00:00&#34;]}, {&#34;working&#34;: [[&#34;2020-02-04T08:00:00+00:00&#34;, &#34;2020-02-04T12:00:00+00:00&#34;], [&#34;2020-02-04T14:00:00+00:00&#34;, &#34;2020-02-04T18:00:00+00:00&#34;]]}]
-
-complete json text :  
- [{&#34;datvalue&#34;: &#34;morning&#34;}, {&#34;datvalue&#34;: &#34;2021-11-21T00:00:00+00:00&#34;}, {&#34;datvalue&#34;: {&#34;monday&#34;: &#34;2021-10-01T00:00:00+00:00&#34;}}, {&#34;datvalue&#34;: {&#34;morning&#34;: [&#34;2020-02-04T08:00:00+00:00&#34;, &#34;2020-02-04T12:00:00+00:00&#34;]}}, {&#34;datvalue&#34;: {&#34;working&#34;: [[&#34;2020-02-04T08:00:00+00:00&#34;, &#34;2020-02-04T12:00:00+00:00&#34;], [&#34;2020-02-04T14:00:00+00:00&#34;, &#34;2020-02-04T18:00:00+00:00&#34;]]}}] 
-
-only simple values :  
- [datetime.datetime(1, 1, 1, 0, 0, tzinfo=datetime.timezone.utc), datetime.datetime(2021, 11, 21, 0, 0, tzinfo=datetime.timezone.utc), datetime.datetime(2021, 10, 1, 0, 0, tzinfo=datetime.timezone.utc), datetime.datetime(2020, 2, 4, 10, 0, tzinfo=datetime.timezone.utc), datetime.datetime(2020, 2, 4, 12, 0, tzinfo=datetime.timezone.utc)] 
-
-binary format :  
- b&#39;\x85gmorning\xc1\x1aa\x99\x8c\x00\xa1fmonday\xc1\x1aaVO\x80\xa1gmorning\x82\xc1\x1a^9$\x80\xc1\x1a^9\\\xc0\xa1gworking\x82\x82\xc1\x1a^9$\x80\xc1\x1a^9\\\xc0\x82\xc1\x1a^9x\xe0\xc1\x1a^9\xb1 &#39;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="PropertyValue">PropertyValue<a class="anchor-link" href="#PropertyValue">&#182;</a></h2><p>PropertyValue objects are dictionnary with specific characteristics. One of them ('prp' key) corresponds to an applicable codification.</p>
-<p>The vSimple method returns the 'prp' key.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pm10</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;prp&#39;</span><span class="p">:</span> <span class="s1">&#39;PM10&#39;</span><span class="p">,</span>  <span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="s1">&#39;kg/m3&#39;</span><span class="p">,</span> <span class="s1">&#39;application&#39;</span><span class="p">:</span> <span class="s1">&#39;air&#39;</span><span class="p">}</span>
-<span class="n">pm25</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;prp&#39;</span><span class="p">:</span> <span class="s1">&#39;PM2.5&#39;</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="s1">&#39;kg/m3&#39;</span><span class="p">}</span>
-
-<span class="n">prp</span> <span class="o">=</span> <span class="n">Iindex</span><span class="p">([</span><span class="s1">&#39;air pollutants&#39;</span><span class="p">,</span> <span class="n">pm10</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;pm25&#39;</span><span class="p">:</span> <span class="n">pm25</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;propvalue&#39;</span><span class="p">:</span> <span class="s1">&#39;pm1&#39;</span><span class="p">}],</span> <span class="n">typevalue</span><span class="o">=</span><span class="s1">&#39;PropertyValue&#39;</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;default : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">prp</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;complete json obj : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">prp</span><span class="o">.</span><span class="n">json</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;only simple values : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">prp</span><span class="o">.</span><span class="n">vSimple</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>default :  
- [&#34;air pollutants&#34;, {&#34;prp&#34;: &#34;PM10&#34;, &#34;unit&#34;: &#34;kg/m3&#34;, &#34;application&#34;: &#34;air&#34;}, {&#34;pm25&#34;: {&#34;prp&#34;: &#34;PM2.5&#34;, &#34;unit&#34;: &#34;kg/m3&#34;}}, &#34;pm1&#34;]
-
-complete json obj :  
- [{&#39;prpvalue&#39;: &#39;air pollutants&#39;}, {&#39;prpvalue&#39;: {&#39;prp&#39;: &#39;PM10&#39;, &#39;unit&#39;: &#39;kg/m3&#39;, &#39;application&#39;: &#39;air&#39;}}, {&#39;prpvalue&#39;: {&#39;pm25&#39;: {&#39;prp&#39;: &#39;PM2.5&#39;, &#39;unit&#39;: &#39;kg/m3&#39;}}}, {&#39;prpvalue&#39;: &#39;pm1&#39;}] 
-
-only simple values :  
- [&#39;-&#39;, &#39;PM10&#39;, &#39;PM2.5&#39;, &#39;-&#39;]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="NamedValue">NamedValue<a class="anchor-link" href="#NamedValue">&#182;</a></h2><p>The NamedValue object is a name-value pair where values are usual Json data</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nam</span> <span class="o">=</span> <span class="n">Iindex</span><span class="p">([</span><span class="mi">21</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;test&#39;</span><span class="p">:</span> <span class="mi">21</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;list&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]},</span> <span class="kc">True</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;dictionnary&#39;</span><span class="p">:{</span><span class="mi">10</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">:</span><span class="mi">2</span><span class="p">}},</span> <span class="p">{</span><span class="mi">21</span><span class="p">:</span><span class="mi">211</span><span class="p">},</span> <span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">],</span> <span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">typevalue</span><span class="o">=</span><span class="s1">&#39;NamedValue&#39;</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;default : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">nam</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;complete json obj : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">nam</span><span class="o">.</span><span class="n">json</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;only values : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">nam</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>default :  
- [21, {&#34;test&#34;: 21}, {&#34;list&#34;: [1, 2, 3]}, true, {&#34;dictionnary&#34;: &#34;{\&#34;10\&#34;: 1, \&#34;100\&#34;: 2}&#34;}, {&#34;21&#34;: 211}, [1.2, 3.4], &#34;name&#34;]
-
-complete json obj :  
- [{&#39;namvalue&#39;: 21}, {&#39;namvalue&#39;: {&#39;test&#39;: 21}}, {&#39;namvalue&#39;: {&#39;list&#39;: [1, 2, 3]}}, {&#39;namvalue&#39;: True}, {&#39;namvalue&#39;: {&#39;dictionnary&#39;: &#39;{&#34;10&#34;: 1, &#34;100&#34;: 2}&#39;}}, {&#39;namvalue&#39;: {&#39;21&#39;: 211}}, {&#39;namvalue&#39;: [1.2, 3.4]}, {&#39;namvalue&#39;: &#39;name&#39;}] 
-
-only values :  
- [21, 21, [1, 2, 3], True, &#39;{&#34;10&#34;: 1, &#34;100&#34;: 2}&#39;, 211, [1.2, 3.4], &#39;name&#39;]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="ExternValue">ExternValue<a class="anchor-link" href="#ExternValue">&#182;</a></h2><p>The ExternValue object is a name-value pair where values are structured objects (e.g. Iindex).</p>
-<p>To respect the json object-representation equivalence, only objects that have a json format are allowed.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ext</span> <span class="o">=</span> <span class="n">Iindex</span><span class="p">([</span><span class="n">simple</span><span class="p">,</span> <span class="n">es</span><span class="p">,</span> <span class="n">prp</span><span class="p">,</span> <span class="n">nam</span><span class="p">])</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;default : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">ext</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;complete json obj : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">ext</span><span class="o">.</span><span class="n">json</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;only simple values : &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">ext</span><span class="o">.</span><span class="n">vSimple</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>default :  
- [{&#34;iindex&#34;: [21, 21, 211, &#34;{\&#34;ko\&#34;: 2, \&#34;kobis\&#34;: 2}&#34;, [1.2, 3.4], &#34;2021-01-21T00:00:00+00:00&#34;, &#34;name&#34;]}, {&#34;iindex&#34;: [21, {&#34;test&#34;: 21}, [1.2, 3.4], [1.2, 3.4], &#34;2021-11-21T00:00:00+00:00&#34;, &#34;2021-11-21T00:00:00+00:00&#34;, {&#34;dict&#34;: &#34;test&#34;, &#34;example&#34;: 212.8}]}, {&#34;iindex&#34;: [&#34;air pollutants&#34;, {&#34;prp&#34;: &#34;PM10&#34;, &#34;unit&#34;: &#34;kg/m3&#34;, &#34;application&#34;: &#34;air&#34;}, {&#34;pm25&#34;: {&#34;prp&#34;: &#34;PM2.5&#34;, &#34;unit&#34;: &#34;kg/m3&#34;}}, &#34;pm1&#34;]}, {&#34;iindex&#34;: [21, {&#34;test&#34;: 21}, {&#34;list&#34;: [1, 2, 3]}, true, {&#34;dictionnary&#34;: &#34;{\&#34;10\&#34;: 1, \&#34;100\&#34;: 2}&#34;}, {&#34;21&#34;: 211}, [1.2, 3.4], &#34;name&#34;]}]
-
-complete json obj :  
- [{&#39;iindex&#39;: [21, 21, 211, &#39;{&#34;ko&#34;: 2, &#34;kobis&#34;: 2}&#39;, [1.2, 3.4], datetime.datetime(2021, 1, 21, 0, 0, tzinfo=datetime.timezone.utc), &#39;name&#39;]}, {&#39;iindex&#39;: [{&#39;namvalue&#39;: 21}, {&#39;namvalue&#39;: {&#39;test&#39;: 21}}, {&#39;locvalue&#39;: [1.2, 3.4]}, {&#39;namvalue&#39;: [1.2, 3.4]}, {&#39;datvalue&#39;: datetime.datetime(2021, 11, 21, 0, 0, tzinfo=datetime.timezone.utc)}, {&#39;namvalue&#39;: datetime.datetime(2021, 11, 21, 0, 0, tzinfo=datetime.timezone.utc)}, {&#39;prpvalue&#39;: {&#39;dict&#39;: &#39;test&#39;, &#39;example&#39;: 212.8}}]}, {&#39;iindex&#39;: [{&#39;prpvalue&#39;: &#39;air pollutants&#39;}, {&#39;prpvalue&#39;: {&#39;prp&#39;: &#39;PM10&#39;, &#39;unit&#39;: &#39;kg/m3&#39;, &#39;application&#39;: &#39;air&#39;}}, {&#39;prpvalue&#39;: {&#39;pm25&#39;: {&#39;prp&#39;: &#39;PM2.5&#39;, &#39;unit&#39;: &#39;kg/m3&#39;}}}, {&#39;prpvalue&#39;: &#39;pm1&#39;}]}, {&#39;iindex&#39;: [{&#39;namvalue&#39;: 21}, {&#39;namvalue&#39;: {&#39;test&#39;: 21}}, {&#39;namvalue&#39;: {&#39;list&#39;: [1, 2, 3]}}, {&#39;namvalue&#39;: True}, {&#39;namvalue&#39;: {&#39;dictionnary&#39;: &#39;{&#34;10&#34;: 1, &#34;100&#34;: 2}&#39;}}, {&#39;namvalue&#39;: {&#39;21&#39;: 211}}, {&#39;namvalue&#39;: [1.2, 3.4]}, {&#39;namvalue&#39;: &#39;name&#39;}]}] 
-
-only simple values :  
- [[21, 21, 211, &#39;{&#34;ko&#34;: 2, &#34;kobis&#34;: 2}&#39;, (1.2, 3.4), datetime.datetime(2021, 1, 21, 0, 0, tzinfo=datetime.timezone.utc), &#39;name&#39;], [21, 21, [1.2, 3.4], (1.2, 3.4), datetime.datetime(2021, 11, 21, 0, 0, tzinfo=datetime.timezone.utc), datetime.datetime(2021, 11, 21, 0, 0, tzinfo=datetime.timezone.utc), &#39;-&#39;], [&#39;-&#39;, &#39;PM10&#39;, &#39;PM2.5&#39;, &#39;-&#39;], [21, 21, (1, 2, 3), True, &#39;{&#34;10&#34;: 1, &#34;100&#34;: 2}&#39;, 211, (1.2, 3.4), &#39;name&#39;]]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Json-compatibility">Json compatibility<a class="anchor-link" href="#Json-compatibility">&#182;</a></h2><p>Just like for usual data, Iindex objects are completely defined by their Json representation for each format (object, string, binary).</p>
-<p>i.e. the object reconstructed from its json representation is identical to the initial object.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># obj et json format</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">json</span><span class="p">())</span> <span class="o">==</span> <span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(),</span> <span class="n">typevalue</span><span class="o">=</span><span class="s1">&#39;DatationValue&#39;</span><span class="p">)</span> <span class="o">==</span> 
-      <span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s1">&#39;cbor&#39;</span><span class="p">),</span> <span class="n">typevalue</span><span class="o">=</span><span class="s1">&#39;DatationValue&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">dat</span> <span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">json</span><span class="p">())</span> <span class="o">==</span> <span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(),</span> <span class="n">typevalue</span><span class="o">=</span><span class="s1">&#39;LocationValue&#39;</span><span class="p">)</span> <span class="o">==</span> 
-      <span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s1">&#39;cbor&#39;</span><span class="p">),</span> <span class="n">typevalue</span><span class="o">=</span><span class="s1">&#39;LocationValue&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">loc</span> <span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">prp</span><span class="o">.</span><span class="n">json</span><span class="p">())</span> <span class="o">==</span> <span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">prp</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(),</span> <span class="n">typevalue</span><span class="o">=</span><span class="s1">&#39;PropertyValue&#39;</span><span class="p">)</span> <span class="o">==</span> 
-      <span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">prp</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s1">&#39;cbor&#39;</span><span class="p">),</span> <span class="n">typevalue</span><span class="o">=</span><span class="s1">&#39;PropertyValue&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">prp</span> <span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">nam</span><span class="o">.</span><span class="n">json</span><span class="p">())</span> <span class="o">==</span> <span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">nam</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(),</span> <span class="n">typevalue</span><span class="o">=</span><span class="s1">&#39;NamedValue&#39;</span><span class="p">)</span> <span class="o">==</span> 
-      <span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">nam</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s1">&#39;cbor&#39;</span><span class="p">),</span> <span class="n">typevalue</span><span class="o">=</span><span class="s1">&#39;NamedValue&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">nam</span> <span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">ext</span><span class="o">.</span><span class="n">json</span><span class="p">())</span> <span class="o">==</span> <span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">ext</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s1">&#39;cbor&#39;</span><span class="p">))</span> <span class="o">==</span> <span class="n">ext</span> <span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>True
-True
-True
-True
-True
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;simple = Iindex([21, {&#39;test&#39;:21}, 21, [1.2, 3.4]], typevalue=&#39;NamedValue&#39;)</span>
-<span class="sd">print(simple)</span>
-<span class="sd">simple.append(52, typevalue=&#39;NamedValue&#39;)</span>
-<span class="sd">simple.append({&#39;datvalue&#39;: datetime(2020,1,1)})</span>
-<span class="sd">simple.setname(&#39;simple&#39;)</span>
-<span class="sd">print(simple.val)</span>
-<span class="sd">simple[3]=25</span>
-<span class="sd">print(simple)</span>
-<span class="sd">simple.setvalue(3, {&#39;truc&#39;: 25})</span>
-<span class="sd">print(simple)</span>
-<span class="sd">simple.append({&#39;truc&#39;: 25, &#39;dict&#39;:[1,2]})</span>
-<span class="sd">print(simple)</span>
-<span class="sd">print(simple.val)</span>
-<span class="sd">simple2 = Iindex([21, {&#39;test&#39;:21}, simple])</span>
-<span class="sd">print(simple2)&#39;&#39;&#39;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ok&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>ok
 </pre>
 </div>
 </div>
