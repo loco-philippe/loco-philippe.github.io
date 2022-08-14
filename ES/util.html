@@ -520,22 +520,10 @@
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;return the json object format of val (if function json() or to_json() exists)&#39;&#39;&#39;</span>
-        <span class="sd">&#39;&#39;&#39;if isinstance(val, (str, int, float, bool, list, tuple, type(None), bytes)): </span>
-<span class="sd">            return val &#39;&#39;&#39;</span>       
+    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>      
         <span class="n">val</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">_uncastsimple</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">)):</span> 
             <span class="k">return</span> <span class="n">val</span>        
-        <span class="sd">&#39;&#39;&#39;if isinstance(val, (str, int, float, bool, list, type(None), bytes)): </span>
-<span class="sd">            return val        </span>
-<span class="sd">        if isinstance(val, tuple): </span>
-<span class="sd">            return list(val)</span>
-<span class="sd">        if isinstance(val, datetime.datetime): </span>
-<span class="sd">            if option[&#39;simpleval&#39;]: return val </span>
-<span class="sd">            return val #!!!</span>
-<span class="sd">            return {ES.datetime: val}&#39;&#39;&#39;</span>
-        <span class="c1">#if isinstance(val, tuple(_invcastfunc.keys())[0:5]):      #ESValue</span>
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;simpleval&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">ESclassName</span><span class="p">:</span>      <span class="c1">#ESValue</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;typevalue&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
@@ -1159,22 +1147,10 @@ implement default like this::</p>
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;return the json object format of val (if function json() or to_json() exists)&#39;&#39;&#39;</span>
-        <span class="sd">&#39;&#39;&#39;if isinstance(val, (str, int, float, bool, list, tuple, type(None), bytes)): </span>
-<span class="sd">            return val &#39;&#39;&#39;</span>       
+    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>      
         <span class="n">val</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">_uncastsimple</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">)):</span> 
             <span class="k">return</span> <span class="n">val</span>        
-        <span class="sd">&#39;&#39;&#39;if isinstance(val, (str, int, float, bool, list, type(None), bytes)): </span>
-<span class="sd">            return val        </span>
-<span class="sd">        if isinstance(val, tuple): </span>
-<span class="sd">            return list(val)</span>
-<span class="sd">        if isinstance(val, datetime.datetime): </span>
-<span class="sd">            if option[&#39;simpleval&#39;]: return val </span>
-<span class="sd">            return val #!!!</span>
-<span class="sd">            return {ES.datetime: val}&#39;&#39;&#39;</span>
-        <span class="c1">#if isinstance(val, tuple(_invcastfunc.keys())[0:5]):      #ESValue</span>
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;simpleval&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">ESclassName</span><span class="p">:</span>      <span class="c1">#ESValue</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;typevalue&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
@@ -1878,22 +1854,10 @@ Return the list of index with True result.</p>
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;return the json object format of val (if function json() or to_json() exists)&#39;&#39;&#39;</span>
-        <span class="sd">&#39;&#39;&#39;if isinstance(val, (str, int, float, bool, list, tuple, type(None), bytes)): </span>
-<span class="sd">            return val &#39;&#39;&#39;</span>       
+    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>      
         <span class="n">val</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">_uncastsimple</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">)):</span> 
             <span class="k">return</span> <span class="n">val</span>        
-        <span class="sd">&#39;&#39;&#39;if isinstance(val, (str, int, float, bool, list, type(None), bytes)): </span>
-<span class="sd">            return val        </span>
-<span class="sd">        if isinstance(val, tuple): </span>
-<span class="sd">            return list(val)</span>
-<span class="sd">        if isinstance(val, datetime.datetime): </span>
-<span class="sd">            if option[&#39;simpleval&#39;]: return val </span>
-<span class="sd">            return val #!!!</span>
-<span class="sd">            return {ES.datetime: val}&#39;&#39;&#39;</span>
-        <span class="c1">#if isinstance(val, tuple(_invcastfunc.keys())[0:5]):      #ESValue</span>
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;simpleval&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">ESclassName</span><span class="p">:</span>      <span class="c1">#ESValue</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;typevalue&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
@@ -1905,9 +1869,7 @@ Return the list of index with True result.</p>
 
         </details>
 
-            <div class="docstring"><p>return the json object format of val (if function json() or to_json() exists)</p>
-</div>
-
+    
 
                             </div>
                             <div id="util.canonorder" class="classattr">

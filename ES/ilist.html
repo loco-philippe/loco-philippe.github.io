@@ -94,7 +94,13 @@
                                 <a class="variable" href="#Ilist.idxlen">idxlen</a>
                         </li>
                         <li>
+                                <a class="variable" href="#Ilist.indexlen">indexlen</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#Ilist.iidx">iidx</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Ilist.keys">keys</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Ilist.lencomplete">lencomplete</a>
@@ -119,6 +125,9 @@
                         </li>
                         <li>
                                 <a class="variable" href="#Ilist.lname">lname</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Ilist.nindex">nindex</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Ilist.primary">primary</a>
@@ -190,19 +199,22 @@
                                 <a class="function" href="#Ilist.loc">loc</a>
                         </li>
                         <li>
-                                <a class="function" href="#Ilist.record">record</a>
-                        </li>
-                        <li>
                                 <a class="function" href="#Ilist.merge">merge</a>
                         </li>
                         <li>
-                                <a class="function" href="#Ilist.renameindex">renameindex</a>
+                                <a class="function" href="#Ilist.record">record</a>
                         </li>
                         <li>
-                                <a class="function" href="#Ilist.rec">rec</a>
+                                <a class="function" href="#Ilist.recidx">recidx</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Ilist.recvar">recvar</a>
                         </li>
                         <li>
                                 <a class="function" href="#Ilist.reindex">reindex</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Ilist.renameindex">renameindex</a>
                         </li>
                         <li>
                                 <a class="function" href="#Ilist.setfilter">setfilter</a>
@@ -211,7 +223,7 @@
                                 <a class="function" href="#Ilist.setvar">setvar</a>
                         </li>
                         <li>
-                                <a class="function" href="#Ilist.sortkeys">sortkeys</a>
+                                <a class="function" href="#Ilist.sort">sort</a>
                         </li>
                         <li>
                                 <a class="function" href="#Ilist.swapindex">swapindex</a>
@@ -830,6 +842,7 @@ The graph below shows the size difference between simple list and indexed list.<
 <span class="sd">    - `Ilist.idxref`</span>
 <span class="sd">    - `Ilist.idxlen`</span>
 <span class="sd">    - `Ilist.iidx`</span>
+<span class="sd">    - `Ilist.keys`</span>
 <span class="sd">    - `Ilist.lenindex`</span>
 <span class="sd">    - `Ilist.lenidx`</span>
 <span class="sd">    - `Ilist.lidx`</span>
@@ -862,7 +875,8 @@ The graph below shows the size difference between simple list and indexed list.<
 <span class="sd">    - `Ilist.keytoval`</span>
 <span class="sd">    - `Ilist.loc`</span>
 <span class="sd">    - `Ilist.record`</span>
-<span class="sd">    - `Ilist.rec`</span>
+<span class="sd">    - `Ilist.recidx`</span>
+<span class="sd">    - `Ilist.recvar`</span>
 <span class="sd">    - `Ilist.valtokey`</span>
 
 <span class="sd">    *add - update methods*</span>
@@ -875,7 +889,7 @@ The graph below shows the size difference between simple list and indexed list.<
 <span class="sd">    - `Ilist.setvar`</span>
 <span class="sd">    - `Ilist.updateindex`    </span>
 <span class="sd">    </span>
-<span class="sd">    *management - conversion methods*</span>
+<span class="sd">    *structure management - methods*</span>
 
 <span class="sd">    - `Ilist.applyfilter`</span>
 <span class="sd">    - `Ilist.coupling`</span>
@@ -884,7 +898,7 @@ The graph below shows the size difference between simple list and indexed list.<
 <span class="sd">    - `Ilist.merge`</span>
 <span class="sd">    - `Ilist.reindex`</span>
 <span class="sd">    - `Ilist.setfilter`</span>
-<span class="sd">    - `Ilist.sortkeys`</span>
+<span class="sd">    - `Ilist.sort`</span>
 <span class="sd">    - `Ilist.swapindex`</span>
 <span class="sd">    - `Ilist.setcanonorder`</span>
 <span class="sd">    - `Ilist.tostdcodec`</span>
@@ -924,7 +938,7 @@ The graph below shows the size difference between simple list and indexed list.<
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **idxval** : list of values (see data model)</span>
+<span class="sd">        - **idxval** : list of Iindex or list of values (see data model)</span>
 <span class="sd">        - **idxname** : list of string (default None) - list of Iindex name (see data model)</span>
 <span class="sd">        - **typevalue** : str (default ES.def_clsName) - default value class (None or NamedValue)</span>
 <span class="sd">        - **fullcodec** : boolean (default False) - full codec if True</span>
@@ -1205,14 +1219,24 @@ The graph below shows the size difference between simple list and indexed list.<
     
     <span class="nd">@property</span>    
     <span class="k">def</span> <span class="nf">idxlen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; list of idx length&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; list of idx codec length&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">]</span>
+
+    <span class="nd">@property</span>    
+    <span class="k">def</span> <span class="nf">indexlen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; list of index codec length&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
 
     <span class="nd">@property</span> 
     <span class="k">def</span> <span class="nf">iidx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; list of keys for each idx&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">keys</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">]</span>
     
+    <span class="nd">@property</span> 
+    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; list of keys for each index&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">keys</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">lencomplete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;number of values if complete (prod(idxlen primary))&#39;&#39;&#39;</span>
@@ -1254,6 +1278,11 @@ The graph below shows the size difference between simple list and indexed list.<
         <span class="sd">&#39;&#39;&#39; list of index name&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
 
+    <span class="k">def</span> <span class="nf">nindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; index with name equal to attribute name&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    
     <span class="nd">@property</span>    
     <span class="k">def</span> <span class="nf">primary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; list of primary idx&#39;&#39;&#39;</span>
@@ -1341,8 +1370,9 @@ The graph below shows the size difference between simple list and indexed list.<
         <span class="k">if</span> <span class="ow">not</span> <span class="n">ES</span><span class="o">.</span><span class="n">filter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
         <span class="n">ifilt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">filter</span><span class="p">)</span>
         <span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="n">ifilt</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">))</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">ifilt</span><span class="p">]</span>
-        <span class="n">invers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">ifilt</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">ifilt</span><span class="p">]</span><span class="o">.</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sortkeys</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="n">invers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">reverse</span><span class="p">)</span>
+        <span class="c1">#invers = self.lindex[ifilt].keys[0]==self.lindex[ifilt].val[0]</span>
+        <span class="n">invers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">ifilt</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">ifilt</span><span class="p">]</span><span class="o">.</span><span class="n">valrow</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="n">invers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">reverse</span><span class="p">)</span>
         <span class="n">minind</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">ifilt</span><span class="p">]</span><span class="o">.</span><span class="n">recordfromvalue</span><span class="p">(</span><span class="n">reverse</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">:</span> <span class="k">del</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">minind</span><span class="p">:])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">delindex</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">filter</span><span class="p">)</span>
@@ -1479,7 +1509,7 @@ The graph below shows the size difference between simple list and indexed list.<
             <span class="n">newidx</span> <span class="o">=</span> <span class="n">Iindex</span><span class="p">([</span><span class="kc">True</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)))],</span> <span class="n">name</span><span class="o">=</span><span class="n">resindex</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">duplicates</span><span class="p">:</span> <span class="n">newidx</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">addindex</span><span class="p">(</span><span class="n">newidx</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">duplicates</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">duplicates</span><span class="p">))</span>
             
     <span class="k">def</span> <span class="nf">iscanonorder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return True if primary indexes have canonical ordered keys&#39;&#39;&#39;</span>
@@ -1501,7 +1531,7 @@ The graph below shows the size difference between simple list and indexed list.<
         <span class="k">return</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">textidx</span>
     
     <span class="k">def</span> <span class="nf">idxrecord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;return rec array from complete record (without variable)&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;return rec array (without variable) from complete record (with variable)&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">record</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lidxrow</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lidxrow</span><span class="p">))]</span>
     
     <span class="k">def</span> <span class="nf">indexinfos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -1640,20 +1670,6 @@ The graph below shows the size difference between simple list and indexed list.<
         <span class="k">except</span><span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">row</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;return the record at the row</span>
-<span class="sd">           </span>
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **row** : int - row of the record</span>
-<span class="sd">        - **extern** : boolean (default True) - if True, return val record else value record</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **list** : val record or value record&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">val</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
-    
     <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;merge&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">mergeidx</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">updateidx</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Merge method replaces Ilist objects included in variable data into its constituents.</span>
@@ -1679,7 +1695,7 @@ The graph below shows the size difference between simple list and indexed list.<
                 <span class="n">find</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="n">il</span> <span class="o">=</span> <span class="n">ilm</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">merge</span><span class="p">()</span>
                 <span class="n">ilname</span> <span class="o">=</span> <span class="n">il</span><span class="o">.</span><span class="n">idxname</span>
-                <span class="n">record</span> <span class="o">=</span> <span class="n">ilm</span><span class="o">.</span><span class="n">rec</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">record</span> <span class="o">=</span> <span class="n">ilm</span><span class="o">.</span><span class="n">recidx</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">record</span><span class="p">),</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">record</span><span class="p">)))):</span> <span class="c1"># Ilist pere</span>
                     <span class="n">nameidx</span> <span class="o">=</span> <span class="n">ilm</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
                     <span class="n">updidx</span> <span class="o">=</span> <span class="n">nameidx</span> <span class="ow">in</span> <span class="n">nameinit</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">updateidx</span>
@@ -1694,14 +1710,22 @@ The graph below shows the size difference between simple list and indexed list.<
                 <span class="k">break</span>
         <span class="k">return</span> <span class="n">ilm</span>
 
-    <span class="k">def</span> <span class="nf">renameindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oldname</span><span class="p">,</span> <span class="n">newname</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;replace an index name &#39;oldname&#39; by a new one &#39;newname&#39;. &#39;&#39;&#39;</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">oldname</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setname</span><span class="p">(</span><span class="n">newname</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">oldname</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">newname</span>
+    <span class="k">def</span> <span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;return the record at the row</span>
+<span class="sd">           </span>
+<span class="sd">        *Parameters*</span>
 
-    <span class="k">def</span> <span class="nf">rec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="sd">        - **row** : int - row of the record</span>
+<span class="sd">        - **extern** : boolean (default True) - if True, return val record else value record</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **list** : val record or value record&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">valrow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
+        <span class="c1">#if extern: return [idx.val[row] for idx in self.lindex]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
+    
+    <span class="k">def</span> <span class="nf">recidx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return the list of idx val or values at the row</span>
 <span class="sd">           </span>
 <span class="sd">        *Parameters*</span>
@@ -1711,14 +1735,37 @@ The graph below shows the size difference between simple list and indexed list.<
 
 <span class="sd">        *Returns*</span>
 
-<span class="sd">        - **list** : val rec or value rec&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">val</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">]</span>
+<span class="sd">        - **list** : val or value for idx&#39;&#39;&#39;</span>
+        <span class="c1">#if extern: return [idx.val[row] for idx in self.lidx]</span>
+        <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">valrow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">]</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">recvar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;return the list of var val or values at the row</span>
+<span class="sd">           </span>
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **row** : int - row of the record</span>
+<span class="sd">        - **extern** : boolean (default True) - if True, return val rec else value rec</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **list** : val or value for var&#39;&#39;&#39;</span>
+        <span class="c1">#if extern: return [idx.val[row] for idx in self.lidx]</span>
+        <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">valrow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">reindex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Calculate a new default codec for each index (Return self)&#39;&#39;&#39;</span>
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">:</span> <span class="n">idx</span><span class="o">.</span><span class="n">reindex</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span>       
+
+    <span class="k">def</span> <span class="nf">renameindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oldname</span><span class="p">,</span> <span class="n">newname</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;replace an index name &#39;oldname&#39; by a new one &#39;newname&#39;. &#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">oldname</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setname</span><span class="p">(</span><span class="n">newname</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">oldname</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">newname</span>
 
     <span class="k">def</span> <span class="nf">setfilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Add a filter index with boolean values</span>
@@ -1744,17 +1791,20 @@ The graph below shows the size difference between simple list and indexed list.<
             <span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span> <span class="o">=</span> <span class="p">[</span><span class="n">var</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;var is not consistent with Ilist&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">sortkeys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="nb">str</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Sort data following the index order and apply the ascending or descending </span>
-<span class="sd">        sort function to keys.</span>
+<span class="sd">        sort function to values.</span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **order** : list (default None)- new order of index to apply. If None or [], </span>
 <span class="sd">        the sort function is applied to the existing order of indexes.</span>
 <span class="sd">        - **reverse** : boolean (default False)- ascending if True, descending if False</span>
+<span class="sd">        - **func**    : function (default str) - key used in the sorted function</span>
 
 <span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">:</span>
+            <span class="n">idx</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">codec</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">func</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">order</span><span class="p">:</span> <span class="n">order</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">)))</span>
         <span class="n">newidx</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span>
             <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">keys</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">))]),</span> 
@@ -1828,7 +1878,7 @@ The graph below shows the size difference between simple list and indexed list.<
             <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">order</span><span class="p">:</span> <span class="n">order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">:</span> <span class="n">order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">swapindex</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sortkeys</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
         
     <span class="k">def</span> <span class="nf">to_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indexinfos</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Return a formatted object (json string, cbor bytes or json dict). </span>
@@ -1969,6 +2019,7 @@ The graph below shows the size difference between simple list and indexed list.<
 <span class="sd">    - `Ilist.idxref`</span>
 <span class="sd">    - `Ilist.idxlen`</span>
 <span class="sd">    - `Ilist.iidx`</span>
+<span class="sd">    - `Ilist.keys`</span>
 <span class="sd">    - `Ilist.lenindex`</span>
 <span class="sd">    - `Ilist.lenidx`</span>
 <span class="sd">    - `Ilist.lidx`</span>
@@ -2001,7 +2052,8 @@ The graph below shows the size difference between simple list and indexed list.<
 <span class="sd">    - `Ilist.keytoval`</span>
 <span class="sd">    - `Ilist.loc`</span>
 <span class="sd">    - `Ilist.record`</span>
-<span class="sd">    - `Ilist.rec`</span>
+<span class="sd">    - `Ilist.recidx`</span>
+<span class="sd">    - `Ilist.recvar`</span>
 <span class="sd">    - `Ilist.valtokey`</span>
 
 <span class="sd">    *add - update methods*</span>
@@ -2014,7 +2066,7 @@ The graph below shows the size difference between simple list and indexed list.<
 <span class="sd">    - `Ilist.setvar`</span>
 <span class="sd">    - `Ilist.updateindex`    </span>
 <span class="sd">    </span>
-<span class="sd">    *management - conversion methods*</span>
+<span class="sd">    *structure management - methods*</span>
 
 <span class="sd">    - `Ilist.applyfilter`</span>
 <span class="sd">    - `Ilist.coupling`</span>
@@ -2023,7 +2075,7 @@ The graph below shows the size difference between simple list and indexed list.<
 <span class="sd">    - `Ilist.merge`</span>
 <span class="sd">    - `Ilist.reindex`</span>
 <span class="sd">    - `Ilist.setfilter`</span>
-<span class="sd">    - `Ilist.sortkeys`</span>
+<span class="sd">    - `Ilist.sort`</span>
 <span class="sd">    - `Ilist.swapindex`</span>
 <span class="sd">    - `Ilist.setcanonorder`</span>
 <span class="sd">    - `Ilist.tostdcodec`</span>
@@ -2063,7 +2115,7 @@ The graph below shows the size difference between simple list and indexed list.<
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **idxval** : list of values (see data model)</span>
+<span class="sd">        - **idxval** : list of Iindex or list of values (see data model)</span>
 <span class="sd">        - **idxname** : list of string (default None) - list of Iindex name (see data model)</span>
 <span class="sd">        - **typevalue** : str (default ES.def_clsName) - default value class (None or NamedValue)</span>
 <span class="sd">        - **fullcodec** : boolean (default False) - full codec if True</span>
@@ -2344,14 +2396,24 @@ The graph below shows the size difference between simple list and indexed list.<
     
     <span class="nd">@property</span>    
     <span class="k">def</span> <span class="nf">idxlen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; list of idx length&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; list of idx codec length&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">]</span>
+
+    <span class="nd">@property</span>    
+    <span class="k">def</span> <span class="nf">indexlen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; list of index codec length&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
 
     <span class="nd">@property</span> 
     <span class="k">def</span> <span class="nf">iidx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; list of keys for each idx&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">keys</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">]</span>
     
+    <span class="nd">@property</span> 
+    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; list of keys for each index&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">keys</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">lencomplete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;number of values if complete (prod(idxlen primary))&#39;&#39;&#39;</span>
@@ -2393,6 +2455,11 @@ The graph below shows the size difference between simple list and indexed list.<
         <span class="sd">&#39;&#39;&#39; list of index name&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
 
+    <span class="k">def</span> <span class="nf">nindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; index with name equal to attribute name&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    
     <span class="nd">@property</span>    
     <span class="k">def</span> <span class="nf">primary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; list of primary idx&#39;&#39;&#39;</span>
@@ -2480,8 +2547,9 @@ The graph below shows the size difference between simple list and indexed list.<
         <span class="k">if</span> <span class="ow">not</span> <span class="n">ES</span><span class="o">.</span><span class="n">filter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
         <span class="n">ifilt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">filter</span><span class="p">)</span>
         <span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="n">ifilt</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">))</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">ifilt</span><span class="p">]</span>
-        <span class="n">invers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">ifilt</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">ifilt</span><span class="p">]</span><span class="o">.</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sortkeys</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="n">invers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">reverse</span><span class="p">)</span>
+        <span class="c1">#invers = self.lindex[ifilt].keys[0]==self.lindex[ifilt].val[0]</span>
+        <span class="n">invers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">ifilt</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">ifilt</span><span class="p">]</span><span class="o">.</span><span class="n">valrow</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="n">invers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">reverse</span><span class="p">)</span>
         <span class="n">minind</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">ifilt</span><span class="p">]</span><span class="o">.</span><span class="n">recordfromvalue</span><span class="p">(</span><span class="n">reverse</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">:</span> <span class="k">del</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">minind</span><span class="p">:])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">delindex</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">filter</span><span class="p">)</span>
@@ -2618,7 +2686,7 @@ The graph below shows the size difference between simple list and indexed list.<
             <span class="n">newidx</span> <span class="o">=</span> <span class="n">Iindex</span><span class="p">([</span><span class="kc">True</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)))],</span> <span class="n">name</span><span class="o">=</span><span class="n">resindex</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">duplicates</span><span class="p">:</span> <span class="n">newidx</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">addindex</span><span class="p">(</span><span class="n">newidx</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">duplicates</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">duplicates</span><span class="p">))</span>
             
     <span class="k">def</span> <span class="nf">iscanonorder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return True if primary indexes have canonical ordered keys&#39;&#39;&#39;</span>
@@ -2640,7 +2708,7 @@ The graph below shows the size difference between simple list and indexed list.<
         <span class="k">return</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">textidx</span>
     
     <span class="k">def</span> <span class="nf">idxrecord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;return rec array from complete record (without variable)&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;return rec array (without variable) from complete record (with variable)&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">record</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lidxrow</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lidxrow</span><span class="p">))]</span>
     
     <span class="k">def</span> <span class="nf">indexinfos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -2779,20 +2847,6 @@ The graph below shows the size difference between simple list and indexed list.<
         <span class="k">except</span><span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">row</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;return the record at the row</span>
-<span class="sd">           </span>
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **row** : int - row of the record</span>
-<span class="sd">        - **extern** : boolean (default True) - if True, return val record else value record</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **list** : val record or value record&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">val</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
-    
     <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;merge&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">mergeidx</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">updateidx</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Merge method replaces Ilist objects included in variable data into its constituents.</span>
@@ -2818,7 +2872,7 @@ The graph below shows the size difference between simple list and indexed list.<
                 <span class="n">find</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="n">il</span> <span class="o">=</span> <span class="n">ilm</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">merge</span><span class="p">()</span>
                 <span class="n">ilname</span> <span class="o">=</span> <span class="n">il</span><span class="o">.</span><span class="n">idxname</span>
-                <span class="n">record</span> <span class="o">=</span> <span class="n">ilm</span><span class="o">.</span><span class="n">rec</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">record</span> <span class="o">=</span> <span class="n">ilm</span><span class="o">.</span><span class="n">recidx</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">record</span><span class="p">),</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">record</span><span class="p">)))):</span> <span class="c1"># Ilist pere</span>
                     <span class="n">nameidx</span> <span class="o">=</span> <span class="n">ilm</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
                     <span class="n">updidx</span> <span class="o">=</span> <span class="n">nameidx</span> <span class="ow">in</span> <span class="n">nameinit</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">updateidx</span>
@@ -2833,14 +2887,22 @@ The graph below shows the size difference between simple list and indexed list.<
                 <span class="k">break</span>
         <span class="k">return</span> <span class="n">ilm</span>
 
-    <span class="k">def</span> <span class="nf">renameindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oldname</span><span class="p">,</span> <span class="n">newname</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;replace an index name &#39;oldname&#39; by a new one &#39;newname&#39;. &#39;&#39;&#39;</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">oldname</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setname</span><span class="p">(</span><span class="n">newname</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">oldname</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">newname</span>
+    <span class="k">def</span> <span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;return the record at the row</span>
+<span class="sd">           </span>
+<span class="sd">        *Parameters*</span>
 
-    <span class="k">def</span> <span class="nf">rec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="sd">        - **row** : int - row of the record</span>
+<span class="sd">        - **extern** : boolean (default True) - if True, return val record else value record</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **list** : val record or value record&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">valrow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
+        <span class="c1">#if extern: return [idx.val[row] for idx in self.lindex]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
+    
+    <span class="k">def</span> <span class="nf">recidx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return the list of idx val or values at the row</span>
 <span class="sd">           </span>
 <span class="sd">        *Parameters*</span>
@@ -2850,14 +2912,37 @@ The graph below shows the size difference between simple list and indexed list.<
 
 <span class="sd">        *Returns*</span>
 
-<span class="sd">        - **list** : val rec or value rec&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">val</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">]</span>
+<span class="sd">        - **list** : val or value for idx&#39;&#39;&#39;</span>
+        <span class="c1">#if extern: return [idx.val[row] for idx in self.lidx]</span>
+        <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">valrow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">]</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">recvar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;return the list of var val or values at the row</span>
+<span class="sd">           </span>
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **row** : int - row of the record</span>
+<span class="sd">        - **extern** : boolean (default True) - if True, return val rec else value rec</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **list** : val or value for var&#39;&#39;&#39;</span>
+        <span class="c1">#if extern: return [idx.val[row] for idx in self.lidx]</span>
+        <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">valrow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">reindex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Calculate a new default codec for each index (Return self)&#39;&#39;&#39;</span>
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">:</span> <span class="n">idx</span><span class="o">.</span><span class="n">reindex</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span>       
+
+    <span class="k">def</span> <span class="nf">renameindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oldname</span><span class="p">,</span> <span class="n">newname</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;replace an index name &#39;oldname&#39; by a new one &#39;newname&#39;. &#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">oldname</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setname</span><span class="p">(</span><span class="n">newname</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">oldname</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">newname</span>
 
     <span class="k">def</span> <span class="nf">setfilter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Add a filter index with boolean values</span>
@@ -2883,17 +2968,20 @@ The graph below shows the size difference between simple list and indexed list.<
             <span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span> <span class="o">=</span> <span class="p">[</span><span class="n">var</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;var is not consistent with Ilist&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">sortkeys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="nb">str</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Sort data following the index order and apply the ascending or descending </span>
-<span class="sd">        sort function to keys.</span>
+<span class="sd">        sort function to values.</span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **order** : list (default None)- new order of index to apply. If None or [], </span>
 <span class="sd">        the sort function is applied to the existing order of indexes.</span>
 <span class="sd">        - **reverse** : boolean (default False)- ascending if True, descending if False</span>
+<span class="sd">        - **func**    : function (default str) - key used in the sorted function</span>
 
 <span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">:</span>
+            <span class="n">idx</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">codec</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">func</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">order</span><span class="p">:</span> <span class="n">order</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">)))</span>
         <span class="n">newidx</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span>
             <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">keys</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">))]),</span> 
@@ -2967,7 +3055,7 @@ The graph below shows the size difference between simple list and indexed list.<
             <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">order</span><span class="p">:</span> <span class="n">order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">:</span> <span class="n">order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">swapindex</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sortkeys</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
         
     <span class="k">def</span> <span class="nf">to_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indexinfos</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Return a formatted object (json string, cbor bytes or json dict). </span>
@@ -3094,6 +3182,7 @@ The graph below shows the size difference between simple list and indexed list.<
 <li><code><a href="#Ilist.idxref">Ilist.idxref</a></code></li>
 <li><code><a href="#Ilist.idxlen">Ilist.idxlen</a></code></li>
 <li><code><a href="#Ilist.iidx">Ilist.iidx</a></code></li>
+<li><code><a href="#Ilist.keys">Ilist.keys</a></code></li>
 <li><code><a href="#Ilist.lenindex">Ilist.lenindex</a></code></li>
 <li><code><a href="#Ilist.lenidx">Ilist.lenidx</a></code></li>
 <li><code><a href="#Ilist.lidx">Ilist.lidx</a></code></li>
@@ -3130,7 +3219,8 @@ The graph below shows the size difference between simple list and indexed list.<
 <li><code><a href="#Ilist.keytoval">Ilist.keytoval</a></code></li>
 <li><code><a href="#Ilist.loc">Ilist.loc</a></code></li>
 <li><code><a href="#Ilist.record">Ilist.record</a></code></li>
-<li><code><a href="#Ilist.rec">Ilist.rec</a></code></li>
+<li><code><a href="#Ilist.recidx">Ilist.recidx</a></code></li>
+<li><code><a href="#Ilist.recvar">Ilist.recvar</a></code></li>
 <li><code><a href="#Ilist.valtokey">Ilist.valtokey</a></code></li>
 </ul>
 
@@ -3146,7 +3236,7 @@ The graph below shows the size difference between simple list and indexed list.<
 <li><code><a href="#Ilist.updateindex">Ilist.updateindex</a></code>    </li>
 </ul>
 
-<p><em>management - conversion methods</em></p>
+<p><em>structure management - methods</em></p>
 
 <ul>
 <li><code><a href="#Ilist.applyfilter">Ilist.applyfilter</a></code></li>
@@ -3156,7 +3246,7 @@ The graph below shows the size difference between simple list and indexed list.<
 <li><code><a href="#Ilist.merge">Ilist.merge</a></code></li>
 <li><code><a href="#Ilist.reindex">Ilist.reindex</a></code></li>
 <li><code><a href="#Ilist.setfilter">Ilist.setfilter</a></code></li>
-<li><code><a href="#Ilist.sortkeys">Ilist.sortkeys</a></code></li>
+<li><code><a href="#Ilist.sort">Ilist.sort</a></code></li>
 <li><code><a href="#Ilist.swapindex">Ilist.swapindex</a></code></li>
 <li><code><a href="#Ilist.setcanonorder">Ilist.setcanonorder</a></code></li>
 <li><code><a href="#Ilist.tostdcodec">Ilist.tostdcodec</a></code></li>
@@ -3355,7 +3445,7 @@ The graph below shows the size difference between simple list and indexed list.<
 
 <span class="sd">        *Parameters*</span>
 
-<span class="sd">        - **idxval** : list of values (see data model)</span>
+<span class="sd">        - **idxval** : list of Iindex or list of values (see data model)</span>
 <span class="sd">        - **idxname** : list of string (default None) - list of Iindex name (see data model)</span>
 <span class="sd">        - **typevalue** : str (default ES.def_clsName) - default value class (None or NamedValue)</span>
 <span class="sd">        - **fullcodec** : boolean (default False) - full codec if True</span>
@@ -3385,7 +3475,7 @@ The graph below shows the size difference between simple list and indexed list.<
 <p><em>Parameters</em></p>
 
 <ul>
-<li><strong>idxval</strong> : list of values (see data model)</li>
+<li><strong>idxval</strong> : list of Iindex or list of values (see data model)</li>
 <li><strong>idxname</strong> : list of string (default None) - list of Iindex name (see data model)</li>
 <li><strong>typevalue</strong> : str (default ES.def_clsName) - default value class (None or NamedValue)</li>
 <li><strong>fullcodec</strong> : boolean (default False) - full codec if True</li>
@@ -3595,7 +3685,19 @@ The graph below shows the size difference between simple list and indexed list.<
     </div>
 
     
-            <div class="docstring"><p>list of idx length</p>
+            <div class="docstring"><p>list of idx codec length</p>
+</div>
+
+
+                            </div>
+                            <div id="Ilist.indexlen" class="classattr">
+                                            <div class="attr variable"><a class="headerlink" href="#Ilist.indexlen">#&nbsp;&nbsp</a>
+
+        <span class="name">indexlen</span>
+    </div>
+
+    
+            <div class="docstring"><p>list of index codec length</p>
 </div>
 
 
@@ -3608,6 +3710,18 @@ The graph below shows the size difference between simple list and indexed list.<
 
     
             <div class="docstring"><p>list of keys for each idx</p>
+</div>
+
+
+                            </div>
+                            <div id="Ilist.keys" class="classattr">
+                                            <div class="attr variable"><a class="headerlink" href="#Ilist.keys">#&nbsp;&nbsp</a>
+
+        <span class="name">keys</span>
+    </div>
+
+    
+            <div class="docstring"><p>list of keys for each index</p>
 </div>
 
 
@@ -3704,6 +3818,29 @@ The graph below shows the size difference between simple list and indexed list.<
 
     
             <div class="docstring"><p>list of index name</p>
+</div>
+
+
+                            </div>
+                            <div id="Ilist.nindex" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Ilist.nindex">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">nindex</span><span class="signature">(self, name)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">nindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; index with name equal to attribute name&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>index with name equal to attribute name</p>
 </div>
 
 
@@ -3902,8 +4039,9 @@ string if dtype is available for all indexes</li>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">ES</span><span class="o">.</span><span class="n">filter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
         <span class="n">ifilt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">filter</span><span class="p">)</span>
         <span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="n">ifilt</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">))</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">ifilt</span><span class="p">]</span>
-        <span class="n">invers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">ifilt</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">ifilt</span><span class="p">]</span><span class="o">.</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sortkeys</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="n">invers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">reverse</span><span class="p">)</span>
+        <span class="c1">#invers = self.lindex[ifilt].keys[0]==self.lindex[ifilt].val[0]</span>
+        <span class="n">invers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">ifilt</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">ifilt</span><span class="p">]</span><span class="o">.</span><span class="n">valrow</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="n">invers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">reverse</span><span class="p">)</span>
         <span class="n">minind</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">ifilt</span><span class="p">]</span><span class="o">.</span><span class="n">recordfromvalue</span><span class="p">(</span><span class="n">reverse</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">:</span> <span class="k">del</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">minind</span><span class="p">:])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">delindex</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">filter</span><span class="p">)</span>
@@ -4207,7 +4345,7 @@ else, internal</li>
             <span class="n">newidx</span> <span class="o">=</span> <span class="n">Iindex</span><span class="p">([</span><span class="kc">True</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)))],</span> <span class="n">name</span><span class="o">=</span><span class="n">resindex</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">duplicates</span><span class="p">:</span> <span class="n">newidx</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">addindex</span><span class="p">(</span><span class="n">newidx</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">duplicates</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">duplicates</span><span class="p">))</span>
 </pre></div>
 
         </details>
@@ -4302,13 +4440,13 @@ else, internal</li>
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">idxrecord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;return rec array from complete record (without variable)&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;return rec array (without variable) from complete record (with variable)&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">record</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lidxrow</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lidxrow</span><span class="p">))]</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>return rec array from complete record (without variable)</p>
+            <div class="docstring"><p>return rec array (without variable) from complete record (with variable)</p>
 </div>
 
 
@@ -4598,51 +4736,6 @@ else, internal</li>
 
 
                             </div>
-                            <div id="Ilist.record" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#Ilist.record">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">record</span><span class="signature">(self, row, extern=True)</span>:
-    </div>
-
-            <details>
-            <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;return the record at the row</span>
-<span class="sd">           </span>
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **row** : int - row of the record</span>
-<span class="sd">        - **extern** : boolean (default True) - if True, return val record else value record</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **list** : val record or value record&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">val</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
-</pre></div>
-
-        </details>
-
-            <div class="docstring"><p>return the record at the row</p>
-
-<p><em>Parameters</em></p>
-
-<ul>
-<li><strong>row</strong> : int - row of the record</li>
-<li><strong>extern</strong> : boolean (default True) - if True, return val record else value record</li>
-</ul>
-
-<p><em>Returns</em></p>
-
-<ul>
-<li><strong>list</strong> : val record or value record</li>
-</ul>
-</div>
-
-
-                            </div>
                             <div id="Ilist.merge" class="classattr">
                                         <div class="attr function"><a class="headerlink" href="#Ilist.merge">#&nbsp;&nbsp</a>
 
@@ -4678,7 +4771,7 @@ else, internal</li>
                 <span class="n">find</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="n">il</span> <span class="o">=</span> <span class="n">ilm</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">merge</span><span class="p">()</span>
                 <span class="n">ilname</span> <span class="o">=</span> <span class="n">il</span><span class="o">.</span><span class="n">idxname</span>
-                <span class="n">record</span> <span class="o">=</span> <span class="n">ilm</span><span class="o">.</span><span class="n">rec</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">record</span> <span class="o">=</span> <span class="n">ilm</span><span class="o">.</span><span class="n">recidx</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">record</span><span class="p">),</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">record</span><span class="p">)))):</span> <span class="c1"># Ilist pere</span>
                     <span class="n">nameidx</span> <span class="o">=</span> <span class="n">ilm</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
                     <span class="n">updidx</span> <span class="o">=</span> <span class="n">nameidx</span> <span class="ow">in</span> <span class="n">nameinit</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">updateidx</span>
@@ -4716,42 +4809,63 @@ else, internal</li>
 
 
                             </div>
-                            <div id="Ilist.renameindex" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#Ilist.renameindex">#&nbsp;&nbsp</a>
+                            <div id="Ilist.record" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Ilist.record">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">renameindex</span><span class="signature">(self, oldname, newname)</span>:
+            <span class="name">record</span><span class="signature">(self, row, extern=True)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">renameindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oldname</span><span class="p">,</span> <span class="n">newname</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;replace an index name &#39;oldname&#39; by a new one &#39;newname&#39;. &#39;&#39;&#39;</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">oldname</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setname</span><span class="p">(</span><span class="n">newname</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">oldname</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">newname</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;return the record at the row</span>
+<span class="sd">           </span>
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **row** : int - row of the record</span>
+<span class="sd">        - **extern** : boolean (default True) - if True, return val record else value record</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **list** : val record or value record&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">valrow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
+        <span class="c1">#if extern: return [idx.val[row] for idx in self.lindex]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">]</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>replace an index name 'oldname' by a new one 'newname'.</p>
+            <div class="docstring"><p>return the record at the row</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>row</strong> : int - row of the record</li>
+<li><strong>extern</strong> : boolean (default True) - if True, return val record else value record</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>list</strong> : val record or value record</li>
+</ul>
 </div>
 
 
                             </div>
-                            <div id="Ilist.rec" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#Ilist.rec">#&nbsp;&nbsp</a>
+                            <div id="Ilist.recidx" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Ilist.recidx">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">rec</span><span class="signature">(self, row, extern=True)</span>:
+            <span class="name">recidx</span><span class="signature">(self, row, extern=True)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">rec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">recidx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return the list of idx val or values at the row</span>
 <span class="sd">           </span>
 <span class="sd">        *Parameters*</span>
@@ -4761,8 +4875,9 @@ else, internal</li>
 
 <span class="sd">        *Returns*</span>
 
-<span class="sd">        - **list** : val rec or value rec&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">val</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">]</span>
+<span class="sd">        - **list** : val or value for idx&#39;&#39;&#39;</span>
+        <span class="c1">#if extern: return [idx.val[row] for idx in self.lidx]</span>
+        <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">valrow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">]</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">]</span>
 </pre></div>
 
@@ -4780,7 +4895,53 @@ else, internal</li>
 <p><em>Returns</em></p>
 
 <ul>
-<li><strong>list</strong> : val rec or value rec</li>
+<li><strong>list</strong> : val or value for idx</li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="Ilist.recvar" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Ilist.recvar">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">recvar</span><span class="signature">(self, row, extern=True)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">recvar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;return the list of var val or values at the row</span>
+<span class="sd">           </span>
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **row** : int - row of the record</span>
+<span class="sd">        - **extern** : boolean (default True) - if True, return val rec else value rec</span>
+
+<span class="sd">        *Returns*</span>
+
+<span class="sd">        - **list** : val or value for var&#39;&#39;&#39;</span>
+        <span class="c1">#if extern: return [idx.val[row] for idx in self.lidx]</span>
+        <span class="k">if</span> <span class="n">extern</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">valrow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">]</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>return the list of var val or values at the row</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>row</strong> : int - row of the record</li>
+<li><strong>extern</strong> : boolean (default True) - if True, return val rec else value rec</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li><strong>list</strong> : val or value for var</li>
 </ul>
 </div>
 
@@ -4805,6 +4966,31 @@ else, internal</li>
         </details>
 
             <div class="docstring"><p>Calculate a new default codec for each index (Return self)</p>
+</div>
+
+
+                            </div>
+                            <div id="Ilist.renameindex" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Ilist.renameindex">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">renameindex</span><span class="signature">(self, oldname, newname)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">renameindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oldname</span><span class="p">,</span> <span class="n">newname</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;replace an index name &#39;oldname&#39; by a new one &#39;newname&#39;. &#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">oldname</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setname</span><span class="p">(</span><span class="n">newname</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">oldname</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">newname</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>replace an index name 'oldname' by a new one 'newname'.</p>
 </div>
 
 
@@ -4876,27 +5062,30 @@ else, internal</li>
 
 
                             </div>
-                            <div id="Ilist.sortkeys" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#Ilist.sortkeys">#&nbsp;&nbsp</a>
+                            <div id="Ilist.sort" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Ilist.sort">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">sortkeys</span><span class="signature">(self, order=None, reverse=False)</span>:
+            <span class="name">sort</span><span class="signature">(self, order=None, reverse=False, func=&lt;class &#39;str&#39;&gt;)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">sortkeys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="nb">str</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Sort data following the index order and apply the ascending or descending </span>
-<span class="sd">        sort function to keys.</span>
+<span class="sd">        sort function to values.</span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **order** : list (default None)- new order of index to apply. If None or [], </span>
 <span class="sd">        the sort function is applied to the existing order of indexes.</span>
 <span class="sd">        - **reverse** : boolean (default False)- ascending if True, descending if False</span>
+<span class="sd">        - **func**    : function (default str) - key used in the sorted function</span>
 
 <span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">:</span>
+            <span class="n">idx</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">codec</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">func</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">order</span><span class="p">:</span> <span class="n">order</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">)))</span>
         <span class="n">newidx</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span>
             <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">keys</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">))]),</span> 
@@ -4907,7 +5096,7 @@ else, internal</li>
         </details>
 
             <div class="docstring"><p>Sort data following the index order and apply the ascending or descending 
-sort function to keys.</p>
+sort function to values.</p>
 
 <p><em>Parameters</em></p>
 
@@ -4915,6 +5104,7 @@ sort function to keys.</p>
 <li><strong>order</strong> : list (default None)- new order of index to apply. If None or [], 
 the sort function is applied to the existing order of indexes.</li>
 <li><strong>reverse</strong> : boolean (default False)- ascending if True, descending if False</li>
+<li><strong>func</strong>    : function (default str) - key used in the sorted function</li>
 </ul>
 
 <p><em>Returns</em> : None</p>
@@ -5090,7 +5280,7 @@ before writting csv file</li>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">order</span><span class="p">:</span> <span class="n">order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">:</span> <span class="n">order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">swapindex</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sortkeys</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
 </pre></div>
 
         </details>

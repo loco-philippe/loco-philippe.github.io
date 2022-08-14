@@ -149,6 +149,9 @@
                                 <a class="function" href="#Iindex.to_obj">to_obj</a>
                         </li>
                         <li>
+                                <a class="function" href="#Iindex.valrow">valrow</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Iindex.valtokey">valtokey</a>
                         </li>
                         <li>
@@ -436,7 +439,6 @@
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ind</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return val item (value conversion)&#39;&#39;&#39;</span>
-        <span class="c1">#return self.val[ind]</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span> <span class="k">return</span> <span class="p">[</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ind</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span>
 
@@ -869,7 +871,7 @@
         <span class="n">values</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">castobj</span><span class="p">(</span><span class="n">listvalue</span><span class="p">,</span> <span class="n">typevalue</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">resetidx</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
         
-    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="nb">str</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Define sorted index with ordered codec.</span>
 
 <span class="sd">        *Parameters*</span>
@@ -877,12 +879,13 @@
 <span class="sd">        - **reverse** : boolean (defaut False) - codec is sorted with reverse order</span>
 <span class="sd">        - **inplace** : boolean (default True) - if True, new order is apply to self,</span>
 <span class="sd">        if False a new Iindex is created.</span>
+<span class="sd">        - **func**    : function (default str) - key used in the sorted function</span>
 
 <span class="sd">        *Return*</span>
 <span class="sd">        </span>
 <span class="sd">        - **Iindex** : self if inplace, new Iindex if not inplace&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">inplace</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">codec</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">codec</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">func</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
             <span class="k">return</span> <span class="bp">self</span>
         <span class="n">oldcodec</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span>
@@ -984,6 +987,19 @@
         <span class="k">if</span> <span class="n">typevalue</span><span class="p">:</span>                       <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">typevalue</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>                               <span class="n">dtype</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">encodeobj</span><span class="p">(</span><span class="n">codeclist</span><span class="p">,</span> <span class="n">keyslist</span><span class="p">,</span> <span class="n">idxname</span><span class="p">,</span> <span class="n">fullcodec</span><span class="p">,</span> <span class="n">simpleval</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>    
+    
+    <span class="k">def</span> <span class="nf">valrow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; return val for a record</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **row** : record to obtain val</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns* : val[row]&#39;&#39;&#39;</span>
+        <span class="n">cc</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">_uncastsimple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">row</span><span class="p">]])</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cc</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">)):</span> 
+            <span class="k">return</span> <span class="n">cc</span>        
+        <span class="k">return</span> <span class="n">cc</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
     
     <span class="k">def</span> <span class="nf">valtokey</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;convert a value to a key </span>
@@ -1276,7 +1292,6 @@
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ind</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return val item (value conversion)&#39;&#39;&#39;</span>
-        <span class="c1">#return self.val[ind]</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span> <span class="k">return</span> <span class="p">[</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ind</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span>
 
@@ -1709,7 +1724,7 @@
         <span class="n">values</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">castobj</span><span class="p">(</span><span class="n">listvalue</span><span class="p">,</span> <span class="n">typevalue</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">resetidx</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
         
-    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="nb">str</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Define sorted index with ordered codec.</span>
 
 <span class="sd">        *Parameters*</span>
@@ -1717,12 +1732,13 @@
 <span class="sd">        - **reverse** : boolean (defaut False) - codec is sorted with reverse order</span>
 <span class="sd">        - **inplace** : boolean (default True) - if True, new order is apply to self,</span>
 <span class="sd">        if False a new Iindex is created.</span>
+<span class="sd">        - **func**    : function (default str) - key used in the sorted function</span>
 
 <span class="sd">        *Return*</span>
 <span class="sd">        </span>
 <span class="sd">        - **Iindex** : self if inplace, new Iindex if not inplace&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">inplace</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">codec</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">codec</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">func</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
             <span class="k">return</span> <span class="bp">self</span>
         <span class="n">oldcodec</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span>
@@ -1824,6 +1840,19 @@
         <span class="k">if</span> <span class="n">typevalue</span><span class="p">:</span>                       <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">typevalue</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>                               <span class="n">dtype</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">encodeobj</span><span class="p">(</span><span class="n">codeclist</span><span class="p">,</span> <span class="n">keyslist</span><span class="p">,</span> <span class="n">idxname</span><span class="p">,</span> <span class="n">fullcodec</span><span class="p">,</span> <span class="n">simpleval</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>    
+    
+    <span class="k">def</span> <span class="nf">valrow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; return val for a record</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **row** : record to obtain val</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns* : val[row]&#39;&#39;&#39;</span>
+        <span class="n">cc</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">_uncastsimple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">row</span><span class="p">]])</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cc</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">)):</span> 
+            <span class="k">return</span> <span class="n">cc</span>        
+        <span class="k">return</span> <span class="n">cc</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
     
     <span class="k">def</span> <span class="nf">valtokey</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">extern</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;convert a value to a key </span>
@@ -3287,12 +3316,12 @@ if False a new Iindex is created.</li>
 
         
             <span class="def">def</span>
-            <span class="name">sort</span><span class="signature">(self, reverse=False, inplace=True)</span>:
+            <span class="name">sort</span><span class="signature">(self, reverse=False, inplace=True, func=&lt;class &#39;str&#39;&gt;)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="nb">str</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Define sorted index with ordered codec.</span>
 
 <span class="sd">        *Parameters*</span>
@@ -3300,12 +3329,13 @@ if False a new Iindex is created.</li>
 <span class="sd">        - **reverse** : boolean (defaut False) - codec is sorted with reverse order</span>
 <span class="sd">        - **inplace** : boolean (default True) - if True, new order is apply to self,</span>
 <span class="sd">        if False a new Iindex is created.</span>
+<span class="sd">        - **func**    : function (default str) - key used in the sorted function</span>
 
 <span class="sd">        *Return*</span>
 <span class="sd">        </span>
 <span class="sd">        - **Iindex** : self if inplace, new Iindex if not inplace&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">inplace</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">codec</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">codec</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">func</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
             <span class="k">return</span> <span class="bp">self</span>
         <span class="n">oldcodec</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span>
@@ -3324,6 +3354,7 @@ if False a new Iindex is created.</li>
 <li><strong>reverse</strong> : boolean (defaut False) - codec is sorted with reverse order</li>
 <li><strong>inplace</strong> : boolean (default True) - if True, new order is apply to self,
 if False a new Iindex is created.</li>
+<li><strong>func</strong>    : function (default str) - key used in the sorted function</li>
 </ul>
 
 <p><em>Return</em></p>
@@ -3560,6 +3591,45 @@ If func is the 'index' string, values are replaced by raw values.</li>
 </ul>
 
 <p><em>Returns</em> : string, bytes or dict</p>
+</div>
+
+
+                            </div>
+                            <div id="Iindex.valrow" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Iindex.valrow">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">valrow</span><span class="signature">(self, row)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">valrow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; return val for a record</span>
+<span class="sd">        </span>
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **row** : record to obtain val</span>
+<span class="sd">        </span>
+<span class="sd">        *Returns* : val[row]&#39;&#39;&#39;</span>
+        <span class="n">cc</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">_uncastsimple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">row</span><span class="p">]])</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cc</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">)):</span> 
+            <span class="k">return</span> <span class="n">cc</span>        
+        <span class="k">return</span> <span class="n">cc</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>return val for a record</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>row</strong> : record to obtain val</li>
+</ul>
+
+<p><em>Returns</em> : val[row]</p>
 </div>
 
 
