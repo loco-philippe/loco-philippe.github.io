@@ -241,9 +241,6 @@
                                 <a class="function" href="#NamedValue.from_obj">from_obj</a>
                         </li>
                         <li>
-                                <a class="variable" href="#NamedValue.value">value</a>
-                        </li>
-                        <li>
                                 <a class="function" href="#NamedValue.nullValue">nullValue</a>
                         </li>
                         <li>
@@ -1020,11 +1017,11 @@ measurable properties) and groups common properties and concepts  :</p>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">coords</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return geoJson coordinates (list)&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">polygon</span><span class="o">.</span><span class="n">Polygon</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">polygon</span><span class="o">.</span><span class="n">Polygon</span><span class="p">):</span>
             <span class="n">coords</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">coords</span><span class="p">)]</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Point</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Point</span><span class="p">):</span>
             <span class="n">coords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">coords</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">linestring</span><span class="o">.</span><span class="n">LineString</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">linestring</span><span class="o">.</span><span class="n">LineString</span><span class="p">):</span>
             <span class="n">coords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
         <span class="k">else</span> <span class="p">:</span> <span class="n">coords</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">))</span>
@@ -1036,7 +1033,7 @@ measurable properties) and groups common properties and concepts  :</p>
 
     <span class="k">def</span> <span class="nf">getPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39; return a list with point coordinates [x, y] if the shape is a point, else none&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Point</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Point</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -1093,8 +1090,8 @@ measurable properties) and groups common properties and concepts  :</p>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_gshape</span><span class="p">(</span><span class="n">coord</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; transform a GeoJSON coordinates (list) into a shapely geometry&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>  <span class="n">coor</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span> <span class="n">coor</span> <span class="o">=</span> <span class="n">coord</span>
+        <span class="k">if</span>   <span class="nb">isinstance</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="n">coor</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="p">:</span> <span class="n">coor</span> <span class="o">=</span> <span class="n">coord</span>
         <span class="k">else</span><span class="p">:</span> <span class="n">coor</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">__copy__</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">tpe</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Point&quot;</span><span class="p">,</span> <span class="s2">&quot;MultiPoint&quot;</span><span class="p">,</span> <span class="s2">&quot;Polygon&quot;</span><span class="p">,</span> <span class="s2">&quot;MultiPolygon&quot;</span><span class="p">]:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -1268,15 +1265,6 @@ measurable properties) and groups common properties and concepts  :</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
             <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">_castsimple</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="sd">&#39;&#39;&#39;elif isinstance(val, (int, str, float, bool, tuple, datetime.datetime, type(None), bytes)) :</span>
-<span class="sd">            self.value = val</span>
-<span class="sd">        elif isinstance(val, list) :</span>
-<span class="sd">            self.value = tuple(val)</span>
-<span class="sd">        elif isinstance(val, dict) :</span>
-<span class="sd">            self.value = json.dumps(val)</span>
-<span class="sd">        else: </span>
-<span class="sd">            #self.value = val</span>
-<span class="sd">            raise ESValueError(&#39;incosistent value for NamedValue object&#39;)&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 
@@ -3251,11 +3239,11 @@ Several configurations for bs parameters (name and type are string) :
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">coords</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return geoJson coordinates (list)&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">polygon</span><span class="o">.</span><span class="n">Polygon</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">polygon</span><span class="o">.</span><span class="n">Polygon</span><span class="p">):</span>
             <span class="n">coords</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">coords</span><span class="p">)]</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Point</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Point</span><span class="p">):</span>
             <span class="n">coords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">coords</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">linestring</span><span class="o">.</span><span class="n">LineString</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">linestring</span><span class="o">.</span><span class="n">LineString</span><span class="p">):</span>
             <span class="n">coords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
         <span class="k">else</span> <span class="p">:</span> <span class="n">coords</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullCoor</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">))</span>
@@ -3267,7 +3255,7 @@ Several configurations for bs parameters (name and type are string) :
 
     <span class="k">def</span> <span class="nf">getPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39; return a list with point coordinates [x, y] if the shape is a point, else none&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Point</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Point</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -3324,8 +3312,8 @@ Several configurations for bs parameters (name and type are string) :
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_gshape</span><span class="p">(</span><span class="n">coord</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; transform a GeoJSON coordinates (list) into a shapely geometry&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>  <span class="n">coor</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span> <span class="n">coor</span> <span class="o">=</span> <span class="n">coord</span>
+        <span class="k">if</span>   <span class="nb">isinstance</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="n">coor</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="p">:</span> <span class="n">coor</span> <span class="o">=</span> <span class="n">coord</span>
         <span class="k">else</span><span class="p">:</span> <span class="n">coor</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">__copy__</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">tpe</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Point&quot;</span><span class="p">,</span> <span class="s2">&quot;MultiPoint&quot;</span><span class="p">,</span> <span class="s2">&quot;Polygon&quot;</span><span class="p">,</span> <span class="s2">&quot;MultiPolygon&quot;</span><span class="p">]:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -3541,7 +3529,7 @@ Several configurations for bs parameters (name and type are string) :
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">getPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39; return a list with point coordinates [x, y] if the shape is a point, else none&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Point</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">Point</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
         <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
 
@@ -4236,15 +4224,6 @@ in a list format [y, x]</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
             <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">_castsimple</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="sd">&#39;&#39;&#39;elif isinstance(val, (int, str, float, bool, tuple, datetime.datetime, type(None), bytes)) :</span>
-<span class="sd">            self.value = val</span>
-<span class="sd">        elif isinstance(val, list) :</span>
-<span class="sd">            self.value = tuple(val)</span>
-<span class="sd">        elif isinstance(val, dict) :</span>
-<span class="sd">            self.value = json.dumps(val)</span>
-<span class="sd">        else: </span>
-<span class="sd">            #self.value = val</span>
-<span class="sd">            raise ESValueError(&#39;incosistent value for NamedValue object&#39;)&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 
@@ -4318,15 +4297,6 @@ in a list format [y, x]</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
             <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">_castsimple</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="sd">&#39;&#39;&#39;elif isinstance(val, (int, str, float, bool, tuple, datetime.datetime, type(None), bytes)) :</span>
-<span class="sd">            self.value = val</span>
-<span class="sd">        elif isinstance(val, list) :</span>
-<span class="sd">            self.value = tuple(val)</span>
-<span class="sd">        elif isinstance(val, dict) :</span>
-<span class="sd">            self.value = json.dumps(val)</span>
-<span class="sd">        else: </span>
-<span class="sd">            #self.value = val</span>
-<span class="sd">            raise ESValueError(&#39;incosistent value for NamedValue object&#39;)&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullName</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 </pre></div>
@@ -4365,26 +4335,6 @@ in a list format [y, x]</p>
         </details>
 
             <div class="docstring"><p>ESValue function (see <a href="#ESValue.from_obj">ESValue.from_obj</a>)</p>
-</div>
-
-
-                            </div>
-                            <div id="NamedValue.value" class="classattr">
-                                            <div class="attr variable"><a class="headerlink" href="#NamedValue.value">#&nbsp;&nbsp</a>
-
-        <span class="name">value</span>
-    </div>
-
-    
-            <div class="docstring"><p>elif isinstance(val, (int, str, float, bool, tuple, datetime.datetime, type(None), bytes)) :
-    self.value = val
-elif isinstance(val, list) :
-    self.value = tuple(val)
-elif isinstance(val, dict) :
-    self.value = json.dumps(val)
-else: 
-    #self.value = val
-    raise ESValueError('incosistent value for NamedValue object')</p>
 </div>
 
 
