@@ -208,10 +208,34 @@
 
                         <div class="docstring"><p>Created on Tue Aug  3 23:40:06 2021</p>
 
-<p>@author: Philippe@loco-labs.io</p>
+<p>@author: Philippe Thomy</p>
 
-<p>The <code><a href="">ES.ESObservation</a></code> module contains the main class
-of Environmental Sensing : <code><a href="#Observation">Observation</a></code> class.</p>
+<p>An <code>ESObservation.Observation</code> is an object representing a set of information having
+spatial and temporal characteristics associated with measurable or observable
+ properties.</p>
+
+<p>The Observation Object is built around three main bricks :</p>
+
+<ul>
+<li>Ilist Object which deal with indexing,</li>
+<li>ESValue Object which integrate the specificities of environmental data,</li>
+<li>Tools dedicated to particular domains (<a href="https://shapely.readthedocs.io/en/stable/manual.html">Shapely</a> 
+for location, TimeSlot for Datation)</li>
+</ul>
+
+<p>The <code><a href="">ES.ESObservation</a></code> module contains the <code><a href="#Observation">Observation</a></code> class.</p>
+
+<p>The concept of 'observation' is describe in 
+<a href="https://github.com/loco-philippe/Environnemental-Sensing/wiki/Observation">this page</a>.</p>
+
+<p>The concept of 'indexed list' is describe in 
+<a href="https://github.com/loco-philippe/Environnemental-Sensing/wiki/Indexed-list">this page</a>.</p>
+
+<p>The non-regression test are at 
+<a href="https://github.com/loco-philippe/Environnemental-Sensing/blob/main/python/Tests/test_observation.py">this page</a></p>
+
+<p>The <a href="https://github.com/loco-philippe/Environnemental-Sensing/tree/main/python/Example/Observation">examples</a>
+ are :</p>
 </div>
 
                         <details>
@@ -220,10 +244,32 @@ of Environmental Sensing : <code><a href="#Observation">Observation</a></code> c
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Created on Tue Aug  3 23:40:06 2021</span>
 
-<span class="sd">@author: Philippe@loco-labs.io</span>
+<span class="sd">@author: Philippe Thomy</span>
 
-<span class="sd">The `ES.ESObservation` module contains the main class</span>
-<span class="sd">of Environmental Sensing : `Observation` class.</span>
+<span class="sd">An `ESObservation.Observation` is an object representing a set of information having</span>
+<span class="sd">spatial and temporal characteristics associated with measurable or observable</span>
+<span class="sd"> properties.</span>
+<span class="sd"> </span>
+<span class="sd">The Observation Object is built around three main bricks :</span>
+<span class="sd">    </span>
+<span class="sd">- Ilist Object which deal with indexing,</span>
+<span class="sd">- ESValue Object which integrate the specificities of environmental data,</span>
+<span class="sd">- Tools dedicated to particular domains ([Shapely](https://shapely.readthedocs.io/en/stable/manual.html) </span>
+<span class="sd">for location, TimeSlot for Datation)</span>
+
+<span class="sd">The `ES.ESObservation` module contains the `Observation` class.</span>
+
+<span class="sd">The concept of &#39;observation&#39; is describe in </span>
+<span class="sd">[this page](https://github.com/loco-philippe/Environnemental-Sensing/wiki/Observation).</span>
+
+<span class="sd">The concept of &#39;indexed list&#39; is describe in </span>
+<span class="sd">[this page](https://github.com/loco-philippe/Environnemental-Sensing/wiki/Indexed-list).</span>
+
+<span class="sd">The non-regression test are at </span>
+<span class="sd">[this page](https://github.com/loco-philippe/Environnemental-Sensing/blob/main/python/Tests/test_observation.py)</span>
+
+<span class="sd">The [examples](https://github.com/loco-philippe/Environnemental-Sensing/tree/main/python/Example/Observation)</span>
+<span class="sd"> are :</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">ESconstante</span> <span class="kn">import</span> <span class="n">ES</span><span class="p">,</span> <span class="n">_classval</span>
@@ -5086,7 +5132,7 @@ completed with fillvalue, else all axes are completed</li>
     numeric=False,
     ind=&#39;axe&#39;,
     fillvalue=&#39;?&#39;,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001EF95C7CE80&gt;&gt;,
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001A988ACD1F0&gt;&gt;,
     name=&#39;Observation&#39;
 )</span>:
     </div>
@@ -5481,7 +5527,7 @@ completed with fillvalue, else all axes are completed</li>
             <span class="name">vList</span><span class="signature">(
     self,
     idxname,
-    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001EF95C7CE80&gt;&gt;
+    func=&lt;bound method Es._identity of &lt;ESconstante.Es object at 0x000001A988ACD1F0&gt;&gt;
 )</span>:
     </div>
 

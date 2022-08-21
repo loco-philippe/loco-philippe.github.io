@@ -27,11 +27,6 @@
             <input type="search" placeholder="Search..." role="searchbox" aria-label="search"
                    pattern=".+" required>
 
-        <h2>Contents</h2>
-        <ul>
-  <li><a href="#what-is-the-esvalue-object">What is the ESValue Object ?</a></li>
-</ul>
-
 
 
         <h2>API Documentation</h2>
@@ -293,6 +288,26 @@
 
 <p>@author: philippe@loco-labs.io</p>
 
+<p>ESValue is a module dedicated to structured data (such as dates, location or measurable properties) 
+and groups common properties and concepts.</p>
+
+<p>ESValue is build around two attributes :</p>
+
+<ul>
+<li>'name' which is a simple String</li>
+<li><p>'value' which corresponds to a more or less complex object :</p>
+
+<ul>
+<li>DatationValue : value is a TimeSlot Object which represent a set of time intervals</li>
+<li>LocationValue : value is a Shapely Geometry which represent a set of polygons</li>
+<li>PropertyValue : value is a simple dictionary which specifies all the characteristics of a property</li>
+<li>NamedValue    : value can be any simple object</li>
+<li>ExternValue   : value can be any other object</li>
+</ul></li>
+</ul>
+
+<p><img src="https://loco-philippe.github.io/ES/ESValue_class.png" width="800"></p>
+
 <p>This module groups the classes of the objects used in the <code>ES.Observation</code> module :</p>
 
 <ul>
@@ -309,35 +324,11 @@
 <li><code><a href="#ESValue">ESValue</a></code></li>
 </ul>
 
-<h1 id="what-is-the-esvalue-object">What is the ESValue Object ?</h1>
+<p>The concept of 'ESValue' is describe in 
+<a href="https://github.com/loco-philippe/Environnemental-Sensing/wiki/ESValue">this page</a>.</p>
 
-<p>The ESValue is a class dedicated to structured data (such as dates, location or
-measurable properties) and groups common properties and concepts  :</p>
-
-<ul>
-<li>each ESValue can have three levels of representation : textual, simplified and complete</li>
-<li>ESValue has common function (getters, setters, boundary, conversion, export)</li>
-<li>each ESValue can have additional function or attribute</li>
-</ul>
-
-<p><img src="./ESValue_common.png" width="800"></p>
-
-<p>ESValue is build around two attributes :</p>
-
-<ul>
-<li>'name' which is a simple String</li>
-<li><p>'value' which corresponds to a more or less complex object :</p>
-
-<ul>
-<li>DatationValue : value is a TimeSlot Object which represent a set of time intervals</li>
-<li>LocationValue : value is a Shapely Geometry which represent a set of polygons</li>
-<li>PropertyValue : value is a simple dictionary which specifies all the characteristics of a property</li>
-<li>NamedValue    : value can be any simple value</li>
-<li>ExternValue   : value can be any object</li>
-</ul></li>
-</ul>
-
-<p><img src="./ESValue_class.png" width="800"></p>
+<p>The non-regression test are at 
+<a href="https://github.com/loco-philippe/Environnemental-Sensing/blob/main/python/Tests/test_esvalue.py">this page</a></p>
 </div>
 
                         <details>
@@ -347,6 +338,22 @@ measurable properties) and groups common properties and concepts  :</p>
 <span class="sd">Created on Mon Aug  2 14:51:23 2021</span>
 
 <span class="sd">@author: philippe@loco-labs.io</span>
+
+<span class="sd">ESValue is a module dedicated to structured data (such as dates, location or measurable properties) </span>
+<span class="sd">and groups common properties and concepts.</span>
+
+<span class="sd">ESValue is build around two attributes :</span>
+
+<span class="sd">- &#39;name&#39; which is a simple String</span>
+<span class="sd">- &#39;value&#39; which corresponds to a more or less complex object :</span>
+
+<span class="sd">    - DatationValue : value is a TimeSlot Object which represent a set of time intervals</span>
+<span class="sd">    - LocationValue : value is a Shapely Geometry which represent a set of polygons</span>
+<span class="sd">    - PropertyValue : value is a simple dictionary which specifies all the characteristics of a property</span>
+<span class="sd">    - NamedValue    : value can be any simple object</span>
+<span class="sd">    - ExternValue   : value can be any other object</span>
+
+<span class="sd">&lt;img src=&quot;https://loco-philippe.github.io/ES/ESValue_class.png&quot; width=&quot;800&quot;&gt;</span>
 
 <span class="sd">This module groups the classes of the objects used in the `ES.Observation` module :</span>
 
@@ -360,29 +367,12 @@ measurable properties) and groups common properties and concepts  :</p>
 
 <span class="sd">- `ESValue`</span>
 
-<span class="sd"># What is the ESValue Object ?</span>
+<span class="sd">The concept of &#39;ESValue&#39; is describe in </span>
+<span class="sd">[this page](https://github.com/loco-philippe/Environnemental-Sensing/wiki/ESValue).</span>
 
-<span class="sd">The ESValue is a class dedicated to structured data (such as dates, location or</span>
-<span class="sd">measurable properties) and groups common properties and concepts  :</span>
+<span class="sd">The non-regression test are at </span>
+<span class="sd">[this page](https://github.com/loco-philippe/Environnemental-Sensing/blob/main/python/Tests/test_esvalue.py)</span>
 
-<span class="sd">- each ESValue can have three levels of representation : textual, simplified and complete</span>
-<span class="sd">- ESValue has common function (getters, setters, boundary, conversion, export)</span>
-<span class="sd">- each ESValue can have additional function or attribute</span>
-
-<span class="sd">&lt;img src=&quot;./ESValue_common.png&quot; width=&quot;800&quot;&gt;</span>
-
-<span class="sd">ESValue is build around two attributes :</span>
-
-<span class="sd">- &#39;name&#39; which is a simple String</span>
-<span class="sd">- &#39;value&#39; which corresponds to a more or less complex object :</span>
-
-<span class="sd">    - DatationValue : value is a TimeSlot Object which represent a set of time intervals</span>
-<span class="sd">    - LocationValue : value is a Shapely Geometry which represent a set of polygons</span>
-<span class="sd">    - PropertyValue : value is a simple dictionary which specifies all the characteristics of a property</span>
-<span class="sd">    - NamedValue    : value can be any simple value</span>
-<span class="sd">    - ExternValue   : value can be any object</span>
-
-<span class="sd">&lt;img src=&quot;./ESValue_class.png&quot; width=&quot;800&quot;&gt;</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">geojson</span><span class="o">,</span> <span class="nn">shapely.geometry</span><span class="o">,</span> <span class="nn">re</span>
