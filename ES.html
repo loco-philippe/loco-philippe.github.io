@@ -26,6 +26,7 @@
         <ul>
   <li><a href="#why-a-project-for-environmental-data">Why a project for Environmental Data ?</a></li>
   <li><a href="#the-environmental-sensing-project">The Environmental Sensing project</a></li>
+  <li><a href="#examples-of-achievements">Examples of achievements</a></li>
   <li><a href="#documentation">Documentation</a></li>
 </ul>
 
@@ -71,6 +72,8 @@ ES    </h1>
 used by the sensors to transmit the information (binary and textual),</li>
 <li>there is no data exchange format presenting at the same time a temporal, 
 spatial and physical component (apart from file formats),</li>
+<li>the main standards used to exchange data are CSV file or JSON object. These two
+standards are not suitable and not optimized for complex data,</li>
 <li>we spend a lot of energy converting this type of data to make it usable.</li>
 </ul>
 
@@ -84,6 +87,8 @@ spatial and physical component (apart from file formats),</li>
 detailed levels of representation (for example, the evolution of a plume of smoke).</li>
 <li>Data formats adapted to interfaces (binary payload for networks, json for requests 
 or for NoSQL API, files)</li>
+<li>structured tools to structure, analyse and optimize data (e.g. control conceptual data 
+model cardinality in a dataset)</li>
 <li>A library of connectors for different uses (sensors, database, storage, networks, etc.) 
 in différents languages (python, C++)</li>
 <li>Bidirectional interfaces to data processing tools (eg Numpy, Xarray, GIS).</li>
@@ -92,6 +97,7 @@ in différents languages (python, C++)</li>
 <p>It allows to :</p>
 
 <ul>
+<li>accelerate standards convergence</li>
 <li>Facilitate the use and sharing of environmental data</li>
 <li>Standardize both data acquisition equipment (sensors) and processing applications,</li>
 <li>Implement a software architecture replacing all coding / decoding operations 
@@ -99,6 +105,16 @@ in différents languages (python, C++)</li>
 <li>Respect and rely on the main existing standards</li>
 <li>Collectively share and develop a set of open-source connectors responding to 
 all situations (platform)</li>
+</ul>
+
+<h1 id="examples-of-achievements">Examples of achievements</h1>
+
+<ul>
+<li>Bluetooth extension for Air Pollutants (available in sept-21)</li>
+<li>Add 'relationship' property in TableSchema (proposal)</li>
+<li>Development of 'indexed list' theory to deal with complex datasets (available)</li>
+<li>standard data exchange format suitable for complex data sets (available, data size divided by 5 to 10)</li>
+<li>data interoperability connectors (available in python since july-22)</li>
 </ul>
 
 <h1 id="documentation">Documentation</h1>
@@ -170,6 +186,8 @@ all situations (platform)</li>
 <span class="sd">used by the sensors to transmit the information (binary and textual),</span>
 <span class="sd">- there is no data exchange format presenting at the same time a temporal, </span>
 <span class="sd">spatial and physical component (apart from file formats),</span>
+<span class="sd">- the main standards used to exchange data are CSV file or JSON object. These two</span>
+<span class="sd"> standards are not suitable and not optimized for complex data,</span>
 <span class="sd">- we spend a lot of energy converting this type of data to make it usable.</span>
 
 <span class="sd"># The Environmental Sensing project</span>
@@ -181,13 +199,15 @@ all situations (platform)</li>
 <span class="sd">detailed levels of representation (for example, the evolution of a plume of smoke).</span>
 <span class="sd">- Data formats adapted to interfaces (binary payload for networks, json for requests </span>
 <span class="sd">or for NoSQL API, files)</span>
+<span class="sd">- structured tools to structure, analyse and optimize data (e.g. control conceptual data </span>
+<span class="sd">model cardinality in a dataset)</span>
 <span class="sd">- A library of connectors for different uses (sensors, database, storage, networks, etc.) </span>
 <span class="sd">in différents languages (python, C++)</span>
 <span class="sd">- Bidirectional interfaces to data processing tools (eg Numpy, Xarray, GIS).</span>
 
-
 <span class="sd">It allows to :</span>
 <span class="sd">    </span>
+<span class="sd">- accelerate standards convergence</span>
 <span class="sd">- Facilitate the use and sharing of environmental data</span>
 <span class="sd">- Standardize both data acquisition equipment (sensors) and processing applications,</span>
 <span class="sd">- Implement a software architecture replacing all coding / decoding operations </span>
@@ -195,6 +215,14 @@ all situations (platform)</li>
 <span class="sd">- Respect and rely on the main existing standards</span>
 <span class="sd">- Collectively share and develop a set of open-source connectors responding to </span>
 <span class="sd">all situations (platform)</span>
+
+<span class="sd"># Examples of achievements</span>
+
+<span class="sd">- Bluetooth extension for Air Pollutants (available in sept-21)</span>
+<span class="sd">- Add &#39;relationship&#39; property in TableSchema (proposal)</span>
+<span class="sd">- Development of &#39;indexed list&#39; theory to deal with complex datasets (available)</span>
+<span class="sd">- standard data exchange format suitable for complex data sets (available, data size divided by 5 to 10)</span>
+<span class="sd">- data interoperability connectors (available in python since july-22)</span>
 
 <span class="sd"># Documentation</span>
 
