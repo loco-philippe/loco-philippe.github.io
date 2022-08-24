@@ -50,6 +50,9 @@
                                 <a class="function" href="#Ilist.from_file">from_file</a>
                         </li>
                         <li>
+                                <a class="function" href="#Ilist.Iobj">Iobj</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Ilist.from_obj">from_obj</a>
                         </li>
                         <li>
@@ -363,6 +366,7 @@ are :
 
 <span class="sd">    - `Ilist.Idic`</span>
 <span class="sd">    - `Ilist.Iext`</span>
+<span class="sd">    - `Ilist.Iobj`</span>
 <span class="sd">    - `Ilist.from_csv`</span>
 <span class="sd">    - `Ilist.from_obj`</span>
 <span class="sd">    - `Ilist.from_file`</span>
@@ -549,6 +553,17 @@ are :
         <span class="k">else</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">bjson</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">bjson</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">Iobj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate an Ilist Object from a bytes, string or list value</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **bs** : bytes, string or list data to convert</span>
+<span class="sd">        - **reindex** : boolean (default True) - if True, default codec for each Iindex&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="n">reindex</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_obj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -1654,7 +1669,8 @@ are :
                 <span class="n">xlisti</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">funci</span><span class="p">,</span> <span class="n">codec</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                 <span class="n">coord</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">xlisti</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">fieldi</span><span class="p">[</span><span class="s1">&#39;pparent&#39;</span><span class="p">]],</span> <span class="n">derived</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="c1">#self.lidx[i].coupling(self.lidx[fieldi[&#39;pparent&#39;]], derived=False)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setkeys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">fieldi</span><span class="p">[</span><span class="s1">&#39;pparent&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">keys</span><span class="p">)</span>
                 <span class="n">xlisti</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">funci</span><span class="p">,</span> <span class="n">codec</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                 <span class="n">coord</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">fieldi</span><span class="p">[</span><span class="s1">&#39;pparent&#39;</span><span class="p">]],</span> <span class="n">xlisti</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">coord</span>
@@ -1694,6 +1710,7 @@ are :
 
 <span class="sd">    - `Ilist.Idic`</span>
 <span class="sd">    - `Ilist.Iext`</span>
+<span class="sd">    - `Ilist.Iobj`</span>
 <span class="sd">    - `Ilist.from_csv`</span>
 <span class="sd">    - `Ilist.from_obj`</span>
 <span class="sd">    - `Ilist.from_file`</span>
@@ -1880,6 +1897,17 @@ are :
         <span class="k">else</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">bjson</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">bjson</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">Iobj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate an Ilist Object from a bytes, string or list value</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **bs** : bytes, string or list data to convert</span>
+<span class="sd">        - **reindex** : boolean (default True) - if True, default codec for each Iindex&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="n">reindex</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_obj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -2985,7 +3013,8 @@ are :
                 <span class="n">xlisti</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">funci</span><span class="p">,</span> <span class="n">codec</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                 <span class="n">coord</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">xlisti</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">coupling</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">fieldi</span><span class="p">[</span><span class="s1">&#39;pparent&#39;</span><span class="p">]],</span> <span class="n">derived</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="c1">#self.lidx[i].coupling(self.lidx[fieldi[&#39;pparent&#39;]], derived=False)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setkeys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">fieldi</span><span class="p">[</span><span class="s1">&#39;pparent&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">keys</span><span class="p">)</span>
                 <span class="n">xlisti</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">funci</span><span class="p">,</span> <span class="n">codec</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                 <span class="n">coord</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">fieldi</span><span class="p">[</span><span class="s1">&#39;pparent&#39;</span><span class="p">]],</span> <span class="n">xlisti</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">coord</span>
@@ -3009,6 +3038,7 @@ are :
 <ul>
 <li><code><a href="#Ilist.Idic">Ilist.Idic</a></code></li>
 <li><code><a href="#Ilist.Iext">Ilist.Iext</a></code></li>
+<li><code><a href="#Ilist.Iobj">Ilist.Iobj</a></code></li>
 <li><code><a href="#Ilist.from_csv">Ilist.from_csv</a></code></li>
 <li><code><a href="#Ilist.from_obj">Ilist.from_obj</a></code></li>
 <li><code><a href="#Ilist.from_file">Ilist.from_file</a></code></li>
@@ -3447,6 +3477,43 @@ are :
 </ul>
 
 <p><em>Returns</em> : Ilist object</p>
+</div>
+
+
+                            </div>
+                            <div id="Ilist.Iobj" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Ilist.Iobj">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@classmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">Iobj</span><span class="signature">(cls, bs=None, reindex=True)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">Iobj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generate an Ilist Object from a bytes, string or list value</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **bs** : bytes, string or list data to convert</span>
+<span class="sd">        - **reindex** : boolean (default True) - if True, default codec for each Iindex&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="n">reindex</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Generate an Ilist Object from a bytes, string or list value</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>bs</strong> : bytes, string or list data to convert</li>
+<li><strong>reindex</strong> : boolean (default True) - if True, default codec for each Iindex</li>
+</ul>
 </div>
 
 
