@@ -81,6 +81,9 @@
                                 <a class="variable" href="#TimeSlot.middle">middle</a>
                         </li>
                         <li>
+                                <a class="variable" href="#TimeSlot.name">name</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#TimeSlot.interval">interval</a>
                         </li>
                         <li>
@@ -168,7 +171,7 @@
 <h1 id="what-is-the-timeslot-object">What is the TimeSlot Object ?</h1>
 
 <p>The TimeSlot Object is a representation of time intervals data and properties. For example,
- i can represent the working day of 2022-march-15 by a TimeSlot which inclde the following intervals:</p>
+ I can represent the working day of 2022-march-15 by a TimeSlot which includes the following intervals:</p>
 
 <ul>
 <li>from 9 a.m. to 12 p.m.</li>
@@ -224,7 +227,7 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
 <span class="sd"># What is the TimeSlot Object ?</span>
 
 <span class="sd">The TimeSlot Object is a representation of time intervals data and properties. For example,</span>
-<span class="sd"> i can represent the working day of 2022-march-15 by a TimeSlot which inclde the following intervals:</span>
+<span class="sd"> I can represent the working day of 2022-march-15 by a TimeSlot which includes the following intervals:</span>
 <span class="sd">- from 9 a.m. to 12 p.m.</span>
 <span class="sd">- from 2 p.m. to 4:30 p.m.</span>
 <span class="sd">- from 5 p.m. to 7:30 p.m.</span>
@@ -310,8 +313,9 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>        <span class="n">val</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>   
             <span class="k">except</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>    <span class="n">val</span> <span class="o">=</span> <span class="n">TimeInterval</span><span class="o">.</span><span class="n">_dattz</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
-                <span class="k">except</span><span class="p">:</span> <span class="n">val</span> <span class="o">=</span> <span class="kc">None</span>    
+                <span class="n">val</span> <span class="o">=</span> <span class="n">TimeInterval</span><span class="o">.</span><span class="n">_dattz</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+                <span class="c1">#try:    val = TimeInterval._dattz(datetime.datetime.fromisoformat(val))</span>
+                <span class="c1">#except: val = None    </span>
         <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="kc">None</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">=</span> <span class="n">slot</span>
             <span class="k">return</span>
@@ -440,6 +444,11 @@ i.e. a duration of 8 hours centered around 3 p.m. with bounds at 9 a.m. and 7:30
         <span class="sd">&#39;&#39;&#39;return the date corresponding to the middle of the bounds (datetime format)&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">instant</span>
     
+    <span class="nd">@property</span>    
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; class name&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">interval</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;return a list with the start and end dates (datetime format)&#39;&#39;&#39;</span>
@@ -903,8 +912,9 @@ implement default like this::</p>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>        <span class="n">val</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>   
             <span class="k">except</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>    <span class="n">val</span> <span class="o">=</span> <span class="n">TimeInterval</span><span class="o">.</span><span class="n">_dattz</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
-                <span class="k">except</span><span class="p">:</span> <span class="n">val</span> <span class="o">=</span> <span class="kc">None</span>    
+                <span class="n">val</span> <span class="o">=</span> <span class="n">TimeInterval</span><span class="o">.</span><span class="n">_dattz</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+                <span class="c1">#try:    val = TimeInterval._dattz(datetime.datetime.fromisoformat(val))</span>
+                <span class="c1">#except: val = None    </span>
         <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="kc">None</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">=</span> <span class="n">slot</span>
             <span class="k">return</span>
@@ -1033,6 +1043,11 @@ implement default like this::</p>
         <span class="sd">&#39;&#39;&#39;return the date corresponding to the middle of the bounds (datetime format)&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">instant</span>
     
+    <span class="nd">@property</span>    
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; class name&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">interval</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
         <span class="sd">&#39;&#39;&#39;return a list with the start and end dates (datetime format)&#39;&#39;&#39;</span>
@@ -1215,8 +1230,9 @@ implement default like this::</p>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>        <span class="n">val</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>   
             <span class="k">except</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>    <span class="n">val</span> <span class="o">=</span> <span class="n">TimeInterval</span><span class="o">.</span><span class="n">_dattz</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
-                <span class="k">except</span><span class="p">:</span> <span class="n">val</span> <span class="o">=</span> <span class="kc">None</span>    
+                <span class="n">val</span> <span class="o">=</span> <span class="n">TimeInterval</span><span class="o">.</span><span class="n">_dattz</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+                <span class="c1">#try:    val = TimeInterval._dattz(datetime.datetime.fromisoformat(val))</span>
+                <span class="c1">#except: val = None    </span>
         <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="kc">None</span> <span class="p">:</span> 
             <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">=</span> <span class="n">slot</span>
             <span class="k">return</span>
@@ -1393,6 +1409,18 @@ implement default like this::</p>
 
     
             <div class="docstring"><p>return the date corresponding to the middle of the bounds (datetime format)</p>
+</div>
+
+
+                            </div>
+                            <div id="TimeSlot.name" class="classattr">
+                                            <div class="attr variable"><a class="headerlink" href="#TimeSlot.name">#&nbsp;&nbsp</a>
+
+        <span class="name">name</span>
+    </div>
+
+    
+            <div class="docstring"><p>class name</p>
 </div>
 
 

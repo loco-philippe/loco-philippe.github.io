@@ -68,6 +68,9 @@
                                 <a class="variable" href="#util.c2">c2</a>
                         </li>
                         <li>
+                                <a class="function" href="#util.canonorder">canonorder</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#util.cast">cast</a>
                         </li>
                         <li>
@@ -81,6 +84,9 @@
                         </li>
                         <li>
                                 <a class="function" href="#util.decodeobj">decodeobj</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#util.iskeysobj">iskeysobj</a>
                         </li>
                         <li>
                                 <a class="function" href="#util.decodecodec">decodecodec</a>
@@ -107,13 +113,19 @@
                                 <a class="function" href="#util.idxfull">idxfull</a>
                         </li>
                         <li>
+                                <a class="function" href="#util.isEqual">isEqual</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#util.isNotEqual">isNotEqual</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#util.isNotNull">isNotNull</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#util.idxlink">idxlink</a>
                         </li>
                         <li>
                                 <a class="function" href="#util.json">json</a>
-                        </li>
-                        <li>
-                                <a class="function" href="#util.canonorder">canonorder</a>
                         </li>
                         <li>
                                 <a class="function" href="#util.list">list</a>
@@ -153,6 +165,15 @@
                         </li>
                         <li>
                                 <a class="function" href="#util.tuple">tuple</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#util.tupled">tupled</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#util.listed">listed</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#util.typename">typename</a>
                         </li>
                 </ul>
 
@@ -245,7 +266,6 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
         <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;encode_format&#39;</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">}</span>
         <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;Ilist&#39;</span><span class="p">,</span> <span class="s1">&#39;TimeSlot&#39;</span><span class="p">):</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
-        <span class="c1">#if isinstance(o, Observation): return o.to_json(**option)</span>
         <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">ESValue</span><span class="p">):</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">:</span>
@@ -258,10 +278,22 @@
     <span class="n">c1</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;\d+\.?\d*[,\-_ ;:]&#39;</span><span class="p">)</span>
     <span class="n">c2</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[,\-_ ;:]\d+\.?\d*&#39;</span><span class="p">)</span>
 
+
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">cast</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">canonorder</span><span class="p">(</span><span class="n">lenidx</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39;return a list of crossed keys from a list of number of values&#39;&#39;&#39;</span>
+        <span class="n">listrange</span> <span class="o">=</span> <span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">lidx</span><span class="p">)</span> <span class="k">for</span> <span class="n">lidx</span> <span class="ow">in</span> <span class="n">lenidx</span><span class="p">]</span> 
+        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">listrange</span><span class="p">))))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">cast</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; convert val in the type defined by the string dtype&#39;&#39;&#39;</span>
         <span class="n">typeval</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">className</span> <span class="ow">and</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="n">default</span>
+            <span class="k">if</span> <span class="n">maxlen</span><span class="p">:</span> <span class="k">return</span> <span class="n">name</span><span class="p">[:</span><span class="n">maxlen</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">name</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;simple&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">className</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">vSimple</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span>
@@ -271,13 +303,16 @@
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;obj&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">className</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span>
-        <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">ESclassName</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span>
+        <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;str&#39;</span><span class="p">:</span>  
+            <span class="k">if</span> <span class="n">maxlen</span><span class="p">:</span> <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)[:</span><span class="n">maxlen</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="c1">#if typeval in ES.ESclassName: return val</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">dtype</span> <span class="p">:</span> <span class="k">return</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">_castsimple</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;str&#39;</span><span class="p">:</span>  <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;int&#39;</span><span class="p">:</span>
             <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
             <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;float&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">className</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">to_float</span><span class="p">()</span>
             <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
             <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;datetime&#39;</span><span class="p">:</span>
@@ -287,6 +322,7 @@
             <span class="k">if</span> <span class="n">util</span><span class="o">.</span><span class="n">c1</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">and</span> <span class="n">util</span><span class="o">.</span><span class="n">c2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="p">:</span>
                 <span class="k">return</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">c1</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="mi">0</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">c2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:])]</span>
             <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">ESclassName</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">:</span> <span class="c1"># tous les types environmental sensing</span>
             <span class="k">return</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">dtype</span><span class="p">])</span>
         <span class="k">raise</span> <span class="n">utilError</span><span class="p">(</span><span class="s2">&quot;dtype : &quot;</span> <span class="o">+</span> <span class="n">dtype</span> <span class="o">+</span> <span class="s2">&quot; inconsistent with data&quot;</span><span class="p">)</span>
@@ -305,6 +341,7 @@
             <span class="n">classvalue</span> <span class="o">=</span> <span class="n">classn</span>
         <span class="k">if</span> <span class="n">classvalue</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">classvalue</span><span class="p">]</span>
+        
         <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
             <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">classvalue</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">ESclassName</span><span class="p">:</span> <span class="c1"># or dtype is None:</span>
@@ -344,12 +381,14 @@
         <span class="k">return</span> <span class="n">dic</span>
 
     <span class="nd">@staticmethod</span> 
-    <span class="k">def</span> <span class="nf">decodeobj</span><span class="p">(</span><span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">decodeobj</span><span class="p">(</span><span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Generate an Iindex data from a bytes, json or dict value</span>
 
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **bs** : bytes, string or dict data to convert</span>
+<span class="sd">        - **classname** : string(default None) - classname to convert codec data</span>
+<span class="sd">        - **context** : boolean (default True) - if False, only codec and keys are included</span>
 
 <span class="sd">        *Returns* : tuple - name, typevaluedec, codec, parent, keys&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">bs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[],</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -361,21 +400,40 @@
         <span class="k">else</span><span class="p">:</span> <span class="n">lis</span> <span class="o">=</span> <span class="p">[</span><span class="n">bs</span><span class="p">]</span>
         <span class="c1">#else: raise utilError(&quot;the type of parameter is not available&quot;)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="k">raise</span> <span class="n">utilError</span><span class="p">(</span><span class="s2">&quot;the parameter has to be a list&quot;</span><span class="p">)</span>
+        
         <span class="k">if</span> <span class="ow">not</span> <span class="n">lis</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[],</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span> 
+            <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[],</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>        
+        <span class="k">if</span> <span class="n">context</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">):</span> 
+            <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">classname</span><span class="p">),</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">context</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span> 
             <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">classname</span><span class="p">),</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> \
-            <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span> 
+            <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span> <span class="ow">and</span> <span class="n">context</span><span class="p">:</span> 
             <span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="n">util</span><span class="o">.</span><span class="n">decodecontext</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">classname</span><span class="p">),</span> <span class="o">*</span><span class="n">util</span><span class="o">.</span><span class="n">decodekeys</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="n">context</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="n">util</span><span class="o">.</span><span class="n">decodecontext</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">classname</span><span class="p">),</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="c1">#if len(lis) == 2 and isinstance(lis[0], (tuple, list)) and isinstance(lis[1], (int, list)):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="n">util</span><span class="o">.</span><span class="n">iskeysobj</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
             <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">classname</span><span class="p">),</span> <span class="o">*</span><span class="n">util</span><span class="o">.</span><span class="n">decodekeys</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">classname</span><span class="p">),</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="c1">#if len(lis) == 1 and isinstance(lis[0], list):</span>
+        <span class="c1">#    return (None, None, util.decodecodec(lis[0], classname), ES.nullparent, None)</span>
         <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">classname</span><span class="p">),</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-
+        
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">iskeysobj</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>                        <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>                   <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>                               <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>                 <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>                               <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span><span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>   <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>                   <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>             <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+        
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">decodecodec</span><span class="p">(</span><span class="n">codecobj</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nam_clsName</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Generate a codec list from a json value&#39;&#39;&#39;</span>
@@ -387,7 +445,7 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
             <span class="n">name</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>  
-                <span class="k">return</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">typename</span><span class="p">[</span><span class="n">dtype</span><span class="p">])</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">dtype</span><span class="p">])</span>
             <span class="k">raise</span> <span class="n">utilError</span><span class="p">(</span><span class="s1">&#39;name or typevalue is unconsistent&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">context</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> <span class="k">return</span> <span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">context</span><span class="p">])</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -397,6 +455,8 @@
     <span class="k">def</span> <span class="nf">decodekeys</span><span class="p">(</span><span class="n">keys</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Generate a tuple (parent, keys) from a json value&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">)</span> \
@@ -405,8 +465,8 @@
         <span class="k">raise</span> <span class="n">utilError</span><span class="p">(</span><span class="s1">&#39;parent or keys is unconsistent&#39;</span><span class="p">)</span>
     
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">encodeobj</span><span class="p">(</span><span class="n">codeclist</span><span class="p">,</span> <span class="n">keyslist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">simpleval</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-                  <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="n">listunic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">encodeobj</span><span class="p">(</span><span class="n">codeclist</span><span class="p">,</span> <span class="n">keyslist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">simpleval</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                  <span class="n">codecval</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="n">listunic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return a formatted object with values, keys and codec.</span>
 <span class="sd">        - Format can be json, bson or cbor</span>
@@ -420,7 +480,8 @@
 <span class="sd">        - **typevalue** : string (default None) - type to convert values</span>
 <span class="sd">        - **parent** : int (default ES.nullparent) - Ilist index linked to</span>
 <span class="sd">        - **listunic** : boolean (default False) - if False, when len(result)=1 return value not list</span>
-<span class="sd">        - **simpleval** : boolean (default False) - if True, only codec is included</span>
+<span class="sd">        - **codecval** : boolean (default False) - if True, only list of codec values is included</span>
+<span class="sd">        - **simpleval** : boolean (default False) - if True, only value (without name) is included</span>
 
 <span class="sd">        *Parameters (kwargs)*</span>
 
@@ -433,7 +494,7 @@
         <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;encode_format&#39;</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="s1">&#39;untyped&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                   <span class="s1">&#39;codif&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;typevalue&#39;</span><span class="p">:</span> <span class="n">typevalue</span><span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span>
         <span class="n">js</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">simpleval</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">codecval</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">and</span> <span class="n">typevalue</span><span class="p">:</span>          <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="n">typevalue</span><span class="p">})</span>
             <span class="k">elif</span> <span class="n">name</span><span class="p">:</span>                      <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">typevalue</span><span class="p">:</span>                 <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">typevalue</span><span class="p">)</span>
@@ -445,7 +506,7 @@
         <span class="sd">&#39;&#39;&#39;js.append([util.json(cc, encoded=False, typevalue=None, simpleval=simpleval, </span>
 <span class="sd">                             fullcodec=fullcodec, untyped=option[&#39;untyped&#39;]) </span>
 <span class="sd">                   for cc in codeclist])&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">simpleval</span><span class="p">:</span> 
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">codecval</span><span class="p">:</span> 
             <span class="k">if</span> <span class="n">parent</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">keyslist</span><span class="p">:</span>    <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">parent</span><span class="p">,</span> <span class="n">keyslist</span><span class="p">])</span>
             <span class="k">elif</span> <span class="n">parent</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">:</span>   <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">keyslist</span><span class="p">:</span>                  <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">keyslist</span><span class="p">)</span>      
@@ -501,6 +562,25 @@
         <span class="k">return</span> <span class="n">keysadd</span>
 
     <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; return True if value and tovalue are equal&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">tovalue</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">and</span> \
+            <span class="n">value</span> <span class="o">==</span> <span class="n">tovalue</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isNotEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; return True if value and tovalue are not equal&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">!=</span> <span class="n">tovalue</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">or</span> \
+            <span class="n">value</span> <span class="o">!=</span> <span class="n">tovalue</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isNotNull</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nullvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;return boolean. True if value&#39; is not a NullValue&#39;&#39;&#39;</span>
+        <span class="k">if</span>  <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">nullvalue</span><span class="p">)</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span>
+    
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">idxlink</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">l2</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return a dict for each different tuple (ref value, l2 value)&#39;&#39;&#39;</span>
         <span class="n">lis</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">tuple</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">ref</span><span class="p">,</span> <span class="n">l2</span><span class="p">])))</span>
@@ -518,14 +598,7 @@
             <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="p">{</span><span class="n">_invcastfunc</span><span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="p">]:</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span> 
         <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;Ilist&#39;</span><span class="p">:</span>       <span class="k">return</span> <span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">ili_valName</span><span class="p">:</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span>
         <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;Iindex&#39;</span><span class="p">:</span>      <span class="k">return</span> <span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">iin_valName</span><span class="p">:</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span>
-        <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;Observation&#39;</span><span class="p">:</span> <span class="k">return</span> <span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_valName</span><span class="p">:</span> <span class="n">val</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span>
-
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">canonorder</span><span class="p">(</span><span class="n">lenidx</span><span class="p">):</span> 
-        <span class="sd">&#39;&#39;&#39;return a list of crossed keys from a list of number of values&#39;&#39;&#39;</span>
-        <span class="n">listrange</span> <span class="o">=</span> <span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">lidx</span><span class="p">)</span> <span class="k">for</span> <span class="n">lidx</span> <span class="ow">in</span> <span class="n">lenidx</span><span class="p">]</span> 
-        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">listrange</span><span class="p">))))</span>
+        <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;Obs&#39;</span><span class="p">:</span>         <span class="k">return</span> <span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_valName</span><span class="p">:</span> <span class="n">val</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="n">tuplelists</span><span class="p">):</span> 
@@ -624,6 +697,23 @@
     <span class="k">def</span> <span class="nf">tuple</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;transform a list of list in a list of tuple&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">tupled</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;transform a list of list in a tuple of tuple&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">util</span><span class="o">.</span><span class="n">tupled</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">])</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">listed</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;transform a tuple of tuple in a list of list&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">util</span><span class="o">.</span><span class="n">listed</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">]</span>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">typename</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>            <span class="k">return</span> <span class="n">typevalue</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">:</span> <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ES&#39;</span><span class="p">:</span>   <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">ES_clsName</span>
+        <span class="k">return</span> <span class="n">typevalue</span>
 
 <span class="k">class</span> <span class="nc">utilError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39; util Exception&#39;&#39;&#39;</span>
@@ -790,7 +880,6 @@ including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <cod
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
         <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;encode_format&#39;</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">}</span>
         <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;Ilist&#39;</span><span class="p">,</span> <span class="s1">&#39;TimeSlot&#39;</span><span class="p">):</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
-        <span class="c1">#if isinstance(o, Observation): return o.to_json(**option)</span>
         <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">ESValue</span><span class="p">):</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">:</span>
@@ -818,7 +907,6 @@ including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <cod
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
         <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;encode_format&#39;</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">}</span>
         <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;Ilist&#39;</span><span class="p">,</span> <span class="s1">&#39;TimeSlot&#39;</span><span class="p">):</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
-        <span class="c1">#if isinstance(o, Observation): return o.to_json(**option)</span>
         <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">ESValue</span><span class="p">):</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">:</span>
@@ -880,10 +968,22 @@ implement default like this::</p>
     <span class="n">c1</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;\d+\.?\d*[,\-_ ;:]&#39;</span><span class="p">)</span>
     <span class="n">c2</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[,\-_ ;:]\d+\.?\d*&#39;</span><span class="p">)</span>
 
+
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">cast</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">canonorder</span><span class="p">(</span><span class="n">lenidx</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39;return a list of crossed keys from a list of number of values&#39;&#39;&#39;</span>
+        <span class="n">listrange</span> <span class="o">=</span> <span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">lidx</span><span class="p">)</span> <span class="k">for</span> <span class="n">lidx</span> <span class="ow">in</span> <span class="n">lenidx</span><span class="p">]</span> 
+        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">listrange</span><span class="p">))))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">cast</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; convert val in the type defined by the string dtype&#39;&#39;&#39;</span>
         <span class="n">typeval</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">className</span> <span class="ow">and</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="n">default</span>
+            <span class="k">if</span> <span class="n">maxlen</span><span class="p">:</span> <span class="k">return</span> <span class="n">name</span><span class="p">[:</span><span class="n">maxlen</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">name</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;simple&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">className</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">vSimple</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span>
@@ -893,13 +993,16 @@ implement default like this::</p>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;obj&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">className</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span>
-        <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">ESclassName</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span>
+        <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;str&#39;</span><span class="p">:</span>  
+            <span class="k">if</span> <span class="n">maxlen</span><span class="p">:</span> <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)[:</span><span class="n">maxlen</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="c1">#if typeval in ES.ESclassName: return val</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">dtype</span> <span class="p">:</span> <span class="k">return</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">_castsimple</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;str&#39;</span><span class="p">:</span>  <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;int&#39;</span><span class="p">:</span>
             <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
             <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;float&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">className</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">to_float</span><span class="p">()</span>
             <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
             <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;datetime&#39;</span><span class="p">:</span>
@@ -909,6 +1012,7 @@ implement default like this::</p>
             <span class="k">if</span> <span class="n">util</span><span class="o">.</span><span class="n">c1</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">and</span> <span class="n">util</span><span class="o">.</span><span class="n">c2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="p">:</span>
                 <span class="k">return</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">c1</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="mi">0</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">c2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:])]</span>
             <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">ESclassName</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">:</span> <span class="c1"># tous les types environmental sensing</span>
             <span class="k">return</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">dtype</span><span class="p">])</span>
         <span class="k">raise</span> <span class="n">utilError</span><span class="p">(</span><span class="s2">&quot;dtype : &quot;</span> <span class="o">+</span> <span class="n">dtype</span> <span class="o">+</span> <span class="s2">&quot; inconsistent with data&quot;</span><span class="p">)</span>
@@ -927,6 +1031,7 @@ implement default like this::</p>
             <span class="n">classvalue</span> <span class="o">=</span> <span class="n">classn</span>
         <span class="k">if</span> <span class="n">classvalue</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">classvalue</span><span class="p">]</span>
+        
         <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
             <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">classvalue</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">ESclassName</span><span class="p">:</span> <span class="c1"># or dtype is None:</span>
@@ -966,12 +1071,14 @@ implement default like this::</p>
         <span class="k">return</span> <span class="n">dic</span>
 
     <span class="nd">@staticmethod</span> 
-    <span class="k">def</span> <span class="nf">decodeobj</span><span class="p">(</span><span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">decodeobj</span><span class="p">(</span><span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Generate an Iindex data from a bytes, json or dict value</span>
 
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **bs** : bytes, string or dict data to convert</span>
+<span class="sd">        - **classname** : string(default None) - classname to convert codec data</span>
+<span class="sd">        - **context** : boolean (default True) - if False, only codec and keys are included</span>
 
 <span class="sd">        *Returns* : tuple - name, typevaluedec, codec, parent, keys&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">bs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[],</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -983,21 +1090,40 @@ implement default like this::</p>
         <span class="k">else</span><span class="p">:</span> <span class="n">lis</span> <span class="o">=</span> <span class="p">[</span><span class="n">bs</span><span class="p">]</span>
         <span class="c1">#else: raise utilError(&quot;the type of parameter is not available&quot;)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="k">raise</span> <span class="n">utilError</span><span class="p">(</span><span class="s2">&quot;the parameter has to be a list&quot;</span><span class="p">)</span>
+        
         <span class="k">if</span> <span class="ow">not</span> <span class="n">lis</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[],</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span> 
+            <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[],</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>        
+        <span class="k">if</span> <span class="n">context</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">):</span> 
+            <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">classname</span><span class="p">),</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">context</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span> 
             <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">classname</span><span class="p">),</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> \
-            <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span> 
+            <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span> <span class="ow">and</span> <span class="n">context</span><span class="p">:</span> 
             <span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="n">util</span><span class="o">.</span><span class="n">decodecontext</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">classname</span><span class="p">),</span> <span class="o">*</span><span class="n">util</span><span class="o">.</span><span class="n">decodekeys</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="n">context</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="n">util</span><span class="o">.</span><span class="n">decodecontext</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">classname</span><span class="p">),</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="c1">#if len(lis) == 2 and isinstance(lis[0], (tuple, list)) and isinstance(lis[1], (int, list)):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="n">util</span><span class="o">.</span><span class="n">iskeysobj</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
             <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">classname</span><span class="p">),</span> <span class="o">*</span><span class="n">util</span><span class="o">.</span><span class="n">decodekeys</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">classname</span><span class="p">),</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="c1">#if len(lis) == 1 and isinstance(lis[0], list):</span>
+        <span class="c1">#    return (None, None, util.decodecodec(lis[0], classname), ES.nullparent, None)</span>
         <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">classname</span><span class="p">),</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-
+        
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">iskeysobj</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>                        <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>                   <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>                               <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>                 <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>                               <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span><span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>   <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>                   <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>             <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+        
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">decodecodec</span><span class="p">(</span><span class="n">codecobj</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nam_clsName</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Generate a codec list from a json value&#39;&#39;&#39;</span>
@@ -1009,7 +1135,7 @@ implement default like this::</p>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
             <span class="n">name</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>  
-                <span class="k">return</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">typename</span><span class="p">[</span><span class="n">dtype</span><span class="p">])</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">dtype</span><span class="p">])</span>
             <span class="k">raise</span> <span class="n">utilError</span><span class="p">(</span><span class="s1">&#39;name or typevalue is unconsistent&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">context</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> <span class="k">return</span> <span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">context</span><span class="p">])</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -1019,6 +1145,8 @@ implement default like this::</p>
     <span class="k">def</span> <span class="nf">decodekeys</span><span class="p">(</span><span class="n">keys</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Generate a tuple (parent, keys) from a json value&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">)</span> \
@@ -1027,8 +1155,8 @@ implement default like this::</p>
         <span class="k">raise</span> <span class="n">utilError</span><span class="p">(</span><span class="s1">&#39;parent or keys is unconsistent&#39;</span><span class="p">)</span>
     
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">encodeobj</span><span class="p">(</span><span class="n">codeclist</span><span class="p">,</span> <span class="n">keyslist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">simpleval</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-                  <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="n">listunic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">encodeobj</span><span class="p">(</span><span class="n">codeclist</span><span class="p">,</span> <span class="n">keyslist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">simpleval</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                  <span class="n">codecval</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="n">listunic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return a formatted object with values, keys and codec.</span>
 <span class="sd">        - Format can be json, bson or cbor</span>
@@ -1042,7 +1170,8 @@ implement default like this::</p>
 <span class="sd">        - **typevalue** : string (default None) - type to convert values</span>
 <span class="sd">        - **parent** : int (default ES.nullparent) - Ilist index linked to</span>
 <span class="sd">        - **listunic** : boolean (default False) - if False, when len(result)=1 return value not list</span>
-<span class="sd">        - **simpleval** : boolean (default False) - if True, only codec is included</span>
+<span class="sd">        - **codecval** : boolean (default False) - if True, only list of codec values is included</span>
+<span class="sd">        - **simpleval** : boolean (default False) - if True, only value (without name) is included</span>
 
 <span class="sd">        *Parameters (kwargs)*</span>
 
@@ -1055,7 +1184,7 @@ implement default like this::</p>
         <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;encode_format&#39;</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="s1">&#39;untyped&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                   <span class="s1">&#39;codif&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;typevalue&#39;</span><span class="p">:</span> <span class="n">typevalue</span><span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span>
         <span class="n">js</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">simpleval</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">codecval</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">and</span> <span class="n">typevalue</span><span class="p">:</span>          <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="n">typevalue</span><span class="p">})</span>
             <span class="k">elif</span> <span class="n">name</span><span class="p">:</span>                      <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">typevalue</span><span class="p">:</span>                 <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">typevalue</span><span class="p">)</span>
@@ -1067,7 +1196,7 @@ implement default like this::</p>
         <span class="sd">&#39;&#39;&#39;js.append([util.json(cc, encoded=False, typevalue=None, simpleval=simpleval, </span>
 <span class="sd">                             fullcodec=fullcodec, untyped=option[&#39;untyped&#39;]) </span>
 <span class="sd">                   for cc in codeclist])&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">simpleval</span><span class="p">:</span> 
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">codecval</span><span class="p">:</span> 
             <span class="k">if</span> <span class="n">parent</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">keyslist</span><span class="p">:</span>    <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">parent</span><span class="p">,</span> <span class="n">keyslist</span><span class="p">])</span>
             <span class="k">elif</span> <span class="n">parent</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">:</span>   <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">keyslist</span><span class="p">:</span>                  <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">keyslist</span><span class="p">)</span>      
@@ -1123,6 +1252,25 @@ implement default like this::</p>
         <span class="k">return</span> <span class="n">keysadd</span>
 
     <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; return True if value and tovalue are equal&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">tovalue</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">and</span> \
+            <span class="n">value</span> <span class="o">==</span> <span class="n">tovalue</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isNotEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; return True if value and tovalue are not equal&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">!=</span> <span class="n">tovalue</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">or</span> \
+            <span class="n">value</span> <span class="o">!=</span> <span class="n">tovalue</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isNotNull</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nullvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;return boolean. True if value&#39; is not a NullValue&#39;&#39;&#39;</span>
+        <span class="k">if</span>  <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">nullvalue</span><span class="p">)</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span>
+    
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">idxlink</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">l2</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return a dict for each different tuple (ref value, l2 value)&#39;&#39;&#39;</span>
         <span class="n">lis</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">tuple</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">ref</span><span class="p">,</span> <span class="n">l2</span><span class="p">])))</span>
@@ -1140,14 +1288,7 @@ implement default like this::</p>
             <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="p">{</span><span class="n">_invcastfunc</span><span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="p">]:</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span> 
         <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;Ilist&#39;</span><span class="p">:</span>       <span class="k">return</span> <span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">ili_valName</span><span class="p">:</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span>
         <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;Iindex&#39;</span><span class="p">:</span>      <span class="k">return</span> <span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">iin_valName</span><span class="p">:</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span>
-        <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;Observation&#39;</span><span class="p">:</span> <span class="k">return</span> <span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_valName</span><span class="p">:</span> <span class="n">val</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span>
-
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">canonorder</span><span class="p">(</span><span class="n">lenidx</span><span class="p">):</span> 
-        <span class="sd">&#39;&#39;&#39;return a list of crossed keys from a list of number of values&#39;&#39;&#39;</span>
-        <span class="n">listrange</span> <span class="o">=</span> <span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">lidx</span><span class="p">)</span> <span class="k">for</span> <span class="n">lidx</span> <span class="ow">in</span> <span class="n">lenidx</span><span class="p">]</span> 
-        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">listrange</span><span class="p">))))</span>
+        <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;Obs&#39;</span><span class="p">:</span>         <span class="k">return</span> <span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_valName</span><span class="p">:</span> <span class="n">val</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="n">tuplelists</span><span class="p">):</span> 
@@ -1246,6 +1387,23 @@ implement default like this::</p>
     <span class="k">def</span> <span class="nf">tuple</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;transform a list of list in a list of tuple&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">tupled</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;transform a list of list in a tuple of tuple&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">util</span><span class="o">.</span><span class="n">tupled</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">])</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">listed</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;transform a tuple of tuple in a list of list&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">util</span><span class="o">.</span><span class="n">listed</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">]</span>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">typename</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>            <span class="k">return</span> <span class="n">typevalue</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">:</span> <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ES&#39;</span><span class="p">:</span>   <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">ES_clsName</span>
+        <span class="k">return</span> <span class="n">typevalue</span>
 </pre></div>
 
         </details>
@@ -1285,21 +1443,51 @@ implement default like this::</p>
     
 
                             </div>
+                            <div id="util.canonorder" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#util.canonorder">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@staticmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">canonorder</span><span class="signature">(lenidx)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">canonorder</span><span class="p">(</span><span class="n">lenidx</span><span class="p">):</span> 
+        <span class="sd">&#39;&#39;&#39;return a list of crossed keys from a list of number of values&#39;&#39;&#39;</span>
+        <span class="n">listrange</span> <span class="o">=</span> <span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">lidx</span><span class="p">)</span> <span class="k">for</span> <span class="n">lidx</span> <span class="ow">in</span> <span class="n">lenidx</span><span class="p">]</span> 
+        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">listrange</span><span class="p">))))</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>return a list of crossed keys from a list of number of values</p>
+</div>
+
+
+                            </div>
                             <div id="util.cast" class="classattr">
                                         <div class="attr function"><a class="headerlink" href="#util.cast">#&nbsp;&nbsp</a>
 
                 <div class="decorator">@staticmethod</div>
 
             <span class="def">def</span>
-            <span class="name">cast</span><span class="signature">(val, dtype=None, string=True)</span>:
+            <span class="name">cast</span><span class="signature">(val, dtype=None, string=True, default=None, maxlen=None)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">cast</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">cast</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; convert val in the type defined by the string dtype&#39;&#39;&#39;</span>
         <span class="n">typeval</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">className</span> <span class="ow">and</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="n">default</span>
+            <span class="k">if</span> <span class="n">maxlen</span><span class="p">:</span> <span class="k">return</span> <span class="n">name</span><span class="p">[:</span><span class="n">maxlen</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">name</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;simple&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">className</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">vSimple</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span>
@@ -1309,13 +1497,16 @@ implement default like this::</p>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;obj&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">className</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span>
-        <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">ESclassName</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span>
+        <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;str&#39;</span><span class="p">:</span>  
+            <span class="k">if</span> <span class="n">maxlen</span><span class="p">:</span> <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)[:</span><span class="n">maxlen</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="c1">#if typeval in ES.ESclassName: return val</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">dtype</span> <span class="p">:</span> <span class="k">return</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">_castsimple</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;str&#39;</span><span class="p">:</span>  <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;int&#39;</span><span class="p">:</span>
             <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
             <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;float&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">className</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">to_float</span><span class="p">()</span>
             <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
             <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;datetime&#39;</span><span class="p">:</span>
@@ -1325,6 +1516,7 @@ implement default like this::</p>
             <span class="k">if</span> <span class="n">util</span><span class="o">.</span><span class="n">c1</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">and</span> <span class="n">util</span><span class="o">.</span><span class="n">c2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="p">:</span>
                 <span class="k">return</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">c1</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="mi">0</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">c2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">val</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:])]</span>
             <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">ESclassName</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">:</span> <span class="c1"># tous les types environmental sensing</span>
             <span class="k">return</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">dtype</span><span class="p">])</span>
         <span class="k">raise</span> <span class="n">utilError</span><span class="p">(</span><span class="s2">&quot;dtype : &quot;</span> <span class="o">+</span> <span class="n">dtype</span> <span class="o">+</span> <span class="s2">&quot; inconsistent with data&quot;</span><span class="p">)</span>
@@ -1381,6 +1573,7 @@ implement default like this::</p>
             <span class="n">classvalue</span> <span class="o">=</span> <span class="n">classn</span>
         <span class="k">if</span> <span class="n">classvalue</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">[</span><span class="n">classvalue</span><span class="p">]</span>
+        
         <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
             <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">classvalue</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">ESclassName</span><span class="p">:</span> <span class="c1"># or dtype is None:</span>
@@ -1452,18 +1645,20 @@ implement default like this::</p>
                 <div class="decorator">@staticmethod</div>
 
             <span class="def">def</span>
-            <span class="name">decodeobj</span><span class="signature">(bs=None, classname=None)</span>:
+            <span class="name">decodeobj</span><span class="signature">(bs=None, classname=None, context=True)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span> 
-    <span class="k">def</span> <span class="nf">decodeobj</span><span class="p">(</span><span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">decodeobj</span><span class="p">(</span><span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Generate an Iindex data from a bytes, json or dict value</span>
 
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **bs** : bytes, string or dict data to convert</span>
+<span class="sd">        - **classname** : string(default None) - classname to convert codec data</span>
+<span class="sd">        - **context** : boolean (default True) - if False, only codec and keys are included</span>
 
 <span class="sd">        *Returns* : tuple - name, typevaluedec, codec, parent, keys&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">bs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[],</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -1475,19 +1670,23 @@ implement default like this::</p>
         <span class="k">else</span><span class="p">:</span> <span class="n">lis</span> <span class="o">=</span> <span class="p">[</span><span class="n">bs</span><span class="p">]</span>
         <span class="c1">#else: raise utilError(&quot;the type of parameter is not available&quot;)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="k">raise</span> <span class="n">utilError</span><span class="p">(</span><span class="s2">&quot;the parameter has to be a list&quot;</span><span class="p">)</span>
+        
         <span class="k">if</span> <span class="ow">not</span> <span class="n">lis</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[],</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span> 
+            <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[],</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>        
+        <span class="k">if</span> <span class="n">context</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">):</span> 
+            <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">classname</span><span class="p">),</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">context</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span> 
             <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">classname</span><span class="p">),</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> \
-            <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span> 
+            <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span> <span class="ow">and</span> <span class="n">context</span><span class="p">:</span> 
             <span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="n">util</span><span class="o">.</span><span class="n">decodecontext</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">classname</span><span class="p">),</span> <span class="o">*</span><span class="n">util</span><span class="o">.</span><span class="n">decodekeys</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="n">context</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="n">util</span><span class="o">.</span><span class="n">decodecontext</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">classname</span><span class="p">),</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="c1">#if len(lis) == 2 and isinstance(lis[0], (tuple, list)) and isinstance(lis[1], (int, list)):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="n">util</span><span class="o">.</span><span class="n">iskeysobj</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
             <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">classname</span><span class="p">),</span> <span class="o">*</span><span class="n">util</span><span class="o">.</span><span class="n">decodekeys</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">classname</span><span class="p">),</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="c1">#if len(lis) == 1 and isinstance(lis[0], list):</span>
+        <span class="c1">#    return (None, None, util.decodecodec(lis[0], classname), ES.nullparent, None)</span>
         <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">decodecodec</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">classname</span><span class="p">),</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 </pre></div>
 
@@ -1499,11 +1698,45 @@ implement default like this::</p>
 
 <ul>
 <li><strong>bs</strong> : bytes, string or dict data to convert</li>
+<li><strong>classname</strong> : string(default None) - classname to convert codec data</li>
+<li><strong>context</strong> : boolean (default True) - if False, only codec and keys are included</li>
 </ul>
 
 <p><em>Returns</em> : tuple - name, typevaluedec, codec, parent, keys</p>
 </div>
 
+
+                            </div>
+                            <div id="util.iskeysobj" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#util.iskeysobj">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@staticmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">iskeysobj</span><span class="signature">(obj)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">iskeysobj</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>                        <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>                   <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>                               <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>                 <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>                               <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span><span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>   <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>                   <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>             <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+
+        </details>
+
+    
 
                             </div>
                             <div id="util.decodecodec" class="classattr">
@@ -1547,7 +1780,7 @@ implement default like this::</p>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
             <span class="n">name</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>  
-                <span class="k">return</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">typename</span><span class="p">[</span><span class="n">dtype</span><span class="p">])</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">dtype</span><span class="p">])</span>
             <span class="k">raise</span> <span class="n">utilError</span><span class="p">(</span><span class="s1">&#39;name or typevalue is unconsistent&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">context</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> <span class="k">return</span> <span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">context</span><span class="p">])</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -1576,6 +1809,8 @@ implement default like this::</p>
     <span class="k">def</span> <span class="nf">decodekeys</span><span class="p">(</span><span class="n">keys</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Generate a tuple (parent, keys) from a json value&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">)</span> \
@@ -1603,6 +1838,7 @@ implement default like this::</p>
     name=None,
     fullcodec=False,
     simpleval=False,
+    codecval=False,
     typevalue=None,
     parent=-2,
     listunic=False,
@@ -1613,8 +1849,8 @@ implement default like this::</p>
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">encodeobj</span><span class="p">(</span><span class="n">codeclist</span><span class="p">,</span> <span class="n">keyslist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">simpleval</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-                  <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="n">listunic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">encodeobj</span><span class="p">(</span><span class="n">codeclist</span><span class="p">,</span> <span class="n">keyslist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fullcodec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">simpleval</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                  <span class="n">codecval</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">,</span> <span class="n">listunic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return a formatted object with values, keys and codec.</span>
 <span class="sd">        - Format can be json, bson or cbor</span>
@@ -1628,7 +1864,8 @@ implement default like this::</p>
 <span class="sd">        - **typevalue** : string (default None) - type to convert values</span>
 <span class="sd">        - **parent** : int (default ES.nullparent) - Ilist index linked to</span>
 <span class="sd">        - **listunic** : boolean (default False) - if False, when len(result)=1 return value not list</span>
-<span class="sd">        - **simpleval** : boolean (default False) - if True, only codec is included</span>
+<span class="sd">        - **codecval** : boolean (default False) - if True, only list of codec values is included</span>
+<span class="sd">        - **simpleval** : boolean (default False) - if True, only value (without name) is included</span>
 
 <span class="sd">        *Parameters (kwargs)*</span>
 
@@ -1641,7 +1878,7 @@ implement default like this::</p>
         <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;encoded&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;encode_format&#39;</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="s1">&#39;untyped&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                   <span class="s1">&#39;codif&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;typevalue&#39;</span><span class="p">:</span> <span class="n">typevalue</span><span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span>
         <span class="n">js</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">simpleval</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">codecval</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">and</span> <span class="n">typevalue</span><span class="p">:</span>          <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="n">typevalue</span><span class="p">})</span>
             <span class="k">elif</span> <span class="n">name</span><span class="p">:</span>                      <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">typevalue</span><span class="p">:</span>                 <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">typevalue</span><span class="p">)</span>
@@ -1653,7 +1890,7 @@ implement default like this::</p>
         <span class="sd">&#39;&#39;&#39;js.append([util.json(cc, encoded=False, typevalue=None, simpleval=simpleval, </span>
 <span class="sd">                             fullcodec=fullcodec, untyped=option[&#39;untyped&#39;]) </span>
 <span class="sd">                   for cc in codeclist])&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">simpleval</span><span class="p">:</span> 
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">codecval</span><span class="p">:</span> 
             <span class="k">if</span> <span class="n">parent</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">keyslist</span><span class="p">:</span>    <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">parent</span><span class="p">,</span> <span class="n">keyslist</span><span class="p">])</span>
             <span class="k">elif</span> <span class="n">parent</span> <span class="o">!=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span><span class="p">:</span>   <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">keyslist</span><span class="p">:</span>                  <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">keyslist</span><span class="p">)</span>      
@@ -1685,7 +1922,8 @@ implement default like this::</p>
 <li><strong>typevalue</strong> : string (default None) - type to convert values</li>
 <li><strong>parent</strong> : int (default ES.nullparent) - Ilist index linked to</li>
 <li><strong>listunic</strong> : boolean (default False) - if False, when len(result)=1 return value not list</li>
-<li><strong>simpleval</strong> : boolean (default False) - if True, only codec is included</li>
+<li><strong>codecval</strong> : boolean (default False) - if True, only list of codec values is included</li>
+<li><strong>simpleval</strong> : boolean (default False) - if True, only value (without name) is included</li>
 </ul>
 
 <p><em>Parameters (kwargs)</em></p>
@@ -1822,6 +2060,82 @@ Return the list of index with True result.</p>
 
 
                             </div>
+                            <div id="util.isEqual" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#util.isEqual">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@staticmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">isEqual</span><span class="signature">(value, tovalue=None)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; return True if value and tovalue are equal&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">tovalue</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">and</span> \
+            <span class="n">value</span> <span class="o">==</span> <span class="n">tovalue</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>return True if value and tovalue are equal</p>
+</div>
+
+
+                            </div>
+                            <div id="util.isNotEqual" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#util.isNotEqual">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@staticmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">isNotEqual</span><span class="signature">(value, tovalue=None)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isNotEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; return True if value and tovalue are not equal&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">!=</span> <span class="n">tovalue</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">or</span> \
+            <span class="n">value</span> <span class="o">!=</span> <span class="n">tovalue</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>return True if value and tovalue are not equal</p>
+</div>
+
+
+                            </div>
+                            <div id="util.isNotNull" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#util.isNotNull">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@staticmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">isNotNull</span><span class="signature">(value, nullvalue=None)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isNotNull</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nullvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;return boolean. True if value&#39; is not a NullValue&#39;&#39;&#39;</span>
+        <span class="k">if</span>  <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">nullvalue</span><span class="p">)</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>return boolean. True if value' is not a NullValue</p>
+</div>
+
+
+                            </div>
                             <div id="util.idxlink" class="classattr">
                                         <div class="attr function"><a class="headerlink" href="#util.idxlink">#&nbsp;&nbsp</a>
 
@@ -1870,37 +2184,12 @@ Return the list of index with True result.</p>
             <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="p">{</span><span class="n">_invcastfunc</span><span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="p">]:</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span> 
         <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;Ilist&#39;</span><span class="p">:</span>       <span class="k">return</span> <span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">ili_valName</span><span class="p">:</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span>
         <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;Iindex&#39;</span><span class="p">:</span>      <span class="k">return</span> <span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">iin_valName</span><span class="p">:</span> <span class="n">val</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span>
-        <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;Observation&#39;</span><span class="p">:</span> <span class="k">return</span> <span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_valName</span><span class="p">:</span> <span class="n">val</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span>
+        <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;Obs&#39;</span><span class="p">:</span>         <span class="k">return</span> <span class="p">{</span><span class="n">ES</span><span class="o">.</span><span class="n">obs_valName</span><span class="p">:</span> <span class="n">val</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="o">**</span><span class="n">option</span><span class="p">)}</span>
 </pre></div>
 
         </details>
 
     
-
-                            </div>
-                            <div id="util.canonorder" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#util.canonorder">#&nbsp;&nbsp</a>
-
-                <div class="decorator">@staticmethod</div>
-
-            <span class="def">def</span>
-            <span class="name">canonorder</span><span class="signature">(lenidx)</span>:
-    </div>
-
-            <details>
-            <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">canonorder</span><span class="p">(</span><span class="n">lenidx</span><span class="p">):</span> 
-        <span class="sd">&#39;&#39;&#39;return a list of crossed keys from a list of number of values&#39;&#39;&#39;</span>
-        <span class="n">listrange</span> <span class="o">=</span> <span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">lidx</span><span class="p">)</span> <span class="k">for</span> <span class="n">lidx</span> <span class="ow">in</span> <span class="n">lenidx</span><span class="p">]</span> 
-        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">listrange</span><span class="p">))))</span>
-</pre></div>
-
-        </details>
-
-            <div class="docstring"><p>return a list of crossed keys from a list of number of values</p>
-</div>
-
 
                             </div>
                             <div id="util.list" class="classattr">
@@ -2246,6 +2535,78 @@ Return the list of index with True result.</p>
             <div class="docstring"><p>transform a list of list in a list of tuple</p>
 </div>
 
+
+                            </div>
+                            <div id="util.tupled" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#util.tupled">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@staticmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">tupled</span><span class="signature">(idx)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">tupled</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;transform a list of list in a tuple of tuple&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">util</span><span class="o">.</span><span class="n">tupled</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">])</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>transform a list of list in a tuple of tuple</p>
+</div>
+
+
+                            </div>
+                            <div id="util.listed" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#util.listed">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@staticmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">listed</span><span class="signature">(idx)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">listed</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;transform a tuple of tuple in a list of list&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">util</span><span class="o">.</span><span class="n">listed</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">]</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>transform a tuple of tuple in a list of list</p>
+</div>
+
+
+                            </div>
+                            <div id="util.typename" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#util.typename">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@staticmethod</div>
+
+            <span class="def">def</span>
+            <span class="name">typename</span><span class="signature">(name, typevalue=None)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">typename</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>            <span class="k">return</span> <span class="n">typevalue</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">:</span> <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">typeName</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ES&#39;</span><span class="p">:</span>   <span class="k">return</span> <span class="n">ES</span><span class="o">.</span><span class="n">ES_clsName</span>
+        <span class="k">return</span> <span class="n">typevalue</span>
+</pre></div>
+
+        </details>
+
+    
 
                             </div>
                 </section>
