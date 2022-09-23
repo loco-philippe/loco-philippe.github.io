@@ -50,6 +50,9 @@
                                 <a class="variable" href="#Obs.bounds">bounds</a>
                         </li>
                         <li>
+                                <a class="variable" href="#Obs.jsonFeature">jsonFeature</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#Obs.setDatation">setDatation</a>
                         </li>
                         <li>
@@ -63,6 +66,9 @@
                         </li>
                         <li>
                                 <a class="function" href="#Obs.appendObs">appendObs</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Obs.choropleth">choropleth</a>
                         </li>
                         <li>
                                 <a class="function" href="#Obs.to_obj">to_obj</a>
@@ -157,22 +163,15 @@ for location, TimeSlot for Datation)</li>
 
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">ESconstante</span> <span class="kn">import</span> <span class="n">ES</span><span class="p">,</span> <span class="n">_classval</span>
+<span class="kn">from</span> <span class="nn">ESconstante</span> <span class="kn">import</span> <span class="n">ES</span>
 <span class="c1">#import ESValue</span>
 <span class="kn">from</span> <span class="nn">ESValue</span> <span class="kn">import</span> <span class="n">LocationValue</span><span class="p">,</span> <span class="n">DatationValue</span><span class="p">,</span> <span class="n">PropertyValue</span><span class="p">,</span> \
-    <span class="n">NamedValue</span><span class="p">,</span> <span class="n">ExternValue</span><span class="p">,</span> <span class="n">ESValue</span><span class="p">,</span> <span class="n">ESValueEncoder</span>
-<span class="kn">from</span> <span class="nn">timeslot</span> <span class="kn">import</span> <span class="n">TimeSlot</span>
+    <span class="n">ExternValue</span><span class="p">,</span> <span class="n">ESValue</span><span class="p">,</span> <span class="n">ESValueEncoder</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">import</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">folium</span><span class="o">,</span> <span class="nn">copy</span><span class="o">,</span> <span class="nn">csv</span><span class="o">,</span> <span class="nn">bson</span><span class="o">,</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="kn">import</span> <span class="nn">struct</span>
-<span class="c1">#import os</span>
-<span class="c1">#os.chdir(&#39;C:/Users/a179227/OneDrive - Alliance/perso Wx/ES standard/python ESstandard/iList&#39;)</span>
+<span class="kn">import</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">folium</span>
 <span class="kn">from</span> <span class="nn">ilist</span> <span class="kn">import</span> <span class="n">Ilist</span>
 <span class="kn">from</span> <span class="nn">iindex</span> <span class="kn">import</span> <span class="n">Iindex</span>
 <span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">util</span><span class="p">,</span> <span class="n">IindexEncoder</span><span class="p">,</span> <span class="n">CborDecoder</span>
-<span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
 <span class="kn">import</span> <span class="nn">cbor2</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
 
@@ -188,7 +187,114 @@ for location, TimeSlot for Datation)</li>
 <span class="sd">    - **id** : textual identity </span>
 <span class="sd">    - **param** : namedValue dictionnary (external data)</span>
 
-<span class="sd">    The methods defined in this class are :</span>
+<span class="sd">    The methods defined in this class (included inherited) are :</span>
+
+<span class="sd">    *constructor (@classmethod))*</span>
+
+<span class="sd">    - `Obs.Idic`</span>
+<span class="sd">    - `Obs.Std`</span>
+<span class="sd">    - `Obs.from_obj`</span>
+<span class="sd">    - `Ilist.from_file`</span>
+
+<span class="sd">    *dynamic value (getters @property)*</span>
+
+<span class="sd">    - `Obs.bounds`</span>
+<span class="sd">    - `Obs.jsonFeature`</span>
+<span class="sd">    - `Obs.setLocation`</span>
+<span class="sd">    - `Obs.setDatation`</span>
+<span class="sd">    - `Obs.setProperty`</span>
+<span class="sd">    - `Obs.setResult`</span>
+
+<span class="sd">    *dynamic value inherited (getters @property)*</span>
+
+<span class="sd">    - `Ilist.extidx`</span>
+<span class="sd">    - `Ilist.extidxext`</span>
+<span class="sd">    - `Ilist.idxname`</span>
+<span class="sd">    - `Ilist.idxref`</span>
+<span class="sd">    - `Ilist.idxlen`</span>
+<span class="sd">    - `Ilist.iidx`</span>
+<span class="sd">    - `Ilist.keys`</span>
+<span class="sd">    - `Ilist.lenindex`</span>
+<span class="sd">    - `Ilist.lenidx`</span>
+<span class="sd">    - `Ilist.lidx`</span>
+<span class="sd">    - `Ilist.lidxrow`</span>
+<span class="sd">    - `Ilist.lvar`</span>
+<span class="sd">    - `Ilist.lvarrow`</span>
+<span class="sd">    - `Ilist.lname`</span>
+<span class="sd">    - `Ilist.lunicname`</span>
+<span class="sd">    - `Ilist.lunicrow`</span>
+<span class="sd">    - `Ilist.setidx`</span>
+<span class="sd">    - `Ilist.tiidx`</span>
+<span class="sd">    - `Ilist.textidx`</span>
+<span class="sd">    - `Ilist.textidxext`</span>
+
+<span class="sd">    *global value (getters @property)*</span>
+
+<span class="sd">    - `Ilist.complete`</span>
+<span class="sd">    - `Ilist.consistent`</span>
+<span class="sd">    - `Ilist.dimension`</span>
+<span class="sd">    - `Ilist.lencomplete`</span>
+<span class="sd">    - `Ilist.primary`</span>
+<span class="sd">    - `Ilist.zip`</span>
+
+<span class="sd">    *selecting - infos methods*</span>
+
+<span class="sd">    - `Ilist.couplingmatrix`</span>
+<span class="sd">    - `Ilist.idxrecord`</span>
+<span class="sd">    - `Ilist.indexinfos`</span>
+<span class="sd">    - `Ilist.indicator`</span>
+<span class="sd">    - `Ilist.iscanonorder`</span>
+<span class="sd">    - `Ilist.isinrecord`</span>
+<span class="sd">    - `Ilist.keytoval`</span>
+<span class="sd">    - `Ilist.loc`</span>
+<span class="sd">    - `Ilist.nindex`</span>
+<span class="sd">    - `Ilist.record`</span>
+<span class="sd">    - `Ilist.recidx`</span>
+<span class="sd">    - `Ilist.recvar`</span>
+<span class="sd">    - `Ilist.valtokey`</span>
+
+<span class="sd">    *add - update methods*</span>
+
+<span class="sd">    - `Ilist.add`</span>
+<span class="sd">    - `Ilist.addindex`</span>
+<span class="sd">    - `Ilist.append`</span>
+<span class="sd">    - `Obs.appendObs`</span>
+<span class="sd">    - `Ilist.delindex`</span>
+<span class="sd">    - `Ilist.delrecord`</span>
+<span class="sd">    - `Ilist.renameindex`</span>
+<span class="sd">    - `Ilist.setvar`</span>
+<span class="sd">    - `Ilist.setname`</span>
+<span class="sd">    - `Ilist.updateindex`    </span>
+<span class="sd">    </span>
+<span class="sd">    *structure management - methods*</span>
+
+<span class="sd">    - `Ilist.applyfilter`</span>
+<span class="sd">    - `Ilist.coupling`</span>
+<span class="sd">    - `Ilist.full`</span>
+<span class="sd">    - `Ilist.getduplicates`</span>
+<span class="sd">    - `Ilist.merge`</span>
+<span class="sd">    - `Ilist.reindex`</span>
+<span class="sd">    - `Ilist.reorder`</span>
+<span class="sd">    - `Ilist.setfilter`</span>
+<span class="sd">    - `Ilist.sort`</span>
+<span class="sd">    - `Ilist.swapindex`</span>
+<span class="sd">    - `Ilist.setcanonorder`</span>
+<span class="sd">    - `Ilist.tostdcodec`</span>
+<span class="sd">    </span>
+<span class="sd">    *exports methods*</span>
+
+<span class="sd">    - `Obs.choropleth`</span>
+<span class="sd">    - `Ilist.json`</span>
+<span class="sd">    - `Ilist.plot`</span>
+<span class="sd">    - `Ilist.to_obj`</span>
+<span class="sd">    - `Ilist.to_csv`</span>
+<span class="sd">    - `Ilist.to_file`</span>
+<span class="sd">    - `Ilist.to_xarray`</span>
+<span class="sd">    - `Ilist.to_dataFrame`</span>
+<span class="sd">    - `Ilist.view`</span>
+<span class="sd">    - `Ilist.vlist`</span>
+<span class="sd">    - `Ilist.voxel`</span>
+<span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <span class="c1">#%% constructor</span>
@@ -345,6 +451,33 @@ for location, TimeSlot for Datation)</li>
         <span class="k">return</span> <span class="n">bound</span>
 
     <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">__geo_interface__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;**dict (@property)** : return the union of Location geometry (see shapely)&#39;&#39;&#39;</span>
+        <span class="n">codecgeo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nindex</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">codec</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">codecgeo</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">codecgeo</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="k">return</span> <span class="n">codecgeo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">__geo_interface__</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">collec</span> <span class="o">=</span> <span class="n">codecgeo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">codecgeo</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span> <span class="n">collec</span> <span class="o">=</span> <span class="n">collec</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">collec</span><span class="o">.</span><span class="n">__geo_interface__</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">jsonFeature</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        **string (@property)** : &quot;FeatureCollection&quot; with Location geometry&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="p">:</span>
+            <span class="n">geo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__geo_interface__</span>
+            <span class="k">if</span> <span class="n">geo</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;MultiPolygon&quot;</span><span class="p">:</span> <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;Polygon&quot;</span>
+            <span class="k">else</span> <span class="p">:</span> <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;Point&quot;</span>
+            <span class="n">lis</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="p">(((</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="n">typ</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;coordinates&quot;</span><span class="p">,</span> <span class="n">geo</span><span class="p">[</span><span class="s1">&#39;coordinates&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])))</span> 
+                       <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="s1">&#39;coordinates&#39;</span><span class="p">])))</span>
+            <span class="n">fea</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="p">(((</span><span class="s2">&quot;type&quot;</span><span class="p">,</span><span class="s2">&quot;Feature&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;geometry&quot;</span><span class="p">,</span> <span class="n">lis</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span> 
+                       <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="s1">&#39;coordinates&#39;</span><span class="p">])))</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(((</span><span class="s2">&quot;type&quot;</span><span class="p">,</span><span class="s2">&quot;FeatureCollection&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;features&quot;</span><span class="p">,</span><span class="n">fea</span><span class="p">))),</span> 
+                              <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+    
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">setDatation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;**list (@property)** : list of codec values in the datation index&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nindex</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_classES</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nindex</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_classES</span><span class="p">)</span><span class="o">.</span><span class="n">codec</span>
@@ -393,6 +526,34 @@ for location, TimeSlot for Datation)</li>
         <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">:</span>
             <span class="n">record</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">)]</span> <span class="o">=</span> <span class="n">ExternValue</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="n">unique</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">choropleth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;choropleth&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Display `Obs` on a folium.Map (only with dimension=1)</span>
+
+<span class="sd">        - **name** : String, optionnal (default &#39;choropleth&#39;) - Name of the choropleth</span>
+
+<span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coorInv</span><span class="p">,</span> <span class="n">zoom_start</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+            <span class="n">folium</span><span class="o">.</span><span class="n">Choropleth</span><span class="p">(</span>
+                <span class="n">geo_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">jsonFeature</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">),</span>
+                <span class="n">key_on</span><span class="o">=</span><span class="s2">&quot;feature.id&quot;</span><span class="p">,</span>
+                <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;location_row&#39;</span><span class="p">,</span> <span class="s1">&#39;obs&#39;</span><span class="p">],</span>
+                <span class="n">fill_color</span><span class="o">=</span><span class="s2">&quot;OrRd&quot;</span><span class="p">,</span>
+                <span class="n">fill_opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+                <span class="n">line_opacity</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+                <span class="n">line_weight</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="n">legend_name</span><span class="o">=</span><span class="s2">&quot;test choropleth&quot;</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="n">folium</span><span class="o">.</span><span class="n">PolyLine</span><span class="p">(</span>
+                <span class="n">util</span><span class="o">.</span><span class="n">funclist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nindex</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">),</span> <span class="n">LocationValue</span><span class="o">.</span><span class="n">vPointInv</span><span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="n">folium</span><span class="o">.</span><span class="n">LayerControl</span><span class="p">()</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">m</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">to_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Return a formatted object (json string, cbor bytes or json dict). </span>
@@ -487,193 +648,7 @@ for location, TimeSlot for Datation)</li>
         <span class="n">dcinf</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_dim</span><span class="p">]</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span>
         <span class="n">dcinf</span><span class="p">[</span><span class="n">ES</span><span class="o">.</span><span class="n">res_axes</span><span class="p">]</span>    <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">dcinf</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">#%% special</span>
-<span class="sd">    @property</span>
-<span class="sd">    def __geo_interface__(self):</span>
-<span class="sd">        &#39;&#39;&#39;dict (@property) : return the union of geometry (see shapely)&#39;&#39;&#39;</span>
-<span class="sd">        if self.setLocation :</span>
-<span class="sd">            collec = self.vListValue(ES.loc_classES)[0]</span>
-<span class="sd">            first = True</span>
-<span class="sd">            for shap in self.vListValue(ES.loc_classES) :</span>
-<span class="sd">                if not first : collec = collec.union(shap)</span>
-<span class="sd">                first = False</span>
-<span class="sd">            return collec.__geo_interface__</span>
-<span class="sd">        else : return &quot;&quot;</span>
 
-<span class="sd">    def __to_bytes__(self, **option):</span>
-<span class="sd">        return self.to_json(encoded=option[&#39;encoded&#39;], encode_format=&#39;bson&#39;,</span>
-<span class="sd">                            json_info=False, json_res_index=True, json_param=True)</span>
-
-<span class="sd">    @property</span>
-<span class="sd">    def jsonFeature(self):</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        **string (@property)** : &quot;FeatureCollection&quot; with ESSetLocation geometry&#39;&#39;&#39;</span>
-<span class="sd">        if self.setLocation :</span>
-<span class="sd">            geo = self.__geo_interface__</span>
-<span class="sd">            if geo[&#39;type&#39;] == &quot;MultiPolygon&quot;: typ = &quot;Polygon&quot;</span>
-<span class="sd">            else : typ = &quot;Point&quot;</span>
-<span class="sd">            lis = list(dict(((&quot;type&quot;, typ), (&quot;coordinates&quot;, geo[&#39;coordinates&#39;][i]))) for i in range(len(geo[&#39;coordinates&#39;])))</span>
-<span class="sd">            fea = list(dict(((&quot;type&quot;,&quot;Feature&quot;), (&quot;id&quot;, i), (&quot;geometry&quot;, lis[i]))) for i in range(len(geo[&#39;coordinates&#39;])))</span>
-<span class="sd">            return json.dumps(dict(((&quot;type&quot;,&quot;FeatureCollection&quot;), (&quot;features&quot;,fea))), cls=ESValueEncoder)</span>
-<span class="sd">        else: return &#39;&#39;</span>
-
-<span class="sd">    def choropleth(self, name=&quot;choropleth&quot;):</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        Display `Observation` on a folium.Map (only with dim=1)</span>
-
-<span class="sd">        - **name** : String, optionnal (default &#39;choropleth&#39;) - Name of the choropleth</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **folium.Map**  &#39;&#39;&#39;</span>
-<span class="sd">        if self.dimension == 1 :</span>
-<span class="sd">            m = folium.Map(location=self.setLocation[0].coorInv, zoom_start=6)</span>
-<span class="sd">            folium.Choropleth(</span>
-<span class="sd">                geo_data=self.jsonFeature,</span>
-<span class="sd">                name=name,</span>
-<span class="sd">                data=self.to_dataFrame(numeric=True),</span>
-<span class="sd">                key_on=&quot;feature.id&quot;,</span>
-<span class="sd">                columns = [&#39;locran&#39;, &#39;Observation&#39;],</span>
-<span class="sd">                fill_color=&quot;OrRd&quot;,</span>
-<span class="sd">                fill_opacity=0.7,</span>
-<span class="sd">                line_opacity=0.4,</span>
-<span class="sd">                line_weight = 2,</span>
-<span class="sd">                legend_name=&quot;test choropleth&quot;</span>
-<span class="sd">            ).add_to(m)</span>
-<span class="sd">            folium.PolyLine(</span>
-<span class="sd">                self.vList(&#39;location&#39;, func=LocationValue.vPointInv)</span>
-<span class="sd">            ).add_to(m)</span>
-<span class="sd">            folium.LayerControl().add_to(m)</span>
-<span class="sd">            return m</span>
-<span class="sd">        return None</span>
-
-<span class="sd">    @classmethod</span>
-<span class="sd">    def from_file(cls, file) :</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        Generate `Observation` object from file storage.</span>
-
-<span class="sd">         *Parameters*</span>
-
-<span class="sd">        - **file** : string - file name (with path)</span>
-
-<span class="sd">        *Returns* : `Observation`&#39;&#39;&#39;</span>
-<span class="sd">        with open(file, &#39;rb&#39;) as f: btype = f.read(22)</span>
-<span class="sd">        if btype==bytes(&#39;{&quot;&#39; +ES.type+&#39;&quot;: &quot;&#39; + ES.obs_classES +&#39;&quot;&#39;, &#39;UTF-8&#39;):</span>
-<span class="sd">            with open(file, &#39;r&#39;, newline=&#39;&#39;) as f: bjson = f.read()</span>
-<span class="sd">        else:</span>
-<span class="sd">            with open(file, &#39;rb&#39;) as f: bjson = f.read()</span>
-<span class="sd">        return cls(bjson)</span>
-
-<span class="sd">    def to_dataFrame(self, info=False, numeric=False, ind=&#39;axe&#39;, fillvalue=&#39;?&#39;, func=ES._identity,</span>
-<span class="sd">                  name=&#39;Observation&#39;):</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        Convert `Observation` to pandas.DataFrame with the smallest dimension.</span>
-
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **info** : Boolean (default False) - Generate a specific Coords with Observation characteristics.</span>
-<span class="sd">        - **numeric** : Boolean (default False) - Generate a numeric DataArray.Values.</span>
-<span class="sd">        - **ind** : String (default &#39;axe&#39;) - &#39;axe&#39; only independant axes, &#39;all&#39; : all the axes.</span>
-<span class="sd">        - **fillvalue** : Object (default &#39;?&#39;) used to complete result</span>
-<span class="sd">        - **func** : String (default function identity) - Name of the function to apply to the result values</span>
-<span class="sd">        - **name** : String (default &#39;Observation&#39;) - Name of the Dataframe</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **pandas.DataFrame**        &#39;&#39;&#39;</span>
-<span class="sd">        if self.ilist.consistent :</span>
-<span class="sd">            return self.to_xarray(info=info, numeric=numeric, fillvalue=fillvalue,</span>
-<span class="sd">                                  func=func, name=name, ind=ind</span>
-<span class="sd">                                  ).to_dataframe(name=name)</span>
-<span class="sd">        else : return None</span>
-
-<span class="sd">    def to_file(self, file, **kwargs) :</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        Generate obs file to display `Observation` data.</span>
-
-<span class="sd">         *Parameters (kwargs)*</span>
-
-<span class="sd">        - **file** : string - file name (with path)</span>
-<span class="sd">        - **kwargs** : see &#39;to_json&#39; parameters</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **Integer** : file lenght (bytes)  &#39;&#39;&#39;</span>
-<span class="sd">        option = kwargs | {&#39;encoded&#39;: True, &#39;json_res_index&#39;: True}</span>
-<span class="sd">        data = self.to_json(**option)</span>
-<span class="sd">        if kwargs[&#39;encode_format&#39;] == &#39;bson&#39;:</span>
-<span class="sd">            lendata = len(data)</span>
-<span class="sd">            with open(file, &#39;wb&#39;) as f: f.write(data)</span>
-<span class="sd">        else:</span>
-<span class="sd">            lendata = len(bytes(data, &#39;UTF-8&#39;))</span>
-<span class="sd">            with open(file, &#39;w&#39;, newline=&#39;&#39;) as f: f.write(data)</span>
-<span class="sd">        return lendata</span>
-
-<span class="sd">    def to_json(self, **kwargs):</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        Export in Bson or Json format.</span>
-
-<span class="sd">        *Parameters (optional, default value in option attribute)*</span>
-
-<span class="sd">        - **encoded**   : boolean - choice for return format (string/bytes if True, dict else)</span>
-<span class="sd">        - **encode_format**  : string - choice for return format (bson, json, cbor)</span>
-<span class="sd">        - **json_res_index** : Boolean - include index for Result</span>
-<span class="sd">        - **json_param**     : Boolean - include ESObs Parameter</span>
-<span class="sd">        - **json_info**      : Boolean - include ESObs Information with all information</span>
-<span class="sd">        - **json_info_type** : Boolean - include in ESObs Information the type of ESObs</span>
-<span class="sd">        - **json_info_nval** : Boolean - include in ESObs Information the lenght of ESObs</span>
-<span class="sd">        - **json_info_box**  : Boolean - include in ESObs Information the bounding box</span>
-<span class="sd">        - **json_info_other**: Boolean - include in ESObs Information the other information</span>
-<span class="sd">        - **codif** : dict (default ES.codeb). Numerical value for string in CBOR encoder</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **string or dict** : Json string or dict        &#39;&#39;&#39;</span>
-<span class="sd">        option = self.option | kwargs</span>
-<span class="sd">        option2 = option | {&#39;encoded&#39;: False}</span>
-<span class="sd">        #option2 = option | {&#39;encoded&#39;: option[&#39;bjson_bson&#39;]}</span>
-<span class="sd">        dic = { ES.type : ES.obs_classES }</span>
-<span class="sd">        if self.mAtt[ES.obs_id] != ES.nullAtt: dic[ES.obs_id] = self.mAtt[ES.obs_id]</span>
-<span class="sd">        dic |= self._jsonAtt(**option2)</span>
-<span class="sd">        dic |= self.ilist.json(**option2)</span>
-<span class="sd">        if self._orderIsDefault(dic[&#39;order&#39;]): dic.pop(&#39;order&#39;)</span>
-<span class="sd">        if self._indexIsDefault(dic): </span>
-<span class="sd">            if &#39;index&#39; in dic: dic.pop(&#39;index&#39;)</span>
-<span class="sd">            if &#39;default index&#39; in dic: dic.pop(&#39;default index&#39;)</span>
-<span class="sd">        if option[&quot;json_param&quot;] and self.parameter != ES.nullAtt:</span>
-<span class="sd">            dic[ES.parameter] = self.parameter</span>
-<span class="sd">        dic |= self._info(**option2)</span>
-<span class="sd">        if option[&#39;codif&#39;] and option[&#39;encode_format&#39;] != &#39;bson&#39;:</span>
-<span class="sd">            js2 = {}</span>
-<span class="sd">            for k,v in dic.items():</span>
-<span class="sd">                if k in option[&#39;codif&#39;]: js2[option[&#39;codif&#39;][k]] = v</span>
-<span class="sd">                else: js2[k] = v</span>
-<span class="sd">        else: js2 = dic</span>
-<span class="sd">        if option[&#39;encoded&#39;] and option[&#39;encode_format&#39;] == &#39;json&#39;:</span>
-<span class="sd">            return json.dumps(js2, cls=ESValueEncoder)</span>
-<span class="sd">        if option[&#39;encoded&#39;] and option[&#39;encode_format&#39;] == &#39;bson&#39;:</span>
-<span class="sd">            return bson.encode(js2)</span>
-<span class="sd">        if option[&#39;encoded&#39;] and option[&#39;encode_format&#39;] == &#39;cbor&#39;: </span>
-<span class="sd">            return cbor2.dumps(js2, datetime_as_timestamp=True, </span>
-<span class="sd">                               timezone=datetime.timezone.utc, canonical=True)</span>
-<span class="sd">        return dic</span>
-
-<span class="sd">    def to_numpy(self, func=None, ind=&#39;axe&#39;, fillvalue=None, **kwargs):</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        Convert `Observation` to Numpy array.</span>
-
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **ind** : String (default &#39;axe&#39;) - &#39;axe&#39; only independant axes, &#39;all&#39; : all the axes, &#39;flat&#39; : one dimension</span>
-<span class="sd">        - **fillvalue** : Object (default &#39;?&#39;) used to complete result</span>
-<span class="sd">        - **func** : String (default function identity) - Name of the function to apply to the result values</span>
-
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **Numpy array**    &#39;&#39;&#39;</span>
-<span class="sd">        return self.ilist.to_numpy(func=func, ind=ind, fillvalue=fillvalue, **kwargs)</span>
-<span class="sd">&quot;&quot;&quot;</span>
 <span class="k">class</span> <span class="nc">ObsError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">)</span> <span class="p">:</span>
     <span class="k">pass</span>
 </pre></div>
@@ -702,7 +677,114 @@ for location, TimeSlot for Datation)</li>
 <span class="sd">    - **id** : textual identity </span>
 <span class="sd">    - **param** : namedValue dictionnary (external data)</span>
 
-<span class="sd">    The methods defined in this class are :</span>
+<span class="sd">    The methods defined in this class (included inherited) are :</span>
+
+<span class="sd">    *constructor (@classmethod))*</span>
+
+<span class="sd">    - `Obs.Idic`</span>
+<span class="sd">    - `Obs.Std`</span>
+<span class="sd">    - `Obs.from_obj`</span>
+<span class="sd">    - `Ilist.from_file`</span>
+
+<span class="sd">    *dynamic value (getters @property)*</span>
+
+<span class="sd">    - `Obs.bounds`</span>
+<span class="sd">    - `Obs.jsonFeature`</span>
+<span class="sd">    - `Obs.setLocation`</span>
+<span class="sd">    - `Obs.setDatation`</span>
+<span class="sd">    - `Obs.setProperty`</span>
+<span class="sd">    - `Obs.setResult`</span>
+
+<span class="sd">    *dynamic value inherited (getters @property)*</span>
+
+<span class="sd">    - `Ilist.extidx`</span>
+<span class="sd">    - `Ilist.extidxext`</span>
+<span class="sd">    - `Ilist.idxname`</span>
+<span class="sd">    - `Ilist.idxref`</span>
+<span class="sd">    - `Ilist.idxlen`</span>
+<span class="sd">    - `Ilist.iidx`</span>
+<span class="sd">    - `Ilist.keys`</span>
+<span class="sd">    - `Ilist.lenindex`</span>
+<span class="sd">    - `Ilist.lenidx`</span>
+<span class="sd">    - `Ilist.lidx`</span>
+<span class="sd">    - `Ilist.lidxrow`</span>
+<span class="sd">    - `Ilist.lvar`</span>
+<span class="sd">    - `Ilist.lvarrow`</span>
+<span class="sd">    - `Ilist.lname`</span>
+<span class="sd">    - `Ilist.lunicname`</span>
+<span class="sd">    - `Ilist.lunicrow`</span>
+<span class="sd">    - `Ilist.setidx`</span>
+<span class="sd">    - `Ilist.tiidx`</span>
+<span class="sd">    - `Ilist.textidx`</span>
+<span class="sd">    - `Ilist.textidxext`</span>
+
+<span class="sd">    *global value (getters @property)*</span>
+
+<span class="sd">    - `Ilist.complete`</span>
+<span class="sd">    - `Ilist.consistent`</span>
+<span class="sd">    - `Ilist.dimension`</span>
+<span class="sd">    - `Ilist.lencomplete`</span>
+<span class="sd">    - `Ilist.primary`</span>
+<span class="sd">    - `Ilist.zip`</span>
+
+<span class="sd">    *selecting - infos methods*</span>
+
+<span class="sd">    - `Ilist.couplingmatrix`</span>
+<span class="sd">    - `Ilist.idxrecord`</span>
+<span class="sd">    - `Ilist.indexinfos`</span>
+<span class="sd">    - `Ilist.indicator`</span>
+<span class="sd">    - `Ilist.iscanonorder`</span>
+<span class="sd">    - `Ilist.isinrecord`</span>
+<span class="sd">    - `Ilist.keytoval`</span>
+<span class="sd">    - `Ilist.loc`</span>
+<span class="sd">    - `Ilist.nindex`</span>
+<span class="sd">    - `Ilist.record`</span>
+<span class="sd">    - `Ilist.recidx`</span>
+<span class="sd">    - `Ilist.recvar`</span>
+<span class="sd">    - `Ilist.valtokey`</span>
+
+<span class="sd">    *add - update methods*</span>
+
+<span class="sd">    - `Ilist.add`</span>
+<span class="sd">    - `Ilist.addindex`</span>
+<span class="sd">    - `Ilist.append`</span>
+<span class="sd">    - `Obs.appendObs`</span>
+<span class="sd">    - `Ilist.delindex`</span>
+<span class="sd">    - `Ilist.delrecord`</span>
+<span class="sd">    - `Ilist.renameindex`</span>
+<span class="sd">    - `Ilist.setvar`</span>
+<span class="sd">    - `Ilist.setname`</span>
+<span class="sd">    - `Ilist.updateindex`    </span>
+<span class="sd">    </span>
+<span class="sd">    *structure management - methods*</span>
+
+<span class="sd">    - `Ilist.applyfilter`</span>
+<span class="sd">    - `Ilist.coupling`</span>
+<span class="sd">    - `Ilist.full`</span>
+<span class="sd">    - `Ilist.getduplicates`</span>
+<span class="sd">    - `Ilist.merge`</span>
+<span class="sd">    - `Ilist.reindex`</span>
+<span class="sd">    - `Ilist.reorder`</span>
+<span class="sd">    - `Ilist.setfilter`</span>
+<span class="sd">    - `Ilist.sort`</span>
+<span class="sd">    - `Ilist.swapindex`</span>
+<span class="sd">    - `Ilist.setcanonorder`</span>
+<span class="sd">    - `Ilist.tostdcodec`</span>
+<span class="sd">    </span>
+<span class="sd">    *exports methods*</span>
+
+<span class="sd">    - `Obs.choropleth`</span>
+<span class="sd">    - `Ilist.json`</span>
+<span class="sd">    - `Ilist.plot`</span>
+<span class="sd">    - `Ilist.to_obj`</span>
+<span class="sd">    - `Ilist.to_csv`</span>
+<span class="sd">    - `Ilist.to_file`</span>
+<span class="sd">    - `Ilist.to_xarray`</span>
+<span class="sd">    - `Ilist.to_dataFrame`</span>
+<span class="sd">    - `Ilist.view`</span>
+<span class="sd">    - `Ilist.vlist`</span>
+<span class="sd">    - `Ilist.voxel`</span>
+<span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <span class="c1">#%% constructor</span>
@@ -859,6 +941,33 @@ for location, TimeSlot for Datation)</li>
         <span class="k">return</span> <span class="n">bound</span>
 
     <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">__geo_interface__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;**dict (@property)** : return the union of Location geometry (see shapely)&#39;&#39;&#39;</span>
+        <span class="n">codecgeo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nindex</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">codec</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">codecgeo</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">codecgeo</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="k">return</span> <span class="n">codecgeo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">__geo_interface__</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">collec</span> <span class="o">=</span> <span class="n">codecgeo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">codecgeo</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span> <span class="n">collec</span> <span class="o">=</span> <span class="n">collec</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">collec</span><span class="o">.</span><span class="n">__geo_interface__</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">jsonFeature</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        **string (@property)** : &quot;FeatureCollection&quot; with Location geometry&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="p">:</span>
+            <span class="n">geo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__geo_interface__</span>
+            <span class="k">if</span> <span class="n">geo</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;MultiPolygon&quot;</span><span class="p">:</span> <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;Polygon&quot;</span>
+            <span class="k">else</span> <span class="p">:</span> <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;Point&quot;</span>
+            <span class="n">lis</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="p">(((</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="n">typ</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;coordinates&quot;</span><span class="p">,</span> <span class="n">geo</span><span class="p">[</span><span class="s1">&#39;coordinates&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])))</span> 
+                       <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="s1">&#39;coordinates&#39;</span><span class="p">])))</span>
+            <span class="n">fea</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="p">(((</span><span class="s2">&quot;type&quot;</span><span class="p">,</span><span class="s2">&quot;Feature&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;geometry&quot;</span><span class="p">,</span> <span class="n">lis</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span> 
+                       <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="s1">&#39;coordinates&#39;</span><span class="p">])))</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(((</span><span class="s2">&quot;type&quot;</span><span class="p">,</span><span class="s2">&quot;FeatureCollection&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;features&quot;</span><span class="p">,</span><span class="n">fea</span><span class="p">))),</span> 
+                              <span class="bp">cls</span><span class="o">=</span><span class="n">ESValueEncoder</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+    
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">setDatation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;**list (@property)** : list of codec values in the datation index&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nindex</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_classES</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nindex</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">dat_classES</span><span class="p">)</span><span class="o">.</span><span class="n">codec</span>
@@ -907,6 +1016,34 @@ for location, TimeSlot for Datation)</li>
         <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">:</span>
             <span class="n">record</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">ES</span><span class="o">.</span><span class="n">res_classES</span><span class="p">)]</span> <span class="o">=</span> <span class="n">ExternValue</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="n">unique</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">choropleth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;choropleth&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Display `Obs` on a folium.Map (only with dimension=1)</span>
+
+<span class="sd">        - **name** : String, optionnal (default &#39;choropleth&#39;) - Name of the choropleth</span>
+
+<span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coorInv</span><span class="p">,</span> <span class="n">zoom_start</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+            <span class="n">folium</span><span class="o">.</span><span class="n">Choropleth</span><span class="p">(</span>
+                <span class="n">geo_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">jsonFeature</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">),</span>
+                <span class="n">key_on</span><span class="o">=</span><span class="s2">&quot;feature.id&quot;</span><span class="p">,</span>
+                <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;location_row&#39;</span><span class="p">,</span> <span class="s1">&#39;obs&#39;</span><span class="p">],</span>
+                <span class="n">fill_color</span><span class="o">=</span><span class="s2">&quot;OrRd&quot;</span><span class="p">,</span>
+                <span class="n">fill_opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+                <span class="n">line_opacity</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+                <span class="n">line_weight</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="n">legend_name</span><span class="o">=</span><span class="s2">&quot;test choropleth&quot;</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="n">folium</span><span class="o">.</span><span class="n">PolyLine</span><span class="p">(</span>
+                <span class="n">util</span><span class="o">.</span><span class="n">funclist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nindex</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">),</span> <span class="n">LocationValue</span><span class="o">.</span><span class="n">vPointInv</span><span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="n">folium</span><span class="o">.</span><span class="n">LayerControl</span><span class="p">()</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">m</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">to_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Return a formatted object (json string, cbor bytes or json dict). </span>
@@ -1015,7 +1152,129 @@ for location, TimeSlot for Datation)</li>
 <li><strong>param</strong> : namedValue dictionnary (external data)</li>
 </ul>
 
-<p>The methods defined in this class are :</p>
+<p>The methods defined in this class (included inherited) are :</p>
+
+<p><em>constructor (@classmethod))</em></p>
+
+<ul>
+<li><code><a href="#Obs.Idic">Obs.Idic</a></code></li>
+<li><code><a href="#Obs.Std">Obs.Std</a></code></li>
+<li><code><a href="#Obs.from_obj">Obs.from_obj</a></code></li>
+<li><code>Ilist.from_file</code></li>
+</ul>
+
+<p><em>dynamic value (getters @property)</em></p>
+
+<ul>
+<li><code><a href="#Obs.bounds">Obs.bounds</a></code></li>
+<li><code><a href="#Obs.jsonFeature">Obs.jsonFeature</a></code></li>
+<li><code><a href="#Obs.setLocation">Obs.setLocation</a></code></li>
+<li><code><a href="#Obs.setDatation">Obs.setDatation</a></code></li>
+<li><code><a href="#Obs.setProperty">Obs.setProperty</a></code></li>
+<li><code><a href="#Obs.setResult">Obs.setResult</a></code></li>
+</ul>
+
+<p><em>dynamic value inherited (getters @property)</em></p>
+
+<ul>
+<li><code>Ilist.extidx</code></li>
+<li><code>Ilist.extidxext</code></li>
+<li><code>Ilist.idxname</code></li>
+<li><code>Ilist.idxref</code></li>
+<li><code>Ilist.idxlen</code></li>
+<li><code>Ilist.iidx</code></li>
+<li><code>Ilist.keys</code></li>
+<li><code>Ilist.lenindex</code></li>
+<li><code>Ilist.lenidx</code></li>
+<li><code>Ilist.lidx</code></li>
+<li><code>Ilist.lidxrow</code></li>
+<li><code>Ilist.lvar</code></li>
+<li><code>Ilist.lvarrow</code></li>
+<li><code>Ilist.lname</code></li>
+<li><code>Ilist.lunicname</code></li>
+<li><code>Ilist.lunicrow</code></li>
+<li><code>Ilist.setidx</code></li>
+<li><code>Ilist.tiidx</code></li>
+<li><code>Ilist.textidx</code></li>
+<li><code>Ilist.textidxext</code></li>
+</ul>
+
+<p><em>global value (getters @property)</em></p>
+
+<ul>
+<li><code>Ilist.complete</code></li>
+<li><code>Ilist.consistent</code></li>
+<li><code>Ilist.dimension</code></li>
+<li><code>Ilist.lencomplete</code></li>
+<li><code>Ilist.primary</code></li>
+<li><code>Ilist.zip</code></li>
+</ul>
+
+<p><em>selecting - infos methods</em></p>
+
+<ul>
+<li><code>Ilist.couplingmatrix</code></li>
+<li><code>Ilist.idxrecord</code></li>
+<li><code>Ilist.indexinfos</code></li>
+<li><code>Ilist.indicator</code></li>
+<li><code>Ilist.iscanonorder</code></li>
+<li><code>Ilist.isinrecord</code></li>
+<li><code>Ilist.keytoval</code></li>
+<li><code>Ilist.loc</code></li>
+<li><code>Ilist.nindex</code></li>
+<li><code>Ilist.record</code></li>
+<li><code>Ilist.recidx</code></li>
+<li><code>Ilist.recvar</code></li>
+<li><code>Ilist.valtokey</code></li>
+</ul>
+
+<p><em>add - update methods</em></p>
+
+<ul>
+<li><code>Ilist.add</code></li>
+<li><code>Ilist.addindex</code></li>
+<li><code>Ilist.append</code></li>
+<li><code><a href="#Obs.appendObs">Obs.appendObs</a></code></li>
+<li><code>Ilist.delindex</code></li>
+<li><code>Ilist.delrecord</code></li>
+<li><code>Ilist.renameindex</code></li>
+<li><code>Ilist.setvar</code></li>
+<li><code>Ilist.setname</code></li>
+<li><code>Ilist.updateindex</code>    </li>
+</ul>
+
+<p><em>structure management - methods</em></p>
+
+<ul>
+<li><code>Ilist.applyfilter</code></li>
+<li><code>Ilist.coupling</code></li>
+<li><code>Ilist.full</code></li>
+<li><code>Ilist.getduplicates</code></li>
+<li><code>Ilist.merge</code></li>
+<li><code>Ilist.reindex</code></li>
+<li><code>Ilist.reorder</code></li>
+<li><code>Ilist.setfilter</code></li>
+<li><code>Ilist.sort</code></li>
+<li><code>Ilist.swapindex</code></li>
+<li><code>Ilist.setcanonorder</code></li>
+<li><code>Ilist.tostdcodec</code></li>
+</ul>
+
+<p><em>exports methods</em></p>
+
+<ul>
+<li><code><a href="#Obs.choropleth">Obs.choropleth</a></code></li>
+<li><code>Ilist.json</code></li>
+<li><code>Ilist.plot</code></li>
+<li><code>Ilist.to_obj</code></li>
+<li><code>Ilist.to_csv</code></li>
+<li><code>Ilist.to_file</code></li>
+<li><code>Ilist.to_xarray</code></li>
+<li><code>Ilist.to_dataFrame</code></li>
+<li><code>Ilist.view</code></li>
+<li><code>Ilist.vlist</code></li>
+<li><code>Ilist.voxel</code></li>
+</ul>
 </div>
 
 
@@ -1293,6 +1552,18 @@ for location, TimeSlot for Datation)</li>
 
 
                             </div>
+                            <div id="Obs.jsonFeature" class="classattr">
+                                            <div class="attr variable"><a class="headerlink" href="#Obs.jsonFeature">#&nbsp;&nbsp</a>
+
+        <span class="name">jsonFeature</span>
+    </div>
+
+    
+            <div class="docstring"><p><strong>string (@property)</strong> : "FeatureCollection" with Location geometry</p>
+</div>
+
+
+                            </div>
                             <div id="Obs.setDatation" class="classattr">
                                             <div class="attr variable"><a class="headerlink" href="#Obs.setDatation">#&nbsp;&nbsp</a>
 
@@ -1392,6 +1663,58 @@ for location, TimeSlot for Datation)</li>
 <ul>
 <li><strong>int</strong> : last index in the <code><a href="#Obs">Obs</a></code></li>
 </ul>
+</div>
+
+
+                            </div>
+                            <div id="Obs.choropleth" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Obs.choropleth">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">choropleth</span><span class="signature">(self, name=&#39;choropleth&#39;)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">choropleth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;choropleth&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Display `Obs` on a folium.Map (only with dimension=1)</span>
+
+<span class="sd">        - **name** : String, optionnal (default &#39;choropleth&#39;) - Name of the choropleth</span>
+
+<span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coorInv</span><span class="p">,</span> <span class="n">zoom_start</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+            <span class="n">folium</span><span class="o">.</span><span class="n">Choropleth</span><span class="p">(</span>
+                <span class="n">geo_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">jsonFeature</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;obs&#39;</span><span class="p">),</span>
+                <span class="n">key_on</span><span class="o">=</span><span class="s2">&quot;feature.id&quot;</span><span class="p">,</span>
+                <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;location_row&#39;</span><span class="p">,</span> <span class="s1">&#39;obs&#39;</span><span class="p">],</span>
+                <span class="n">fill_color</span><span class="o">=</span><span class="s2">&quot;OrRd&quot;</span><span class="p">,</span>
+                <span class="n">fill_opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+                <span class="n">line_opacity</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+                <span class="n">line_weight</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="n">legend_name</span><span class="o">=</span><span class="s2">&quot;test choropleth&quot;</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="n">folium</span><span class="o">.</span><span class="n">PolyLine</span><span class="p">(</span>
+                <span class="n">util</span><span class="o">.</span><span class="n">funclist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nindex</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">),</span> <span class="n">LocationValue</span><span class="o">.</span><span class="n">vPointInv</span><span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="n">folium</span><span class="o">.</span><span class="n">LayerControl</span><span class="p">()</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">m</span>
+        <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Display <code><a href="#Obs">Obs</a></code> on a folium.Map (only with dimension=1)</p>
+
+<ul>
+<li><strong>name</strong> : String, optionnal (default 'choropleth') - Name of the choropleth</li>
+</ul>
+
+<p><em>Returns</em> : None</p>
 </div>
 
 
@@ -1556,6 +1879,7 @@ for location, TimeSlot for Datation)</li>
                 <dd id="Obs.swapindex" class="function">swapindex</dd>
                 <dd id="Obs.tostdcodec" class="function">tostdcodec</dd>
                 <dd id="Obs.to_csv" class="function">to_csv</dd>
+                <dd id="Obs.to_dataFrame" class="function">to_dataFrame</dd>
                 <dd id="Obs.to_xarray" class="function">to_xarray</dd>
                 <dd id="Obs.to_file" class="function">to_file</dd>
                 <dd id="Obs.updateindex" class="function">updateindex</dd>

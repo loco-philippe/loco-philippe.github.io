@@ -312,6 +312,7 @@
             <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
             <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;float&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;float&#39;</span><span class="p">,</span> <span class="s1">&#39;int&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">className</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">to_float</span><span class="p">()</span>
             <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
             <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
@@ -530,7 +531,8 @@
         <span class="sd">&#39;&#39;&#39;return the function func applied to the object value with parameters args and kwargs&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">func</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">[])</span> <span class="p">:</span> <span class="k">return</span> <span class="n">value</span>
         <span class="n">lis</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="n">listval</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Iindex&#39;</span><span class="p">,</span> <span class="s1">&#39;Ilist&#39;</span><span class="p">,</span> <span class="s1">&#39;Obs&#39;</span><span class="p">]):</span>
+            <span class="n">listval</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
         <span class="k">else</span> <span class="p">:</span> <span class="n">listval</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">listval</span> <span class="p">:</span>
             <span class="k">try</span> <span class="p">:</span> <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
@@ -562,19 +564,19 @@
         <span class="k">return</span> <span class="n">keysadd</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">isEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">isEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return True if value and tovalue are equal&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">tovalue</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">and</span> \
             <span class="n">value</span> <span class="o">==</span> <span class="n">tovalue</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">isNotEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">isNotEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return True if value and tovalue are not equal&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">!=</span> <span class="n">tovalue</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">or</span> \
             <span class="n">value</span> <span class="o">!=</span> <span class="n">tovalue</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">isNotNull</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nullvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">isNotNull</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nullvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return boolean. True if value&#39; is not a NullValue&#39;&#39;&#39;</span>
         <span class="k">if</span>  <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">nullvalue</span><span class="p">)</span>
@@ -1002,6 +1004,7 @@ implement default like this::</p>
             <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
             <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;float&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;float&#39;</span><span class="p">,</span> <span class="s1">&#39;int&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">className</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">to_float</span><span class="p">()</span>
             <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
             <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
@@ -1220,7 +1223,8 @@ implement default like this::</p>
         <span class="sd">&#39;&#39;&#39;return the function func applied to the object value with parameters args and kwargs&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">func</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">[])</span> <span class="p">:</span> <span class="k">return</span> <span class="n">value</span>
         <span class="n">lis</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="n">listval</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Iindex&#39;</span><span class="p">,</span> <span class="s1">&#39;Ilist&#39;</span><span class="p">,</span> <span class="s1">&#39;Obs&#39;</span><span class="p">]):</span>
+            <span class="n">listval</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
         <span class="k">else</span> <span class="p">:</span> <span class="n">listval</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">listval</span> <span class="p">:</span>
             <span class="k">try</span> <span class="p">:</span> <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
@@ -1252,19 +1256,19 @@ implement default like this::</p>
         <span class="k">return</span> <span class="n">keysadd</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">isEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">isEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return True if value and tovalue are equal&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">tovalue</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">and</span> \
             <span class="n">value</span> <span class="o">==</span> <span class="n">tovalue</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">isNotEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">isNotEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return True if value and tovalue are not equal&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">!=</span> <span class="n">tovalue</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">or</span> \
             <span class="n">value</span> <span class="o">!=</span> <span class="n">tovalue</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">isNotNull</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nullvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">isNotNull</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nullvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return boolean. True if value&#39; is not a NullValue&#39;&#39;&#39;</span>
         <span class="k">if</span>  <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">nullvalue</span><span class="p">)</span>
@@ -1506,6 +1510,7 @@ implement default like this::</p>
             <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
             <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
         <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;float&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;float&#39;</span><span class="p">,</span> <span class="s1">&#39;int&#39;</span><span class="p">]:</span> <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">typeval</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">className</span><span class="p">:</span> <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">to_float</span><span class="p">()</span>
             <span class="k">try</span> <span class="p">:</span> <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
             <span class="k">except</span> <span class="p">:</span> <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
@@ -1983,7 +1988,8 @@ Return the list of index with True result.</p>
         <span class="sd">&#39;&#39;&#39;return the function func applied to the object value with parameters args and kwargs&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">func</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">[])</span> <span class="p">:</span> <span class="k">return</span> <span class="n">value</span>
         <span class="n">lis</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="n">listval</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Iindex&#39;</span><span class="p">,</span> <span class="s1">&#39;Ilist&#39;</span><span class="p">,</span> <span class="s1">&#39;Obs&#39;</span><span class="p">]):</span>
+            <span class="n">listval</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
         <span class="k">else</span> <span class="p">:</span> <span class="n">listval</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">listval</span> <span class="p">:</span>
             <span class="k">try</span> <span class="p">:</span> <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
@@ -2066,13 +2072,13 @@ Return the list of index with True result.</p>
                 <div class="decorator">@staticmethod</div>
 
             <span class="def">def</span>
-            <span class="name">isEqual</span><span class="signature">(value, tovalue=None)</span>:
+            <span class="name">isEqual</span><span class="signature">(value, tovalue=None, **kwargs)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">isEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">isEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return True if value and tovalue are equal&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">tovalue</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">and</span> \
             <span class="n">value</span> <span class="o">==</span> <span class="n">tovalue</span>
@@ -2091,13 +2097,13 @@ Return the list of index with True result.</p>
                 <div class="decorator">@staticmethod</div>
 
             <span class="def">def</span>
-            <span class="name">isNotEqual</span><span class="signature">(value, tovalue=None)</span>:
+            <span class="name">isNotEqual</span><span class="signature">(value, tovalue=None, **kwargs)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">isNotEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">isNotEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">tovalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; return True if value and tovalue are not equal&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">!=</span> <span class="n">tovalue</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">or</span> \
             <span class="n">value</span> <span class="o">!=</span> <span class="n">tovalue</span>
@@ -2116,13 +2122,13 @@ Return the list of index with True result.</p>
                 <div class="decorator">@staticmethod</div>
 
             <span class="def">def</span>
-            <span class="name">isNotNull</span><span class="signature">(value, nullvalue=None)</span>:
+            <span class="name">isNotNull</span><span class="signature">(value, nullvalue=None, **kwargs)</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">isNotNull</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nullvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">isNotNull</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nullvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;return boolean. True if value&#39; is not a NullValue&#39;&#39;&#39;</span>
         <span class="k">if</span>  <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="n">ES</span><span class="o">.</span><span class="n">valname</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">nullvalue</span><span class="p">)</span>

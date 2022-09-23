@@ -248,6 +248,9 @@
                                 <a class="function" href="#Ilist.to_csv">to_csv</a>
                         </li>
                         <li>
+                                <a class="function" href="#Ilist.to_dataFrame">to_dataFrame</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Ilist.to_xarray">to_xarray</a>
                         </li>
                         <li>
@@ -472,8 +475,8 @@ are :
 <span class="sd">    - `Ilist.to_obj`</span>
 <span class="sd">    - `Ilist.to_csv`</span>
 <span class="sd">    - `Ilist.to_file`</span>
-<span class="sd">    - `Ilist.to_numpy`</span>
 <span class="sd">    - `Ilist.to_xarray`</span>
+<span class="sd">    - `Ilist.to_dataFrame`</span>
 <span class="sd">    - `Ilist.view`</span>
 <span class="sd">    - `Ilist.vlist`</span>
 <span class="sd">    - `Ilist.voxel`</span>
@@ -569,14 +572,14 @@ are :
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">forcestring</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Generate `Ilist` object from file storage.</span>
+<span class="sd">        Generate Object from file storage.</span>
 
 <span class="sd">         *Parameters*</span>
 
 <span class="sd">        - **file** : string - file name (with path)</span>
 <span class="sd">        - **forcestring** : boolean (default False) - if True, forces the UTF-8 data format, else the format is calculated</span>
 
-<span class="sd">        *Returns* : Ilist object&#39;&#39;&#39;</span>
+<span class="sd">        *Returns* : new Object&#39;&#39;&#39;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">btype</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">btype</span><span class="o">==</span><span class="nb">bytes</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">forcestring</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">bjson</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
@@ -679,24 +682,12 @@ are :
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">leng</span><span class="p">:</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="n">leng2</span><span class="p">:</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">1</span> 
-        <span class="c1">#if max(leng) == min(leng) and length &lt; 0: length = max(leng)</span>
         <span class="k">elif</span> <span class="nb">max</span><span class="p">(</span><span class="n">leng2</span><span class="p">)</span> <span class="o">==</span> <span class="nb">min</span><span class="p">(</span><span class="n">leng2</span><span class="p">)</span> <span class="ow">and</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">length</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">leng2</span><span class="p">)</span>
-        
-        <span class="sd">&#39;&#39;&#39;#leng = [len(iidx) for code, iidx in codind if code &lt; 0 and len(iidx) &gt; 1] #!!!!</span>
-<span class="sd">        </span>
-<span class="sd">        #leng = [len(iidx) for code, iidx in codind if code &lt; 0]</span>
-<span class="sd">        #if not leng: leng = [1] #!!!!!</span>
-<span class="sd">        if not leng: leng = [0]</span>
-<span class="sd">        #if max(leng) == min(leng) and length &lt; 0: length = max(leng)</span>
-<span class="sd">        if max(leng2) == min(leng2) and length &lt; 0: length = max(leng2)</span>
-<span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">idxvar</span><span class="p">:</span> <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">codind</span><span class="p">[</span><span class="n">idxvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">length</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span> <span class="o">=</span> <span class="p">[</span><span class="n">codind</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idxvar</span><span class="p">]</span>
-            <span class="c1">#self.lindex = [[] for i in range(len(listidx))]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span> <span class="o">=</span> <span class="p">[</span><span class="n">iidx</span> <span class="k">for</span> <span class="n">code</span><span class="p">,</span> <span class="n">iidx</span> <span class="ow">in</span> <span class="n">codind</span><span class="p">]</span>
             <span class="k">return</span>
-        <span class="c1">#flat = length == max(leng) == min(leng)</span>
         <span class="n">flat</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="n">leng2</span><span class="p">:</span> <span class="n">flat</span> <span class="o">=</span> <span class="n">length</span> <span class="o">==</span> <span class="nb">max</span><span class="p">(</span><span class="n">leng2</span><span class="p">)</span> <span class="o">==</span> <span class="nb">min</span><span class="p">(</span><span class="n">leng2</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">flat</span><span class="p">:</span>
@@ -1009,7 +1000,7 @@ are :
         <span class="n">idx</span> <span class="o">=</span> <span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
         <span class="n">idxname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> 
-            <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;size are different&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;sizes are different&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">idx</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">idxname</span><span class="p">:</span> 
             <span class="k">if</span> <span class="n">first</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
@@ -1298,7 +1289,7 @@ are :
         <span class="k">return</span> <span class="p">[{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">inf</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">}</span> <span class="k">for</span> <span class="n">inf</span> <span class="ow">in</span> <span class="n">infos</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">indicator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">indexinfos</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;generate Ilist indicators: ol (object lightness), ul (unicity level), gain (sizegain)</span>
+        <span class="sd">&#39;&#39;&#39;generate size indicators: ol (object lightness), ul (unicity level), gain (sizegain)</span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 
@@ -1369,13 +1360,6 @@ are :
                                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenidx</span><span class="p">)]))</span>
         <span class="k">if</span> <span class="n">row</span><span class="p">:</span> <span class="k">return</span> <span class="n">locrow</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="nb">tuple</span><span class="p">(</span><span class="n">locrow</span><span class="p">)]</span>
-        <span class="sd">&#39;&#39;&#39;try:</span>
-<span class="sd">            if extern: </span>
-<span class="sd">                row = self.textidxext.index(rec)</span>
-<span class="sd">            else: </span>
-<span class="sd">                row = self.textidx.index(rec)</span>
-<span class="sd">        except: return None</span>
-<span class="sd">        return self.lvar[0][row]&#39;&#39;&#39;</span>
 
     <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;merge&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">mergeidx</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">updateidx</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1388,13 +1372,7 @@ are :
 <span class="sd">        - **mergeidx** : create a new index if mergeidx is False</span>
 <span class="sd">        - **updateidx** : if True (and mergeidx is True), update actual values if index name is present </span>
 <span class="sd">        </span>
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **Ilist** : merged Ilist &#39;&#39;&#39;</span>     
-        <span class="c1">#if len(self.lvarname) == 0: fillvalue = util.castval(fillvalue, ES.def_clsName)</span>
-        <span class="c1">#else: fillvalue = util.castval(fillvalue, util.typename(self.lvarname[0], </span>
-        <span class="c1">#                                                        ES.def_clsName))</span>
-        <span class="c1">#fillvalue = util.cast(fillvalue, ES.def_dtype)</span>
+<span class="sd">        *Returns*: merged Ilist &#39;&#39;&#39;</span>     
         <span class="n">find</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">ilm</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">nameinit</span> <span class="o">=</span> <span class="n">ilm</span><span class="o">.</span><span class="n">idxname</span>
@@ -1422,7 +1400,7 @@ are :
         <span class="k">return</span> <span class="n">ilm</span>
 
     <span class="k">def</span> <span class="nf">merging</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listname</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; add a new index in Ilist object build with indexes define in listname&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; add a new index build with indexes define in listname&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">addindex</span><span class="p">(</span><span class="n">Iindex</span><span class="o">.</span><span class="n">merging</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">nindex</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">listname</span><span class="p">]))</span>
         <span class="k">return</span> <span class="kc">None</span>
     
@@ -1447,8 +1425,8 @@ are :
 
 <span class="sd">        - **None**  &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">consistent</span> <span class="p">:</span> <span class="k">return</span>
-        <span class="n">xa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">lisfunc</span><span class="o">=</span><span class="p">[</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">],</span> 
-                             <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="n">maxlen</span><span class="p">)</span>
+        <span class="n">xa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">lisfunc</span><span class="o">=</span><span class="p">[</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>
+                             <span class="n">npdtype</span><span class="o">=</span><span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="n">maxlen</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">order</span><span class="p">:</span> <span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
         
         <span class="k">if</span>   <span class="nb">len</span><span class="p">(</span><span class="n">xa</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -1540,13 +1518,11 @@ are :
         
     <span class="k">def</span> <span class="nf">setcanonorder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Set the canonical index order : primary - secondary/unique - variable.</span>
-<span class="sd">        Set the canonical keys order : ordered keys in the first columns&#39;&#39;&#39;</span>
+<span class="sd">        Set the canonical keys order : ordered keys in the first columns.</span>
+<span class="sd">        Return self&#39;&#39;&#39;</span>
         <span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lidxrow</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary</span><span class="p">]</span>
         <span class="n">order</span> <span class="o">+=</span> <span class="p">[</span><span class="n">idx</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidxrow</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">order</span><span class="p">]</span>
         <span class="n">order</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span>
-        <span class="sd">&#39;&#39;&#39;for i in self.lidxrow: </span>
-<span class="sd">            if not i in order: order.append(i)</span>
-<span class="sd">        for i in self.lvarrow: order.append(i)&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">swapindex</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span>
@@ -1592,7 +1568,7 @@ are :
 <span class="sd">        - **reverse** : boolean (default False)- ascending if True, descending if False</span>
 <span class="sd">        - **func**    : function (default str) - parameter key used in the sorted function</span>
 
-<span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
+<span class="sd">        *Returns* : self&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">order</span><span class="p">:</span> <span class="n">order</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">orderfull</span> <span class="o">=</span> <span class="n">order</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span><span class="p">))</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">order</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">order</span><span class="p">]:</span>
@@ -1601,6 +1577,7 @@ are :
             <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">orderfull</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">keys</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span><span class="p">)]),</span> 
             <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">orderfull</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">newidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">swapindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1610,10 +1587,10 @@ are :
 
 <span class="sd">        - **order** : list of int - new order of index to apply.</span>
 
-<span class="sd">        *Returns* : none &#39;&#39;&#39;</span>
+<span class="sd">        *Returns* : self &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">):</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;length of order and Ilist different&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">))]</span>
-
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">tostdcodec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Transform all codec in full or default codec.</span>
@@ -1660,47 +1637,17 @@ are :
             <span class="k">for</span> <span class="n">lign</span> <span class="ow">in</span> <span class="n">tab</span> <span class="p">:</span> 
                 <span class="n">size</span> <span class="o">+=</span> <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">lign</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">size</span>
-       
-    <span class="sd">&quot;&quot;&quot;def to_csv(self, filename=&#39;ilist.csv&#39;, ifunc=None, header=True, </span>
-<span class="sd">               optcsv={&#39;quoting&#39;: csv.QUOTE_NONNUMERIC}, **kwargs):</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        Generate a csv file with Ilist data (a column for each index)</span>
 
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **filename** : string (default &#39;ilist.csv&#39;) - name of the file to create</span>
-<span class="sd">        - **ifunc** : list of function (default None) - function to apply to indexes</span>
-<span class="sd">        before writting csv file</span>
-<span class="sd">        - **order** : list of integer (default None) - ordered list of index in columns</span>
-<span class="sd">        - **header** : boolean (default True). If True, the first raw is dedicated to names</span>
-<span class="sd">        - **optcsv** : parameter for csv.writer</span>
-<span class="sd">        - **kwargs** : parameter for ifunc</span>
-
-<span class="sd">        *Returns* : size of csv file &#39;&#39;&#39;</span>
-<span class="sd">        size = 0</span>
-<span class="sd">        if not optcsv: optcsv = {}</span>
-<span class="sd">        #optcsv = {&#39;quoting&#39;: csv.QUOTE_NONNUMERIC} | optcsv</span>
-<span class="sd">        if ifunc and not isinstance(ifunc, list): ifunc = [ifunc] * self.lenindex</span>
-<span class="sd">        with open(filename, &#39;w&#39;, newline=&#39;&#39;) as f:</span>
-<span class="sd">            writer = csv.writer(f, **optcsv)</span>
-<span class="sd">            if header: size += writer.writerow(self.lname)</span>
-<span class="sd">            for i in range(len(self)):</span>
-<span class="sd">                if not ifunc: row = self.record(i) </span>
-<span class="sd">                else: row = [util.funclist(self.lindex[j].values[i], ifunc[j], **kwargs) </span>
-<span class="sd">                       for j in range(self.lenindex)]</span>
-<span class="sd">                size += writer.writerow(row)</span>
-<span class="sd">        return size&quot;&quot;&quot;</span>
-    
-    <span class="k">def</span> <span class="nf">to_xarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">fillextern</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">to_dataFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">fillextern</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                   <span class="n">lisfunc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">npdtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Complete the Ilist and generate a Xarray DataArray with the dimension define by ind.</span>
+<span class="sd">        Complete the Object and generate a Pandas dataFrame with the dimension define by idx.</span>
 
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **info** : boolean (default False) - if True, add _dict attributes to attrs Xarray</span>
 <span class="sd">        - **idx** : list (default none) - list of idx to be completed. If [],</span>
-<span class="sd">        self.axes is used.</span>
+<span class="sd">        self.primary is used.</span>
 <span class="sd">        - **fillvalue** : object (default &#39;?&#39;) - value used for the new extval</span>
 <span class="sd">        - **fillextern** : boolean(default True) - if True, fillvalue is converted to typevalue</span>
 <span class="sd">        - **lisfunc** : function (default none) - list of function to apply to indexes before export</span>
@@ -1709,7 +1656,34 @@ are :
 <span class="sd">        - **npdtype** : string (default None) - numpy dtype for the DataArray (&#39;object&#39; if None)</span>
 <span class="sd">        - **kwargs** : parameter for lisfunc</span>
 
-<span class="sd">        *Returns* : none &#39;&#39;&#39;</span>
+<span class="sd">        *Returns* : pandas.DataFrame &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">consistent</span> <span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">info</span><span class="o">=</span><span class="n">info</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="n">fillvalue</span><span class="p">,</span> 
+                                  <span class="n">fillextern</span><span class="o">=</span><span class="n">fillextern</span><span class="p">,</span> <span class="n">lisfunc</span><span class="o">=</span><span class="n">lisfunc</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                                  <span class="n">numeric</span><span class="o">=</span><span class="n">numeric</span><span class="p">,</span> <span class="n">npdtype</span><span class="o">=</span><span class="n">npdtype</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                                  <span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="k">def</span> <span class="nf">to_xarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">fillextern</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">lisfunc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">npdtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Complete the Object and generate a Xarray DataArray with the dimension define by idx.</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **info** : boolean (default False) - if True, add _dict attributes to attrs Xarray</span>
+<span class="sd">        - **idx** : list (default none) - list of idx to be completed. If [],</span>
+<span class="sd">        self.primary is used.</span>
+<span class="sd">        - **fillvalue** : object (default &#39;?&#39;) - value used for the new extval</span>
+<span class="sd">        - **fillextern** : boolean(default True) - if True, fillvalue is converted to typevalue</span>
+<span class="sd">        - **lisfunc** : function (default none) - list of function to apply to indexes before export</span>
+<span class="sd">        - **name** : string (default None) - DataArray name. If None, variable name</span>
+<span class="sd">        - **numeric** : Boolean (default False) - Generate a numeric DataArray.Values.</span>
+<span class="sd">        - **npdtype** : string (default None) - numpy dtype for the DataArray (&#39;object&#39; if None)</span>
+<span class="sd">        - **kwargs** : parameter for lisfunc</span>
+
+<span class="sd">        *Returns* : DataArray &#39;&#39;&#39;</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span> 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">consistent</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;Ilist not consistent&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;Variable is not defined&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lisfunc</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">lisfunc</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> 
@@ -1720,10 +1694,6 @@ are :
             <span class="n">funcvar</span> <span class="o">=</span> <span class="n">lisfunc</span>            
             <span class="n">lisfunc</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span>
             <span class="n">lisfunc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">funcvar</span>
-        <span class="k">if</span> <span class="n">numeric</span><span class="p">:</span> 
-            <span class="n">lisfunc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">to_float</span>
-            <span class="n">fillvalue</span><span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
-            <span class="n">npdtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span>
         <span class="n">lisfuncname</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">,</span> <span class="n">lisfunc</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">idx</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">idx</span><span class="o">==</span><span class="p">[]</span> <span class="p">:</span> <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary</span>
         <span class="n">axesname</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)]]</span>
@@ -1731,10 +1701,16 @@ are :
                         <span class="n">fillextern</span><span class="o">=</span><span class="n">fillextern</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">ilf</span><span class="o">.</span><span class="n">setcanonorder</span><span class="p">()</span>
         <span class="n">idxilf</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)])))</span>
-        <span class="n">coord</span> <span class="o">=</span> <span class="n">ilf</span><span class="o">.</span><span class="n">_xcoord</span><span class="p">(</span><span class="n">idxilf</span><span class="p">,</span> <span class="n">lisfuncname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">coord</span> <span class="o">=</span> <span class="n">ilf</span><span class="o">.</span><span class="n">_xcoord</span><span class="p">(</span><span class="n">idxilf</span><span class="p">,</span> <span class="n">lisfuncname</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="n">dims</span> <span class="o">=</span> <span class="p">[</span><span class="n">ilf</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idxilf</span><span class="p">]</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">ilf</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">lisfuncname</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> 
-                                    <span class="n">npdtype</span><span class="o">=</span><span class="n">npdtype</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="k">if</span> <span class="n">numeric</span><span class="p">:</span> 
+            <span class="n">lisfunc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">cast</span>
+            <span class="c1">#lisfunc[self.lvarrow[0]] = ESValue.to_float</span>
+            <span class="n">fillvalue</span><span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
+            <span class="n">npdtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span>
+            <span class="n">option</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;float&#39;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">ilf</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">lisfunc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> 
+                                    <span class="n">npdtype</span><span class="o">=</span><span class="n">npdtype</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span>
                                      <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="n">ilf</span><span class="o">.</span><span class="n">idxlen</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">idxilf</span><span class="p">])</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="n">attrs</span><span class="o">=</span><span class="p">{}</span>
@@ -1743,7 +1719,7 @@ are :
         <span class="k">return</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
-        <span class="sd">&#39;&#39;&#39;Generate file to display `Ilist` data.</span>
+        <span class="sd">&#39;&#39;&#39;Generate file to display data.</span>
 
 <span class="sd">         *Parameters (kwargs)*</span>
 
@@ -1808,15 +1784,17 @@ are :
                         <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lidxrow</span><span class="p">[</span><span class="n">inf</span><span class="p">[</span><span class="s1">&#39;parent&#39;</span><span class="p">]],</span> 
                                           <span class="n">name</span><span class="o">=</span><span class="n">idxname</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;Iindex type undefined&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="n">parent</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">variable</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">parent</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">:</span> 
             <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="n">idxname</span> <span class="o">=</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">idx</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;i&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">lis</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">tostdcodec</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span>
-                           <span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">variable</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">idxname</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">))</span>        
+                           <span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">idxname</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">))</span>        
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">tostdcodec</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span>
-                           <span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">variable</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">idxname</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">))</span>        
+                           <span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">idxname</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">))</span>        
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encode_format&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;json&#39;</span><span class="p">:</span> 
             <span class="k">return</span>  <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">IindexEncoder</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encode_format&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;cbor&#39;</span><span class="p">:</span> 
@@ -1922,7 +1900,8 @@ are :
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xa</span><span class="o">.</span><span class="n">dims</span><span class="p">))}</span>
 
     <span class="k">def</span> <span class="nf">_to_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; data preparation (dict of dict) for view or csv export. Representation is included if :</span>
+        <span class="sd">&#39;&#39;&#39; data preparation (dict of dict) for view or csv export. </span>
+<span class="sd">        Representation is included if :</span>
 <span class="sd">            - code is definie in the name element of the field</span>
 <span class="sd">            - or code is defined in &#39;defcode&#39; element and &#39;all&#39; element is True</span>
 
@@ -1976,16 +1955,7 @@ are :
                             <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="s1">&#39;n&#39;</span><span class="p">:</span> <span class="n">resList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">))</span>
                             <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="n">resList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
                             <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="n">resList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">funclist</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;ifunc&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
-                <span class="sd">&#39;&#39;&#39;for n, code in diccode.items():</span>
-<span class="sd">                    if (name in option and n in option[name]) or (</span>
-<span class="sd">                                option[&#39;all&#39;] and n in option[&#39;defcode&#39;]):</span>
-<span class="sd">                        val = self.nindex(name).values[i]</span>
-<span class="sd">                        if n == &#39;j&#39;: resList.append(util.cast(val, dtype=&#39;json&#39;))</span>
-<span class="sd">                        if n == &#39;n&#39;: resList.append(util.cast(val, dtype=&#39;name&#39;))</span>
-<span class="sd">                        if n == &#39;s&#39;: resList.append(util.cast(val, dtype=&#39;json&#39;, string=True))</span>
-<span class="sd">                        if n == &#39;f&#39;: resList.append(util.funclist(val, option[&#39;ifunc&#39;], **kwargs))&#39;&#39;&#39;</span>
             <span class="n">tab</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resList</span><span class="p">)</span>
-        <span class="c1">#print(tab)</span>
         <span class="k">return</span> <span class="n">tab</span>
     
     <span class="k">def</span> <span class="nf">_xcoord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axe</span><span class="p">,</span> <span class="n">lisfuncname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
@@ -2134,8 +2104,8 @@ are :
 <span class="sd">    - `Ilist.to_obj`</span>
 <span class="sd">    - `Ilist.to_csv`</span>
 <span class="sd">    - `Ilist.to_file`</span>
-<span class="sd">    - `Ilist.to_numpy`</span>
 <span class="sd">    - `Ilist.to_xarray`</span>
+<span class="sd">    - `Ilist.to_dataFrame`</span>
 <span class="sd">    - `Ilist.view`</span>
 <span class="sd">    - `Ilist.vlist`</span>
 <span class="sd">    - `Ilist.voxel`</span>
@@ -2231,14 +2201,14 @@ are :
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">forcestring</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Generate `Ilist` object from file storage.</span>
+<span class="sd">        Generate Object from file storage.</span>
 
 <span class="sd">         *Parameters*</span>
 
 <span class="sd">        - **file** : string - file name (with path)</span>
 <span class="sd">        - **forcestring** : boolean (default False) - if True, forces the UTF-8 data format, else the format is calculated</span>
 
-<span class="sd">        *Returns* : Ilist object&#39;&#39;&#39;</span>
+<span class="sd">        *Returns* : new Object&#39;&#39;&#39;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">btype</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">btype</span><span class="o">==</span><span class="nb">bytes</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">forcestring</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">bjson</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
@@ -2341,24 +2311,12 @@ are :
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">leng</span><span class="p">:</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="n">leng2</span><span class="p">:</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">1</span> 
-        <span class="c1">#if max(leng) == min(leng) and length &lt; 0: length = max(leng)</span>
         <span class="k">elif</span> <span class="nb">max</span><span class="p">(</span><span class="n">leng2</span><span class="p">)</span> <span class="o">==</span> <span class="nb">min</span><span class="p">(</span><span class="n">leng2</span><span class="p">)</span> <span class="ow">and</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">length</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">leng2</span><span class="p">)</span>
-        
-        <span class="sd">&#39;&#39;&#39;#leng = [len(iidx) for code, iidx in codind if code &lt; 0 and len(iidx) &gt; 1] #!!!!</span>
-<span class="sd">        </span>
-<span class="sd">        #leng = [len(iidx) for code, iidx in codind if code &lt; 0]</span>
-<span class="sd">        #if not leng: leng = [1] #!!!!!</span>
-<span class="sd">        if not leng: leng = [0]</span>
-<span class="sd">        #if max(leng) == min(leng) and length &lt; 0: length = max(leng)</span>
-<span class="sd">        if max(leng2) == min(leng2) and length &lt; 0: length = max(leng2)</span>
-<span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">idxvar</span><span class="p">:</span> <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">codind</span><span class="p">[</span><span class="n">idxvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">length</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span> <span class="o">=</span> <span class="p">[</span><span class="n">codind</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idxvar</span><span class="p">]</span>
-            <span class="c1">#self.lindex = [[] for i in range(len(listidx))]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span> <span class="o">=</span> <span class="p">[</span><span class="n">iidx</span> <span class="k">for</span> <span class="n">code</span><span class="p">,</span> <span class="n">iidx</span> <span class="ow">in</span> <span class="n">codind</span><span class="p">]</span>
             <span class="k">return</span>
-        <span class="c1">#flat = length == max(leng) == min(leng)</span>
         <span class="n">flat</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="n">leng2</span><span class="p">:</span> <span class="n">flat</span> <span class="o">=</span> <span class="n">length</span> <span class="o">==</span> <span class="nb">max</span><span class="p">(</span><span class="n">leng2</span><span class="p">)</span> <span class="o">==</span> <span class="nb">min</span><span class="p">(</span><span class="n">leng2</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">flat</span><span class="p">:</span>
@@ -2671,7 +2629,7 @@ are :
         <span class="n">idx</span> <span class="o">=</span> <span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
         <span class="n">idxname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> 
-            <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;size are different&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;sizes are different&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">idx</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">idxname</span><span class="p">:</span> 
             <span class="k">if</span> <span class="n">first</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
@@ -2960,7 +2918,7 @@ are :
         <span class="k">return</span> <span class="p">[{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">inf</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">}</span> <span class="k">for</span> <span class="n">inf</span> <span class="ow">in</span> <span class="n">infos</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">indicator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">indexinfos</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;generate Ilist indicators: ol (object lightness), ul (unicity level), gain (sizegain)</span>
+        <span class="sd">&#39;&#39;&#39;generate size indicators: ol (object lightness), ul (unicity level), gain (sizegain)</span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 
@@ -3031,13 +2989,6 @@ are :
                                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenidx</span><span class="p">)]))</span>
         <span class="k">if</span> <span class="n">row</span><span class="p">:</span> <span class="k">return</span> <span class="n">locrow</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="nb">tuple</span><span class="p">(</span><span class="n">locrow</span><span class="p">)]</span>
-        <span class="sd">&#39;&#39;&#39;try:</span>
-<span class="sd">            if extern: </span>
-<span class="sd">                row = self.textidxext.index(rec)</span>
-<span class="sd">            else: </span>
-<span class="sd">                row = self.textidx.index(rec)</span>
-<span class="sd">        except: return None</span>
-<span class="sd">        return self.lvar[0][row]&#39;&#39;&#39;</span>
 
     <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;merge&#39;</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">mergeidx</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">updateidx</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -3050,13 +3001,7 @@ are :
 <span class="sd">        - **mergeidx** : create a new index if mergeidx is False</span>
 <span class="sd">        - **updateidx** : if True (and mergeidx is True), update actual values if index name is present </span>
 <span class="sd">        </span>
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **Ilist** : merged Ilist &#39;&#39;&#39;</span>     
-        <span class="c1">#if len(self.lvarname) == 0: fillvalue = util.castval(fillvalue, ES.def_clsName)</span>
-        <span class="c1">#else: fillvalue = util.castval(fillvalue, util.typename(self.lvarname[0], </span>
-        <span class="c1">#                                                        ES.def_clsName))</span>
-        <span class="c1">#fillvalue = util.cast(fillvalue, ES.def_dtype)</span>
+<span class="sd">        *Returns*: merged Ilist &#39;&#39;&#39;</span>     
         <span class="n">find</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">ilm</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">nameinit</span> <span class="o">=</span> <span class="n">ilm</span><span class="o">.</span><span class="n">idxname</span>
@@ -3084,7 +3029,7 @@ are :
         <span class="k">return</span> <span class="n">ilm</span>
 
     <span class="k">def</span> <span class="nf">merging</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listname</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; add a new index in Ilist object build with indexes define in listname&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; add a new index build with indexes define in listname&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">addindex</span><span class="p">(</span><span class="n">Iindex</span><span class="o">.</span><span class="n">merging</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">nindex</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">listname</span><span class="p">]))</span>
         <span class="k">return</span> <span class="kc">None</span>
     
@@ -3109,8 +3054,8 @@ are :
 
 <span class="sd">        - **None**  &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">consistent</span> <span class="p">:</span> <span class="k">return</span>
-        <span class="n">xa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">lisfunc</span><span class="o">=</span><span class="p">[</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">],</span> 
-                             <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="n">maxlen</span><span class="p">)</span>
+        <span class="n">xa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">lisfunc</span><span class="o">=</span><span class="p">[</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>
+                             <span class="n">npdtype</span><span class="o">=</span><span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="n">maxlen</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">order</span><span class="p">:</span> <span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
         
         <span class="k">if</span>   <span class="nb">len</span><span class="p">(</span><span class="n">xa</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -3202,13 +3147,11 @@ are :
         
     <span class="k">def</span> <span class="nf">setcanonorder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Set the canonical index order : primary - secondary/unique - variable.</span>
-<span class="sd">        Set the canonical keys order : ordered keys in the first columns&#39;&#39;&#39;</span>
+<span class="sd">        Set the canonical keys order : ordered keys in the first columns.</span>
+<span class="sd">        Return self&#39;&#39;&#39;</span>
         <span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lidxrow</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary</span><span class="p">]</span>
         <span class="n">order</span> <span class="o">+=</span> <span class="p">[</span><span class="n">idx</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidxrow</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">order</span><span class="p">]</span>
         <span class="n">order</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span>
-        <span class="sd">&#39;&#39;&#39;for i in self.lidxrow: </span>
-<span class="sd">            if not i in order: order.append(i)</span>
-<span class="sd">        for i in self.lvarrow: order.append(i)&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">swapindex</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span>
@@ -3254,7 +3197,7 @@ are :
 <span class="sd">        - **reverse** : boolean (default False)- ascending if True, descending if False</span>
 <span class="sd">        - **func**    : function (default str) - parameter key used in the sorted function</span>
 
-<span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
+<span class="sd">        *Returns* : self&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">order</span><span class="p">:</span> <span class="n">order</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">orderfull</span> <span class="o">=</span> <span class="n">order</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span><span class="p">))</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">order</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">order</span><span class="p">]:</span>
@@ -3263,6 +3206,7 @@ are :
             <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">orderfull</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">keys</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span><span class="p">)]),</span> 
             <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">orderfull</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">newidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">swapindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -3272,10 +3216,10 @@ are :
 
 <span class="sd">        - **order** : list of int - new order of index to apply.</span>
 
-<span class="sd">        *Returns* : none &#39;&#39;&#39;</span>
+<span class="sd">        *Returns* : self &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">):</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;length of order and Ilist different&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">))]</span>
-
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">tostdcodec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Transform all codec in full or default codec.</span>
@@ -3322,47 +3266,17 @@ are :
             <span class="k">for</span> <span class="n">lign</span> <span class="ow">in</span> <span class="n">tab</span> <span class="p">:</span> 
                 <span class="n">size</span> <span class="o">+=</span> <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">lign</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">size</span>
-       
-    <span class="sd">&quot;&quot;&quot;def to_csv(self, filename=&#39;ilist.csv&#39;, ifunc=None, header=True, </span>
-<span class="sd">               optcsv={&#39;quoting&#39;: csv.QUOTE_NONNUMERIC}, **kwargs):</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        Generate a csv file with Ilist data (a column for each index)</span>
 
-<span class="sd">        *Parameters*</span>
-
-<span class="sd">        - **filename** : string (default &#39;ilist.csv&#39;) - name of the file to create</span>
-<span class="sd">        - **ifunc** : list of function (default None) - function to apply to indexes</span>
-<span class="sd">        before writting csv file</span>
-<span class="sd">        - **order** : list of integer (default None) - ordered list of index in columns</span>
-<span class="sd">        - **header** : boolean (default True). If True, the first raw is dedicated to names</span>
-<span class="sd">        - **optcsv** : parameter for csv.writer</span>
-<span class="sd">        - **kwargs** : parameter for ifunc</span>
-
-<span class="sd">        *Returns* : size of csv file &#39;&#39;&#39;</span>
-<span class="sd">        size = 0</span>
-<span class="sd">        if not optcsv: optcsv = {}</span>
-<span class="sd">        #optcsv = {&#39;quoting&#39;: csv.QUOTE_NONNUMERIC} | optcsv</span>
-<span class="sd">        if ifunc and not isinstance(ifunc, list): ifunc = [ifunc] * self.lenindex</span>
-<span class="sd">        with open(filename, &#39;w&#39;, newline=&#39;&#39;) as f:</span>
-<span class="sd">            writer = csv.writer(f, **optcsv)</span>
-<span class="sd">            if header: size += writer.writerow(self.lname)</span>
-<span class="sd">            for i in range(len(self)):</span>
-<span class="sd">                if not ifunc: row = self.record(i) </span>
-<span class="sd">                else: row = [util.funclist(self.lindex[j].values[i], ifunc[j], **kwargs) </span>
-<span class="sd">                       for j in range(self.lenindex)]</span>
-<span class="sd">                size += writer.writerow(row)</span>
-<span class="sd">        return size&quot;&quot;&quot;</span>
-    
-    <span class="k">def</span> <span class="nf">to_xarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">fillextern</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">to_dataFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">fillextern</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                   <span class="n">lisfunc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">npdtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Complete the Ilist and generate a Xarray DataArray with the dimension define by ind.</span>
+<span class="sd">        Complete the Object and generate a Pandas dataFrame with the dimension define by idx.</span>
 
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **info** : boolean (default False) - if True, add _dict attributes to attrs Xarray</span>
 <span class="sd">        - **idx** : list (default none) - list of idx to be completed. If [],</span>
-<span class="sd">        self.axes is used.</span>
+<span class="sd">        self.primary is used.</span>
 <span class="sd">        - **fillvalue** : object (default &#39;?&#39;) - value used for the new extval</span>
 <span class="sd">        - **fillextern** : boolean(default True) - if True, fillvalue is converted to typevalue</span>
 <span class="sd">        - **lisfunc** : function (default none) - list of function to apply to indexes before export</span>
@@ -3371,7 +3285,34 @@ are :
 <span class="sd">        - **npdtype** : string (default None) - numpy dtype for the DataArray (&#39;object&#39; if None)</span>
 <span class="sd">        - **kwargs** : parameter for lisfunc</span>
 
-<span class="sd">        *Returns* : none &#39;&#39;&#39;</span>
+<span class="sd">        *Returns* : pandas.DataFrame &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">consistent</span> <span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">info</span><span class="o">=</span><span class="n">info</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="n">fillvalue</span><span class="p">,</span> 
+                                  <span class="n">fillextern</span><span class="o">=</span><span class="n">fillextern</span><span class="p">,</span> <span class="n">lisfunc</span><span class="o">=</span><span class="n">lisfunc</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                                  <span class="n">numeric</span><span class="o">=</span><span class="n">numeric</span><span class="p">,</span> <span class="n">npdtype</span><span class="o">=</span><span class="n">npdtype</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                                  <span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="k">def</span> <span class="nf">to_xarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">fillextern</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">lisfunc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">npdtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Complete the Object and generate a Xarray DataArray with the dimension define by idx.</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **info** : boolean (default False) - if True, add _dict attributes to attrs Xarray</span>
+<span class="sd">        - **idx** : list (default none) - list of idx to be completed. If [],</span>
+<span class="sd">        self.primary is used.</span>
+<span class="sd">        - **fillvalue** : object (default &#39;?&#39;) - value used for the new extval</span>
+<span class="sd">        - **fillextern** : boolean(default True) - if True, fillvalue is converted to typevalue</span>
+<span class="sd">        - **lisfunc** : function (default none) - list of function to apply to indexes before export</span>
+<span class="sd">        - **name** : string (default None) - DataArray name. If None, variable name</span>
+<span class="sd">        - **numeric** : Boolean (default False) - Generate a numeric DataArray.Values.</span>
+<span class="sd">        - **npdtype** : string (default None) - numpy dtype for the DataArray (&#39;object&#39; if None)</span>
+<span class="sd">        - **kwargs** : parameter for lisfunc</span>
+
+<span class="sd">        *Returns* : DataArray &#39;&#39;&#39;</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span> 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">consistent</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;Ilist not consistent&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;Variable is not defined&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lisfunc</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">lisfunc</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> 
@@ -3382,10 +3323,6 @@ are :
             <span class="n">funcvar</span> <span class="o">=</span> <span class="n">lisfunc</span>            
             <span class="n">lisfunc</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span>
             <span class="n">lisfunc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">funcvar</span>
-        <span class="k">if</span> <span class="n">numeric</span><span class="p">:</span> 
-            <span class="n">lisfunc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">to_float</span>
-            <span class="n">fillvalue</span><span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
-            <span class="n">npdtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span>
         <span class="n">lisfuncname</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">,</span> <span class="n">lisfunc</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">idx</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">idx</span><span class="o">==</span><span class="p">[]</span> <span class="p">:</span> <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary</span>
         <span class="n">axesname</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)]]</span>
@@ -3393,10 +3330,16 @@ are :
                         <span class="n">fillextern</span><span class="o">=</span><span class="n">fillextern</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">ilf</span><span class="o">.</span><span class="n">setcanonorder</span><span class="p">()</span>
         <span class="n">idxilf</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)])))</span>
-        <span class="n">coord</span> <span class="o">=</span> <span class="n">ilf</span><span class="o">.</span><span class="n">_xcoord</span><span class="p">(</span><span class="n">idxilf</span><span class="p">,</span> <span class="n">lisfuncname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">coord</span> <span class="o">=</span> <span class="n">ilf</span><span class="o">.</span><span class="n">_xcoord</span><span class="p">(</span><span class="n">idxilf</span><span class="p">,</span> <span class="n">lisfuncname</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="n">dims</span> <span class="o">=</span> <span class="p">[</span><span class="n">ilf</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idxilf</span><span class="p">]</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">ilf</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">lisfuncname</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> 
-                                    <span class="n">npdtype</span><span class="o">=</span><span class="n">npdtype</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="k">if</span> <span class="n">numeric</span><span class="p">:</span> 
+            <span class="n">lisfunc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">cast</span>
+            <span class="c1">#lisfunc[self.lvarrow[0]] = ESValue.to_float</span>
+            <span class="n">fillvalue</span><span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
+            <span class="n">npdtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span>
+            <span class="n">option</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;float&#39;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">ilf</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">lisfunc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> 
+                                    <span class="n">npdtype</span><span class="o">=</span><span class="n">npdtype</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span>
                                      <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="n">ilf</span><span class="o">.</span><span class="n">idxlen</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">idxilf</span><span class="p">])</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="n">attrs</span><span class="o">=</span><span class="p">{}</span>
@@ -3405,7 +3348,7 @@ are :
         <span class="k">return</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
-        <span class="sd">&#39;&#39;&#39;Generate file to display `Ilist` data.</span>
+        <span class="sd">&#39;&#39;&#39;Generate file to display data.</span>
 
 <span class="sd">         *Parameters (kwargs)*</span>
 
@@ -3470,15 +3413,17 @@ are :
                         <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lidxrow</span><span class="p">[</span><span class="n">inf</span><span class="p">[</span><span class="s1">&#39;parent&#39;</span><span class="p">]],</span> 
                                           <span class="n">name</span><span class="o">=</span><span class="n">idxname</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;Iindex type undefined&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="n">parent</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">variable</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">parent</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">:</span> 
             <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="n">idxname</span> <span class="o">=</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">idx</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;i&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">lis</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">tostdcodec</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span>
-                           <span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">variable</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">idxname</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">))</span>        
+                           <span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">idxname</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">))</span>        
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">tostdcodec</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span>
-                           <span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">variable</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">idxname</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">))</span>        
+                           <span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">idxname</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">))</span>        
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encode_format&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;json&#39;</span><span class="p">:</span> 
             <span class="k">return</span>  <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">IindexEncoder</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encode_format&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;cbor&#39;</span><span class="p">:</span> 
@@ -3584,7 +3529,8 @@ are :
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xa</span><span class="o">.</span><span class="n">dims</span><span class="p">))}</span>
 
     <span class="k">def</span> <span class="nf">_to_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; data preparation (dict of dict) for view or csv export. Representation is included if :</span>
+        <span class="sd">&#39;&#39;&#39; data preparation (dict of dict) for view or csv export. </span>
+<span class="sd">        Representation is included if :</span>
 <span class="sd">            - code is definie in the name element of the field</span>
 <span class="sd">            - or code is defined in &#39;defcode&#39; element and &#39;all&#39; element is True</span>
 
@@ -3638,16 +3584,7 @@ are :
                             <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="s1">&#39;n&#39;</span><span class="p">:</span> <span class="n">resList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">))</span>
                             <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="n">resList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
                             <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="n">resList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">funclist</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;ifunc&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
-                <span class="sd">&#39;&#39;&#39;for n, code in diccode.items():</span>
-<span class="sd">                    if (name in option and n in option[name]) or (</span>
-<span class="sd">                                option[&#39;all&#39;] and n in option[&#39;defcode&#39;]):</span>
-<span class="sd">                        val = self.nindex(name).values[i]</span>
-<span class="sd">                        if n == &#39;j&#39;: resList.append(util.cast(val, dtype=&#39;json&#39;))</span>
-<span class="sd">                        if n == &#39;n&#39;: resList.append(util.cast(val, dtype=&#39;name&#39;))</span>
-<span class="sd">                        if n == &#39;s&#39;: resList.append(util.cast(val, dtype=&#39;json&#39;, string=True))</span>
-<span class="sd">                        if n == &#39;f&#39;: resList.append(util.funclist(val, option[&#39;ifunc&#39;], **kwargs))&#39;&#39;&#39;</span>
             <span class="n">tab</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resList</span><span class="p">)</span>
-        <span class="c1">#print(tab)</span>
         <span class="k">return</span> <span class="n">tab</span>
     
     <span class="k">def</span> <span class="nf">_xcoord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axe</span><span class="p">,</span> <span class="n">lisfuncname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
@@ -3792,8 +3729,8 @@ are :
 <li><code><a href="#Ilist.to_obj">Ilist.to_obj</a></code></li>
 <li><code><a href="#Ilist.to_csv">Ilist.to_csv</a></code></li>
 <li><code><a href="#Ilist.to_file">Ilist.to_file</a></code></li>
-<li><code>Ilist.to_numpy</code></li>
 <li><code><a href="#Ilist.to_xarray">Ilist.to_xarray</a></code></li>
+<li><code><a href="#Ilist.to_dataFrame">Ilist.to_dataFrame</a></code></li>
 <li><code><a href="#Ilist.view">Ilist.view</a></code></li>
 <li><code><a href="#Ilist.vlist">Ilist.vlist</a></code></li>
 <li><code><a href="#Ilist.voxel">Ilist.voxel</a></code></li>
@@ -3884,24 +3821,12 @@ are :
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">leng</span><span class="p">:</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="n">leng2</span><span class="p">:</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">1</span> 
-        <span class="c1">#if max(leng) == min(leng) and length &lt; 0: length = max(leng)</span>
         <span class="k">elif</span> <span class="nb">max</span><span class="p">(</span><span class="n">leng2</span><span class="p">)</span> <span class="o">==</span> <span class="nb">min</span><span class="p">(</span><span class="n">leng2</span><span class="p">)</span> <span class="ow">and</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">length</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">leng2</span><span class="p">)</span>
-        
-        <span class="sd">&#39;&#39;&#39;#leng = [len(iidx) for code, iidx in codind if code &lt; 0 and len(iidx) &gt; 1] #!!!!</span>
-<span class="sd">        </span>
-<span class="sd">        #leng = [len(iidx) for code, iidx in codind if code &lt; 0]</span>
-<span class="sd">        #if not leng: leng = [1] #!!!!!</span>
-<span class="sd">        if not leng: leng = [0]</span>
-<span class="sd">        #if max(leng) == min(leng) and length &lt; 0: length = max(leng)</span>
-<span class="sd">        if max(leng2) == min(leng2) and length &lt; 0: length = max(leng2)</span>
-<span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">idxvar</span><span class="p">:</span> <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">codind</span><span class="p">[</span><span class="n">idxvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">length</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span> <span class="o">=</span> <span class="p">[</span><span class="n">codind</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idxvar</span><span class="p">]</span>
-            <span class="c1">#self.lindex = [[] for i in range(len(listidx))]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span> <span class="o">=</span> <span class="p">[</span><span class="n">iidx</span> <span class="k">for</span> <span class="n">code</span><span class="p">,</span> <span class="n">iidx</span> <span class="ow">in</span> <span class="n">codind</span><span class="p">]</span>
             <span class="k">return</span>
-        <span class="c1">#flat = length == max(leng) == min(leng)</span>
         <span class="n">flat</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="n">leng2</span><span class="p">:</span> <span class="n">flat</span> <span class="o">=</span> <span class="n">length</span> <span class="o">==</span> <span class="nb">max</span><span class="p">(</span><span class="n">leng2</span><span class="p">)</span> <span class="o">==</span> <span class="nb">min</span><span class="p">(</span><span class="n">leng2</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">flat</span><span class="p">:</span>
@@ -4162,14 +4087,14 @@ are :
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">forcestring</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Generate `Ilist` object from file storage.</span>
+<span class="sd">        Generate Object from file storage.</span>
 
 <span class="sd">         *Parameters*</span>
 
 <span class="sd">        - **file** : string - file name (with path)</span>
 <span class="sd">        - **forcestring** : boolean (default False) - if True, forces the UTF-8 data format, else the format is calculated</span>
 
-<span class="sd">        *Returns* : Ilist object&#39;&#39;&#39;</span>
+<span class="sd">        *Returns* : new Object&#39;&#39;&#39;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">btype</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">btype</span><span class="o">==</span><span class="nb">bytes</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">forcestring</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">bjson</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
@@ -4180,7 +4105,7 @@ are :
 
         </details>
 
-            <div class="docstring"><p>Generate <code><a href="#Ilist">Ilist</a></code> object from file storage.</p>
+            <div class="docstring"><p>Generate Object from file storage.</p>
 
 <p><em>Parameters</em></p>
 
@@ -4189,7 +4114,7 @@ are :
 <li><strong>forcestring</strong> : boolean (default False) - if True, forces the UTF-8 data format, else the format is calculated</li>
 </ul>
 
-<p><em>Returns</em> : Ilist object</p>
+<p><em>Returns</em> : new Object</p>
 </div>
 
 
@@ -4684,7 +4609,7 @@ same index row (False)</li>
         <span class="n">idx</span> <span class="o">=</span> <span class="n">Iindex</span><span class="o">.</span><span class="n">Iobj</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
         <span class="n">idxname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> 
-            <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;size are different&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;sizes are different&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">idx</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">idxname</span><span class="p">:</span> 
             <span class="k">if</span> <span class="n">first</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
@@ -5339,7 +5264,7 @@ else, internal</li>
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">indicator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">indexinfos</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;generate Ilist indicators: ol (object lightness), ul (unicity level), gain (sizegain)</span>
+        <span class="sd">&#39;&#39;&#39;generate size indicators: ol (object lightness), ul (unicity level), gain (sizegain)</span>
 <span class="sd">        </span>
 <span class="sd">        *Parameters*</span>
 
@@ -5367,7 +5292,7 @@ else, internal</li>
 
         </details>
 
-            <div class="docstring"><p>generate Ilist indicators: ol (object lightness), ul (unicity level), gain (sizegain)</p>
+            <div class="docstring"><p>generate size indicators: ol (object lightness), ul (unicity level), gain (sizegain)</p>
 
 <p><em>Parameters</em></p>
 
@@ -5499,13 +5424,6 @@ else, internal</li>
                                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenidx</span><span class="p">)]))</span>
         <span class="k">if</span> <span class="n">row</span><span class="p">:</span> <span class="k">return</span> <span class="n">locrow</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="nb">tuple</span><span class="p">(</span><span class="n">locrow</span><span class="p">)]</span>
-        <span class="sd">&#39;&#39;&#39;try:</span>
-<span class="sd">            if extern: </span>
-<span class="sd">                row = self.textidxext.index(rec)</span>
-<span class="sd">            else: </span>
-<span class="sd">                row = self.textidx.index(rec)</span>
-<span class="sd">        except: return None</span>
-<span class="sd">        return self.lvar[0][row]&#39;&#39;&#39;</span>
 </pre></div>
 
         </details>
@@ -5550,13 +5468,7 @@ else, internal</li>
 <span class="sd">        - **mergeidx** : create a new index if mergeidx is False</span>
 <span class="sd">        - **updateidx** : if True (and mergeidx is True), update actual values if index name is present </span>
 <span class="sd">        </span>
-<span class="sd">        *Returns*</span>
-
-<span class="sd">        - **Ilist** : merged Ilist &#39;&#39;&#39;</span>     
-        <span class="c1">#if len(self.lvarname) == 0: fillvalue = util.castval(fillvalue, ES.def_clsName)</span>
-        <span class="c1">#else: fillvalue = util.castval(fillvalue, util.typename(self.lvarname[0], </span>
-        <span class="c1">#                                                        ES.def_clsName))</span>
-        <span class="c1">#fillvalue = util.cast(fillvalue, ES.def_dtype)</span>
+<span class="sd">        *Returns*: merged Ilist &#39;&#39;&#39;</span>     
         <span class="n">find</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">ilm</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">nameinit</span> <span class="o">=</span> <span class="n">ilm</span><span class="o">.</span><span class="n">idxname</span>
@@ -5597,11 +5509,7 @@ else, internal</li>
 <li><strong>updateidx</strong> : if True (and mergeidx is True), update actual values if index name is present </li>
 </ul>
 
-<p><em>Returns</em></p>
-
-<ul>
-<li><strong>Ilist</strong> : merged Ilist</li>
-</ul>
+<p><em>Returns</em>: merged Ilist</p>
 </div>
 
 
@@ -5617,14 +5525,14 @@ else, internal</li>
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">merging</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listname</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; add a new index in Ilist object build with indexes define in listname&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; add a new index build with indexes define in listname&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">addindex</span><span class="p">(</span><span class="n">Iindex</span><span class="o">.</span><span class="n">merging</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">nindex</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">listname</span><span class="p">]))</span>
         <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>add a new index in Ilist object build with indexes define in listname</p>
+            <div class="docstring"><p>add a new index build with indexes define in listname</p>
 </div>
 
 
@@ -5678,8 +5586,8 @@ else, internal</li>
 
 <span class="sd">        - **None**  &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">consistent</span> <span class="p">:</span> <span class="k">return</span>
-        <span class="n">xa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">lisfunc</span><span class="o">=</span><span class="p">[</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">],</span> 
-                             <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="n">maxlen</span><span class="p">)</span>
+        <span class="n">xa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">numeric</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">lisfunc</span><span class="o">=</span><span class="p">[</span><span class="n">util</span><span class="o">.</span><span class="n">cast</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;str&#39;</span><span class="p">,</span>
+                             <span class="n">npdtype</span><span class="o">=</span><span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="n">maxlen</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">order</span><span class="p">:</span> <span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
         
         <span class="k">if</span>   <span class="nb">len</span><span class="p">(</span><span class="n">xa</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -5952,13 +5860,11 @@ else, internal</li>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">setcanonorder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Set the canonical index order : primary - secondary/unique - variable.</span>
-<span class="sd">        Set the canonical keys order : ordered keys in the first columns&#39;&#39;&#39;</span>
+<span class="sd">        Set the canonical keys order : ordered keys in the first columns.</span>
+<span class="sd">        Return self&#39;&#39;&#39;</span>
         <span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lidxrow</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary</span><span class="p">]</span>
         <span class="n">order</span> <span class="o">+=</span> <span class="p">[</span><span class="n">idx</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lidxrow</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">order</span><span class="p">]</span>
         <span class="n">order</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span>
-        <span class="sd">&#39;&#39;&#39;for i in self.lidxrow: </span>
-<span class="sd">            if not i in order: order.append(i)</span>
-<span class="sd">        for i in self.lvarrow: order.append(i)&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">swapindex</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span>
@@ -5967,7 +5873,8 @@ else, internal</li>
         </details>
 
             <div class="docstring"><p>Set the canonical index order : primary - secondary/unique - variable.
-Set the canonical keys order : ordered keys in the first columns</p>
+Set the canonical keys order : ordered keys in the first columns.
+Return self</p>
 </div>
 
 
@@ -6085,7 +5992,7 @@ Set the canonical keys order : ordered keys in the first columns</p>
 <span class="sd">        - **reverse** : boolean (default False)- ascending if True, descending if False</span>
 <span class="sd">        - **func**    : function (default str) - parameter key used in the sorted function</span>
 
-<span class="sd">        *Returns* : None&#39;&#39;&#39;</span>
+<span class="sd">        *Returns* : self&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">order</span><span class="p">:</span> <span class="n">order</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">orderfull</span> <span class="o">=</span> <span class="n">order</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span><span class="p">))</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">order</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">order</span><span class="p">]:</span>
@@ -6094,6 +6001,7 @@ Set the canonical keys order : ordered keys in the first columns</p>
             <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">orderfull</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">keys</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span><span class="p">)]),</span> 
             <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">orderfull</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">newidx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span>
 </pre></div>
 
         </details>
@@ -6110,7 +6018,7 @@ the sort function is applied to the existing order of indexes.</li>
 <li><strong>func</strong>    : function (default str) - parameter key used in the sorted function</li>
 </ul>
 
-<p><em>Returns</em> : None</p>
+<p><em>Returns</em> : self</p>
 </div>
 
 
@@ -6133,9 +6041,10 @@ the sort function is applied to the existing order of indexes.</li>
 
 <span class="sd">        - **order** : list of int - new order of index to apply.</span>
 
-<span class="sd">        *Returns* : none &#39;&#39;&#39;</span>
+<span class="sd">        *Returns* : self &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">):</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;length of order and Ilist different&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">))]</span>
+        <span class="k">return</span> <span class="bp">self</span>
 </pre></div>
 
         </details>
@@ -6148,7 +6057,7 @@ the sort function is applied to the existing order of indexes.</li>
 <li><strong>order</strong> : list of int - new order of index to apply.</li>
 </ul>
 
-<p><em>Returns</em> : none</p>
+<p><em>Returns</em> : self</p>
 </div>
 
 
@@ -6268,6 +6177,78 @@ the sort function is applied to the existing order of indexes.</li>
 
 
                             </div>
+                            <div id="Ilist.to_dataFrame" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Ilist.to_dataFrame">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">to_dataFrame</span><span class="signature">(
+    self,
+    info=False,
+    idx=None,
+    fillvalue=&#39;?&#39;,
+    fillextern=True,
+    lisfunc=None,
+    name=None,
+    numeric=False,
+    npdtype=None,
+    **kwargs
+)</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_dataFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">fillextern</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">lisfunc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">npdtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Complete the Object and generate a Pandas dataFrame with the dimension define by idx.</span>
+
+<span class="sd">        *Parameters*</span>
+
+<span class="sd">        - **info** : boolean (default False) - if True, add _dict attributes to attrs Xarray</span>
+<span class="sd">        - **idx** : list (default none) - list of idx to be completed. If [],</span>
+<span class="sd">        self.primary is used.</span>
+<span class="sd">        - **fillvalue** : object (default &#39;?&#39;) - value used for the new extval</span>
+<span class="sd">        - **fillextern** : boolean(default True) - if True, fillvalue is converted to typevalue</span>
+<span class="sd">        - **lisfunc** : function (default none) - list of function to apply to indexes before export</span>
+<span class="sd">        - **name** : string (default None) - DataArray name. If None, variable name</span>
+<span class="sd">        - **numeric** : Boolean (default False) - Generate a numeric DataArray.Values.</span>
+<span class="sd">        - **npdtype** : string (default None) - numpy dtype for the DataArray (&#39;object&#39; if None)</span>
+<span class="sd">        - **kwargs** : parameter for lisfunc</span>
+
+<span class="sd">        *Returns* : pandas.DataFrame &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">consistent</span> <span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">info</span><span class="o">=</span><span class="n">info</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="n">fillvalue</span><span class="p">,</span> 
+                                  <span class="n">fillextern</span><span class="o">=</span><span class="n">fillextern</span><span class="p">,</span> <span class="n">lisfunc</span><span class="o">=</span><span class="n">lisfunc</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                                  <span class="n">numeric</span><span class="o">=</span><span class="n">numeric</span><span class="p">,</span> <span class="n">npdtype</span><span class="o">=</span><span class="n">npdtype</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                                  <span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Complete the Object and generate a Pandas dataFrame with the dimension define by idx.</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><strong>info</strong> : boolean (default False) - if True, add _dict attributes to attrs Xarray</li>
+<li><strong>idx</strong> : list (default none) - list of idx to be completed. If [],
+self.primary is used.</li>
+<li><strong>fillvalue</strong> : object (default '?') - value used for the new extval</li>
+<li><strong>fillextern</strong> : boolean(default True) - if True, fillvalue is converted to typevalue</li>
+<li><strong>lisfunc</strong> : function (default none) - list of function to apply to indexes before export</li>
+<li><strong>name</strong> : string (default None) - DataArray name. If None, variable name</li>
+<li><strong>numeric</strong> : Boolean (default False) - Generate a numeric DataArray.Values.</li>
+<li><strong>npdtype</strong> : string (default None) - numpy dtype for the DataArray ('object' if None)</li>
+<li><strong>kwargs</strong> : parameter for lisfunc</li>
+</ul>
+
+<p><em>Returns</em> : pandas.DataFrame</p>
+</div>
+
+
+                            </div>
                             <div id="Ilist.to_xarray" class="classattr">
                                         <div class="attr function"><a class="headerlink" href="#Ilist.to_xarray">#&nbsp;&nbsp</a>
 
@@ -6292,13 +6273,13 @@ the sort function is applied to the existing order of indexes.</li>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_xarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">fillextern</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                   <span class="n">lisfunc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">npdtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Complete the Ilist and generate a Xarray DataArray with the dimension define by ind.</span>
+<span class="sd">        Complete the Object and generate a Xarray DataArray with the dimension define by idx.</span>
 
 <span class="sd">        *Parameters*</span>
 
 <span class="sd">        - **info** : boolean (default False) - if True, add _dict attributes to attrs Xarray</span>
 <span class="sd">        - **idx** : list (default none) - list of idx to be completed. If [],</span>
-<span class="sd">        self.axes is used.</span>
+<span class="sd">        self.primary is used.</span>
 <span class="sd">        - **fillvalue** : object (default &#39;?&#39;) - value used for the new extval</span>
 <span class="sd">        - **fillextern** : boolean(default True) - if True, fillvalue is converted to typevalue</span>
 <span class="sd">        - **lisfunc** : function (default none) - list of function to apply to indexes before export</span>
@@ -6307,7 +6288,8 @@ the sort function is applied to the existing order of indexes.</li>
 <span class="sd">        - **npdtype** : string (default None) - numpy dtype for the DataArray (&#39;object&#39; if None)</span>
 <span class="sd">        - **kwargs** : parameter for lisfunc</span>
 
-<span class="sd">        *Returns* : none &#39;&#39;&#39;</span>
+<span class="sd">        *Returns* : DataArray &#39;&#39;&#39;</span>
+        <span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span> 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">consistent</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;Ilist not consistent&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s2">&quot;Variable is not defined&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lisfunc</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">lisfunc</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> 
@@ -6318,10 +6300,6 @@ the sort function is applied to the existing order of indexes.</li>
             <span class="n">funcvar</span> <span class="o">=</span> <span class="n">lisfunc</span>            
             <span class="n">lisfunc</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span>
             <span class="n">lisfunc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">funcvar</span>
-        <span class="k">if</span> <span class="n">numeric</span><span class="p">:</span> 
-            <span class="n">lisfunc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">to_float</span>
-            <span class="n">fillvalue</span><span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
-            <span class="n">npdtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span>
         <span class="n">lisfuncname</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">,</span> <span class="n">lisfunc</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">idx</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">idx</span><span class="o">==</span><span class="p">[]</span> <span class="p">:</span> <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary</span>
         <span class="n">axesname</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)]]</span>
@@ -6329,10 +6307,16 @@ the sort function is applied to the existing order of indexes.</li>
                         <span class="n">fillextern</span><span class="o">=</span><span class="n">fillextern</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">ilf</span><span class="o">.</span><span class="n">setcanonorder</span><span class="p">()</span>
         <span class="n">idxilf</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idxname</span><span class="p">)])))</span>
-        <span class="n">coord</span> <span class="o">=</span> <span class="n">ilf</span><span class="o">.</span><span class="n">_xcoord</span><span class="p">(</span><span class="n">idxilf</span><span class="p">,</span> <span class="n">lisfuncname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">coord</span> <span class="o">=</span> <span class="n">ilf</span><span class="o">.</span><span class="n">_xcoord</span><span class="p">(</span><span class="n">idxilf</span><span class="p">,</span> <span class="n">lisfuncname</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
         <span class="n">dims</span> <span class="o">=</span> <span class="p">[</span><span class="n">ilf</span><span class="o">.</span><span class="n">idxname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idxilf</span><span class="p">]</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">ilf</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">lisfuncname</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarname</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> 
-                                    <span class="n">npdtype</span><span class="o">=</span><span class="n">npdtype</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="k">if</span> <span class="n">numeric</span><span class="p">:</span> 
+            <span class="n">lisfunc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">cast</span>
+            <span class="c1">#lisfunc[self.lvarrow[0]] = ESValue.to_float</span>
+            <span class="n">fillvalue</span><span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span>
+            <span class="n">npdtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span>
+            <span class="n">option</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;float&#39;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">ilf</span><span class="o">.</span><span class="n">lvar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">lisfunc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> 
+                                    <span class="n">npdtype</span><span class="o">=</span><span class="n">npdtype</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span>
                                      <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="n">ilf</span><span class="o">.</span><span class="n">idxlen</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">idxilf</span><span class="p">])</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span> <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="n">attrs</span><span class="o">=</span><span class="p">{}</span>
@@ -6343,14 +6327,14 @@ the sort function is applied to the existing order of indexes.</li>
 
         </details>
 
-            <div class="docstring"><p>Complete the Ilist and generate a Xarray DataArray with the dimension define by ind.</p>
+            <div class="docstring"><p>Complete the Object and generate a Xarray DataArray with the dimension define by idx.</p>
 
 <p><em>Parameters</em></p>
 
 <ul>
 <li><strong>info</strong> : boolean (default False) - if True, add _dict attributes to attrs Xarray</li>
 <li><strong>idx</strong> : list (default none) - list of idx to be completed. If [],
-self.axes is used.</li>
+self.primary is used.</li>
 <li><strong>fillvalue</strong> : object (default '?') - value used for the new extval</li>
 <li><strong>fillextern</strong> : boolean(default True) - if True, fillvalue is converted to typevalue</li>
 <li><strong>lisfunc</strong> : function (default none) - list of function to apply to indexes before export</li>
@@ -6360,7 +6344,7 @@ self.axes is used.</li>
 <li><strong>kwargs</strong> : parameter for lisfunc</li>
 </ul>
 
-<p><em>Returns</em> : none</p>
+<p><em>Returns</em> : DataArray</p>
 </div>
 
 
@@ -6376,7 +6360,7 @@ self.axes is used.</li>
             <details>
             <summary>View Source</summary>
             <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">:</span>
-        <span class="sd">&#39;&#39;&#39;Generate file to display `Ilist` data.</span>
+        <span class="sd">&#39;&#39;&#39;Generate file to display data.</span>
 
 <span class="sd">         *Parameters (kwargs)*</span>
 
@@ -6397,7 +6381,7 @@ self.axes is used.</li>
 
         </details>
 
-            <div class="docstring"><p>Generate file to display <code><a href="#Ilist">Ilist</a></code> data.</p>
+            <div class="docstring"><p>Generate file to display data.</p>
 
 <p><em>Parameters (kwargs)</em></p>
 
@@ -6468,15 +6452,17 @@ self.axes is used.</li>
                         <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lidxrow</span><span class="p">[</span><span class="n">inf</span><span class="p">[</span><span class="s1">&#39;parent&#39;</span><span class="p">]],</span> 
                                           <span class="n">name</span><span class="o">=</span><span class="n">idxname</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span> <span class="k">raise</span> <span class="n">IlistError</span><span class="p">(</span><span class="s1">&#39;Iindex type undefined&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="n">parent</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">variable</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">parent</span> <span class="o">=</span> <span class="n">ES</span><span class="o">.</span><span class="n">nullparent</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lvarrow</span><span class="p">:</span> 
             <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lindex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="n">idxname</span> <span class="o">=</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">idx</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;i&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lenindex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">lis</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">tostdcodec</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span>
-                           <span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">variable</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">idxname</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">))</span>        
+                           <span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">idxname</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">))</span>        
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">lis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">tostdcodec</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span>
-                           <span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">variable</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">idxname</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">))</span>        
+                           <span class="n">to_obj</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">idxname</span><span class="p">,</span> <span class="o">**</span><span class="n">option2</span><span class="p">))</span>        
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encode_format&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;json&#39;</span><span class="p">:</span> 
             <span class="k">return</span>  <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">IindexEncoder</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encoded&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;encode_format&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;cbor&#39;</span><span class="p">:</span> 
