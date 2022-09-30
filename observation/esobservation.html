@@ -105,11 +105,11 @@
 
 <p>@author: philippe@loco-labs.io</p>
 
-<p>An <code>observation.Obs</code> is an object representing a set of information having
+<p>An <code><a href="#Observation">Observation</a></code> is an object representing a set of information having
 spatial and temporal characteristics associated with measurable or observable
  properties.</p>
 
-<p>The Obs Object is built around three main bricks :</p>
+<p>The <code><a href="#Observation">Observation</a></code> Object is built around three main bricks :</p>
 
 <ul>
 <li>Ilist Object which deal with indexing,</li>
@@ -118,7 +118,7 @@ spatial and temporal characteristics associated with measurable or observable
 for location, TimeSlot for Datation)</li>
 </ul>
 
-<p>The <code>observation.observation</code> module contains the <code>Obs</code> class.</p>
+<p>The <code><a href="">observation.esobservation</a></code> module contains the <code><a href="#Observation">Observation</a></code> class.</p>
 
 <p>Documentation is available in other pages :</p>
 
@@ -128,7 +128,7 @@ for location, TimeSlot for Datation)</li>
 <li>The concept of 'indexed list' is describe in 
 <a href="https://github.com/loco-philippe/Environmental-Sensing/wiki/Indexed-list">this page</a>.</li>
 <li>The non-regression test are at 
-<a href="https://github.com/loco-philippe/Environmental-Sensing/blob/main/python/Tests/test_observation.py">this page</a></li>
+<a href="https://github.com/loco-philippe/Environmental-Sensing/blob/main/python/Tests/test_obs.py">this page</a></li>
 <li>The <a href="https://github.com/loco-philippe/Environmental-Sensing/tree/main/python/Examples/Observation">examples</a></li>
 </ul>
 </div>
@@ -143,18 +143,18 @@ for location, TimeSlot for Datation)</li>
 </span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a>
 </span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="sd">@author: philippe@loco-labs.io</span>
 </span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a>
-</span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a><span class="sd">An `observation.Obs` is an object representing a set of information having</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a><span class="sd">An `Observation` is an object representing a set of information having</span>
 </span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="sd">spatial and temporal characteristics associated with measurable or observable</span>
 </span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="sd"> properties.</span>
 </span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="sd"> </span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="sd">The Obs Object is built around three main bricks :</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="sd">The `Observation` Object is built around three main bricks :</span>
 </span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="sd">    </span>
 </span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="sd">- Ilist Object which deal with indexing,</span>
 </span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="sd">- ESValue Object which integrate the specificities of environmental data,</span>
 </span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="sd">- Tools dedicated to particular domains ([Shapely](https://shapely.readthedocs.io/en/stable/manual.html) </span>
 </span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a><span class="sd">for location, TimeSlot for Datation)</span>
 </span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a>
-</span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a><span class="sd">The `observation.observation` module contains the `Obs` class.</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a><span class="sd">The `observation.esobservation` module contains the `Observation` class.</span>
 </span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a>
 </span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a><span class="sd">Documentation is available in other pages :</span>
 </span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a>
@@ -163,7 +163,7 @@ for location, TimeSlot for Datation)</li>
 </span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a><span class="sd">- The concept of &#39;indexed list&#39; is describe in </span>
 </span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a><span class="sd">[this page](https://github.com/loco-philippe/Environmental-Sensing/wiki/Indexed-list).</span>
 </span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a><span class="sd">- The non-regression test are at </span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a><span class="sd">[this page](https://github.com/loco-philippe/Environmental-Sensing/blob/main/python/Tests/test_observation.py)</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a><span class="sd">[this page](https://github.com/loco-philippe/Environmental-Sensing/blob/main/python/Tests/test_obs.py)</span>
 </span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a><span class="sd">- The [examples](https://github.com/loco-philippe/Environmental-Sensing/tree/main/python/Examples/Observation)</span>
 </span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a>
 </span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a>
@@ -182,7 +182,7 @@ for location, TimeSlot for Datation)</li>
 </span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>
 </span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a><span class="k">class</span> <span class="nc">Observation</span><span class="p">(</span><span class="n">Ilist</span><span class="p">)</span> <span class="p">:</span>
 </span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>    <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a><span class="sd">    An `Obs` is derived from `observation.Ilist` object.</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a><span class="sd">    An `Observation` is derived from `observation.Ilist` object.</span>
 </span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>
 </span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a><span class="sd">    *Additional attributes (for @property see methods)* :</span>
 </span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>
@@ -305,7 +305,7 @@ for location, TimeSlot for Datation)</li>
 </span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listidx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
 </span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>                 <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 </span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a><span class="sd">        Obs constructor</span>
+</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a><span class="sd">        Observation constructor</span>
 </span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a>
 </span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a><span class="sd">        *Parameters*</span>
 </span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a>
@@ -344,7 +344,7 @@ for location, TimeSlot for Datation)</li>
 </span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a>    <span class="nd">@classmethod</span>
 </span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>    <span class="k">def</span> <span class="nf">Idic</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">idxdic</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 </span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a><span class="sd">        Obs constructor (external dictionnary).</span>
+</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a><span class="sd">        Observation constructor (external dictionnary).</span>
 </span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a>
 </span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a><span class="sd">        *Parameters*</span>
 </span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a>
@@ -363,7 +363,7 @@ for location, TimeSlot for Datation)</li>
 </span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a>    <span class="k">def</span> <span class="nf">Std</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">datation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">property</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
 </span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a>            <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 </span><span id="L-226"><a href="#L-226"><span class="linenos">226</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="L-227"><a href="#L-227"><span class="linenos">227</span></a><span class="sd">        Generate an Obs Object with standard indexes</span>
+</span><span id="L-227"><a href="#L-227"><span class="linenos">227</span></a><span class="sd">        Generate an Observation Object with standard indexes</span>
 </span><span id="L-228"><a href="#L-228"><span class="linenos">228</span></a>
 </span><span id="L-229"><a href="#L-229"><span class="linenos">229</span></a><span class="sd">        *Parameters*</span>
 </span><span id="L-230"><a href="#L-230"><span class="linenos">230</span></a>
@@ -392,7 +392,7 @@ for location, TimeSlot for Datation)</li>
 </span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a>    <span class="nd">@classmethod</span>
 </span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a>    <span class="k">def</span> <span class="nf">from_obj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 </span><span id="L-255"><a href="#L-255"><span class="linenos">255</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="L-256"><a href="#L-256"><span class="linenos">256</span></a><span class="sd">        Generate an Obs Object from a bytes, string or dic value</span>
+</span><span id="L-256"><a href="#L-256"><span class="linenos">256</span></a><span class="sd">        Generate an Observation Object from a bytes, string or dic value</span>
 </span><span id="L-257"><a href="#L-257"><span class="linenos">257</span></a>
 </span><span id="L-258"><a href="#L-258"><span class="linenos">258</span></a><span class="sd">        *Parameters*</span>
 </span><span id="L-259"><a href="#L-259"><span class="linenos">259</span></a>
@@ -449,7 +449,7 @@ for location, TimeSlot for Datation)</li>
 </span><span id="L-310"><a href="#L-310"><span class="linenos">310</span></a>    <span class="nd">@property</span>
 </span><span id="L-311"><a href="#L-311"><span class="linenos">311</span></a>    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="L-312"><a href="#L-312"><span class="linenos">312</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="L-313"><a href="#L-313"><span class="linenos">313</span></a><span class="sd">        **list of `ES.ESValue` (@property)** : `ES.ESValue` bounding box for each axis.&#39;&#39;&#39;</span>
+</span><span id="L-313"><a href="#L-313"><span class="linenos">313</span></a><span class="sd">        **list of `observation.esvalue` (@property)** : `observation.esvalue` bounding box for each axis.&#39;&#39;&#39;</span>
 </span><span id="L-314"><a href="#L-314"><span class="linenos">314</span></a>        <span class="n">bound</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
 </span><span id="L-315"><a href="#L-315"><span class="linenos">315</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span> <span class="p">:</span> <span class="n">bound</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">boundingBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="p">)</span><span class="o">.</span><span class="n">bounds</span>
 </span><span id="L-316"><a href="#L-316"><span class="linenos">316</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="p">:</span> <span class="n">bound</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">boundingBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="p">)</span><span class="o">.</span><span class="n">bounds</span>
@@ -511,16 +511,16 @@ for location, TimeSlot for Datation)</li>
 </span><span id="L-372"><a href="#L-372"><span class="linenos">372</span></a><span class="c1">#%% methods</span>
 </span><span id="L-373"><a href="#L-373"><span class="linenos">373</span></a>    <span class="k">def</span> <span class="nf">appendObs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="p">:</span>
 </span><span id="L-374"><a href="#L-374"><span class="linenos">374</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="L-375"><a href="#L-375"><span class="linenos">375</span></a><span class="sd">        Add an `Obs` as a new Result `ES.ESValue` with bounding box for the Index `ES.ESValue`</span>
+</span><span id="L-375"><a href="#L-375"><span class="linenos">375</span></a><span class="sd">        Add an `Observation` as a new Result `observation.esvalue` with bounding box for the Index `observation.esvalue`</span>
 </span><span id="L-376"><a href="#L-376"><span class="linenos">376</span></a>
 </span><span id="L-377"><a href="#L-377"><span class="linenos">377</span></a><span class="sd">        *Parameters*</span>
 </span><span id="L-378"><a href="#L-378"><span class="linenos">378</span></a>
-</span><span id="L-379"><a href="#L-379"><span class="linenos">379</span></a><span class="sd">        - **obs** : Obs object</span>
+</span><span id="L-379"><a href="#L-379"><span class="linenos">379</span></a><span class="sd">        - **obs** : Observation object</span>
 </span><span id="L-380"><a href="#L-380"><span class="linenos">380</span></a><span class="sd">        - **fillvalue** : object value used for default value</span>
 </span><span id="L-381"><a href="#L-381"><span class="linenos">381</span></a>
 </span><span id="L-382"><a href="#L-382"><span class="linenos">382</span></a><span class="sd">        *Returns*</span>
 </span><span id="L-383"><a href="#L-383"><span class="linenos">383</span></a>
-</span><span id="L-384"><a href="#L-384"><span class="linenos">384</span></a><span class="sd">        - **int** : last index in the `Obs`</span>
+</span><span id="L-384"><a href="#L-384"><span class="linenos">384</span></a><span class="sd">        - **int** : last index in the `Observation`</span>
 </span><span id="L-385"><a href="#L-385"><span class="linenos">385</span></a><span class="sd">        &#39;&#39;&#39;</span>
 </span><span id="L-386"><a href="#L-386"><span class="linenos">386</span></a>        <span class="n">record</span> <span class="o">=</span> <span class="p">[</span><span class="n">fillvalue</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">)</span>
 </span><span id="L-387"><a href="#L-387"><span class="linenos">387</span></a>        <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_classES</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">:</span>
@@ -535,7 +535,7 @@ for location, TimeSlot for Datation)</li>
 </span><span id="L-396"><a href="#L-396"><span class="linenos">396</span></a>
 </span><span id="L-397"><a href="#L-397"><span class="linenos">397</span></a>    <span class="k">def</span> <span class="nf">choropleth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;choropleth&quot;</span><span class="p">):</span>
 </span><span id="L-398"><a href="#L-398"><span class="linenos">398</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="L-399"><a href="#L-399"><span class="linenos">399</span></a><span class="sd">        Display `Obs` on a folium.Map (only with dimension=1)</span>
+</span><span id="L-399"><a href="#L-399"><span class="linenos">399</span></a><span class="sd">        Display `Observation` on a folium.Map (only with dimension=1)</span>
 </span><span id="L-400"><a href="#L-400"><span class="linenos">400</span></a>
 </span><span id="L-401"><a href="#L-401"><span class="linenos">401</span></a><span class="sd">        - **name** : String, optionnal (default &#39;choropleth&#39;) - Name of the choropleth</span>
 </span><span id="L-402"><a href="#L-402"><span class="linenos">402</span></a>
@@ -614,7 +614,7 @@ for location, TimeSlot for Datation)</li>
 </span><span id="L-475"><a href="#L-475"><span class="linenos">475</span></a>    <span class="k">def</span> <span class="nf">to_xarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">fillextern</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><span id="L-476"><a href="#L-476"><span class="linenos">476</span></a>                  <span class="n">lisfunc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">npdtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 </span><span id="L-477"><a href="#L-477"><span class="linenos">477</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="L-478"><a href="#L-478"><span class="linenos">478</span></a><span class="sd">        Complete the Obs and generate a Xarray DataArray with the dimension define by idx.</span>
+</span><span id="L-478"><a href="#L-478"><span class="linenos">478</span></a><span class="sd">        Complete the Observation and generate a Xarray DataArray with the dimension define by idx.</span>
 </span><span id="L-479"><a href="#L-479"><span class="linenos">479</span></a>
 </span><span id="L-480"><a href="#L-480"><span class="linenos">480</span></a><span class="sd">        *Parameters*</span>
 </span><span id="L-481"><a href="#L-481"><span class="linenos">481</span></a>
@@ -694,7 +694,7 @@ for location, TimeSlot for Datation)</li>
     <a class="headerlink" href="#Observation"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Observation-45"><a href="#Observation-45"><span class="linenos"> 45</span></a><span class="k">class</span> <span class="nc">Observation</span><span class="p">(</span><span class="n">Ilist</span><span class="p">)</span> <span class="p">:</span>
 </span><span id="Observation-46"><a href="#Observation-46"><span class="linenos"> 46</span></a>    <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Observation-47"><a href="#Observation-47"><span class="linenos"> 47</span></a><span class="sd">    An `Obs` is derived from `observation.Ilist` object.</span>
+</span><span id="Observation-47"><a href="#Observation-47"><span class="linenos"> 47</span></a><span class="sd">    An `Observation` is derived from `observation.Ilist` object.</span>
 </span><span id="Observation-48"><a href="#Observation-48"><span class="linenos"> 48</span></a>
 </span><span id="Observation-49"><a href="#Observation-49"><span class="linenos"> 49</span></a><span class="sd">    *Additional attributes (for @property see methods)* :</span>
 </span><span id="Observation-50"><a href="#Observation-50"><span class="linenos"> 50</span></a>
@@ -817,7 +817,7 @@ for location, TimeSlot for Datation)</li>
 </span><span id="Observation-167"><a href="#Observation-167"><span class="linenos">167</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listidx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
 </span><span id="Observation-168"><a href="#Observation-168"><span class="linenos">168</span></a>                 <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 </span><span id="Observation-169"><a href="#Observation-169"><span class="linenos">169</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Observation-170"><a href="#Observation-170"><span class="linenos">170</span></a><span class="sd">        Obs constructor</span>
+</span><span id="Observation-170"><a href="#Observation-170"><span class="linenos">170</span></a><span class="sd">        Observation constructor</span>
 </span><span id="Observation-171"><a href="#Observation-171"><span class="linenos">171</span></a>
 </span><span id="Observation-172"><a href="#Observation-172"><span class="linenos">172</span></a><span class="sd">        *Parameters*</span>
 </span><span id="Observation-173"><a href="#Observation-173"><span class="linenos">173</span></a>
@@ -856,7 +856,7 @@ for location, TimeSlot for Datation)</li>
 </span><span id="Observation-206"><a href="#Observation-206"><span class="linenos">206</span></a>    <span class="nd">@classmethod</span>
 </span><span id="Observation-207"><a href="#Observation-207"><span class="linenos">207</span></a>    <span class="k">def</span> <span class="nf">Idic</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">idxdic</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 </span><span id="Observation-208"><a href="#Observation-208"><span class="linenos">208</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Observation-209"><a href="#Observation-209"><span class="linenos">209</span></a><span class="sd">        Obs constructor (external dictionnary).</span>
+</span><span id="Observation-209"><a href="#Observation-209"><span class="linenos">209</span></a><span class="sd">        Observation constructor (external dictionnary).</span>
 </span><span id="Observation-210"><a href="#Observation-210"><span class="linenos">210</span></a>
 </span><span id="Observation-211"><a href="#Observation-211"><span class="linenos">211</span></a><span class="sd">        *Parameters*</span>
 </span><span id="Observation-212"><a href="#Observation-212"><span class="linenos">212</span></a>
@@ -875,7 +875,7 @@ for location, TimeSlot for Datation)</li>
 </span><span id="Observation-225"><a href="#Observation-225"><span class="linenos">225</span></a>    <span class="k">def</span> <span class="nf">Std</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">datation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">property</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
 </span><span id="Observation-226"><a href="#Observation-226"><span class="linenos">226</span></a>            <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 </span><span id="Observation-227"><a href="#Observation-227"><span class="linenos">227</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Observation-228"><a href="#Observation-228"><span class="linenos">228</span></a><span class="sd">        Generate an Obs Object with standard indexes</span>
+</span><span id="Observation-228"><a href="#Observation-228"><span class="linenos">228</span></a><span class="sd">        Generate an Observation Object with standard indexes</span>
 </span><span id="Observation-229"><a href="#Observation-229"><span class="linenos">229</span></a>
 </span><span id="Observation-230"><a href="#Observation-230"><span class="linenos">230</span></a><span class="sd">        *Parameters*</span>
 </span><span id="Observation-231"><a href="#Observation-231"><span class="linenos">231</span></a>
@@ -904,7 +904,7 @@ for location, TimeSlot for Datation)</li>
 </span><span id="Observation-254"><a href="#Observation-254"><span class="linenos">254</span></a>    <span class="nd">@classmethod</span>
 </span><span id="Observation-255"><a href="#Observation-255"><span class="linenos">255</span></a>    <span class="k">def</span> <span class="nf">from_obj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 </span><span id="Observation-256"><a href="#Observation-256"><span class="linenos">256</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Observation-257"><a href="#Observation-257"><span class="linenos">257</span></a><span class="sd">        Generate an Obs Object from a bytes, string or dic value</span>
+</span><span id="Observation-257"><a href="#Observation-257"><span class="linenos">257</span></a><span class="sd">        Generate an Observation Object from a bytes, string or dic value</span>
 </span><span id="Observation-258"><a href="#Observation-258"><span class="linenos">258</span></a>
 </span><span id="Observation-259"><a href="#Observation-259"><span class="linenos">259</span></a><span class="sd">        *Parameters*</span>
 </span><span id="Observation-260"><a href="#Observation-260"><span class="linenos">260</span></a>
@@ -961,7 +961,7 @@ for location, TimeSlot for Datation)</li>
 </span><span id="Observation-311"><a href="#Observation-311"><span class="linenos">311</span></a>    <span class="nd">@property</span>
 </span><span id="Observation-312"><a href="#Observation-312"><span class="linenos">312</span></a>    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="Observation-313"><a href="#Observation-313"><span class="linenos">313</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Observation-314"><a href="#Observation-314"><span class="linenos">314</span></a><span class="sd">        **list of `ES.ESValue` (@property)** : `ES.ESValue` bounding box for each axis.&#39;&#39;&#39;</span>
+</span><span id="Observation-314"><a href="#Observation-314"><span class="linenos">314</span></a><span class="sd">        **list of `observation.esvalue` (@property)** : `observation.esvalue` bounding box for each axis.&#39;&#39;&#39;</span>
 </span><span id="Observation-315"><a href="#Observation-315"><span class="linenos">315</span></a>        <span class="n">bound</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
 </span><span id="Observation-316"><a href="#Observation-316"><span class="linenos">316</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span> <span class="p">:</span> <span class="n">bound</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">boundingBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setDatation</span><span class="p">)</span><span class="o">.</span><span class="n">bounds</span>
 </span><span id="Observation-317"><a href="#Observation-317"><span class="linenos">317</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span> <span class="p">:</span> <span class="n">bound</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">ESValue</span><span class="o">.</span><span class="n">boundingBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setLocation</span><span class="p">)</span><span class="o">.</span><span class="n">bounds</span>
@@ -1023,16 +1023,16 @@ for location, TimeSlot for Datation)</li>
 </span><span id="Observation-373"><a href="#Observation-373"><span class="linenos">373</span></a><span class="c1">#%% methods</span>
 </span><span id="Observation-374"><a href="#Observation-374"><span class="linenos">374</span></a>    <span class="k">def</span> <span class="nf">appendObs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="p">:</span>
 </span><span id="Observation-375"><a href="#Observation-375"><span class="linenos">375</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Observation-376"><a href="#Observation-376"><span class="linenos">376</span></a><span class="sd">        Add an `Obs` as a new Result `ES.ESValue` with bounding box for the Index `ES.ESValue`</span>
+</span><span id="Observation-376"><a href="#Observation-376"><span class="linenos">376</span></a><span class="sd">        Add an `Observation` as a new Result `observation.esvalue` with bounding box for the Index `observation.esvalue`</span>
 </span><span id="Observation-377"><a href="#Observation-377"><span class="linenos">377</span></a>
 </span><span id="Observation-378"><a href="#Observation-378"><span class="linenos">378</span></a><span class="sd">        *Parameters*</span>
 </span><span id="Observation-379"><a href="#Observation-379"><span class="linenos">379</span></a>
-</span><span id="Observation-380"><a href="#Observation-380"><span class="linenos">380</span></a><span class="sd">        - **obs** : Obs object</span>
+</span><span id="Observation-380"><a href="#Observation-380"><span class="linenos">380</span></a><span class="sd">        - **obs** : Observation object</span>
 </span><span id="Observation-381"><a href="#Observation-381"><span class="linenos">381</span></a><span class="sd">        - **fillvalue** : object value used for default value</span>
 </span><span id="Observation-382"><a href="#Observation-382"><span class="linenos">382</span></a>
 </span><span id="Observation-383"><a href="#Observation-383"><span class="linenos">383</span></a><span class="sd">        *Returns*</span>
 </span><span id="Observation-384"><a href="#Observation-384"><span class="linenos">384</span></a>
-</span><span id="Observation-385"><a href="#Observation-385"><span class="linenos">385</span></a><span class="sd">        - **int** : last index in the `Obs`</span>
+</span><span id="Observation-385"><a href="#Observation-385"><span class="linenos">385</span></a><span class="sd">        - **int** : last index in the `Observation`</span>
 </span><span id="Observation-386"><a href="#Observation-386"><span class="linenos">386</span></a><span class="sd">        &#39;&#39;&#39;</span>
 </span><span id="Observation-387"><a href="#Observation-387"><span class="linenos">387</span></a>        <span class="n">record</span> <span class="o">=</span> <span class="p">[</span><span class="n">fillvalue</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">)</span>
 </span><span id="Observation-388"><a href="#Observation-388"><span class="linenos">388</span></a>        <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_classES</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">:</span>
@@ -1047,7 +1047,7 @@ for location, TimeSlot for Datation)</li>
 </span><span id="Observation-397"><a href="#Observation-397"><span class="linenos">397</span></a>
 </span><span id="Observation-398"><a href="#Observation-398"><span class="linenos">398</span></a>    <span class="k">def</span> <span class="nf">choropleth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;choropleth&quot;</span><span class="p">):</span>
 </span><span id="Observation-399"><a href="#Observation-399"><span class="linenos">399</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Observation-400"><a href="#Observation-400"><span class="linenos">400</span></a><span class="sd">        Display `Obs` on a folium.Map (only with dimension=1)</span>
+</span><span id="Observation-400"><a href="#Observation-400"><span class="linenos">400</span></a><span class="sd">        Display `Observation` on a folium.Map (only with dimension=1)</span>
 </span><span id="Observation-401"><a href="#Observation-401"><span class="linenos">401</span></a>
 </span><span id="Observation-402"><a href="#Observation-402"><span class="linenos">402</span></a><span class="sd">        - **name** : String, optionnal (default &#39;choropleth&#39;) - Name of the choropleth</span>
 </span><span id="Observation-403"><a href="#Observation-403"><span class="linenos">403</span></a>
@@ -1126,7 +1126,7 @@ for location, TimeSlot for Datation)</li>
 </span><span id="Observation-476"><a href="#Observation-476"><span class="linenos">476</span></a>    <span class="k">def</span> <span class="nf">to_xarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">fillextern</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><span id="Observation-477"><a href="#Observation-477"><span class="linenos">477</span></a>                  <span class="n">lisfunc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">npdtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 </span><span id="Observation-478"><a href="#Observation-478"><span class="linenos">478</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Observation-479"><a href="#Observation-479"><span class="linenos">479</span></a><span class="sd">        Complete the Obs and generate a Xarray DataArray with the dimension define by idx.</span>
+</span><span id="Observation-479"><a href="#Observation-479"><span class="linenos">479</span></a><span class="sd">        Complete the Observation and generate a Xarray DataArray with the dimension define by idx.</span>
 </span><span id="Observation-480"><a href="#Observation-480"><span class="linenos">480</span></a>
 </span><span id="Observation-481"><a href="#Observation-481"><span class="linenos">481</span></a><span class="sd">        *Parameters*</span>
 </span><span id="Observation-482"><a href="#Observation-482"><span class="linenos">482</span></a>
@@ -1189,7 +1189,7 @@ for location, TimeSlot for Datation)</li>
 </span></pre></div>
 
 
-            <div class="docstring"><p>An <code>Obs</code> is derived from <code>observation.Ilist</code> object.</p>
+            <div class="docstring"><p>An <code><a href="#Observation">Observation</a></code> is derived from <code>observation.Ilist</code> object.</p>
 
 <p><em>Additional attributes (for @property see methods)</em> :</p>
 
@@ -1339,7 +1339,7 @@ for location, TimeSlot for Datation)</li>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Observation.__init__-167"><a href="#Observation.__init__-167"><span class="linenos">167</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listidx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
 </span><span id="Observation.__init__-168"><a href="#Observation.__init__-168"><span class="linenos">168</span></a>                 <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 </span><span id="Observation.__init__-169"><a href="#Observation.__init__-169"><span class="linenos">169</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Observation.__init__-170"><a href="#Observation.__init__-170"><span class="linenos">170</span></a><span class="sd">        Obs constructor</span>
+</span><span id="Observation.__init__-170"><a href="#Observation.__init__-170"><span class="linenos">170</span></a><span class="sd">        Observation constructor</span>
 </span><span id="Observation.__init__-171"><a href="#Observation.__init__-171"><span class="linenos">171</span></a>
 </span><span id="Observation.__init__-172"><a href="#Observation.__init__-172"><span class="linenos">172</span></a><span class="sd">        *Parameters*</span>
 </span><span id="Observation.__init__-173"><a href="#Observation.__init__-173"><span class="linenos">173</span></a>
@@ -1377,7 +1377,7 @@ for location, TimeSlot for Datation)</li>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Obs constructor</p>
+            <div class="docstring"><p>Observation constructor</p>
 
 <p><em>Parameters</em></p>
 
@@ -1411,7 +1411,7 @@ for location, TimeSlot for Datation)</li>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Observation.Idic-206"><a href="#Observation.Idic-206"><span class="linenos">206</span></a>    <span class="nd">@classmethod</span>
 </span><span id="Observation.Idic-207"><a href="#Observation.Idic-207"><span class="linenos">207</span></a>    <span class="k">def</span> <span class="nf">Idic</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">idxdic</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">typevalue</span><span class="o">=</span><span class="n">ES</span><span class="o">.</span><span class="n">def_clsName</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 </span><span id="Observation.Idic-208"><a href="#Observation.Idic-208"><span class="linenos">208</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Observation.Idic-209"><a href="#Observation.Idic-209"><span class="linenos">209</span></a><span class="sd">        Obs constructor (external dictionnary).</span>
+</span><span id="Observation.Idic-209"><a href="#Observation.Idic-209"><span class="linenos">209</span></a><span class="sd">        Observation constructor (external dictionnary).</span>
 </span><span id="Observation.Idic-210"><a href="#Observation.Idic-210"><span class="linenos">210</span></a>
 </span><span id="Observation.Idic-211"><a href="#Observation.Idic-211"><span class="linenos">211</span></a><span class="sd">        *Parameters*</span>
 </span><span id="Observation.Idic-212"><a href="#Observation.Idic-212"><span class="linenos">212</span></a>
@@ -1428,7 +1428,7 @@ for location, TimeSlot for Datation)</li>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Obs constructor (external dictionnary).</p>
+            <div class="docstring"><p>Observation constructor (external dictionnary).</p>
 
 <p><em>Parameters</em></p>
 
@@ -1461,7 +1461,7 @@ for location, TimeSlot for Datation)</li>
 </span><span id="Observation.Std-225"><a href="#Observation.Std-225"><span class="linenos">225</span></a>    <span class="k">def</span> <span class="nf">Std</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">datation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">property</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
 </span><span id="Observation.Std-226"><a href="#Observation.Std-226"><span class="linenos">226</span></a>            <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 </span><span id="Observation.Std-227"><a href="#Observation.Std-227"><span class="linenos">227</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Observation.Std-228"><a href="#Observation.Std-228"><span class="linenos">228</span></a><span class="sd">        Generate an Obs Object with standard indexes</span>
+</span><span id="Observation.Std-228"><a href="#Observation.Std-228"><span class="linenos">228</span></a><span class="sd">        Generate an Observation Object with standard indexes</span>
 </span><span id="Observation.Std-229"><a href="#Observation.Std-229"><span class="linenos">229</span></a>
 </span><span id="Observation.Std-230"><a href="#Observation.Std-230"><span class="linenos">230</span></a><span class="sd">        *Parameters*</span>
 </span><span id="Observation.Std-231"><a href="#Observation.Std-231"><span class="linenos">231</span></a>
@@ -1489,7 +1489,7 @@ for location, TimeSlot for Datation)</li>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Generate an Obs Object with standard indexes</p>
+            <div class="docstring"><p>Generate an Observation Object with standard indexes</p>
 
 <p><em>Parameters</em></p>
 
@@ -1521,7 +1521,7 @@ for location, TimeSlot for Datation)</li>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Observation.from_obj-254"><a href="#Observation.from_obj-254"><span class="linenos">254</span></a>    <span class="nd">@classmethod</span>
 </span><span id="Observation.from_obj-255"><a href="#Observation.from_obj-255"><span class="linenos">255</span></a>    <span class="k">def</span> <span class="nf">from_obj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reindex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 </span><span id="Observation.from_obj-256"><a href="#Observation.from_obj-256"><span class="linenos">256</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Observation.from_obj-257"><a href="#Observation.from_obj-257"><span class="linenos">257</span></a><span class="sd">        Generate an Obs Object from a bytes, string or dic value</span>
+</span><span id="Observation.from_obj-257"><a href="#Observation.from_obj-257"><span class="linenos">257</span></a><span class="sd">        Generate an Observation Object from a bytes, string or dic value</span>
 </span><span id="Observation.from_obj-258"><a href="#Observation.from_obj-258"><span class="linenos">258</span></a>
 </span><span id="Observation.from_obj-259"><a href="#Observation.from_obj-259"><span class="linenos">259</span></a><span class="sd">        *Parameters*</span>
 </span><span id="Observation.from_obj-260"><a href="#Observation.from_obj-260"><span class="linenos">260</span></a>
@@ -1550,7 +1550,7 @@ for location, TimeSlot for Datation)</li>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Generate an Obs Object from a bytes, string or dic value</p>
+            <div class="docstring"><p>Generate an Observation Object from a bytes, string or dic value</p>
 
 <p><em>Parameters</em></p>
 
@@ -1571,7 +1571,7 @@ for location, TimeSlot for Datation)</li>
     </div>
     <a class="headerlink" href="#Observation.bounds"></a>
     
-            <div class="docstring"><p><strong>list of <code>ES.ESValue</code> (@property)</strong> : <code>ES.ESValue</code> bounding box for each axis.</p>
+            <div class="docstring"><p><strong>list of <code><a href="esvalue.html">observation.esvalue</a></code> (@property)</strong> : <code><a href="esvalue.html">observation.esvalue</a></code> bounding box for each axis.</p>
 </div>
 
 
@@ -1654,16 +1654,16 @@ for location, TimeSlot for Datation)</li>
     <a class="headerlink" href="#Observation.appendObs"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Observation.appendObs-374"><a href="#Observation.appendObs-374"><span class="linenos">374</span></a>    <span class="k">def</span> <span class="nf">appendObs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="p">:</span>
 </span><span id="Observation.appendObs-375"><a href="#Observation.appendObs-375"><span class="linenos">375</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Observation.appendObs-376"><a href="#Observation.appendObs-376"><span class="linenos">376</span></a><span class="sd">        Add an `Obs` as a new Result `ES.ESValue` with bounding box for the Index `ES.ESValue`</span>
+</span><span id="Observation.appendObs-376"><a href="#Observation.appendObs-376"><span class="linenos">376</span></a><span class="sd">        Add an `Observation` as a new Result `observation.esvalue` with bounding box for the Index `observation.esvalue`</span>
 </span><span id="Observation.appendObs-377"><a href="#Observation.appendObs-377"><span class="linenos">377</span></a>
 </span><span id="Observation.appendObs-378"><a href="#Observation.appendObs-378"><span class="linenos">378</span></a><span class="sd">        *Parameters*</span>
 </span><span id="Observation.appendObs-379"><a href="#Observation.appendObs-379"><span class="linenos">379</span></a>
-</span><span id="Observation.appendObs-380"><a href="#Observation.appendObs-380"><span class="linenos">380</span></a><span class="sd">        - **obs** : Obs object</span>
+</span><span id="Observation.appendObs-380"><a href="#Observation.appendObs-380"><span class="linenos">380</span></a><span class="sd">        - **obs** : Observation object</span>
 </span><span id="Observation.appendObs-381"><a href="#Observation.appendObs-381"><span class="linenos">381</span></a><span class="sd">        - **fillvalue** : object value used for default value</span>
 </span><span id="Observation.appendObs-382"><a href="#Observation.appendObs-382"><span class="linenos">382</span></a>
 </span><span id="Observation.appendObs-383"><a href="#Observation.appendObs-383"><span class="linenos">383</span></a><span class="sd">        *Returns*</span>
 </span><span id="Observation.appendObs-384"><a href="#Observation.appendObs-384"><span class="linenos">384</span></a>
-</span><span id="Observation.appendObs-385"><a href="#Observation.appendObs-385"><span class="linenos">385</span></a><span class="sd">        - **int** : last index in the `Obs`</span>
+</span><span id="Observation.appendObs-385"><a href="#Observation.appendObs-385"><span class="linenos">385</span></a><span class="sd">        - **int** : last index in the `Observation`</span>
 </span><span id="Observation.appendObs-386"><a href="#Observation.appendObs-386"><span class="linenos">386</span></a><span class="sd">        &#39;&#39;&#39;</span>
 </span><span id="Observation.appendObs-387"><a href="#Observation.appendObs-387"><span class="linenos">387</span></a>        <span class="n">record</span> <span class="o">=</span> <span class="p">[</span><span class="n">fillvalue</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">)</span>
 </span><span id="Observation.appendObs-388"><a href="#Observation.appendObs-388"><span class="linenos">388</span></a>        <span class="k">if</span> <span class="n">ES</span><span class="o">.</span><span class="n">dat_classES</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lname</span><span class="p">:</span>
@@ -1678,19 +1678,19 @@ for location, TimeSlot for Datation)</li>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Add an <code>Obs</code> as a new Result <code>ES.ESValue</code> with bounding box for the Index <code>ES.ESValue</code></p>
+            <div class="docstring"><p>Add an <code><a href="#Observation">Observation</a></code> as a new Result <code><a href="esvalue.html">observation.esvalue</a></code> with bounding box for the Index <code><a href="esvalue.html">observation.esvalue</a></code></p>
 
 <p><em>Parameters</em></p>
 
 <ul>
-<li><strong>obs</strong> : Obs object</li>
+<li><strong>obs</strong> : Observation object</li>
 <li><strong>fillvalue</strong> : object value used for default value</li>
 </ul>
 
 <p><em>Returns</em></p>
 
 <ul>
-<li><strong>int</strong> : last index in the <code>Obs</code></li>
+<li><strong>int</strong> : last index in the <code><a href="#Observation">Observation</a></code></li>
 </ul>
 </div>
 
@@ -1709,7 +1709,7 @@ for location, TimeSlot for Datation)</li>
     <a class="headerlink" href="#Observation.choropleth"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Observation.choropleth-398"><a href="#Observation.choropleth-398"><span class="linenos">398</span></a>    <span class="k">def</span> <span class="nf">choropleth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;choropleth&quot;</span><span class="p">):</span>
 </span><span id="Observation.choropleth-399"><a href="#Observation.choropleth-399"><span class="linenos">399</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Observation.choropleth-400"><a href="#Observation.choropleth-400"><span class="linenos">400</span></a><span class="sd">        Display `Obs` on a folium.Map (only with dimension=1)</span>
+</span><span id="Observation.choropleth-400"><a href="#Observation.choropleth-400"><span class="linenos">400</span></a><span class="sd">        Display `Observation` on a folium.Map (only with dimension=1)</span>
 </span><span id="Observation.choropleth-401"><a href="#Observation.choropleth-401"><span class="linenos">401</span></a>
 </span><span id="Observation.choropleth-402"><a href="#Observation.choropleth-402"><span class="linenos">402</span></a><span class="sd">        - **name** : String, optionnal (default &#39;choropleth&#39;) - Name of the choropleth</span>
 </span><span id="Observation.choropleth-403"><a href="#Observation.choropleth-403"><span class="linenos">403</span></a>
@@ -1737,7 +1737,7 @@ for location, TimeSlot for Datation)</li>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Display <code>Obs</code> on a folium.Map (only with dimension=1)</p>
+            <div class="docstring"><p>Display <code><a href="#Observation">Observation</a></code> on a folium.Map (only with dimension=1)</p>
 
 <ul>
 <li><strong>name</strong> : String, optionnal (default 'choropleth') - Name of the choropleth</li>
@@ -1850,7 +1850,7 @@ for location, TimeSlot for Datation)</li>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Observation.to_xarray-476"><a href="#Observation.to_xarray-476"><span class="linenos">476</span></a>    <span class="k">def</span> <span class="nf">to_xarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">fillextern</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><span id="Observation.to_xarray-477"><a href="#Observation.to_xarray-477"><span class="linenos">477</span></a>                  <span class="n">lisfunc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">npdtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 </span><span id="Observation.to_xarray-478"><a href="#Observation.to_xarray-478"><span class="linenos">478</span></a>        <span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Observation.to_xarray-479"><a href="#Observation.to_xarray-479"><span class="linenos">479</span></a><span class="sd">        Complete the Obs and generate a Xarray DataArray with the dimension define by idx.</span>
+</span><span id="Observation.to_xarray-479"><a href="#Observation.to_xarray-479"><span class="linenos">479</span></a><span class="sd">        Complete the Observation and generate a Xarray DataArray with the dimension define by idx.</span>
 </span><span id="Observation.to_xarray-480"><a href="#Observation.to_xarray-480"><span class="linenos">480</span></a>
 </span><span id="Observation.to_xarray-481"><a href="#Observation.to_xarray-481"><span class="linenos">481</span></a><span class="sd">        *Parameters*</span>
 </span><span id="Observation.to_xarray-482"><a href="#Observation.to_xarray-482"><span class="linenos">482</span></a>
@@ -1871,7 +1871,7 @@ for location, TimeSlot for Datation)</li>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Complete the Obs and generate a Xarray DataArray with the dimension define by idx.</p>
+            <div class="docstring"><p>Complete the Observation and generate a Xarray DataArray with the dimension define by idx.</p>
 
 <p><em>Parameters</em></p>
 
