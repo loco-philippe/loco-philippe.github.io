@@ -133,8 +133,8 @@ instead of a list of observations.</p>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Mongoclient</span><span class="p">(</span><span class="o">&lt;</span><span class="n">Mongo</span><span class="o">-</span><span class="n">auth</span><span class="o">&gt;</span><span class="p">)</span>
 <span class="n">collec</span> <span class="o">=</span> <span class="n">client</span><span class="p">[</span><span class="o">&lt;</span><span class="n">base</span><span class="o">&gt;</span><span class="p">][</span><span class="o">&lt;</span><span class="n">collection</span><span class="o">&gt;</span><span class="p">]</span>
 
-<span class="c1"># In this example, we search for measures of property PM25 taken between 2022/01/01 and 2022/31/12 </span>
-<span class="c1"># and we ensure the measure is an Observation.</span>
+<span class="c1"># In this example, we search for measures of property PM25 taken between 2022/01/01 </span>
+<span class="c1"># and 2022/31/12 and we ensure the measure is an Observation.</span>
 
 <span class="c1"># Option 1</span>
 <span class="n">srch</span> <span class="o">=</span> <span class="n">ESSearch</span><span class="p">(</span><span class="n">collection</span> <span class="o">=</span> <span class="n">collec</span><span class="p">)</span>
@@ -192,8 +192,8 @@ instead of a list of observations.</p>
 </span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a><span class="sd">client = Mongoclient(&lt;Mongo-auth&gt;)</span>
 </span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a><span class="sd">collec = client[&lt;base&gt;][&lt;collection&gt;]</span>
 </span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a>
-</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a><span class="sd"># In this example, we search for measures of property PM25 taken between 2022/01/01 and 2022/31/12 </span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a><span class="sd"># and we ensure the measure is an Observation.</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a><span class="sd"># In this example, we search for measures of property PM25 taken between 2022/01/01 </span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a><span class="sd"># and 2022/31/12 and we ensure the measure is an Observation.</span>
 </span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>
 </span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a><span class="sd"># Option 1</span>
 </span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a><span class="sd">srch = ESSearch(collection = collec)</span>
