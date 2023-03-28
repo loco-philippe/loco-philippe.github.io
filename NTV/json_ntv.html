@@ -33,6 +33,7 @@
         <ul>
                 <li><a href="json_ntv/namespace.html">namespace</a></li>
                 <li><a href="json_ntv/ntv.html">ntv</a></li>
+                <li><a href="json_ntv/ntv_connector.html">ntv_connector</a></li>
         </ul>
 
 
@@ -71,24 +72,34 @@ NTV<wbr>.json_ntv    </h1>
 <li><code><a href="json_ntv/ntv.html#NtvList">NTV.json_ntv.ntv.NtvList</a></code></li>
 <li><code><a href="json_ntv/ntv.html#NtvSet">NTV.json_ntv.ntv.NtvSet</a></code></li>
 <li><code><a href="json_ntv/ntv.html#Ntv">NTV.json_ntv.ntv.Ntv</a></code> (abstract class)</li>
+<li><code><a href="json_ntv/ntv.html#NtvConnector">NTV.json_ntv.ntv.NtvConnector</a></code> (abstract class)    </li>
+</ul></li>
+<li><p><code><a href="json_ntv/ntv_connector.html">NTV.json_ntv.ntv_connector</a></code> :</p>
+
+<ul>
+<li><code><a href="json_ntv/ntv_connector.html#DataFrameConnec">NTV.json_ntv.ntv_connector.DataFrameConnec</a></code></li>
+<li><code><a href="json_ntv/ntv_connector.html#SeriesConnec">NTV.json_ntv.ntv_connector.SeriesConnec</a></code></li>
 </ul></li>
 </ul>
 
 <h1 id="0-abstract">0 - Abstract</h1>
 
-<p>Today, the semantic level of shared data remains low. It is very often limited to the type of data defined in the exchange formats (strings for CSV formats; 
+<p>Today, the semantic level of shared data remains low. It is very often limited 
+to the type of data defined in the exchange formats (strings for CSV formats; 
 numbers, strings, arrays and objects for JSON formats).</p>
 
 <p>The proposed consists of adding a type and a name to the data exchanged (see also the 
 <a href="https://github.com/loco-philippe/NTV/blob/main/documentation/JSON-NTV-standard.pdf">JSON-NTV specification</a>).</p>
 
-<p>With this evolution any data, whatever its semantic level, can be identified, shared and interpreted in a consistent way.
+<p>With this evolution any data, whatever its semantic level, can be identified, 
+shared and interpreted in a consistent way.
 The implementation of a type with a nested structure facilitates its appropriation.
 Finally, compatibility with existing JSON structures allows progressive deployment.</p>
 
 <h1 id="1-ntv-structure">1 - NTV structure</h1>
 
-<p>The constructed entities (called NTV for <em>named typed value</em>) are therefore a triplet with one mandatory element (the value in JSON format) and two optional elements (name, type).
+<p>The constructed entities (called NTV for <em>named typed value</em>) are therefore a triplet
+ with one mandatory element (the value in JSON format) and two optional elements (name, type).
 &gt;</p>
 
 <blockquote>
@@ -101,7 +112,9 @@ Finally, compatibility with existing JSON structures allows progressive deployme
   </ul>
 </blockquote>
 
-<p>The easiest way to add this information is to use a JSON-object with a single member using the syntax <a href="https://github.com/glenkleidon/JSON-ND">JSON-ND</a> for the first term of the member and the JSON-value for the second term of the member.
+<p>The easiest way to add this information is to use a JSON-object with a single member
+ using the syntax <a href="https://github.com/glenkleidon/JSON-ND">JSON-ND</a> for the first 
+ term of the member and the JSON-value for the second term of the member.
 &gt;</p>
 
 <blockquote>
@@ -113,14 +126,16 @@ Finally, compatibility with existing JSON structures allows progressive deployme
 
 <ul>
 <li>a primitive entity which is not composed of any other entity (NTV-single),</li>
-<li>two structured entities: an unordered collection of NTV entities (NTV-set) and an ordered sequence of NTV entities (NTV-list).</li>
+<li>two structured entities: an unordered collection of NTV entities (NTV-set) and
+an ordered sequence of NTV entities (NTV-list).</li>
 </ul>
 
 <p>as well as two JSON formats:</p>
 
 <ul>
 <li>simple format when the name and the type are not present (this is the usual case of CSV data),</li>
-<li>named format when the name or type is present (see example above for an NTV-single entity and below for a structured entity).
+<li>named format when the name or type is present (see example above for an NTV-single
+entity and below for a structured entity).
 &gt;</li>
 </ul>
 
@@ -129,7 +144,8 @@ Finally, compatibility with existing JSON structures allows progressive deployme
   
   <ul>
   <li><em><code>{ "cities::point": [[2.3522, 48.8566], [4.8357, 45.7640]] }</code> for an NTV-list entity</em></li>
-  <li><em><code>{ "cities::point": { "paris":[2.3522, 48.8566], "lyon":[4.8357, 45.7640] } }</code> for an NTV-set entity</em></li>
+  <li><em><code>{ "cities::point": { "paris":[2.3522, 48.8566], "lyon":[4.8357, 45.7640] } }</code> 
+  for an NTV-set entity</em></li>
   </ul>
   
   <p><em>Note: This syntax can also be used for CSV file headers</em></p>
@@ -147,7 +163,9 @@ Finally, compatibility with existing JSON structures allows progressive deployme
   </ul>
 </blockquote>
 
-<p>This structuring of type makes it possible to reference any type of data that has a JSON representation and to consolidate all the shared data structures within the same tree of types.</p>
+<p>This structuring of type makes it possible to reference any type of data that has
+ a JSON representation and to consolidate all the shared data structures within the
+ same tree of types.</p>
 </div>
 
                         <input id="mod-json_ntv-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -175,60 +193,76 @@ Finally, compatibility with existing JSON structures allows progressive deployme
 </span><span id="L-19"><a href="#-19"><span class="linenos">19</span></a><span class="sd">    - `NTV.json_ntv.ntv.NtvList`</span>
 </span><span id="L-20"><a href="#-20"><span class="linenos">20</span></a><span class="sd">    - `NTV.json_ntv.ntv.NtvSet`</span>
 </span><span id="L-21"><a href="#-21"><span class="linenos">21</span></a><span class="sd">    - `NTV.json_ntv.ntv.Ntv` (abstract class)</span>
-</span><span id="L-22"><a href="#-22"><span class="linenos">22</span></a><span class="sd">    </span>
-</span><span id="L-23"><a href="#-23"><span class="linenos">23</span></a><span class="sd"># 0 - Abstract</span>
-</span><span id="L-24"><a href="#-24"><span class="linenos">24</span></a>
-</span><span id="L-25"><a href="#-25"><span class="linenos">25</span></a><span class="sd">Today, the semantic level of shared data remains low. It is very often limited to the type of data defined in the exchange formats (strings for CSV formats; </span>
-</span><span id="L-26"><a href="#-26"><span class="linenos">26</span></a><span class="sd">numbers, strings, arrays and objects for JSON formats).</span>
-</span><span id="L-27"><a href="#-27"><span class="linenos">27</span></a>
-</span><span id="L-28"><a href="#-28"><span class="linenos">28</span></a><span class="sd">The proposed consists of adding a type and a name to the data exchanged (see also the </span>
-</span><span id="L-29"><a href="#-29"><span class="linenos">29</span></a><span class="sd">[JSON-NTV specification](https://github.com/loco-philippe/NTV/blob/main/documentation/JSON-NTV-standard.pdf)).</span>
+</span><span id="L-22"><a href="#-22"><span class="linenos">22</span></a><span class="sd">    - `NTV.json_ntv.ntv.NtvConnector` (abstract class)    </span>
+</span><span id="L-23"><a href="#-23"><span class="linenos">23</span></a>
+</span><span id="L-24"><a href="#-24"><span class="linenos">24</span></a><span class="sd">- `NTV.json_ntv.ntv_connector` :</span>
+</span><span id="L-25"><a href="#-25"><span class="linenos">25</span></a><span class="sd">    </span>
+</span><span id="L-26"><a href="#-26"><span class="linenos">26</span></a><span class="sd">    - `NTV.json_ntv.ntv_connector.DataFrameConnec`</span>
+</span><span id="L-27"><a href="#-27"><span class="linenos">27</span></a><span class="sd">    - `NTV.json_ntv.ntv_connector.SeriesConnec`</span>
+</span><span id="L-28"><a href="#-28"><span class="linenos">28</span></a><span class="sd">    </span>
+</span><span id="L-29"><a href="#-29"><span class="linenos">29</span></a><span class="sd"># 0 - Abstract</span>
 </span><span id="L-30"><a href="#-30"><span class="linenos">30</span></a>
-</span><span id="L-31"><a href="#-31"><span class="linenos">31</span></a><span class="sd">With this evolution any data, whatever its semantic level, can be identified, shared and interpreted in a consistent way.</span>
-</span><span id="L-32"><a href="#-32"><span class="linenos">32</span></a><span class="sd">The implementation of a type with a nested structure facilitates its appropriation.</span>
-</span><span id="L-33"><a href="#-33"><span class="linenos">33</span></a><span class="sd">Finally, compatibility with existing JSON structures allows progressive deployment.</span>
+</span><span id="L-31"><a href="#-31"><span class="linenos">31</span></a><span class="sd">Today, the semantic level of shared data remains low. It is very often limited </span>
+</span><span id="L-32"><a href="#-32"><span class="linenos">32</span></a><span class="sd">to the type of data defined in the exchange formats (strings for CSV formats; </span>
+</span><span id="L-33"><a href="#-33"><span class="linenos">33</span></a><span class="sd">numbers, strings, arrays and objects for JSON formats).</span>
 </span><span id="L-34"><a href="#-34"><span class="linenos">34</span></a>
-</span><span id="L-35"><a href="#-35"><span class="linenos">35</span></a><span class="sd"># 1 - NTV structure</span>
-</span><span id="L-36"><a href="#-36"><span class="linenos">36</span></a>
-</span><span id="L-37"><a href="#-37"><span class="linenos">37</span></a><span class="sd">The constructed entities (called NTV for *named typed value*) are therefore a triplet with one mandatory element (the value in JSON format) and two optional elements (name, type).</span>
-</span><span id="L-38"><a href="#-38"><span class="linenos">38</span></a><span class="sd">&gt;</span>
-</span><span id="L-39"><a href="#-39"><span class="linenos">39</span></a><span class="sd">&gt; *For example, the location of Paris can be represented by:*</span>
-</span><span id="L-40"><a href="#-40"><span class="linenos">40</span></a><span class="sd">&gt; - *a name: &quot;Paris&quot;,*</span>
-</span><span id="L-41"><a href="#-41"><span class="linenos">41</span></a><span class="sd">&gt; - *a type: the coordinates of a point according to the GeoJSON format,*</span>
-</span><span id="L-42"><a href="#-42"><span class="linenos">42</span></a><span class="sd">&gt; - *a value: [ 2.3522, 48.8566]*</span>
-</span><span id="L-43"><a href="#-43"><span class="linenos">43</span></a>
-</span><span id="L-44"><a href="#-44"><span class="linenos">44</span></a><span class="sd">The easiest way to add this information is to use a JSON-object with a single member using the syntax [JSON-ND](https://github.com/glenkleidon/JSON-ND) for the first term of the member and the JSON-value for the second term of the member.</span>
-</span><span id="L-45"><a href="#-45"><span class="linenos">45</span></a><span class="sd">&gt;</span>
-</span><span id="L-46"><a href="#-46"><span class="linenos">46</span></a><span class="sd">&gt; *For the example above, the JSON representation is:*    </span>
-</span><span id="L-47"><a href="#-47"><span class="linenos">47</span></a><span class="sd">&gt; *```{ &quot;paris:point&quot; : [2.3522, 48.8566] }```*</span>
-</span><span id="L-48"><a href="#-48"><span class="linenos">48</span></a>
-</span><span id="L-49"><a href="#-49"><span class="linenos">49</span></a><span class="sd">With this approach, three NTV entities are defined:</span>
-</span><span id="L-50"><a href="#-50"><span class="linenos">50</span></a><span class="sd">- a primitive entity which is not composed of any other entity (NTV-single),</span>
-</span><span id="L-51"><a href="#-51"><span class="linenos">51</span></a><span class="sd">- two structured entities: an unordered collection of NTV entities (NTV-set) and an ordered sequence of NTV entities (NTV-list).</span>
-</span><span id="L-52"><a href="#-52"><span class="linenos">52</span></a><span class="sd">      </span>
-</span><span id="L-53"><a href="#-53"><span class="linenos">53</span></a><span class="sd">as well as two JSON formats:</span>
-</span><span id="L-54"><a href="#-54"><span class="linenos">54</span></a><span class="sd">- simple format when the name and the type are not present (this is the usual case of CSV data),</span>
-</span><span id="L-55"><a href="#-55"><span class="linenos">55</span></a><span class="sd">- named format when the name or type is present (see example above for an NTV-single entity and below for a structured entity).</span>
+</span><span id="L-35"><a href="#-35"><span class="linenos">35</span></a><span class="sd">The proposed consists of adding a type and a name to the data exchanged (see also the </span>
+</span><span id="L-36"><a href="#-36"><span class="linenos">36</span></a><span class="sd">[JSON-NTV specification](https://github.com/loco-philippe/NTV/blob/main/documentation/JSON-NTV-standard.pdf)).</span>
+</span><span id="L-37"><a href="#-37"><span class="linenos">37</span></a>
+</span><span id="L-38"><a href="#-38"><span class="linenos">38</span></a><span class="sd">With this evolution any data, whatever its semantic level, can be identified, </span>
+</span><span id="L-39"><a href="#-39"><span class="linenos">39</span></a><span class="sd">shared and interpreted in a consistent way.</span>
+</span><span id="L-40"><a href="#-40"><span class="linenos">40</span></a><span class="sd">The implementation of a type with a nested structure facilitates its appropriation.</span>
+</span><span id="L-41"><a href="#-41"><span class="linenos">41</span></a><span class="sd">Finally, compatibility with existing JSON structures allows progressive deployment.</span>
+</span><span id="L-42"><a href="#-42"><span class="linenos">42</span></a>
+</span><span id="L-43"><a href="#-43"><span class="linenos">43</span></a><span class="sd"># 1 - NTV structure</span>
+</span><span id="L-44"><a href="#-44"><span class="linenos">44</span></a>
+</span><span id="L-45"><a href="#-45"><span class="linenos">45</span></a><span class="sd">The constructed entities (called NTV for *named typed value*) are therefore a triplet</span>
+</span><span id="L-46"><a href="#-46"><span class="linenos">46</span></a><span class="sd"> with one mandatory element (the value in JSON format) and two optional elements (name, type).</span>
+</span><span id="L-47"><a href="#-47"><span class="linenos">47</span></a><span class="sd">&gt;</span>
+</span><span id="L-48"><a href="#-48"><span class="linenos">48</span></a><span class="sd">&gt; *For example, the location of Paris can be represented by:*</span>
+</span><span id="L-49"><a href="#-49"><span class="linenos">49</span></a><span class="sd">&gt; - *a name: &quot;Paris&quot;,*</span>
+</span><span id="L-50"><a href="#-50"><span class="linenos">50</span></a><span class="sd">&gt; - *a type: the coordinates of a point according to the GeoJSON format,*</span>
+</span><span id="L-51"><a href="#-51"><span class="linenos">51</span></a><span class="sd">&gt; - *a value: [ 2.3522, 48.8566]*</span>
+</span><span id="L-52"><a href="#-52"><span class="linenos">52</span></a>
+</span><span id="L-53"><a href="#-53"><span class="linenos">53</span></a><span class="sd">The easiest way to add this information is to use a JSON-object with a single member</span>
+</span><span id="L-54"><a href="#-54"><span class="linenos">54</span></a><span class="sd"> using the syntax [JSON-ND](https://github.com/glenkleidon/JSON-ND) for the first </span>
+</span><span id="L-55"><a href="#-55"><span class="linenos">55</span></a><span class="sd"> term of the member and the JSON-value for the second term of the member.</span>
 </span><span id="L-56"><a href="#-56"><span class="linenos">56</span></a><span class="sd">&gt;</span>
-</span><span id="L-57"><a href="#-57"><span class="linenos">57</span></a><span class="sd">&gt; *Example of an entity composed of two other entities:*</span>
-</span><span id="L-58"><a href="#-58"><span class="linenos">58</span></a><span class="sd">&gt; - *```{ &quot;cities::point&quot;: [[2.3522, 48.8566], [4.8357, 45.7640]] }``` for an NTV-list entity*</span>
-</span><span id="L-59"><a href="#-59"><span class="linenos">59</span></a><span class="sd">&gt; - *```{ &quot;cities::point&quot;: { &quot;paris&quot;:[2.3522, 48.8566], &quot;lyon&quot;:[4.8357, 45.7640] } }``` for an NTV-set entity*</span>
-</span><span id="L-60"><a href="#-60"><span class="linenos">60</span></a><span class="sd">&gt;</span>
-</span><span id="L-61"><a href="#-61"><span class="linenos">61</span></a><span class="sd">&gt; *Note: This syntax can also be used for CSV file headers*</span>
-</span><span id="L-62"><a href="#-62"><span class="linenos">62</span></a>
-</span><span id="L-63"><a href="#-63"><span class="linenos">63</span></a><span class="sd">The type incorporates a notion of `namespaces` that can be nested.</span>
-</span><span id="L-64"><a href="#-64"><span class="linenos">64</span></a><span class="sd">&gt; *For example, the type: &quot;ns1.ns2.type&quot; means that:*</span>
-</span><span id="L-65"><a href="#-65"><span class="linenos">65</span></a><span class="sd">&gt; - *ns1. is a namespace defined in the global namespace,*</span>
-</span><span id="L-66"><a href="#-66"><span class="linenos">66</span></a><span class="sd">&gt; - *ns2. is a namespace defined in the ns1 namespace.,*</span>
-</span><span id="L-67"><a href="#-67"><span class="linenos">67</span></a><span class="sd">&gt; - *type is defined in the ns2 namespace.*    </span>
-</span><span id="L-68"><a href="#-68"><span class="linenos">68</span></a><span class="sd">    </span>
-</span><span id="L-69"><a href="#-69"><span class="linenos">69</span></a><span class="sd">This structuring of type makes it possible to reference any type of data that has a JSON representation and to consolidate all the shared data structures within the same tree of types.</span>
-</span><span id="L-70"><a href="#-70"><span class="linenos">70</span></a>
-</span><span id="L-71"><a href="#-71"><span class="linenos">71</span></a>
-</span><span id="L-72"><a href="#-72"><span class="linenos">72</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-73"><a href="#-73"><span class="linenos">73</span></a><span class="kn">from</span> <span class="nn">json_ntv.namespace</span> <span class="kn">import</span> <span class="n">Namespace</span><span class="p">,</span> <span class="n">NtvType</span><span class="p">,</span> <span class="n">str_type</span>
-</span><span id="L-74"><a href="#-74"><span class="linenos">74</span></a><span class="kn">from</span> <span class="nn">json_ntv.ntv</span> <span class="kn">import</span> <span class="n">Ntv</span><span class="p">,</span> <span class="n">NtvSingle</span><span class="p">,</span> <span class="n">NtvList</span><span class="p">,</span> <span class="n">NtvSet</span>
-</span><span id="L-75"><a href="#-75"><span class="linenos">75</span></a><span class="c1">#print(&#39;package :&#39;, __package__)</span>
+</span><span id="L-57"><a href="#-57"><span class="linenos">57</span></a><span class="sd">&gt; *For the example above, the JSON representation is:*    </span>
+</span><span id="L-58"><a href="#-58"><span class="linenos">58</span></a><span class="sd">&gt; *```{ &quot;paris:point&quot; : [2.3522, 48.8566] }```*</span>
+</span><span id="L-59"><a href="#-59"><span class="linenos">59</span></a>
+</span><span id="L-60"><a href="#-60"><span class="linenos">60</span></a><span class="sd">With this approach, three NTV entities are defined:</span>
+</span><span id="L-61"><a href="#-61"><span class="linenos">61</span></a><span class="sd">- a primitive entity which is not composed of any other entity (NTV-single),</span>
+</span><span id="L-62"><a href="#-62"><span class="linenos">62</span></a><span class="sd">- two structured entities: an unordered collection of NTV entities (NTV-set) and</span>
+</span><span id="L-63"><a href="#-63"><span class="linenos">63</span></a><span class="sd"> an ordered sequence of NTV entities (NTV-list).</span>
+</span><span id="L-64"><a href="#-64"><span class="linenos">64</span></a><span class="sd">      </span>
+</span><span id="L-65"><a href="#-65"><span class="linenos">65</span></a><span class="sd">as well as two JSON formats:</span>
+</span><span id="L-66"><a href="#-66"><span class="linenos">66</span></a><span class="sd">- simple format when the name and the type are not present (this is the usual case of CSV data),</span>
+</span><span id="L-67"><a href="#-67"><span class="linenos">67</span></a><span class="sd">- named format when the name or type is present (see example above for an NTV-single</span>
+</span><span id="L-68"><a href="#-68"><span class="linenos">68</span></a><span class="sd">entity and below for a structured entity).</span>
+</span><span id="L-69"><a href="#-69"><span class="linenos">69</span></a><span class="sd">&gt;</span>
+</span><span id="L-70"><a href="#-70"><span class="linenos">70</span></a><span class="sd">&gt; *Example of an entity composed of two other entities:*</span>
+</span><span id="L-71"><a href="#-71"><span class="linenos">71</span></a><span class="sd">&gt; - *```{ &quot;cities::point&quot;: [[2.3522, 48.8566], [4.8357, 45.7640]] }``` for an NTV-list entity*</span>
+</span><span id="L-72"><a href="#-72"><span class="linenos">72</span></a><span class="sd">&gt; - *```{ &quot;cities::point&quot;: { &quot;paris&quot;:[2.3522, 48.8566], &quot;lyon&quot;:[4.8357, 45.7640] } }``` </span>
+</span><span id="L-73"><a href="#-73"><span class="linenos">73</span></a><span class="sd">for an NTV-set entity*</span>
+</span><span id="L-74"><a href="#-74"><span class="linenos">74</span></a><span class="sd">&gt;</span>
+</span><span id="L-75"><a href="#-75"><span class="linenos">75</span></a><span class="sd">&gt; *Note: This syntax can also be used for CSV file headers*</span>
+</span><span id="L-76"><a href="#-76"><span class="linenos">76</span></a>
+</span><span id="L-77"><a href="#-77"><span class="linenos">77</span></a><span class="sd">The type incorporates a notion of `namespaces` that can be nested.</span>
+</span><span id="L-78"><a href="#-78"><span class="linenos">78</span></a><span class="sd">&gt; *For example, the type: &quot;ns1.ns2.type&quot; means that:*</span>
+</span><span id="L-79"><a href="#-79"><span class="linenos">79</span></a><span class="sd">&gt; - *ns1. is a namespace defined in the global namespace,*</span>
+</span><span id="L-80"><a href="#-80"><span class="linenos">80</span></a><span class="sd">&gt; - *ns2. is a namespace defined in the ns1 namespace.,*</span>
+</span><span id="L-81"><a href="#-81"><span class="linenos">81</span></a><span class="sd">&gt; - *type is defined in the ns2 namespace.*    </span>
+</span><span id="L-82"><a href="#-82"><span class="linenos">82</span></a><span class="sd">    </span>
+</span><span id="L-83"><a href="#-83"><span class="linenos">83</span></a><span class="sd">This structuring of type makes it possible to reference any type of data that has</span>
+</span><span id="L-84"><a href="#-84"><span class="linenos">84</span></a><span class="sd"> a JSON representation and to consolidate all the shared data structures within the</span>
+</span><span id="L-85"><a href="#-85"><span class="linenos">85</span></a><span class="sd"> same tree of types.</span>
+</span><span id="L-86"><a href="#-86"><span class="linenos">86</span></a>
+</span><span id="L-87"><a href="#-87"><span class="linenos">87</span></a>
+</span><span id="L-88"><a href="#-88"><span class="linenos">88</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-89"><a href="#-89"><span class="linenos">89</span></a><span class="kn">from</span> <span class="nn">namespace</span> <span class="kn">import</span> <span class="n">Namespace</span><span class="p">,</span> <span class="n">NtvType</span><span class="p">,</span> <span class="n">str_type</span>
+</span><span id="L-90"><a href="#-90"><span class="linenos">90</span></a><span class="kn">from</span> <span class="nn">ntv</span> <span class="kn">import</span> <span class="n">Ntv</span><span class="p">,</span> <span class="n">NtvSingle</span><span class="p">,</span> <span class="n">NtvList</span><span class="p">,</span> <span class="n">NtvSet</span><span class="p">,</span> <span class="n">NtvConnector</span>
+</span><span id="L-91"><a href="#-91"><span class="linenos">91</span></a><span class="c1">#print(&#39;package :&#39;, __package__)</span>
 </span></pre></div>
 
 
