@@ -131,18 +131,14 @@ all situations (platform)</li>
 <ul>
 <li>The concepts of 'observation', 'indexed list' and 'ES value' are describe in
 <a href="https://github.com/loco-philippe/Environmental-Sensing/wiki">the wiki</a> and in
-<a href="https://github.com/loco-philippe/Environmental-Sensing/tree/main
-/documentation/Ilist_principles.pdf">the presentation</a>.</li>
+<a href="https://github.com/loco-philippe/Environmental-Sensing/tree/main/documentation/Ilist_principles.pdf">the presentation</a>.</li>
 <li>The non-regression tests are at
 <a href="https://github.com/loco-philippe/Environmental-Sensing/tree/main/python/Tests">this page</a></li>
 <li>Examples are
 <a href="https://github.com/loco-philippe/Environmental-Sensing/tree/main/python/Examples">here</a></li>
-<li>data exchange standard for <a href="https://github.com/loco-philippe/
-Environmental-Sensing/tree/main/documentation/ObsJSON-Standard.pdf">observation</a>,
-<a href="https://github.com/loco-philippe/Environmental-Sensing/tree/main/
-documentation/IlistJSON-Standard.pdf">indexed list</a> and
-<a href="https://github.com/loco-philippe/Environmental-Sensing/tree/main/documentation
-/ESJSON-Standard.pdf">values</a></li>
+<li>data exchange standard for <a href="https://github.com/loco-philippe/Environmental-Sensing/tree/main/documentation/ObsJSON-Standard.pdf">observation</a>,
+<a href="https://github.com/loco-philippe/Environmental-Sensing/tree/main/documentation/IlistJSON-Standard.pdf">indexed list</a> and
+<a href="https://github.com/loco-philippe/Environmental-Sensing/tree/main/documentation/ESJSON-Standard.pdf">values</a></li>
 </ul>
 
 <p>Modules contain the following classes:</p>
@@ -151,35 +147,35 @@ documentation/IlistJSON-Standard.pdf">indexed list</a> and
 <li><p>Observation :</p>
 
 <ul>
-<li><code>observation.esobservation</code></li>
+<li><code><a href="observation/esobservation.html">python.observation.esobservation</a></code></li>
 </ul></li>
 <li><p>ESValue :</p>
 
 <ul>
-<li><code>observation.esvalue</code>(<code>observation.esvalue.DatationValue</code>,
-<code>observation.esvalue.LocationValue</code>,
-<code>observation.esvalue.PropertyValue</code>, <code>observation.esvalue.NamedValue</code>,
-<code>observation.esvalue.ExternValue</code>, <code>observation.esvalue_base.ESValue</code>)</li>
+<li><code><a href="observation/esvalue.html">python.observation.esvalue</a></code>(<code><a href="observation/esvalue.html#DatationValue">python.observation.esvalue.DatationValue</a></code>,
+<code><a href="observation/esvalue.html#LocationValue">python.observation.esvalue.LocationValue</a></code>,
+<code><a href="observation/esvalue.html#PropertyValue">python.observation.esvalue.PropertyValue</a></code>, <code><a href="observation/esvalue.html#NamedValue">python.observation.esvalue.NamedValue</a></code>,
+<code><a href="observation/esvalue.html#ExternValue">python.observation.esvalue.ExternValue</a></code>, <code><a href="observation/esvalue_base.html#ESValue">python.observation.esvalue_base.ESValue</a></code>)</li>
 </ul></li>
 <li><p>Ilist :</p>
 
 <ul>
-<li><code>observation.ilist</code>, <code>observation.ilist_structure</code>, <code>observation.ilist_interface</code></li>
+<li><code><a href="observation/ilist.html">python.observation.ilist</a></code>, <code><a href="observation/ilist_structure.html">python.observation.ilist_structure</a></code>, <code><a href="observation/ilist_interface.html">python.observation.ilist_interface</a></code></li>
 </ul></li>
 <li><p>Iindex :</p>
 
 <ul>
-<li><code>observation.iindex</code>, <code>observation.iindex_structure</code>, <code>observation.iindex_interface</code></li>
+<li><code><a href="observation/iindex.html">python.observation.iindex</a></code>, <code><a href="observation/iindex_structure.html">python.observation.iindex_structure</a></code>, <code><a href="observation/iindex_interface.html">python.observation.iindex_interface</a></code></li>
 </ul></li>
 <li><p>TimeSlot :</p>
 
 <ul>
-<li><code>observation.timeslot</code></li>
+<li><code><a href="observation/timeslot.html">python.observation.timeslot</a></code></li>
 </ul></li>
 <li><p>ES :</p>
 
 <ul>
-<li><code>observation.esconstante</code>.</li>
+<li><code><a href="observation/esconstante.html">python.observation.esconstante</a></code>.</li>
 </ul></li>
 </ul>
 </div>
@@ -250,59 +246,55 @@ documentation/IlistJSON-Standard.pdf">indexed list</a> and
 </span><span id="L-60"><a href="#-60"><span class="linenos"> 60</span></a>
 </span><span id="L-61"><a href="#-61"><span class="linenos"> 61</span></a><span class="sd">- The concepts of &#39;observation&#39;, &#39;indexed list&#39; and &#39;ES value&#39; are describe in</span>
 </span><span id="L-62"><a href="#-62"><span class="linenos"> 62</span></a><span class="sd">[the wiki](https://github.com/loco-philippe/Environmental-Sensing/wiki) and in</span>
-</span><span id="L-63"><a href="#-63"><span class="linenos"> 63</span></a><span class="sd">[the presentation](https://github.com/loco-philippe/Environmental-Sensing/tree/main</span>
-</span><span id="L-64"><a href="#-64"><span class="linenos"> 64</span></a><span class="sd">/documentation/Ilist_principles.pdf).</span>
-</span><span id="L-65"><a href="#-65"><span class="linenos"> 65</span></a><span class="sd">- The non-regression tests are at</span>
-</span><span id="L-66"><a href="#-66"><span class="linenos"> 66</span></a><span class="sd">[this page](https://github.com/loco-philippe/Environmental-Sensing/tree/main/python/Tests)</span>
-</span><span id="L-67"><a href="#-67"><span class="linenos"> 67</span></a><span class="sd">- Examples are</span>
-</span><span id="L-68"><a href="#-68"><span class="linenos"> 68</span></a><span class="sd">[here](https://github.com/loco-philippe/Environmental-Sensing/tree/main/python/Examples)</span>
-</span><span id="L-69"><a href="#-69"><span class="linenos"> 69</span></a><span class="sd">- data exchange standard for [observation](https://github.com/loco-philippe/</span>
-</span><span id="L-70"><a href="#-70"><span class="linenos"> 70</span></a><span class="sd">Environmental-Sensing/tree/main/documentation/ObsJSON-Standard.pdf),</span>
-</span><span id="L-71"><a href="#-71"><span class="linenos"> 71</span></a><span class="sd">[indexed list](https://github.com/loco-philippe/Environmental-Sensing/tree/main/</span>
-</span><span id="L-72"><a href="#-72"><span class="linenos"> 72</span></a><span class="sd">documentation/IlistJSON-Standard.pdf) and</span>
-</span><span id="L-73"><a href="#-73"><span class="linenos"> 73</span></a><span class="sd">[values](https://github.com/loco-philippe/Environmental-Sensing/tree/main/documentation</span>
-</span><span id="L-74"><a href="#-74"><span class="linenos"> 74</span></a><span class="sd">/ESJSON-Standard.pdf)</span>
+</span><span id="L-63"><a href="#-63"><span class="linenos"> 63</span></a><span class="sd">[the presentation](https://github.com/loco-philippe/Environmental-Sensing/tree/main/documentation/Ilist_principles.pdf).</span>
+</span><span id="L-64"><a href="#-64"><span class="linenos"> 64</span></a><span class="sd">- The non-regression tests are at</span>
+</span><span id="L-65"><a href="#-65"><span class="linenos"> 65</span></a><span class="sd">[this page](https://github.com/loco-philippe/Environmental-Sensing/tree/main/python/Tests)</span>
+</span><span id="L-66"><a href="#-66"><span class="linenos"> 66</span></a><span class="sd">- Examples are</span>
+</span><span id="L-67"><a href="#-67"><span class="linenos"> 67</span></a><span class="sd">[here](https://github.com/loco-philippe/Environmental-Sensing/tree/main/python/Examples)</span>
+</span><span id="L-68"><a href="#-68"><span class="linenos"> 68</span></a><span class="sd">- data exchange standard for [observation](https://github.com/loco-philippe/Environmental-Sensing/tree/main/documentation/ObsJSON-Standard.pdf),</span>
+</span><span id="L-69"><a href="#-69"><span class="linenos"> 69</span></a><span class="sd">[indexed list](https://github.com/loco-philippe/Environmental-Sensing/tree/main/documentation/IlistJSON-Standard.pdf) and</span>
+</span><span id="L-70"><a href="#-70"><span class="linenos"> 70</span></a><span class="sd">[values](https://github.com/loco-philippe/Environmental-Sensing/tree/main/documentation/ESJSON-Standard.pdf)</span>
+</span><span id="L-71"><a href="#-71"><span class="linenos"> 71</span></a>
+</span><span id="L-72"><a href="#-72"><span class="linenos"> 72</span></a><span class="sd">Modules contain the following classes:</span>
+</span><span id="L-73"><a href="#-73"><span class="linenos"> 73</span></a>
+</span><span id="L-74"><a href="#-74"><span class="linenos"> 74</span></a><span class="sd">- Observation :</span>
 </span><span id="L-75"><a href="#-75"><span class="linenos"> 75</span></a>
-</span><span id="L-76"><a href="#-76"><span class="linenos"> 76</span></a><span class="sd">Modules contain the following classes:</span>
+</span><span id="L-76"><a href="#-76"><span class="linenos"> 76</span></a><span class="sd">    - `python.observation.esobservation`</span>
 </span><span id="L-77"><a href="#-77"><span class="linenos"> 77</span></a>
-</span><span id="L-78"><a href="#-78"><span class="linenos"> 78</span></a><span class="sd">- Observation :</span>
+</span><span id="L-78"><a href="#-78"><span class="linenos"> 78</span></a><span class="sd">- ESValue :</span>
 </span><span id="L-79"><a href="#-79"><span class="linenos"> 79</span></a>
-</span><span id="L-80"><a href="#-80"><span class="linenos"> 80</span></a><span class="sd">    - `observation.esobservation`</span>
-</span><span id="L-81"><a href="#-81"><span class="linenos"> 81</span></a>
-</span><span id="L-82"><a href="#-82"><span class="linenos"> 82</span></a><span class="sd">- ESValue :</span>
-</span><span id="L-83"><a href="#-83"><span class="linenos"> 83</span></a>
-</span><span id="L-84"><a href="#-84"><span class="linenos"> 84</span></a><span class="sd">    - `observation.esvalue`(`observation.esvalue.DatationValue`,</span>
-</span><span id="L-85"><a href="#-85"><span class="linenos"> 85</span></a><span class="sd">    `observation.esvalue.LocationValue`,</span>
-</span><span id="L-86"><a href="#-86"><span class="linenos"> 86</span></a><span class="sd">    `observation.esvalue.PropertyValue`, `observation.esvalue.NamedValue`,</span>
-</span><span id="L-87"><a href="#-87"><span class="linenos"> 87</span></a><span class="sd">    `observation.esvalue.ExternValue`, `observation.esvalue_base.ESValue`)</span>
+</span><span id="L-80"><a href="#-80"><span class="linenos"> 80</span></a><span class="sd">    - `python.observation.esvalue`(`python.observation.esvalue.DatationValue`,</span>
+</span><span id="L-81"><a href="#-81"><span class="linenos"> 81</span></a><span class="sd">    `python.observation.esvalue.LocationValue`,</span>
+</span><span id="L-82"><a href="#-82"><span class="linenos"> 82</span></a><span class="sd">    `python.observation.esvalue.PropertyValue`, `python.observation.esvalue.NamedValue`,</span>
+</span><span id="L-83"><a href="#-83"><span class="linenos"> 83</span></a><span class="sd">    `python.observation.esvalue.ExternValue`, `python.observation.esvalue_base.ESValue`)</span>
+</span><span id="L-84"><a href="#-84"><span class="linenos"> 84</span></a>
+</span><span id="L-85"><a href="#-85"><span class="linenos"> 85</span></a><span class="sd">- Ilist :</span>
+</span><span id="L-86"><a href="#-86"><span class="linenos"> 86</span></a>
+</span><span id="L-87"><a href="#-87"><span class="linenos"> 87</span></a><span class="sd">    - `python.observation.ilist`, `python.observation.ilist_structure`, `python.observation.ilist_interface`</span>
 </span><span id="L-88"><a href="#-88"><span class="linenos"> 88</span></a>
-</span><span id="L-89"><a href="#-89"><span class="linenos"> 89</span></a><span class="sd">- Ilist :</span>
+</span><span id="L-89"><a href="#-89"><span class="linenos"> 89</span></a><span class="sd">- Iindex :</span>
 </span><span id="L-90"><a href="#-90"><span class="linenos"> 90</span></a>
-</span><span id="L-91"><a href="#-91"><span class="linenos"> 91</span></a><span class="sd">    - `observation.ilist`, `observation.ilist_structure`, `observation.ilist_interface`</span>
+</span><span id="L-91"><a href="#-91"><span class="linenos"> 91</span></a><span class="sd">    - `python.observation.iindex`, `python.observation.iindex_structure`, `python.observation.iindex_interface`</span>
 </span><span id="L-92"><a href="#-92"><span class="linenos"> 92</span></a>
-</span><span id="L-93"><a href="#-93"><span class="linenos"> 93</span></a><span class="sd">- Iindex :</span>
+</span><span id="L-93"><a href="#-93"><span class="linenos"> 93</span></a><span class="sd">- TimeSlot :</span>
 </span><span id="L-94"><a href="#-94"><span class="linenos"> 94</span></a>
-</span><span id="L-95"><a href="#-95"><span class="linenos"> 95</span></a><span class="sd">    - `observation.iindex`, `observation.iindex_structure`, `observation.iindex_interface`</span>
+</span><span id="L-95"><a href="#-95"><span class="linenos"> 95</span></a><span class="sd">    - `python.observation.timeslot`</span>
 </span><span id="L-96"><a href="#-96"><span class="linenos"> 96</span></a>
-</span><span id="L-97"><a href="#-97"><span class="linenos"> 97</span></a><span class="sd">- TimeSlot :</span>
+</span><span id="L-97"><a href="#-97"><span class="linenos"> 97</span></a><span class="sd">- ES :</span>
 </span><span id="L-98"><a href="#-98"><span class="linenos"> 98</span></a>
-</span><span id="L-99"><a href="#-99"><span class="linenos"> 99</span></a><span class="sd">    - `observation.timeslot`</span>
-</span><span id="L-100"><a href="#-100"><span class="linenos">100</span></a>
-</span><span id="L-101"><a href="#-101"><span class="linenos">101</span></a><span class="sd">- ES :</span>
-</span><span id="L-102"><a href="#-102"><span class="linenos">102</span></a>
-</span><span id="L-103"><a href="#-103"><span class="linenos">103</span></a><span class="sd">    - `observation.esconstante`.</span>
-</span><span id="L-104"><a href="#-104"><span class="linenos">104</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-105"><a href="#-105"><span class="linenos">105</span></a><span class="kn">from</span> <span class="nn">observation.esobservation</span> <span class="kn">import</span> <span class="n">Observation</span>
-</span><span id="L-106"><a href="#-106"><span class="linenos">106</span></a><span class="kn">from</span> <span class="nn">observation.esvalue</span> <span class="kn">import</span> <span class="n">NamedValue</span><span class="p">,</span> <span class="n">DatationValue</span><span class="p">,</span> <span class="n">LocationValue</span><span class="p">,</span> <span class="n">PropertyValue</span><span class="p">,</span> <span class="n">ExternValue</span>
-</span><span id="L-107"><a href="#-107"><span class="linenos">107</span></a><span class="kn">from</span> <span class="nn">observation.esvalue_base</span> <span class="kn">import</span> <span class="n">ESValue</span>
-</span><span id="L-108"><a href="#-108"><span class="linenos">108</span></a><span class="kn">from</span> <span class="nn">observation.ilist</span> <span class="kn">import</span> <span class="n">Ilist</span><span class="p">,</span> <span class="n">IlistError</span>
-</span><span id="L-109"><a href="#-109"><span class="linenos">109</span></a><span class="kn">from</span> <span class="nn">observation.iindex</span> <span class="kn">import</span> <span class="n">Iindex</span>
-</span><span id="L-110"><a href="#-110"><span class="linenos">110</span></a><span class="kn">from</span> <span class="nn">observation.essearch</span> <span class="kn">import</span> <span class="n">ESSearch</span>
-</span><span id="L-111"><a href="#-111"><span class="linenos">111</span></a><span class="kn">from</span> <span class="nn">observation.esconstante</span> <span class="kn">import</span> <span class="n">ES</span><span class="p">,</span> <span class="n">Es</span><span class="p">,</span> <span class="n">_classval</span>
-</span><span id="L-112"><a href="#-112"><span class="linenos">112</span></a><span class="kn">from</span> <span class="nn">observation.util</span> <span class="kn">import</span> <span class="n">util</span>
-</span><span id="L-113"><a href="#-113"><span class="linenos">113</span></a><span class="kn">from</span> <span class="nn">observation.timeslot</span> <span class="kn">import</span> <span class="n">TimeSlot</span>
-</span><span id="L-114"><a href="#-114"><span class="linenos">114</span></a><span class="kn">from</span> <span class="nn">observation.ilist_analysis</span> <span class="kn">import</span> <span class="n">Analysis</span>
-</span><span id="L-115"><a href="#-115"><span class="linenos">115</span></a><span class="c1">#print(&#39;package :&#39;, __package__)</span>
+</span><span id="L-99"><a href="#-99"><span class="linenos"> 99</span></a><span class="sd">    - `python.observation.esconstante`.</span>
+</span><span id="L-100"><a href="#-100"><span class="linenos">100</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-101"><a href="#-101"><span class="linenos">101</span></a><span class="kn">from</span> <span class="nn">observation.esobservation</span> <span class="kn">import</span> <span class="n">Observation</span>
+</span><span id="L-102"><a href="#-102"><span class="linenos">102</span></a><span class="kn">from</span> <span class="nn">observation.esvalue</span> <span class="kn">import</span> <span class="n">NamedValue</span><span class="p">,</span> <span class="n">DatationValue</span><span class="p">,</span> <span class="n">LocationValue</span><span class="p">,</span> <span class="n">PropertyValue</span><span class="p">,</span> <span class="n">ExternValue</span>
+</span><span id="L-103"><a href="#-103"><span class="linenos">103</span></a><span class="kn">from</span> <span class="nn">observation.esvalue_base</span> <span class="kn">import</span> <span class="n">ESValue</span>
+</span><span id="L-104"><a href="#-104"><span class="linenos">104</span></a><span class="kn">from</span> <span class="nn">observation.ilist</span> <span class="kn">import</span> <span class="n">Ilist</span><span class="p">,</span> <span class="n">IlistError</span>
+</span><span id="L-105"><a href="#-105"><span class="linenos">105</span></a><span class="kn">from</span> <span class="nn">observation.iindex</span> <span class="kn">import</span> <span class="n">Iindex</span>
+</span><span id="L-106"><a href="#-106"><span class="linenos">106</span></a><span class="kn">from</span> <span class="nn">observation.essearch</span> <span class="kn">import</span> <span class="n">ESSearch</span>
+</span><span id="L-107"><a href="#-107"><span class="linenos">107</span></a><span class="kn">from</span> <span class="nn">observation.esconstante</span> <span class="kn">import</span> <span class="n">ES</span><span class="p">,</span> <span class="n">Es</span><span class="p">,</span> <span class="n">_classval</span>
+</span><span id="L-108"><a href="#-108"><span class="linenos">108</span></a><span class="kn">from</span> <span class="nn">observation.util</span> <span class="kn">import</span> <span class="n">util</span>
+</span><span id="L-109"><a href="#-109"><span class="linenos">109</span></a><span class="kn">from</span> <span class="nn">observation.timeslot</span> <span class="kn">import</span> <span class="n">TimeSlot</span>
+</span><span id="L-110"><a href="#-110"><span class="linenos">110</span></a><span class="kn">from</span> <span class="nn">observation.ilist_analysis</span> <span class="kn">import</span> <span class="n">Analysis</span>
+</span><span id="L-111"><a href="#-111"><span class="linenos">111</span></a><span class="c1">#print(&#39;package :&#39;, __package__)</span>
 </span></pre></div>
 
 
