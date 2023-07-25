@@ -950,7 +950,7 @@ python<wbr>.<a href="./../observation.html">observation</a><wbr>.esvalue    </h1
 </span><span id="L-682"><a href="#L-682"><span class="linenos">682</span></a>
 </span><span id="L-683"><a href="#L-683"><span class="linenos">683</span></a>    <span class="k">def</span> <span class="nf">_jsonValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
 </span><span id="L-684"><a href="#L-684"><span class="linenos">684</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;return a json object for the value &#39;&#39;&#39;</span>
-</span><span id="L-685"><a href="#L-685"><span class="linenos">685</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Iindex&#39;</span><span class="p">,</span> <span class="s1">&#39;Ilist&#39;</span><span class="p">,</span> <span class="s1">&#39;Observation&#39;</span><span class="p">]:</span>
+</span><span id="L-685"><a href="#L-685"><span class="linenos">685</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Field&#39;</span><span class="p">,</span> <span class="s1">&#39;Dataset&#39;</span><span class="p">,</span> <span class="s1">&#39;Observation&#39;</span><span class="p">]:</span>
 </span><span id="L-686"><a href="#L-686"><span class="linenos">686</span></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">)</span>
 </span><span id="L-687"><a href="#L-687"><span class="linenos">687</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">)):</span>
 </span><span id="L-688"><a href="#L-688"><span class="linenos">688</span></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
@@ -1472,37 +1472,6 @@ python<wbr>.<a href="./../observation.html">observation</a><wbr>.esvalue    </h1
 </div>
 
 
-                            </div>
-                            <div class="inherited">
-                                <h5>Inherited Members</h5>
-                                <dl>
-                                    <div><dt>observation.esvalue_base.ESValue</dt>
-                                <dd id="DatationValue.equals" class="function">equals</dd>
-                <dd id="DatationValue.disjoint" class="function">disjoint</dd>
-                <dd id="DatationValue.contains" class="function">contains</dd>
-                <dd id="DatationValue.within" class="function">within</dd>
-                <dd id="DatationValue.intersects" class="function">intersects</dd>
-                <dd id="DatationValue.isNotNull" class="function">isNotNull</dd>
-                <dd id="DatationValue.isEqual" class="function">isEqual</dd>
-                <dd id="DatationValue.isName" class="function">isName</dd>
-                <dd id="DatationValue.bounds" class="variable">bounds</dd>
-                <dd id="DatationValue.boxUnion" class="function">boxUnion</dd>
-                <dd id="DatationValue.getValue" class="function">getValue</dd>
-                <dd id="DatationValue.getName" class="function">getName</dd>
-                <dd id="DatationValue.json" class="function">json</dd>
-                <dd id="DatationValue.to_json" class="function">to_json</dd>
-                <dd id="DatationValue.setName" class="function">setName</dd>
-                <dd id="DatationValue.setValue" class="function">setValue</dd>
-                <dd id="DatationValue.simple" class="variable">simple</dd>
-                <dd id="DatationValue.to_float" class="function">to_float</dd>
-                <dd id="DatationValue.to_obj" class="function">to_obj</dd>
-                <dd id="DatationValue.ljson" class="function">ljson</dd>
-                <dd id="DatationValue.valClassName" class="function">valClassName</dd>
-                <dd id="DatationValue.vName" class="function">vName</dd>
-                <dd id="DatationValue.uncastsimple" class="function">uncastsimple</dd>
-
-            </div>
-                                </dl>
                             </div>
                 </section>
                 <section id="LocationValue">
@@ -2155,37 +2124,6 @@ in a list format [y, x]</p>
 
 
                             </div>
-                            <div class="inherited">
-                                <h5>Inherited Members</h5>
-                                <dl>
-                                    <div><dt>observation.esvalue_base.ESValue</dt>
-                                <dd id="LocationValue.equals" class="function">equals</dd>
-                <dd id="LocationValue.disjoint" class="function">disjoint</dd>
-                <dd id="LocationValue.contains" class="function">contains</dd>
-                <dd id="LocationValue.within" class="function">within</dd>
-                <dd id="LocationValue.intersects" class="function">intersects</dd>
-                <dd id="LocationValue.isNotNull" class="function">isNotNull</dd>
-                <dd id="LocationValue.isEqual" class="function">isEqual</dd>
-                <dd id="LocationValue.isName" class="function">isName</dd>
-                <dd id="LocationValue.bounds" class="variable">bounds</dd>
-                <dd id="LocationValue.boxUnion" class="function">boxUnion</dd>
-                <dd id="LocationValue.getValue" class="function">getValue</dd>
-                <dd id="LocationValue.getName" class="function">getName</dd>
-                <dd id="LocationValue.json" class="function">json</dd>
-                <dd id="LocationValue.to_json" class="function">to_json</dd>
-                <dd id="LocationValue.setName" class="function">setName</dd>
-                <dd id="LocationValue.setValue" class="function">setValue</dd>
-                <dd id="LocationValue.simple" class="variable">simple</dd>
-                <dd id="LocationValue.to_float" class="function">to_float</dd>
-                <dd id="LocationValue.to_obj" class="function">to_obj</dd>
-                <dd id="LocationValue.ljson" class="function">ljson</dd>
-                <dd id="LocationValue.valClassName" class="function">valClassName</dd>
-                <dd id="LocationValue.vName" class="function">vName</dd>
-                <dd id="LocationValue.uncastsimple" class="function">uncastsimple</dd>
-
-            </div>
-                                </dl>
-                            </div>
                 </section>
                 <section id="PropertyValue">
                             <input id="PropertyValue-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -2659,37 +2597,6 @@ in a list format [y, x]</p>
 
 
                             </div>
-                            <div class="inherited">
-                                <h5>Inherited Members</h5>
-                                <dl>
-                                    <div><dt>observation.esvalue_base.ESValue</dt>
-                                <dd id="PropertyValue.equals" class="function">equals</dd>
-                <dd id="PropertyValue.disjoint" class="function">disjoint</dd>
-                <dd id="PropertyValue.contains" class="function">contains</dd>
-                <dd id="PropertyValue.within" class="function">within</dd>
-                <dd id="PropertyValue.intersects" class="function">intersects</dd>
-                <dd id="PropertyValue.isNotNull" class="function">isNotNull</dd>
-                <dd id="PropertyValue.isEqual" class="function">isEqual</dd>
-                <dd id="PropertyValue.isName" class="function">isName</dd>
-                <dd id="PropertyValue.bounds" class="variable">bounds</dd>
-                <dd id="PropertyValue.boxUnion" class="function">boxUnion</dd>
-                <dd id="PropertyValue.getValue" class="function">getValue</dd>
-                <dd id="PropertyValue.getName" class="function">getName</dd>
-                <dd id="PropertyValue.json" class="function">json</dd>
-                <dd id="PropertyValue.to_json" class="function">to_json</dd>
-                <dd id="PropertyValue.setName" class="function">setName</dd>
-                <dd id="PropertyValue.setValue" class="function">setValue</dd>
-                <dd id="PropertyValue.simple" class="variable">simple</dd>
-                <dd id="PropertyValue.to_float" class="function">to_float</dd>
-                <dd id="PropertyValue.to_obj" class="function">to_obj</dd>
-                <dd id="PropertyValue.ljson" class="function">ljson</dd>
-                <dd id="PropertyValue.valClassName" class="function">valClassName</dd>
-                <dd id="PropertyValue.vName" class="function">vName</dd>
-                <dd id="PropertyValue.uncastsimple" class="function">uncastsimple</dd>
-
-            </div>
-                                </dl>
-                            </div>
                 </section>
                 <section id="NamedValue">
                             <input id="NamedValue-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -2906,38 +2813,6 @@ in a list format [y, x]</p>
 
 
                             </div>
-                            <div class="inherited">
-                                <h5>Inherited Members</h5>
-                                <dl>
-                                    <div><dt>observation.esvalue_base.ESValue</dt>
-                                <dd id="NamedValue.equals" class="function">equals</dd>
-                <dd id="NamedValue.disjoint" class="function">disjoint</dd>
-                <dd id="NamedValue.contains" class="function">contains</dd>
-                <dd id="NamedValue.within" class="function">within</dd>
-                <dd id="NamedValue.intersects" class="function">intersects</dd>
-                <dd id="NamedValue.isNotNull" class="function">isNotNull</dd>
-                <dd id="NamedValue.isEqual" class="function">isEqual</dd>
-                <dd id="NamedValue.isName" class="function">isName</dd>
-                <dd id="NamedValue.boundingBox" class="function">boundingBox</dd>
-                <dd id="NamedValue.bounds" class="variable">bounds</dd>
-                <dd id="NamedValue.boxUnion" class="function">boxUnion</dd>
-                <dd id="NamedValue.getValue" class="function">getValue</dd>
-                <dd id="NamedValue.getName" class="function">getName</dd>
-                <dd id="NamedValue.json" class="function">json</dd>
-                <dd id="NamedValue.to_json" class="function">to_json</dd>
-                <dd id="NamedValue.setName" class="function">setName</dd>
-                <dd id="NamedValue.setValue" class="function">setValue</dd>
-                <dd id="NamedValue.simple" class="variable">simple</dd>
-                <dd id="NamedValue.to_float" class="function">to_float</dd>
-                <dd id="NamedValue.to_obj" class="function">to_obj</dd>
-                <dd id="NamedValue.ljson" class="function">ljson</dd>
-                <dd id="NamedValue.valClassName" class="function">valClassName</dd>
-                <dd id="NamedValue.vName" class="function">vName</dd>
-                <dd id="NamedValue.uncastsimple" class="function">uncastsimple</dd>
-
-            </div>
-                                </dl>
-                            </div>
                 </section>
                 <section id="ExternValue">
                             <input id="ExternValue-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -3015,7 +2890,7 @@ in a list format [y, x]</p>
 </span><span id="ExternValue-683"><a href="#ExternValue-683"><span class="linenos">683</span></a>
 </span><span id="ExternValue-684"><a href="#ExternValue-684"><span class="linenos">684</span></a>    <span class="k">def</span> <span class="nf">_jsonValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">):</span>
 </span><span id="ExternValue-685"><a href="#ExternValue-685"><span class="linenos">685</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;return a json object for the value &#39;&#39;&#39;</span>
-</span><span id="ExternValue-686"><a href="#ExternValue-686"><span class="linenos">686</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Iindex&#39;</span><span class="p">,</span> <span class="s1">&#39;Ilist&#39;</span><span class="p">,</span> <span class="s1">&#39;Observation&#39;</span><span class="p">]:</span>
+</span><span id="ExternValue-686"><a href="#ExternValue-686"><span class="linenos">686</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Field&#39;</span><span class="p">,</span> <span class="s1">&#39;Dataset&#39;</span><span class="p">,</span> <span class="s1">&#39;Observation&#39;</span><span class="p">]:</span>
 </span><span id="ExternValue-687"><a href="#ExternValue-687"><span class="linenos">687</span></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encode_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">)</span>
 </span><span id="ExternValue-688"><a href="#ExternValue-688"><span class="linenos">688</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">)):</span>
 </span><span id="ExternValue-689"><a href="#ExternValue-689"><span class="linenos">689</span></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
@@ -3177,38 +3052,6 @@ in a list format [y, x]</p>
 </div>
 
 
-                            </div>
-                            <div class="inherited">
-                                <h5>Inherited Members</h5>
-                                <dl>
-                                    <div><dt>observation.esvalue_base.ESValue</dt>
-                                <dd id="ExternValue.equals" class="function">equals</dd>
-                <dd id="ExternValue.disjoint" class="function">disjoint</dd>
-                <dd id="ExternValue.contains" class="function">contains</dd>
-                <dd id="ExternValue.within" class="function">within</dd>
-                <dd id="ExternValue.intersects" class="function">intersects</dd>
-                <dd id="ExternValue.isNotNull" class="function">isNotNull</dd>
-                <dd id="ExternValue.isEqual" class="function">isEqual</dd>
-                <dd id="ExternValue.isName" class="function">isName</dd>
-                <dd id="ExternValue.boundingBox" class="function">boundingBox</dd>
-                <dd id="ExternValue.bounds" class="variable">bounds</dd>
-                <dd id="ExternValue.boxUnion" class="function">boxUnion</dd>
-                <dd id="ExternValue.getValue" class="function">getValue</dd>
-                <dd id="ExternValue.getName" class="function">getName</dd>
-                <dd id="ExternValue.json" class="function">json</dd>
-                <dd id="ExternValue.to_json" class="function">to_json</dd>
-                <dd id="ExternValue.setName" class="function">setName</dd>
-                <dd id="ExternValue.setValue" class="function">setValue</dd>
-                <dd id="ExternValue.simple" class="variable">simple</dd>
-                <dd id="ExternValue.to_float" class="function">to_float</dd>
-                <dd id="ExternValue.to_obj" class="function">to_obj</dd>
-                <dd id="ExternValue.ljson" class="function">ljson</dd>
-                <dd id="ExternValue.valClassName" class="function">valClassName</dd>
-                <dd id="ExternValue.vName" class="function">vName</dd>
-                <dd id="ExternValue.uncastsimple" class="function">uncastsimple</dd>
-
-            </div>
-                                </dl>
                             </div>
                 </section>
                 <section id="ESValueError">

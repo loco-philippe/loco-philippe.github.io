@@ -33,18 +33,20 @@
 
             <h2>Submodules</h2>
             <ul>
+                    <li><a href="observation/dataset.html">dataset</a></li>
+                    <li><a href="observation/dataset_analysis.html">dataset_analysis</a></li>
+                    <li><a href="observation/dataset_interface.html">dataset_interface</a></li>
+                    <li><a href="observation/dataset_structure.html">dataset_structure</a></li>
+                    <li><a href="observation/datasets.html">datasets</a></li>
                     <li><a href="observation/esconstante.html">esconstante</a></li>
                     <li><a href="observation/esobservation.html">esobservation</a></li>
                     <li><a href="observation/essearch.html">essearch</a></li>
                     <li><a href="observation/esvalue.html">esvalue</a></li>
                     <li><a href="observation/esvalue_base.html">esvalue_base</a></li>
-                    <li><a href="observation/iindex.html">iindex</a></li>
-                    <li><a href="observation/iindex_interface.html">iindex_interface</a></li>
-                    <li><a href="observation/iindex_structure.html">iindex_structure</a></li>
-                    <li><a href="observation/ilist.html">ilist</a></li>
-                    <li><a href="observation/ilist_analysis.html">ilist_analysis</a></li>
-                    <li><a href="observation/ilist_interface.html">ilist_interface</a></li>
-                    <li><a href="observation/ilist_structure.html">ilist_structure</a></li>
+                    <li><a href="observation/field.html">field</a></li>
+                    <li><a href="observation/field_interface.html">field_interface</a></li>
+                    <li><a href="observation/field_structure.html">field_structure</a></li>
+                    <li><a href="observation/fields.html">fields</a></li>
                     <li><a href="observation/timeslot.html">timeslot</a></li>
                     <li><a href="observation/util.html">util</a></li>
                     <li><a href="observation/util_carto.html">util_carto</a></li>
@@ -158,15 +160,16 @@ all situations (platform)</li>
 <code><a href="observation/esvalue.html#PropertyValue">python.observation.esvalue.PropertyValue</a></code>, <code><a href="observation/esvalue.html#NamedValue">python.observation.esvalue.NamedValue</a></code>,
 <code><a href="observation/esvalue.html#ExternValue">python.observation.esvalue.ExternValue</a></code>, <code><a href="observation/esvalue_base.html#ESValue">python.observation.esvalue_base.ESValue</a></code>)</li>
 </ul></li>
-<li><p>Ilist :</p>
+<li><p>Dataset :</p>
 
 <ul>
-<li><code><a href="observation/ilist.html">python.observation.ilist</a></code>, <code><a href="observation/ilist_structure.html">python.observation.ilist_structure</a></code>, <code><a href="observation/ilist_interface.html">python.observation.ilist_interface</a></code></li>
+<li><code><a href="observation/dataset.html">python.observation.dataset</a></code>, <code><a href="observation/dataset_structure.html">python.observation.dataset_structure</a></code>, <code><a href="observation/dataset_interface.html">python.observation.dataset_interface</a></code></li>
 </ul></li>
-<li><p>Iindex :</p>
+<li><p>Field :</p>
 
 <ul>
-<li><code><a href="observation/iindex.html">python.observation.iindex</a></code>, <code><a href="observation/iindex_structure.html">python.observation.iindex_structure</a></code>, <code><a href="observation/iindex_interface.html">python.observation.iindex_interface</a></code></li>
+<li><code><a href="observation/field.html">python.observation.field</a></code>, <code>python.observation.ntvfieldructure</code>, 
+<code><a href="observation/field_interface.html">python.observation.field_interface</a></code></li>
 </ul></li>
 <li><p>TimeSlot :</p>
 
@@ -269,37 +272,40 @@ all situations (platform)</li>
 </span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a><span class="sd">    `python.observation.esvalue.PropertyValue`, `python.observation.esvalue.NamedValue`,</span>
 </span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a><span class="sd">    `python.observation.esvalue.ExternValue`, `python.observation.esvalue_base.ESValue`)</span>
 </span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>
-</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="sd">- Ilist :</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="sd">- Dataset :</span>
 </span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>
-</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="sd">    - `python.observation.ilist`, `python.observation.ilist_structure`, `python.observation.ilist_interface`</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="sd">    - `python.observation.dataset`, `python.observation.dataset_structure`, `python.observation.dataset_interface`</span>
 </span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>
-</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="sd">- Iindex :</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="sd">- Field :</span>
 </span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>
-</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="sd">    - `python.observation.iindex`, `python.observation.iindex_structure`, `python.observation.iindex_interface`</span>
-</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>
-</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a><span class="sd">- TimeSlot :</span>
-</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>
-</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a><span class="sd">    - `python.observation.timeslot`</span>
-</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>
-</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a><span class="sd">- ES :</span>
-</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="sd">    - `python.observation.esconstante`.</span>
-</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="kn">from</span> <span class="nn">observation.esobservation</span> <span class="kn">import</span> <span class="n">Observation</span>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="kn">from</span> <span class="nn">observation.esvalue</span> <span class="kn">import</span> <span class="n">NamedValue</span><span class="p">,</span> <span class="n">DatationValue</span><span class="p">,</span> <span class="n">LocationValue</span><span class="p">,</span> <span class="n">PropertyValue</span><span class="p">,</span> <span class="n">ExternValue</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="kn">from</span> <span class="nn">observation.esvalue_base</span> <span class="kn">import</span> <span class="n">ESValue</span>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="kn">from</span> <span class="nn">observation.ilist</span> <span class="kn">import</span> <span class="n">Ilist</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="kn">from</span> <span class="nn">observation.ilist_interface</span> <span class="kn">import</span> <span class="n">IlistInterface</span><span class="p">,</span> <span class="n">IlistError</span>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a><span class="kn">from</span> <span class="nn">observation.ilist_structure</span> <span class="kn">import</span> <span class="n">IlistStructure</span>
-</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a><span class="kn">from</span> <span class="nn">observation.iindex</span> <span class="kn">import</span> <span class="n">Iindex</span>
-</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="kn">from</span> <span class="nn">observation.iindex_structure</span> <span class="kn">import</span> <span class="n">IindexStructure</span>
-</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="kn">from</span> <span class="nn">observation.iindex_interface</span> <span class="kn">import</span> <span class="n">CborDecoder</span><span class="p">,</span> <span class="n">IindexError</span><span class="p">,</span> <span class="n">IindexEncoder</span><span class="p">,</span> <span class="n">IindexInterface</span>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a><span class="c1">#from observation.essearch import ESSearch</span>
-</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a><span class="kn">from</span> <span class="nn">observation.esconstante</span> <span class="kn">import</span> <span class="n">ES</span><span class="p">,</span> <span class="n">Es</span><span class="p">,</span> <span class="n">_classval</span>
-</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a><span class="kn">from</span> <span class="nn">observation.util</span> <span class="kn">import</span> <span class="n">util</span>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="kn">from</span> <span class="nn">observation.timeslot</span> <span class="kn">import</span> <span class="n">TimeSlot</span>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a><span class="kn">from</span> <span class="nn">observation.ilist_analysis</span> <span class="kn">import</span> <span class="n">Analysis</span>
-</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a><span class="c1">#print(&#39;package :&#39;, __package__)</span>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="sd">    - `python.observation.field`, `python.observation.ntvfieldructure`, </span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="sd">    `python.observation.field_interface`</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a><span class="sd">- TimeSlot :</span>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a><span class="sd">    - `python.observation.timeslot`</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a><span class="sd">- ES :</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="sd">    - `python.observation.esconstante`.</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="kn">from</span> <span class="nn">observation.esobservation</span> <span class="kn">import</span> <span class="n">Observation</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="kn">from</span> <span class="nn">observation.esvalue</span> <span class="kn">import</span> <span class="n">NamedValue</span><span class="p">,</span> <span class="n">DatationValue</span><span class="p">,</span> <span class="n">LocationValue</span><span class="p">,</span> <span class="n">PropertyValue</span><span class="p">,</span> <span class="n">ExternValue</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="kn">from</span> <span class="nn">observation.esvalue_base</span> <span class="kn">import</span> <span class="n">ESValue</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="kn">from</span> <span class="nn">observation.dataset</span> <span class="kn">import</span> <span class="n">Dataset</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a><span class="kn">from</span> <span class="nn">observation.dataset_interface</span> <span class="kn">import</span> <span class="n">DatasetInterface</span><span class="p">,</span> <span class="n">DatasetError</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a><span class="kn">from</span> <span class="nn">observation.dataset_structure</span> <span class="kn">import</span> <span class="n">DatasetStructure</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="kn">from</span> <span class="nn">observation.field</span> <span class="kn">import</span> <span class="n">Field</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="kn">from</span> <span class="nn">observation.field_structure</span> <span class="kn">import</span> <span class="n">FieldStructure</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a><span class="kn">from</span> <span class="nn">observation.field_interface</span> <span class="kn">import</span> <span class="n">CborDecoder</span><span class="p">,</span> <span class="n">FieldError</span><span class="p">,</span> <span class="n">FieldEncoder</span><span class="p">,</span> <span class="n">FieldInterface</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a><span class="kn">from</span> <span class="nn">observation.fields</span> <span class="kn">import</span> <span class="n">Nfield</span><span class="p">,</span> <span class="n">Sfield</span>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a><span class="kn">from</span> <span class="nn">observation.datasets</span> <span class="kn">import</span> <span class="n">Ndataset</span><span class="p">,</span> <span class="n">Sdataset</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="c1">#from observation.essearch import ESSearch</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a><span class="kn">from</span> <span class="nn">observation.esconstante</span> <span class="kn">import</span> <span class="n">ES</span><span class="p">,</span> <span class="n">Es</span><span class="p">,</span> <span class="n">_classval</span>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a><span class="kn">from</span> <span class="nn">observation.util</span> <span class="kn">import</span> <span class="n">util</span>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a><span class="kn">from</span> <span class="nn">observation.timeslot</span> <span class="kn">import</span> <span class="n">TimeSlot</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="kn">from</span> <span class="nn">observation.dataset_analysis</span> <span class="kn">import</span> <span class="n">Analysis</span>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a><span class="c1">#print(&#39;package :&#39;, __package__)</span>
 </span></pre></div>
 
 
