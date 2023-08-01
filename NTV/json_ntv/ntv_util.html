@@ -364,8 +364,8 @@ for NTV entities.</p>
 </span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a>            <span class="n">connec</span> <span class="o">=</span> <span class="n">NtvConnector</span><span class="o">.</span><span class="n">connector</span><span class="p">()[</span><span class="s1">&#39;other&#39;</span><span class="p">]</span>
 </span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a>        <span class="k">if</span> <span class="n">connec</span><span class="p">:</span>
 </span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a>            <span class="k">return</span> <span class="n">connec</span><span class="o">.</span><span class="n">to_obj_ntv</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
-</span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a>        <span class="k">raise</span> <span class="n">NtvError</span><span class="p">(</span><span class="s1">&#39;type of value not allowed for conversion&#39;</span><span class="p">)</span>
-</span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a>        <span class="c1"># return value</span>
+</span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a>        <span class="c1">#raise NtvError(&#39;type of value not allowed for conversion&#39;)</span>
+</span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a>        <span class="k">return</span> <span class="n">value</span>
 </span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a>
 </span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a>    <span class="nd">@staticmethod</span>
 </span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a>    <span class="k">def</span> <span class="nf">is_json_class</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
@@ -735,8 +735,8 @@ for NTV entities.</p>
 </span><span id="NtvConnector-218"><a href="#NtvConnector-218"><span class="linenos">218</span></a>            <span class="n">connec</span> <span class="o">=</span> <span class="n">NtvConnector</span><span class="o">.</span><span class="n">connector</span><span class="p">()[</span><span class="s1">&#39;other&#39;</span><span class="p">]</span>
 </span><span id="NtvConnector-219"><a href="#NtvConnector-219"><span class="linenos">219</span></a>        <span class="k">if</span> <span class="n">connec</span><span class="p">:</span>
 </span><span id="NtvConnector-220"><a href="#NtvConnector-220"><span class="linenos">220</span></a>            <span class="k">return</span> <span class="n">connec</span><span class="o">.</span><span class="n">to_obj_ntv</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
-</span><span id="NtvConnector-221"><a href="#NtvConnector-221"><span class="linenos">221</span></a>        <span class="k">raise</span> <span class="n">NtvError</span><span class="p">(</span><span class="s1">&#39;type of value not allowed for conversion&#39;</span><span class="p">)</span>
-</span><span id="NtvConnector-222"><a href="#NtvConnector-222"><span class="linenos">222</span></a>        <span class="c1"># return value</span>
+</span><span id="NtvConnector-221"><a href="#NtvConnector-221"><span class="linenos">221</span></a>        <span class="c1">#raise NtvError(&#39;type of value not allowed for conversion&#39;)</span>
+</span><span id="NtvConnector-222"><a href="#NtvConnector-222"><span class="linenos">222</span></a>        <span class="k">return</span> <span class="n">value</span>
 </span><span id="NtvConnector-223"><a href="#NtvConnector-223"><span class="linenos">223</span></a>
 </span><span id="NtvConnector-224"><a href="#NtvConnector-224"><span class="linenos">224</span></a>    <span class="nd">@staticmethod</span>
 </span><span id="NtvConnector-225"><a href="#NtvConnector-225"><span class="linenos">225</span></a>    <span class="k">def</span> <span class="nf">is_json_class</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>

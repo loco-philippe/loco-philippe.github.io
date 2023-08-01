@@ -185,7 +185,7 @@ python<wbr>.<a href="./../observation.html">observation</a><wbr>.fields    </h1>
 </span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>        <span class="k">return</span> <span class="n">Ntv</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
 </span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>
 </span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>    <span class="k">def</span> <span class="nf">n_to_i</span><span class="p">(</span><span class="n">ntv</span><span class="p">):</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>    <span class="k">def</span> <span class="nf">n_to_i</span><span class="p">(</span><span class="n">ntv</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 </span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting a NTV value to an internal value&#39;&#39;&#39;</span>
 </span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>        <span class="k">return</span> <span class="n">ntv</span>
 </span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>
@@ -248,7 +248,7 @@ python<wbr>.<a href="./../observation.html">observation</a><wbr>.fields    </h1>
 </span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting a list of external values to a list of internal values&#39;&#39;&#39;</span>
 </span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>        <span class="k">if</span> <span class="n">fast</span><span class="p">:</span>
 </span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>            <span class="k">return</span> <span class="n">lis</span>
-</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>        <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_i</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">]</span>
+</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>        <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_i</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">fast</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">]</span>
 </span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>    
 </span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>    <span class="nd">@staticmethod</span>
 </span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>    <span class="k">def</span> <span class="nf">s_to_i</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -266,55 +266,56 @@ python<wbr>.<a href="./../observation.html">observation</a><wbr>.fields    </h1>
 </span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a>        <span class="k">return</span> <span class="n">val</span>    
 </span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>    
 </span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>    <span class="k">def</span> <span class="nf">n_to_i</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">):</span>
+</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>    <span class="k">def</span> <span class="nf">n_to_i</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 </span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting a NtvList value to an internal value&#39;&#39;&#39;</span>
 </span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 </span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>            <span class="k">return</span> <span class="p">[]</span>
 </span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="n">ntv_lis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;NtvSingle&#39;</span><span class="p">,</span> <span class="s1">&#39;NtvList&#39;</span><span class="p">):</span>
-</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>            <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">n_to_i</span><span class="p">(</span><span class="n">ntv</span><span class="o">.</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">ntv</span> <span class="ow">in</span> <span class="n">ntv_lis</span><span class="p">]</span>
-</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>        <span class="k">return</span>  <span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_i</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">)</span>
-</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a>    
-</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>    <span class="k">def</span> <span class="nf">l_to_e</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting a list of internal values to a list of external values&#39;&#39;&#39;</span>
-</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a>        <span class="k">if</span> <span class="n">fast</span><span class="p">:</span>
-</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a>            <span class="k">return</span> <span class="n">lis</span>
-</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a>        <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">]</span>
-</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a>    
-</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>    <span class="k">def</span> <span class="nf">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;converting an internal value to an external value&#39;&#39;&#39;</span>
-</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a>        <span class="k">if</span> <span class="n">fast</span><span class="p">:</span>
-</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a>            <span class="k">return</span> <span class="n">val</span>
-</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a>        <span class="k">if</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;null&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">):</span>
-</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a>            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a>        <span class="c1">#if val is None or isinstance(val, bool):</span>
-</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a>        <span class="c1">#    return json.dumps(val)</span>
-</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-</span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a>            <span class="k">return</span> <span class="n">Sfield</span><span class="o">.</span><span class="n">_listed</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;{&#39;</span><span class="p">:</span>
-</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a>            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-</span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a>        <span class="k">return</span> <span class="n">val</span>
-</span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a>    
-</span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a>    <span class="k">def</span> <span class="nf">i_to_n</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
-</span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting an internal value to a NTV value&#39;&#39;&#39;</span>
-</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a>        <span class="k">return</span> <span class="n">Ntv</span><span class="o">.</span><span class="n">obj</span><span class="p">(</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
-</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a>
-</span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a>    <span class="k">def</span> <span class="nf">i_to_name</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
-</span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; return the name of the internal value&#39;&#39;&#39;</span>
-</span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a>        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
-</span><span id="L-190"><a href="#L-190"><span class="linenos">190</span></a>    
-</span><span id="L-191"><a href="#L-191"><span class="linenos">191</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a>    <span class="k">def</span> <span class="nf">_tupled</span><span class="p">(</span><span class="n">lis</span><span class="p">):</span>
-</span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;transform a list of list in a tuple of tuple&#39;&#39;&#39;</span>
-</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a>        <span class="k">return</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">Sfield</span><span class="o">.</span><span class="n">_tupled</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">])</span>
-</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a>
-</span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a>    <span class="k">def</span> <span class="nf">_listed</span><span class="p">(</span><span class="n">lis</span><span class="p">):</span>
-</span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;transform a tuple of tuple in a list of list&#39;&#39;&#39;</span>
-</span><span id="L-199"><a href="#L-199"><span class="linenos">199</span></a>        <span class="k">return</span> <span class="p">[</span><span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">Sfield</span><span class="o">.</span><span class="n">_listed</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">]</span>
+</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>            <span class="c1">#return [Sfield.n_to_i(ntv.val, fast) for ntv in ntv_lis]</span>
+</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>            <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">n_to_i</span><span class="p">(</span><span class="n">ntv</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(),</span> <span class="n">fast</span><span class="p">)</span> <span class="k">for</span> <span class="n">ntv</span> <span class="ow">in</span> <span class="n">ntv_lis</span><span class="p">]</span>
+</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a>        <span class="k">return</span>  <span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_i</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">,</span> <span class="n">fast</span><span class="p">)</span>
+</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a>    
+</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a>    <span class="k">def</span> <span class="nf">l_to_e</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting a list of internal values to a list of external values&#39;&#39;&#39;</span>
+</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a>        <span class="k">if</span> <span class="n">fast</span><span class="p">:</span>
+</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a>            <span class="k">return</span> <span class="n">lis</span>
+</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a>        <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">]</span>
+</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>    
+</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a>    <span class="k">def</span> <span class="nf">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;converting an internal value to an external value&#39;&#39;&#39;</span>
+</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a>        <span class="k">if</span> <span class="n">fast</span><span class="p">:</span>
+</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a>            <span class="k">return</span> <span class="n">val</span>
+</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a>        <span class="k">if</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;null&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">):</span>
+</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a>            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a>        <span class="c1">#if val is None or isinstance(val, bool):</span>
+</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a>        <span class="c1">#    return json.dumps(val)</span>
+</span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a>            <span class="k">return</span> <span class="n">Sfield</span><span class="o">.</span><span class="n">_listed</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;{&#39;</span><span class="p">:</span>
+</span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a>            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a>        <span class="k">return</span> <span class="n">val</span>
+</span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a>    
+</span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a>    <span class="k">def</span> <span class="nf">i_to_n</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting an internal value to a NTV value&#39;&#39;&#39;</span>
+</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a>        <span class="k">return</span> <span class="n">Ntv</span><span class="o">.</span><span class="n">obj</span><span class="p">(</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+</span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a>
+</span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a>    <span class="k">def</span> <span class="nf">i_to_name</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+</span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; return the name of the internal value&#39;&#39;&#39;</span>
+</span><span id="L-190"><a href="#L-190"><span class="linenos">190</span></a>        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+</span><span id="L-191"><a href="#L-191"><span class="linenos">191</span></a>    
+</span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a>    <span class="k">def</span> <span class="nf">_tupled</span><span class="p">(</span><span class="n">lis</span><span class="p">):</span>
+</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;transform a list of list in a tuple of tuple&#39;&#39;&#39;</span>
+</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a>        <span class="k">return</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">Sfield</span><span class="o">.</span><span class="n">_tupled</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">])</span>
+</span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a>
+</span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a>    <span class="k">def</span> <span class="nf">_listed</span><span class="p">(</span><span class="n">lis</span><span class="p">):</span>
+</span><span id="L-199"><a href="#L-199"><span class="linenos">199</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;transform a tuple of tuple in a list of list&#39;&#39;&#39;</span>
+</span><span id="L-200"><a href="#L-200"><span class="linenos">200</span></a>        <span class="k">return</span> <span class="p">[</span><span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">Sfield</span><span class="o">.</span><span class="n">_listed</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">]</span>
 </span></pre></div>
 
 
@@ -389,7 +390,7 @@ python<wbr>.<a href="./../observation.html">observation</a><wbr>.fields    </h1>
 </span><span id="Nfield-68"><a href="#Nfield-68"><span class="linenos">68</span></a>        <span class="k">return</span> <span class="n">Ntv</span><span class="o">.</span><span class="n">from_obj</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
 </span><span id="Nfield-69"><a href="#Nfield-69"><span class="linenos">69</span></a>
 </span><span id="Nfield-70"><a href="#Nfield-70"><span class="linenos">70</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Nfield-71"><a href="#Nfield-71"><span class="linenos">71</span></a>    <span class="k">def</span> <span class="nf">n_to_i</span><span class="p">(</span><span class="n">ntv</span><span class="p">):</span>
+</span><span id="Nfield-71"><a href="#Nfield-71"><span class="linenos">71</span></a>    <span class="k">def</span> <span class="nf">n_to_i</span><span class="p">(</span><span class="n">ntv</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 </span><span id="Nfield-72"><a href="#Nfield-72"><span class="linenos">72</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting a NTV value to an internal value&#39;&#39;&#39;</span>
 </span><span id="Nfield-73"><a href="#Nfield-73"><span class="linenos">73</span></a>        <span class="k">return</span> <span class="n">ntv</span>
 </span><span id="Nfield-74"><a href="#Nfield-74"><span class="linenos">74</span></a>
@@ -475,8 +476,7 @@ python<wbr>.<a href="./../observation.html">observation</a><wbr>.fields    </h1>
 <li><strong>name</strong> : string (default None) - name of index (see data model)</li>
 <li><strong>lendefault</strong> : integer (default 0) - default len if no keys is defined</li>
 <li><strong>reindex</strong> : boolean (default True) - if True, default codec is apply</li>
-<li><strong>fast</strong>: boolean (default False) - codec is created with a list of json values 
-without control</li>
+<li><strong>fast</strong>: boolean (default False) - if True, codec is created without conversion</li>
 </ul>
 </div>
 
@@ -564,14 +564,14 @@ without control</li>
                     <div class="decorator">@staticmethod</div>
 
         <span class="def">def</span>
-        <span class="name">n_to_i</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">ntv</span></span><span class="return-annotation">):</span></span>
+        <span class="name">n_to_i</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">ntv</span>, </span><span class="param"><span class="n">fast</span><span class="o">=</span><span class="kc">False</span></span><span class="return-annotation">):</span></span>
 
                 <label class="view-source-button" for="Nfield.n_to_i-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#Nfield.n_to_i"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Nfield.n_to_i-70"><a href="#Nfield.n_to_i-70"><span class="linenos">70</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Nfield.n_to_i-71"><a href="#Nfield.n_to_i-71"><span class="linenos">71</span></a>    <span class="k">def</span> <span class="nf">n_to_i</span><span class="p">(</span><span class="n">ntv</span><span class="p">):</span>
+</span><span id="Nfield.n_to_i-71"><a href="#Nfield.n_to_i-71"><span class="linenos">71</span></a>    <span class="k">def</span> <span class="nf">n_to_i</span><span class="p">(</span><span class="n">ntv</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 </span><span id="Nfield.n_to_i-72"><a href="#Nfield.n_to_i-72"><span class="linenos">72</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting a NTV value to an internal value&#39;&#39;&#39;</span>
 </span><span id="Nfield.n_to_i-73"><a href="#Nfield.n_to_i-73"><span class="linenos">73</span></a>        <span class="k">return</span> <span class="n">ntv</span>
 </span></pre></div>
@@ -734,6 +734,7 @@ without control</li>
             <div><dt>observation.field_interface.FieldInterface</dt>
                                 <dd id="Nfield.decode_ntv" class="function">decode_ntv</dd>
                 <dd id="Nfield.encode_coef" class="function">encode_coef</dd>
+                <dd id="Nfield.keysfromcoef" class="function">keysfromcoef</dd>
                 <dd id="Nfield.to_dict_obj" class="function">to_dict_obj</dd>
                 <dd id="Nfield.to_numpy" class="function">to_numpy</dd>
                 <dd id="Nfield.to_ntv" class="function">to_ntv</dd>
@@ -795,7 +796,7 @@ without control</li>
 </span><span id="Sfield-131"><a href="#Sfield-131"><span class="linenos">131</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting a list of external values to a list of internal values&#39;&#39;&#39;</span>
 </span><span id="Sfield-132"><a href="#Sfield-132"><span class="linenos">132</span></a>        <span class="k">if</span> <span class="n">fast</span><span class="p">:</span>
 </span><span id="Sfield-133"><a href="#Sfield-133"><span class="linenos">133</span></a>            <span class="k">return</span> <span class="n">lis</span>
-</span><span id="Sfield-134"><a href="#Sfield-134"><span class="linenos">134</span></a>        <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_i</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">]</span>
+</span><span id="Sfield-134"><a href="#Sfield-134"><span class="linenos">134</span></a>        <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_i</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">fast</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">]</span>
 </span><span id="Sfield-135"><a href="#Sfield-135"><span class="linenos">135</span></a>    
 </span><span id="Sfield-136"><a href="#Sfield-136"><span class="linenos">136</span></a>    <span class="nd">@staticmethod</span>
 </span><span id="Sfield-137"><a href="#Sfield-137"><span class="linenos">137</span></a>    <span class="k">def</span> <span class="nf">s_to_i</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -813,55 +814,56 @@ without control</li>
 </span><span id="Sfield-149"><a href="#Sfield-149"><span class="linenos">149</span></a>        <span class="k">return</span> <span class="n">val</span>    
 </span><span id="Sfield-150"><a href="#Sfield-150"><span class="linenos">150</span></a>    
 </span><span id="Sfield-151"><a href="#Sfield-151"><span class="linenos">151</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Sfield-152"><a href="#Sfield-152"><span class="linenos">152</span></a>    <span class="k">def</span> <span class="nf">n_to_i</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">):</span>
+</span><span id="Sfield-152"><a href="#Sfield-152"><span class="linenos">152</span></a>    <span class="k">def</span> <span class="nf">n_to_i</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 </span><span id="Sfield-153"><a href="#Sfield-153"><span class="linenos">153</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting a NtvList value to an internal value&#39;&#39;&#39;</span>
 </span><span id="Sfield-154"><a href="#Sfield-154"><span class="linenos">154</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 </span><span id="Sfield-155"><a href="#Sfield-155"><span class="linenos">155</span></a>            <span class="k">return</span> <span class="p">[]</span>
 </span><span id="Sfield-156"><a href="#Sfield-156"><span class="linenos">156</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="n">ntv_lis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;NtvSingle&#39;</span><span class="p">,</span> <span class="s1">&#39;NtvList&#39;</span><span class="p">):</span>
-</span><span id="Sfield-157"><a href="#Sfield-157"><span class="linenos">157</span></a>            <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">n_to_i</span><span class="p">(</span><span class="n">ntv</span><span class="o">.</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">ntv</span> <span class="ow">in</span> <span class="n">ntv_lis</span><span class="p">]</span>
-</span><span id="Sfield-158"><a href="#Sfield-158"><span class="linenos">158</span></a>        <span class="k">return</span>  <span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_i</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">)</span>
-</span><span id="Sfield-159"><a href="#Sfield-159"><span class="linenos">159</span></a>    
-</span><span id="Sfield-160"><a href="#Sfield-160"><span class="linenos">160</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Sfield-161"><a href="#Sfield-161"><span class="linenos">161</span></a>    <span class="k">def</span> <span class="nf">l_to_e</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-</span><span id="Sfield-162"><a href="#Sfield-162"><span class="linenos">162</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting a list of internal values to a list of external values&#39;&#39;&#39;</span>
-</span><span id="Sfield-163"><a href="#Sfield-163"><span class="linenos">163</span></a>        <span class="k">if</span> <span class="n">fast</span><span class="p">:</span>
-</span><span id="Sfield-164"><a href="#Sfield-164"><span class="linenos">164</span></a>            <span class="k">return</span> <span class="n">lis</span>
-</span><span id="Sfield-165"><a href="#Sfield-165"><span class="linenos">165</span></a>        <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">]</span>
-</span><span id="Sfield-166"><a href="#Sfield-166"><span class="linenos">166</span></a>    
-</span><span id="Sfield-167"><a href="#Sfield-167"><span class="linenos">167</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Sfield-168"><a href="#Sfield-168"><span class="linenos">168</span></a>    <span class="k">def</span> <span class="nf">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-</span><span id="Sfield-169"><a href="#Sfield-169"><span class="linenos">169</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;converting an internal value to an external value&#39;&#39;&#39;</span>
-</span><span id="Sfield-170"><a href="#Sfield-170"><span class="linenos">170</span></a>        <span class="k">if</span> <span class="n">fast</span><span class="p">:</span>
-</span><span id="Sfield-171"><a href="#Sfield-171"><span class="linenos">171</span></a>            <span class="k">return</span> <span class="n">val</span>
-</span><span id="Sfield-172"><a href="#Sfield-172"><span class="linenos">172</span></a>        <span class="k">if</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;null&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">):</span>
-</span><span id="Sfield-173"><a href="#Sfield-173"><span class="linenos">173</span></a>            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-</span><span id="Sfield-174"><a href="#Sfield-174"><span class="linenos">174</span></a>        <span class="c1">#if val is None or isinstance(val, bool):</span>
-</span><span id="Sfield-175"><a href="#Sfield-175"><span class="linenos">175</span></a>        <span class="c1">#    return json.dumps(val)</span>
-</span><span id="Sfield-176"><a href="#Sfield-176"><span class="linenos">176</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-</span><span id="Sfield-177"><a href="#Sfield-177"><span class="linenos">177</span></a>            <span class="k">return</span> <span class="n">Sfield</span><span class="o">.</span><span class="n">_listed</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-</span><span id="Sfield-178"><a href="#Sfield-178"><span class="linenos">178</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;{&#39;</span><span class="p">:</span>
-</span><span id="Sfield-179"><a href="#Sfield-179"><span class="linenos">179</span></a>            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-</span><span id="Sfield-180"><a href="#Sfield-180"><span class="linenos">180</span></a>        <span class="k">return</span> <span class="n">val</span>
-</span><span id="Sfield-181"><a href="#Sfield-181"><span class="linenos">181</span></a>    
-</span><span id="Sfield-182"><a href="#Sfield-182"><span class="linenos">182</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Sfield-183"><a href="#Sfield-183"><span class="linenos">183</span></a>    <span class="k">def</span> <span class="nf">i_to_n</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
-</span><span id="Sfield-184"><a href="#Sfield-184"><span class="linenos">184</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting an internal value to a NTV value&#39;&#39;&#39;</span>
-</span><span id="Sfield-185"><a href="#Sfield-185"><span class="linenos">185</span></a>        <span class="k">return</span> <span class="n">Ntv</span><span class="o">.</span><span class="n">obj</span><span class="p">(</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
-</span><span id="Sfield-186"><a href="#Sfield-186"><span class="linenos">186</span></a>
-</span><span id="Sfield-187"><a href="#Sfield-187"><span class="linenos">187</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Sfield-188"><a href="#Sfield-188"><span class="linenos">188</span></a>    <span class="k">def</span> <span class="nf">i_to_name</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
-</span><span id="Sfield-189"><a href="#Sfield-189"><span class="linenos">189</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; return the name of the internal value&#39;&#39;&#39;</span>
-</span><span id="Sfield-190"><a href="#Sfield-190"><span class="linenos">190</span></a>        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
-</span><span id="Sfield-191"><a href="#Sfield-191"><span class="linenos">191</span></a>    
-</span><span id="Sfield-192"><a href="#Sfield-192"><span class="linenos">192</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Sfield-193"><a href="#Sfield-193"><span class="linenos">193</span></a>    <span class="k">def</span> <span class="nf">_tupled</span><span class="p">(</span><span class="n">lis</span><span class="p">):</span>
-</span><span id="Sfield-194"><a href="#Sfield-194"><span class="linenos">194</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;transform a list of list in a tuple of tuple&#39;&#39;&#39;</span>
-</span><span id="Sfield-195"><a href="#Sfield-195"><span class="linenos">195</span></a>        <span class="k">return</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">Sfield</span><span class="o">.</span><span class="n">_tupled</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">])</span>
-</span><span id="Sfield-196"><a href="#Sfield-196"><span class="linenos">196</span></a>
-</span><span id="Sfield-197"><a href="#Sfield-197"><span class="linenos">197</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Sfield-198"><a href="#Sfield-198"><span class="linenos">198</span></a>    <span class="k">def</span> <span class="nf">_listed</span><span class="p">(</span><span class="n">lis</span><span class="p">):</span>
-</span><span id="Sfield-199"><a href="#Sfield-199"><span class="linenos">199</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;transform a tuple of tuple in a list of list&#39;&#39;&#39;</span>
-</span><span id="Sfield-200"><a href="#Sfield-200"><span class="linenos">200</span></a>        <span class="k">return</span> <span class="p">[</span><span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">Sfield</span><span class="o">.</span><span class="n">_listed</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">]</span>
+</span><span id="Sfield-157"><a href="#Sfield-157"><span class="linenos">157</span></a>            <span class="c1">#return [Sfield.n_to_i(ntv.val, fast) for ntv in ntv_lis]</span>
+</span><span id="Sfield-158"><a href="#Sfield-158"><span class="linenos">158</span></a>            <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">n_to_i</span><span class="p">(</span><span class="n">ntv</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(),</span> <span class="n">fast</span><span class="p">)</span> <span class="k">for</span> <span class="n">ntv</span> <span class="ow">in</span> <span class="n">ntv_lis</span><span class="p">]</span>
+</span><span id="Sfield-159"><a href="#Sfield-159"><span class="linenos">159</span></a>        <span class="k">return</span>  <span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_i</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">,</span> <span class="n">fast</span><span class="p">)</span>
+</span><span id="Sfield-160"><a href="#Sfield-160"><span class="linenos">160</span></a>    
+</span><span id="Sfield-161"><a href="#Sfield-161"><span class="linenos">161</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="Sfield-162"><a href="#Sfield-162"><span class="linenos">162</span></a>    <span class="k">def</span> <span class="nf">l_to_e</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span><span id="Sfield-163"><a href="#Sfield-163"><span class="linenos">163</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting a list of internal values to a list of external values&#39;&#39;&#39;</span>
+</span><span id="Sfield-164"><a href="#Sfield-164"><span class="linenos">164</span></a>        <span class="k">if</span> <span class="n">fast</span><span class="p">:</span>
+</span><span id="Sfield-165"><a href="#Sfield-165"><span class="linenos">165</span></a>            <span class="k">return</span> <span class="n">lis</span>
+</span><span id="Sfield-166"><a href="#Sfield-166"><span class="linenos">166</span></a>        <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">]</span>
+</span><span id="Sfield-167"><a href="#Sfield-167"><span class="linenos">167</span></a>    
+</span><span id="Sfield-168"><a href="#Sfield-168"><span class="linenos">168</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="Sfield-169"><a href="#Sfield-169"><span class="linenos">169</span></a>    <span class="k">def</span> <span class="nf">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span><span id="Sfield-170"><a href="#Sfield-170"><span class="linenos">170</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;converting an internal value to an external value&#39;&#39;&#39;</span>
+</span><span id="Sfield-171"><a href="#Sfield-171"><span class="linenos">171</span></a>        <span class="k">if</span> <span class="n">fast</span><span class="p">:</span>
+</span><span id="Sfield-172"><a href="#Sfield-172"><span class="linenos">172</span></a>            <span class="k">return</span> <span class="n">val</span>
+</span><span id="Sfield-173"><a href="#Sfield-173"><span class="linenos">173</span></a>        <span class="k">if</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;null&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">):</span>
+</span><span id="Sfield-174"><a href="#Sfield-174"><span class="linenos">174</span></a>            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</span><span id="Sfield-175"><a href="#Sfield-175"><span class="linenos">175</span></a>        <span class="c1">#if val is None or isinstance(val, bool):</span>
+</span><span id="Sfield-176"><a href="#Sfield-176"><span class="linenos">176</span></a>        <span class="c1">#    return json.dumps(val)</span>
+</span><span id="Sfield-177"><a href="#Sfield-177"><span class="linenos">177</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+</span><span id="Sfield-178"><a href="#Sfield-178"><span class="linenos">178</span></a>            <span class="k">return</span> <span class="n">Sfield</span><span class="o">.</span><span class="n">_listed</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</span><span id="Sfield-179"><a href="#Sfield-179"><span class="linenos">179</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;{&#39;</span><span class="p">:</span>
+</span><span id="Sfield-180"><a href="#Sfield-180"><span class="linenos">180</span></a>            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</span><span id="Sfield-181"><a href="#Sfield-181"><span class="linenos">181</span></a>        <span class="k">return</span> <span class="n">val</span>
+</span><span id="Sfield-182"><a href="#Sfield-182"><span class="linenos">182</span></a>    
+</span><span id="Sfield-183"><a href="#Sfield-183"><span class="linenos">183</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="Sfield-184"><a href="#Sfield-184"><span class="linenos">184</span></a>    <span class="k">def</span> <span class="nf">i_to_n</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+</span><span id="Sfield-185"><a href="#Sfield-185"><span class="linenos">185</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting an internal value to a NTV value&#39;&#39;&#39;</span>
+</span><span id="Sfield-186"><a href="#Sfield-186"><span class="linenos">186</span></a>        <span class="k">return</span> <span class="n">Ntv</span><span class="o">.</span><span class="n">obj</span><span class="p">(</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+</span><span id="Sfield-187"><a href="#Sfield-187"><span class="linenos">187</span></a>
+</span><span id="Sfield-188"><a href="#Sfield-188"><span class="linenos">188</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="Sfield-189"><a href="#Sfield-189"><span class="linenos">189</span></a>    <span class="k">def</span> <span class="nf">i_to_name</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+</span><span id="Sfield-190"><a href="#Sfield-190"><span class="linenos">190</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; return the name of the internal value&#39;&#39;&#39;</span>
+</span><span id="Sfield-191"><a href="#Sfield-191"><span class="linenos">191</span></a>        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+</span><span id="Sfield-192"><a href="#Sfield-192"><span class="linenos">192</span></a>    
+</span><span id="Sfield-193"><a href="#Sfield-193"><span class="linenos">193</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="Sfield-194"><a href="#Sfield-194"><span class="linenos">194</span></a>    <span class="k">def</span> <span class="nf">_tupled</span><span class="p">(</span><span class="n">lis</span><span class="p">):</span>
+</span><span id="Sfield-195"><a href="#Sfield-195"><span class="linenos">195</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;transform a list of list in a tuple of tuple&#39;&#39;&#39;</span>
+</span><span id="Sfield-196"><a href="#Sfield-196"><span class="linenos">196</span></a>        <span class="k">return</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">Sfield</span><span class="o">.</span><span class="n">_tupled</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">])</span>
+</span><span id="Sfield-197"><a href="#Sfield-197"><span class="linenos">197</span></a>
+</span><span id="Sfield-198"><a href="#Sfield-198"><span class="linenos">198</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="Sfield-199"><a href="#Sfield-199"><span class="linenos">199</span></a>    <span class="k">def</span> <span class="nf">_listed</span><span class="p">(</span><span class="n">lis</span><span class="p">):</span>
+</span><span id="Sfield-200"><a href="#Sfield-200"><span class="linenos">200</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;transform a tuple of tuple in a list of list&#39;&#39;&#39;</span>
+</span><span id="Sfield-201"><a href="#Sfield-201"><span class="linenos">201</span></a>        <span class="k">return</span> <span class="p">[</span><span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">Sfield</span><span class="o">.</span><span class="n">_listed</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">]</span>
 </span></pre></div>
 
 
@@ -925,8 +927,7 @@ without control</li>
 <li><strong>name</strong> : string (default None) - name of index (see data model)</li>
 <li><strong>lendefault</strong> : integer (default 0) - default len if no keys is defined</li>
 <li><strong>reindex</strong> : boolean (default True) - if True, default codec is apply</li>
-<li><strong>fast</strong>: boolean (default False) - codec is created with a list of json values 
-without control</li>
+<li><strong>fast</strong>: boolean (default False) - if True, codec is created without conversion</li>
 </ul>
 </div>
 
@@ -949,7 +950,7 @@ without control</li>
 </span><span id="Sfield.l_to_i-131"><a href="#Sfield.l_to_i-131"><span class="linenos">131</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting a list of external values to a list of internal values&#39;&#39;&#39;</span>
 </span><span id="Sfield.l_to_i-132"><a href="#Sfield.l_to_i-132"><span class="linenos">132</span></a>        <span class="k">if</span> <span class="n">fast</span><span class="p">:</span>
 </span><span id="Sfield.l_to_i-133"><a href="#Sfield.l_to_i-133"><span class="linenos">133</span></a>            <span class="k">return</span> <span class="n">lis</span>
-</span><span id="Sfield.l_to_i-134"><a href="#Sfield.l_to_i-134"><span class="linenos">134</span></a>        <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_i</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">]</span>
+</span><span id="Sfield.l_to_i-134"><a href="#Sfield.l_to_i-134"><span class="linenos">134</span></a>        <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_i</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">fast</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">]</span>
 </span></pre></div>
 
 
@@ -998,20 +999,21 @@ without control</li>
                     <div class="decorator">@staticmethod</div>
 
         <span class="def">def</span>
-        <span class="name">n_to_i</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">ntv_lis</span></span><span class="return-annotation">):</span></span>
+        <span class="name">n_to_i</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">ntv_lis</span>, </span><span class="param"><span class="n">fast</span><span class="o">=</span><span class="kc">False</span></span><span class="return-annotation">):</span></span>
 
                 <label class="view-source-button" for="Sfield.n_to_i-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#Sfield.n_to_i"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Sfield.n_to_i-151"><a href="#Sfield.n_to_i-151"><span class="linenos">151</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Sfield.n_to_i-152"><a href="#Sfield.n_to_i-152"><span class="linenos">152</span></a>    <span class="k">def</span> <span class="nf">n_to_i</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">):</span>
+</span><span id="Sfield.n_to_i-152"><a href="#Sfield.n_to_i-152"><span class="linenos">152</span></a>    <span class="k">def</span> <span class="nf">n_to_i</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 </span><span id="Sfield.n_to_i-153"><a href="#Sfield.n_to_i-153"><span class="linenos">153</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting a NtvList value to an internal value&#39;&#39;&#39;</span>
 </span><span id="Sfield.n_to_i-154"><a href="#Sfield.n_to_i-154"><span class="linenos">154</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 </span><span id="Sfield.n_to_i-155"><a href="#Sfield.n_to_i-155"><span class="linenos">155</span></a>            <span class="k">return</span> <span class="p">[]</span>
 </span><span id="Sfield.n_to_i-156"><a href="#Sfield.n_to_i-156"><span class="linenos">156</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="n">ntv_lis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;NtvSingle&#39;</span><span class="p">,</span> <span class="s1">&#39;NtvList&#39;</span><span class="p">):</span>
-</span><span id="Sfield.n_to_i-157"><a href="#Sfield.n_to_i-157"><span class="linenos">157</span></a>            <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">n_to_i</span><span class="p">(</span><span class="n">ntv</span><span class="o">.</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">ntv</span> <span class="ow">in</span> <span class="n">ntv_lis</span><span class="p">]</span>
-</span><span id="Sfield.n_to_i-158"><a href="#Sfield.n_to_i-158"><span class="linenos">158</span></a>        <span class="k">return</span>  <span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_i</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">)</span>
+</span><span id="Sfield.n_to_i-157"><a href="#Sfield.n_to_i-157"><span class="linenos">157</span></a>            <span class="c1">#return [Sfield.n_to_i(ntv.val, fast) for ntv in ntv_lis]</span>
+</span><span id="Sfield.n_to_i-158"><a href="#Sfield.n_to_i-158"><span class="linenos">158</span></a>            <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">n_to_i</span><span class="p">(</span><span class="n">ntv</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(),</span> <span class="n">fast</span><span class="p">)</span> <span class="k">for</span> <span class="n">ntv</span> <span class="ow">in</span> <span class="n">ntv_lis</span><span class="p">]</span>
+</span><span id="Sfield.n_to_i-159"><a href="#Sfield.n_to_i-159"><span class="linenos">159</span></a>        <span class="k">return</span>  <span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_i</span><span class="p">(</span><span class="n">ntv_lis</span><span class="p">,</span> <span class="n">fast</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -1032,12 +1034,12 @@ without control</li>
 
     </div>
     <a class="headerlink" href="#Sfield.l_to_e"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Sfield.l_to_e-160"><a href="#Sfield.l_to_e-160"><span class="linenos">160</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Sfield.l_to_e-161"><a href="#Sfield.l_to_e-161"><span class="linenos">161</span></a>    <span class="k">def</span> <span class="nf">l_to_e</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-</span><span id="Sfield.l_to_e-162"><a href="#Sfield.l_to_e-162"><span class="linenos">162</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting a list of internal values to a list of external values&#39;&#39;&#39;</span>
-</span><span id="Sfield.l_to_e-163"><a href="#Sfield.l_to_e-163"><span class="linenos">163</span></a>        <span class="k">if</span> <span class="n">fast</span><span class="p">:</span>
-</span><span id="Sfield.l_to_e-164"><a href="#Sfield.l_to_e-164"><span class="linenos">164</span></a>            <span class="k">return</span> <span class="n">lis</span>
-</span><span id="Sfield.l_to_e-165"><a href="#Sfield.l_to_e-165"><span class="linenos">165</span></a>        <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">]</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Sfield.l_to_e-161"><a href="#Sfield.l_to_e-161"><span class="linenos">161</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="Sfield.l_to_e-162"><a href="#Sfield.l_to_e-162"><span class="linenos">162</span></a>    <span class="k">def</span> <span class="nf">l_to_e</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span><span id="Sfield.l_to_e-163"><a href="#Sfield.l_to_e-163"><span class="linenos">163</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting a list of internal values to a list of external values&#39;&#39;&#39;</span>
+</span><span id="Sfield.l_to_e-164"><a href="#Sfield.l_to_e-164"><span class="linenos">164</span></a>        <span class="k">if</span> <span class="n">fast</span><span class="p">:</span>
+</span><span id="Sfield.l_to_e-165"><a href="#Sfield.l_to_e-165"><span class="linenos">165</span></a>            <span class="k">return</span> <span class="n">lis</span>
+</span><span id="Sfield.l_to_e-166"><a href="#Sfield.l_to_e-166"><span class="linenos">166</span></a>        <span class="k">return</span> <span class="p">[</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">]</span>
 </span></pre></div>
 
 
@@ -1058,20 +1060,20 @@ without control</li>
 
     </div>
     <a class="headerlink" href="#Sfield.s_to_e"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Sfield.s_to_e-167"><a href="#Sfield.s_to_e-167"><span class="linenos">167</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Sfield.s_to_e-168"><a href="#Sfield.s_to_e-168"><span class="linenos">168</span></a>    <span class="k">def</span> <span class="nf">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-</span><span id="Sfield.s_to_e-169"><a href="#Sfield.s_to_e-169"><span class="linenos">169</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;converting an internal value to an external value&#39;&#39;&#39;</span>
-</span><span id="Sfield.s_to_e-170"><a href="#Sfield.s_to_e-170"><span class="linenos">170</span></a>        <span class="k">if</span> <span class="n">fast</span><span class="p">:</span>
-</span><span id="Sfield.s_to_e-171"><a href="#Sfield.s_to_e-171"><span class="linenos">171</span></a>            <span class="k">return</span> <span class="n">val</span>
-</span><span id="Sfield.s_to_e-172"><a href="#Sfield.s_to_e-172"><span class="linenos">172</span></a>        <span class="k">if</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;null&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">):</span>
-</span><span id="Sfield.s_to_e-173"><a href="#Sfield.s_to_e-173"><span class="linenos">173</span></a>            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-</span><span id="Sfield.s_to_e-174"><a href="#Sfield.s_to_e-174"><span class="linenos">174</span></a>        <span class="c1">#if val is None or isinstance(val, bool):</span>
-</span><span id="Sfield.s_to_e-175"><a href="#Sfield.s_to_e-175"><span class="linenos">175</span></a>        <span class="c1">#    return json.dumps(val)</span>
-</span><span id="Sfield.s_to_e-176"><a href="#Sfield.s_to_e-176"><span class="linenos">176</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-</span><span id="Sfield.s_to_e-177"><a href="#Sfield.s_to_e-177"><span class="linenos">177</span></a>            <span class="k">return</span> <span class="n">Sfield</span><span class="o">.</span><span class="n">_listed</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-</span><span id="Sfield.s_to_e-178"><a href="#Sfield.s_to_e-178"><span class="linenos">178</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;{&#39;</span><span class="p">:</span>
-</span><span id="Sfield.s_to_e-179"><a href="#Sfield.s_to_e-179"><span class="linenos">179</span></a>            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-</span><span id="Sfield.s_to_e-180"><a href="#Sfield.s_to_e-180"><span class="linenos">180</span></a>        <span class="k">return</span> <span class="n">val</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Sfield.s_to_e-168"><a href="#Sfield.s_to_e-168"><span class="linenos">168</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="Sfield.s_to_e-169"><a href="#Sfield.s_to_e-169"><span class="linenos">169</span></a>    <span class="k">def</span> <span class="nf">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span><span id="Sfield.s_to_e-170"><a href="#Sfield.s_to_e-170"><span class="linenos">170</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;converting an internal value to an external value&#39;&#39;&#39;</span>
+</span><span id="Sfield.s_to_e-171"><a href="#Sfield.s_to_e-171"><span class="linenos">171</span></a>        <span class="k">if</span> <span class="n">fast</span><span class="p">:</span>
+</span><span id="Sfield.s_to_e-172"><a href="#Sfield.s_to_e-172"><span class="linenos">172</span></a>            <span class="k">return</span> <span class="n">val</span>
+</span><span id="Sfield.s_to_e-173"><a href="#Sfield.s_to_e-173"><span class="linenos">173</span></a>        <span class="k">if</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;null&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">):</span>
+</span><span id="Sfield.s_to_e-174"><a href="#Sfield.s_to_e-174"><span class="linenos">174</span></a>            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</span><span id="Sfield.s_to_e-175"><a href="#Sfield.s_to_e-175"><span class="linenos">175</span></a>        <span class="c1">#if val is None or isinstance(val, bool):</span>
+</span><span id="Sfield.s_to_e-176"><a href="#Sfield.s_to_e-176"><span class="linenos">176</span></a>        <span class="c1">#    return json.dumps(val)</span>
+</span><span id="Sfield.s_to_e-177"><a href="#Sfield.s_to_e-177"><span class="linenos">177</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+</span><span id="Sfield.s_to_e-178"><a href="#Sfield.s_to_e-178"><span class="linenos">178</span></a>            <span class="k">return</span> <span class="n">Sfield</span><span class="o">.</span><span class="n">_listed</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</span><span id="Sfield.s_to_e-179"><a href="#Sfield.s_to_e-179"><span class="linenos">179</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;{&#39;</span><span class="p">:</span>
+</span><span id="Sfield.s_to_e-180"><a href="#Sfield.s_to_e-180"><span class="linenos">180</span></a>            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</span><span id="Sfield.s_to_e-181"><a href="#Sfield.s_to_e-181"><span class="linenos">181</span></a>        <span class="k">return</span> <span class="n">val</span>
 </span></pre></div>
 
 
@@ -1092,10 +1094,10 @@ without control</li>
 
     </div>
     <a class="headerlink" href="#Sfield.i_to_n"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Sfield.i_to_n-182"><a href="#Sfield.i_to_n-182"><span class="linenos">182</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Sfield.i_to_n-183"><a href="#Sfield.i_to_n-183"><span class="linenos">183</span></a>    <span class="k">def</span> <span class="nf">i_to_n</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
-</span><span id="Sfield.i_to_n-184"><a href="#Sfield.i_to_n-184"><span class="linenos">184</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting an internal value to a NTV value&#39;&#39;&#39;</span>
-</span><span id="Sfield.i_to_n-185"><a href="#Sfield.i_to_n-185"><span class="linenos">185</span></a>        <span class="k">return</span> <span class="n">Ntv</span><span class="o">.</span><span class="n">obj</span><span class="p">(</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Sfield.i_to_n-183"><a href="#Sfield.i_to_n-183"><span class="linenos">183</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="Sfield.i_to_n-184"><a href="#Sfield.i_to_n-184"><span class="linenos">184</span></a>    <span class="k">def</span> <span class="nf">i_to_n</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+</span><span id="Sfield.i_to_n-185"><a href="#Sfield.i_to_n-185"><span class="linenos">185</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; converting an internal value to a NTV value&#39;&#39;&#39;</span>
+</span><span id="Sfield.i_to_n-186"><a href="#Sfield.i_to_n-186"><span class="linenos">186</span></a>        <span class="k">return</span> <span class="n">Ntv</span><span class="o">.</span><span class="n">obj</span><span class="p">(</span><span class="n">Sfield</span><span class="o">.</span><span class="n">s_to_e</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
 </span></pre></div>
 
 
@@ -1116,10 +1118,10 @@ without control</li>
 
     </div>
     <a class="headerlink" href="#Sfield.i_to_name"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Sfield.i_to_name-187"><a href="#Sfield.i_to_name-187"><span class="linenos">187</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Sfield.i_to_name-188"><a href="#Sfield.i_to_name-188"><span class="linenos">188</span></a>    <span class="k">def</span> <span class="nf">i_to_name</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
-</span><span id="Sfield.i_to_name-189"><a href="#Sfield.i_to_name-189"><span class="linenos">189</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; return the name of the internal value&#39;&#39;&#39;</span>
-</span><span id="Sfield.i_to_name-190"><a href="#Sfield.i_to_name-190"><span class="linenos">190</span></a>        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Sfield.i_to_name-188"><a href="#Sfield.i_to_name-188"><span class="linenos">188</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="Sfield.i_to_name-189"><a href="#Sfield.i_to_name-189"><span class="linenos">189</span></a>    <span class="k">def</span> <span class="nf">i_to_name</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+</span><span id="Sfield.i_to_name-190"><a href="#Sfield.i_to_name-190"><span class="linenos">190</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; return the name of the internal value&#39;&#39;&#39;</span>
+</span><span id="Sfield.i_to_name-191"><a href="#Sfield.i_to_name-191"><span class="linenos">191</span></a>        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
 </span></pre></div>
 
 
@@ -1184,6 +1186,7 @@ without control</li>
             <div><dt>observation.field_interface.FieldInterface</dt>
                                 <dd id="Sfield.decode_ntv" class="function">decode_ntv</dd>
                 <dd id="Sfield.encode_coef" class="function">encode_coef</dd>
+                <dd id="Sfield.keysfromcoef" class="function">keysfromcoef</dd>
                 <dd id="Sfield.to_dict_obj" class="function">to_dict_obj</dd>
                 <dd id="Sfield.to_numpy" class="function">to_numpy</dd>
                 <dd id="Sfield.to_ntv" class="function">to_ntv</dd>
