@@ -38,10 +38,12 @@
 
             <h2>Contents</h2>
             <ul>
-  <li><a href="#ntv">NTV</a>
+  <li><a href="#what-is-ntv">What is NTV</a>
   <ul>
-    <li><a href="#ntv-uses">NTV uses</a></li>
     <li><a href="#ntv-structure">NTV structure</a></li>
+    <li><a href="#examples">Examples</a></li>
+    <li><a href="#ntv-structure-2">NTV structure</a></li>
+    <li><a href="#ntv-uses">NTV uses</a></li>
     <li><a href="#ntv-and-json">NTV and JSON</a></li>
   </ul></li>
   <li><a href="#installation">installation</a>
@@ -54,14 +56,20 @@
     <li><a href="#documents">documents</a></li>
     <li><a href="#python-connectors-documentation">Python Connectors documentation</a></li>
   </ul></li>
-  <li><a href="#examples">Examples</a></li>
-  <li><a href="#uses">Uses</a></li>
+  <li><a href="#examples-and-uses">Examples and Uses</a>
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#json-and-ntv-data-editor">JSON and NTV data editor</a></li>
+    <li><a href="#pandas-ntv-connector">Pandas NTV connector</a></li>
+    <li><a href="#tabular-format">Tabular format</a></li>
+    <li><a href="#comment-and-change">Comment and change</a></li>
+  </ul></li>
 </ul>
 
 
 
 
-            <footer>json_ntv V1.0.1</footer>
+            <footer>json_ntv dev</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -79,57 +87,61 @@ NTV<wbr>.documentation<wbr>.user_guide    </h1>
 
 <p>@author: philippe@loco-labs.io</p>
 
-<h3 id="json-ntv-named-and-typed-value-a-semantic-format-for-interoperability-img-srchttpsloco-philippegithubioesjson-ntvpng-altjson-ntv-stylefloatrightwidth175pxheight48px"><em>JSON-NTV (named and typed value) : a semantic format for interoperability</em> <img src="https://loco-philippe.github.io/ES/json-ntv.PNG" alt="json-NTV" style="float:right;width:175px;height:48px;"></h3>
+<h3 id="json-ntv-named-and-typed-value-img-srchttpsloco-philippegithubioesjson-ntvpng-altjson-ntv-stylefloatrightwidth233pxheight64px-a-semantic-format-for-interoperability"><strong><em>JSON-NTV (named and typed value)  <img src="https://loco-philippe.github.io/ES/json-ntv.PNG" alt="json-NTV" style="float:right;width:233px;height:64px;"> : a semantic format for interoperability</em></strong></h3>
 
-<p><em>JSON-NTV is a universal representation format. It allows the sharing and conversion of any type of data (NTV format).</em>     </p>
+<p><em>JSON-NTV is a universal representation format. It allows the sharing and conversion of any type of data.</em>     </p>
 
 <p><em>The NTV format is part of the <a href="https://github.com/loco-philippe/Environmental-Sensing#readme">Environmental Sensing Project</a></em></p>
 
-<h1 id="ntv">NTV</h1>
+<p>For more information, see the <a href="https://loco-philippe.github.io/NTV/documentation/user_guide.html">user guide</a>.</p>
 
-<p>Today, the semantic level of shared data remains low. It is very often limited to the type of data defined in the exchange formats (strings for CSV formats; 
-numbers, strings, arrays and objects for JSON formats).</p>
+<h1 id="what-is-ntv">What is NTV</h1>
 
-<p>The proposed consists of adding a type and a name to the data exchanged (see also the <a href="./documentation#readme">presentation documents</a> and <a href="./example#readme">examples</a>.</p>
+<p>The semantic level of shared JSON (or CSV) data (e.g. Open Data) remains low, which makes automated reuse difficult.</p>
 
-<p>With this evolution any data, whatever its semantic level, can be identified, shared and interpreted in a consistent way.
-The implementation of a type with a nested structure facilitates its appropriation.
-Finally, compatibility with existing JSON structures allows progressive deployment.</p>
-
-<h2 id="ntv-uses">NTV uses</h2>
-
-<p>Several variations and use cases of the NTV format are defined:</p>
-
-<ul>
-<li>Tabular data exchange format (e.g. open-data)</li>
-<li>Compact, reversible and semantic pandas - JSON interface</li>
-<li>Comment and change management of JSON data</li>
-<li>Mermaid visualization of JSON tree</li>
-<li>JSON data editor</li>
-</ul>
+<p>JSON-NTV proposes to enrich it to obtain a real interoperable exchange format.    </p>
 
 <h2 id="ntv-structure">NTV structure</h2>
 
-<p>The constructed entities (called NTV for <em>named typed value</em>) are therefore a triplet with one mandatory element (the value in JSON format) and two optional elements (name, type).
-&gt;</p>
+<p>The NTV format consists of representing data by three attributes: a name, a type and a value. This representation is common in programming languages (for example a variable with Python typing is defined by <code>age: int = 25</code>), however the JSON format represents data with only a value or a key:value pair.</p>
+
+<p>The JSON-NTV extension consists of including the type in the name to associate it with a value (for example <code>{'age:int': 25}</code> is the JSON representation of the NTV triplet ('age', 'int' , 25 ) ).</p>
+
+<p>This approach makes it possible to reversibly represent any simple or complex data by a JSON structure (high interoperability).</p>
+
+<h2 id="examples">Examples</h2>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
+        <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+        <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">pprint</span><span class="p">(</span><span class="n">Ntv</span><span class="o">.</span><span class="n">obj</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">())</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mi">21</span><span class="p">}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="n">pprint</span><span class="p">(</span><span class="n">Ntv</span><span class="o">.</span><span class="n">obj</span><span class="p">({</span><span class="s2">&quot;paris:point&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.3</span><span class="p">,</span> <span class="mf">48.9</span><span class="p">]</span> <span class="p">})</span><span class="o">.</span><span class="n">expand</span><span class="p">())</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;point&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.3</span><span class="p">,</span> <span class="mf">48.9</span><span class="p">]}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="n">pprint</span><span class="p">(</span><span class="n">Ntv</span><span class="o">.</span><span class="n">obj</span><span class="p">({</span><span class="s2">&quot;cities::point&quot;</span><span class="p">:</span> <span class="p">[[</span><span class="mf">2.3</span><span class="p">,</span> <span class="mf">48.9</span><span class="p">],</span> <span class="p">[</span><span class="mf">4.8</span><span class="p">,</span> <span class="mf">45.8</span><span class="p">]</span> <span class="p">})</span><span class="o">.</span><span class="n">expand</span><span class="p">())</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;cities&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;point&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;point&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.3</span><span class="p">,</span> <span class="mf">48.9</span><span class="p">]},</span>
+                   <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;point&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">4.8</span><span class="p">,</span> <span class="mf">45.8</span><span class="p">]}]}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="n">pprint</span><span class="p">(</span><span class="n">Ntv</span><span class="o">.</span><span class="n">obj</span><span class="p">({</span><span class="s2">&quot;paris:point&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.3</span><span class="p">,</span> <span class="mf">48.9</span><span class="p">],</span> <span class="s2">&quot;start:date&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-08-03&quot;</span><span class="p">,</span> <span class="s2">&quot;measurement&quot;</span><span class="p">:</span> <span class="mf">45.8</span><span class="p">})</span><span class="o">.</span><span class="n">expand</span><span class="p">())</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;point&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.3</span><span class="p">,</span> <span class="mf">48.9</span><span class="p">]},</span>
+                   <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;2023-08-03&#39;</span><span class="p">},</span>
+                   <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;measurement&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mf">45.8</span><span class="p">}]}</span>
+</code></pre>
+</div>
 
 <blockquote>
-  <p><em>For example, the location of Paris can be represented by:</em></p>
-  
-  <ul>
-  <li><em>a name: "Paris",</em></li>
-  <li><em>a type: the coordinates of a point according to the GeoJSON format,</em></li>
-  <li><em>a value: [ 2.3522, 48.8566]</em></li>
-  </ul>
+  <p><em>Note: This typing syntax can also be used for CSV file headers</em></p>
 </blockquote>
 
-<p>The easiest way to add this information into a JSON-value is to use a JSON-object with a single member using the syntax <a href="https://github.com/glenkleidon/JSON-ND">JSON-ND</a> for the first term of the member and the JSON-value for the second term of the member.
-&gt;</p>
-
-<blockquote>
-  <p><em>For the example above, the JSON representation is:</em> <br />
-  <em><code>{ "paris:point" : [2.3522, 48.8566] }</code></em></p>
-</blockquote>
+<h2 id="ntv-structure-2">NTV structure</h2>
 
 <p>With this approach, two NTV entities are defined:</p>
 
@@ -141,35 +153,35 @@ Finally, compatibility with existing JSON structures allows progressive deployme
 <p>as well as two JSON formats:</p>
 
 <ul>
-<li>simple format when the name and the type are not present (this is the usual case of CSV data),</li>
-<li>named format when the name or type is present (see example above for an NTV-single entity and below for a structured entity).
-&gt;</li>
+<li>simple format when the name and the type are not present (e.g. <code>25</code>),</li>
+<li>named format when the name or type is present ((e.g. <code>{'age': 25}</code> or <code>{':int': 25}</code>)).</li>
 </ul>
 
-<blockquote>
-  <p><em>Example of an entity composed of two other entities:</em></p>
-  
-  <ul>
-  <li><em><code>{ "cities::point": [[2.3522, 48.8566], [4.8357, 45.7640]] }</code> for an unnamed NTV-list entity</em></li>
-  <li><em><code>{ "cities::point": { "paris":[2.3522, 48.8566], "lyon":[4.8357, 45.7640] } }</code> for a named NTV-list entity</em></li>
-  </ul>
-  
-  <p><em>Note: This syntax can also be used for CSV file headers</em></p>
-</blockquote>
-
-<p>The type incorporates a notion of <code>namespaces</code> that can be nested.</p>
+<p>The type incorporates a notion of <code>namespace</code> that can be nested.</p>
 
 <blockquote>
-  <p><em>For example, the type: "ns1.ns2.type" means that:</em></p>
+  <p><em>For example, the type: <code>ns1.ns2.type_a</code> means that:</em></p>
   
   <ul>
-  <li><em>ns1. is a namespace defined in the global namespace,</em></li>
-  <li><em>ns2. is a namespace defined in the ns1 namespace.,</em></li>
-  <li><em>type is defined in the ns2 namespace.</em>    </li>
+  <li><em><code>ns1.</code> is a namespace defined in the global namespace,</em></li>
+  <li><em><code>ns2.</code> is a namespace defined in the <code>ns1.</code> namespace.,</em></li>
+  <li><em><code>type_a</code> is defined in the <code>ns2.</code> namespace.</em>    </li>
   </ul>
 </blockquote>
 
 <p>This structuring of type makes it possible to reference any type of data that has a JSON representation and to consolidate all the shared data structures within the same tree of types.</p>
+
+<h2 id="ntv-uses">NTV uses</h2>
+
+<p>Several variations and use cases of the NTV format are defined:</p>
+
+<ul>
+<li>Tabular data exchange format (e.g. open-data)</li>
+<li>Compact, reversible and semantic pandas-JSON interface</li>
+<li>Comment and change management of JSON data</li>
+<li>visualization of JSON or NTV tree</li>
+<li>JSON data editor</li>
+</ul>
 
 <h2 id="ntv-and-json">NTV and JSON</h2>
 
@@ -186,8 +198,20 @@ Finally, compatibility with existing JSON structures allows progressive deployme
     ntv---&gt;|from NTV|nat
     ntv---&gt;|NTV to JSON|val
     nat---&gt;|to NTV|ntv
-
 </div></pre>
+
+<p>The conversion between native entity and JSON-text is reversible (round trip).</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="n">loc_and_date</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;newyear&#39;</span><span class="p">:</span> <span class="n">date</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;Paris&#39;</span><span class="p">:</span> <span class="n">Point</span><span class="p">(</span><span class="mf">2.3</span><span class="p">,</span> <span class="mf">48.9</span><span class="p">)}</span>
+        <span class="n">json_loc_date</span> <span class="o">=</span> <span class="n">Ntv</span><span class="o">.</span><span class="n">obj</span><span class="p">(</span><span class="n">loc_and_date</span><span class="p">)</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">json_loc_date</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">json_loc_date</span><span class="p">))</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="p">{</span><span class="s2">&quot;newyear:date&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-01-02&quot;</span><span class="p">,</span> <span class="s2">&quot;Paris:point&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.3</span><span class="p">,</span> <span class="mf">48.9</span><span class="p">]}</span> <span class="o">&lt;</span><span class="k">class</span> <span class="err">&#39;</span><span class="nc">str</span><span class="s1">&#39;&gt;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">Ntv</span><span class="o">.</span><span class="n">obj</span><span class="p">(</span><span class="n">json_loc_date</span><span class="p">)</span><span class="o">.</span><span class="n">to_obj</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;obj&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">loc_and_date</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="kc">True</span>
+</code></pre>
+</div>
 
 <p><em>Properties :</em></p>
 
@@ -197,8 +221,6 @@ Finally, compatibility with existing JSON structures allows progressive deployme
 <li>an NTV entity is a tree where each node is an NTV entity and each leaf an NTV-Single entity</li>
 <li>an NTV entity is a neutral representation (independent of a software or hardware platform)</li>
 </ul>
-
-<h3 id="if-you-are-interested-challenge-us-we-will-be-very-happy-to-show-you-the-relevance-of-our-approach"><strong><em>If you are interested challenge us !</em></strong> We will be very happy to show you the relevance of our approach</h3>
 
 <h1 id="installation">installation</h1>
 
@@ -246,33 +268,42 @@ Finally, compatibility with existing JSON structures allows progressive deployme
 <li>Release
 <ul>
 <li><a href="https://github.com/loco-philippe/NTV/blob/main/documentation/release/0.x.rst">v0</a></li>
-<li><a href="https://github.com/loco-philippe/NTV/blob/main/documentation/release/1.x.rst">v1</a>
-<h1 id="examples">Examples</h1></li>
+<li><a href="https://github.com/loco-philippe/NTV/blob/main/documentation/release/1.x.rst">v1</a></li>
 </ul></li>
 </ul>
 
-<p>The examples presents :</p>
-
-<ul>
-<li><a href="http://nbviewer.org/github/loco-philippe/NTV/tree/main/example/example_ntv.ipynb">the NTV data and uses (jupyter Notebook)</a></li>
-<li><a href="http://nbviewer.org/github/loco-philippe/NTV/tree/main/example/example_pandas.ipynb">the pandas interface (jupyter Notebook)</a></li>
-</ul>
-
-<p>The Notebook can also be viewed at <a href="http://nbviewer.org/github/loco-philippe/NTV/tree/main/example">nbviewer</a></p>
-
-<h1 id="uses">Uses</h1>
+<h1 id="examples-and-uses">Examples and Uses</h1>
 
 <p>Several variations and use cases of the NTV format are defined:</p>
 
+<h2 id="overview">Overview</h2>
+
+<p>This <a href="https://nbviewer.org/github/loco-philippe/NTV/tree/main/uses/overview.ipynb">overview</a>
+presents different facets and covers all the features of this package.</p>
+
+<h2 id="json-and-ntv-data-editor">JSON and NTV data editor</h2>
+
+<p>This <a href="https://nbviewer.org/github/loco-philippe/NTV/tree/main/uses/editor.ipynb">notebook</a> presents with an example the functionality available to access, represent, update and transform JSON (or NTV) data.</p>
+
+<h2 id="pandas-ntv-connector">Pandas NTV connector</h2>
+
+<p>This compact, reversible and semantic pandas - JSON interface is defined in a separate package <a href="https://github.com/loco-philippe/ntv-pandas">ntv-pandas</a>.</p>
+
+<p>Three Notebooks are available:</p>
+
 <ul>
-<li>Tabular data exchange format (e.g. open-data)</li>
-<li>Compact, reversible and semantic pandas - JSON interface</li>
-<li>Comment and change management of JSON data</li>
-<li>Mermaid visualization of JSON tree</li>
-<li><a href="./JSON%20editor/example.ipynb">JSON data editor (jupyter Notebook)</a></li>
+<li><a href="http://localhost:8888/notebooks/github/ntv-pandas/example/example_json_pandas.ipynb">json-pandas</a> presents limitations of existing json-pandas interface</li>
+<li><a href="http://localhost:8888/notebooks/github/ntv-pandas/example/example_ntv_pandas.ipynb">ntv-pandas</a> presents the ntv-pandas interface</li>
+<li><a href="http://localhost:8888/notebooks/github/ntv-pandas/example/example_table_pandas.ipynb">table-pandas</a> presents the table-schema interface</li>
 </ul>
 
-<p>The Notebook can also be viewed at <a href="http://nbviewer.org/github/loco-philippe/NTV/tree/main/uses">nbviewer</a></p>
+<h2 id="tabular-format">Tabular format</h2>
+
+<p>TBD</p>
+
+<h2 id="comment-and-change">Comment and change</h2>
+
+<p>TBD</p>
 </div>
 
                         <input id="mod-user_guide-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -291,10 +322,9 @@ Finally, compatibility with existing JSON structures allows progressive deployme
 </span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>
 </span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">.. include:: ./README.md    </span>
 </span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">.. include:: ../example/README.md</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">.. include:: ../uses/README.md</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">.. include:: ../uses/README.md</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span></pre></div>
 
 
