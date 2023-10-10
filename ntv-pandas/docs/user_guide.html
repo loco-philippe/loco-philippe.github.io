@@ -60,7 +60,7 @@
 
 
 
-            <footer>ntv-pandas dev</footer>
+            <footer>ntv-pandas V1.0.1</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -95,15 +95,15 @@ ntv-pandas<wbr>.docs<wbr>.user_guide    </h1>
 
 <h2 id="main-features">main features</h2>
 
-<p>The NTV-pandas converter uses the <a href="https://loco-philippe.github.io/ES/JSON%20semantic%20format%20(JSON-NTV).htm">semantic NTV format</a> 
-to include a large set of data types in a JSON representation.    </p>
+<p>The NTV-pandas converter uses the <a href="https://loco-philippe.github.io/ES/JSON%20semantic%20format%20(JSON-NTV).htm">semantic NTV format</a>
+to include a large set of data types in a JSON representation.</p>
 
 <p>The converter integrates:</p>
 
 <ul>
 <li>all the pandas <code>dtype</code> and the data-type associated to a JSON representation,</li>
 <li>an always reversible conversion,</li>
-<li>a full compatibility with TableSchema specification</li>
+<li>a full compatibility with <a href="http://dataprotocols.org/json-table-schema/#field-types-and-formats">Table Schema specification</a></li>
 </ul>
 
 <p>NTV-pandas was developped originally in the <a href="https://github.com/loco-philippe/NTV">json-NTV project</a></p>
@@ -116,7 +116,7 @@ to include a large set of data types in a JSON representation.    </p>
 
 <p>With the existing JSON interface, these conversions are not possible.</p>
 
-<p><em>data example</em></p>
+<p>Data example:</p>
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
@@ -146,10 +146,10 @@ to include a large set of data types in a JSON representation.    </p>
 </code></pre>
 </div>
 
-<p><em>JSON-NTV representation</em></p>
+<p>JSON-NTV representation:</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="n">df_to_json</span> <span class="o">=</span> <span class="n">npd</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="n">df_to_json</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">npd</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
         <span class="n">pprint</span><span class="p">(</span><span class="n">df_to_json</span><span class="p">,</span> <span class="n">compact</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">sort_dicts</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;:tab&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span>
                   <span class="s1">&#39;dates::date&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;1964-01-01&#39;</span><span class="p">,</span> <span class="s1">&#39;1985-02-05&#39;</span><span class="p">,</span> <span class="s1">&#39;2022-01-21&#39;</span><span class="p">,</span> <span class="s1">&#39;1964-01-01&#39;</span><span class="p">,</span> <span class="s1">&#39;1985-02-05&#39;</span><span class="p">],</span>
@@ -162,7 +162,7 @@ to include a large set of data types in a JSON representation.    </p>
 </code></pre>
 </div>
 
-<p><em>Reversibility</em></p>
+<p>Reversibility:</p>
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="nb">print</span><span class="p">(</span><span class="n">npd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">df_to_json</span><span class="p">)</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
@@ -170,10 +170,10 @@ to include a large set of data types in a JSON representation.    </p>
 </code></pre>
 </div>
 
-<p><em>Table Schema representation</em></p>
+<p>Table Schema representation:</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">df_to_table</span> <span class="o">=</span> <span class="n">npd</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">df_to_table</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">npd</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">pprint</span><span class="p">(</span><span class="n">df_to_table</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">sort_dicts</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
          <span class="s1">&#39;dates&#39;</span><span class="p">:</span> <span class="s1">&#39;1964-01-01&#39;</span><span class="p">,</span>
@@ -198,7 +198,7 @@ to include a large set of data types in a JSON representation.    </p>
 </code></pre>
 </div>
 
-<p><em>Reversibility</em></p>
+<p>Reversibility:</p>
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="nb">print</span><span class="p">(</span><span class="n">npd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">df_to_table</span><span class="p">)</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
@@ -210,18 +210,19 @@ to include a large set of data types in a JSON representation.    </p>
 
 <h2 id="ntv_pandas-package">ntv_pandas package</h2>
 
-<p>The <code>ntv_pandas</code> package includes </p>
+<p>The <code>ntv_pandas</code> package includes</p>
 
 <ul>
-<li><code>pandas_ntv_connector</code> module 
+<li><code>pandas_ntv_connector</code> module
 <ul>
 <li>functions <code>read_json</code> and <code>to_json</code> to convert JSON data and pandas entities</li>
+<li>function <code>as_def_type</code> to convert a Series or DataFrame with default <code>dtype</code> and <code>equals</code> to extend pandas <code>equals</code> method</li>
 <li>child classes of <code>NTV.json_ntv.ntv.NtvConnector</code> abstract class:
 <ul>
 <li><code>DataFrameConnec</code>: 'tab'   connector</li>
 <li><code>SeriesConnec</code>:    'field' connector</li>
 </ul></li>
-<li>an utility class with static methods : <code>PdUtil</code>    </li>
+<li>an utility class with static methods : <code>PdUtil</code></li>
 </ul></li>
 <li>configuration files:
 <ul>
@@ -232,9 +233,9 @@ to include a large set of data types in a JSON representation.    </p>
 
 <h2 id="installation-2">Installation</h2>
 
-<p><code>ntv_pandas</code> itself is a pure Python package. maintained on <a href="https://github.com/loco-philippe/ntv-pandas">ntv-pandas github repository</a>.     </p>
+<p><code>ntv_pandas</code> itself is a pure Python package. maintained on <a href="https://github.com/loco-philippe/ntv-pandas">ntv-pandas github repository</a>.</p>
 
-<p>It can be installed with <code>pip</code>. </p>
+<p>It can be installed with <code>pip</code>.</p>
 
 <pre><code>pip install ntv_pandas
 </code></pre>
@@ -244,7 +245,7 @@ to include a large set of data types in a JSON representation.    </p>
 <ul>
 <li><code>json_ntv</code>: support the NTV format,</li>
 <li><code>shapely</code>: for the location data,</li>
-<li><code>pandas</code> </li>
+<li><code>pandas</code></li>
 </ul>
 
 <h1 id="examples-and-uses">Examples and uses</h1>
@@ -274,6 +275,7 @@ to include a large set of data types in a JSON representation.    </p>
 <li>API
 <ul>
 <li><a href="https://loco-philippe.github.io/ntv-pandas/ntv_pandas.html">dev</a></li>
+<li><a href="https://loco-philippe.github.io/ntv-pandas/v1.0.1/ntv_pandas.html">v1.0.1</a></li>
 <li><a href="https://loco-philippe.github.io/ntv-pandas/v1.0.0/ntv_pandas.html">v1.0.0</a></li>
 <li><a href="https://loco-philippe.github.io/ntv-pandas/v0.1.1/ntv_pandas.html">v0.1.1</a></li>
 </ul></li>
@@ -287,9 +289,9 @@ to include a large set of data types in a JSON representation.    </p>
 
 <ul>
 <li><strong>type extension</strong> : interval dtype and sparse format not yet included</li>
-<li><strong>table schema</strong> : add type / format (<code>geojson</code>/<code>topojson</code>, <code>geopoint</code>/<code>default</code>, <code>geopoint</code>/<code>object</code>, <code>duration</code>/<code>default</code>, <code>string</code>/<code>binary</code>, <code>string</code>/<code>uuid</code>), </li>
+<li><strong>table schema</strong> : add type / format (<code>geojson</code>/<code>topojson</code>, <code>geopoint</code>/<code>default</code>, <code>geopoint</code>/<code>object</code>, <code>duration</code>/<code>default</code>, <code>string</code>/<code>binary</code>, <code>string</code>/<code>uuid</code>),</li>
 <li><strong>null JSON data</strong> : strategy to define</li>
-<li><strong>multidimensional</strong> : extension of the NTV format for multidimensional data (e.g. Xarray)   </li>
+<li><strong>multidimensional</strong> : extension of the NTV format for multidimensional data (e.g. Xarray)</li>
 <li><strong>pandas type</strong> : support for Series or DataFrame which include pandas data</li>
 <li><strong>data consistency</strong> : controls between NTVtype and NTVvalue</li>
 </ul>
