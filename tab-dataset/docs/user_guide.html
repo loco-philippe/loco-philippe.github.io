@@ -38,15 +38,19 @@
 
             <h2>Contents</h2>
             <ul>
-  <li><a href="#examples">Examples</a></li>
-</ul></li>
-<li><a href="#installation">installation</a>
-<ul>
-  <li><a href="#dataset-package">dataset package</a></li>
-  <li><a href="#installation-2">Installation</a></li>
-</ul></li>
-<li><a href="#examples-and-uses">Examples and uses</a>
-<ul>
+  <li><a href="#what-is-tab-dataset">What is TAB-dataset ?</a>
+  <ul>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#examples">Examples</a></li>
+    <li><a href="#dataset-structure">Dataset structure</a></li>
+    <li><a href="#uses">Uses</a></li>
+  </ul></li>
+  <li><a href="#installation">installation</a>
+  <ul>
+    <li><a href="#dataset-package">dataset package</a></li>
+    <li><a href="#installation-2">Installation</a></li>
+  </ul></li>
+  <li><a href="#examples-and-uses">Examples and uses</a></li>
   <li><a href="#documentation">documentation</a>
   <ul>
     <li><a href="#documents">documents</a></li>
@@ -77,15 +81,23 @@ tab-dataset<wbr>.docs<wbr>.user_guide    </h1>
 
 <h3 id="tab-dataset-a-tool-for-consistency-of-tabular-structures"><strong><em>TAB-dataset : A tool for consistency of tabular structures</em></strong></h3>
 
-<p>In tabular data, column and row are not equivalent, the columns (or fields) represent the 'semantics' of the data and the rows represent the objects arranged according to the structure defined by the columns.</p>
+<p><em>TAB-dataset analyzes, measures and transforms the relationships between Fields in any tabular Dataset.</em></p>
 
-<p>The TAB-dataset tool measures and analyzes relationships between fields via the TAB-analysis tool.</p>
+<p><em>The TAB-dataset tool is part of the <a href="https://github.com/loco-philippe/Environmental-Sensing#readme">Environmental Sensing Project</a></em></p>
+
+<p>For more information, see the <a href="https://loco-philippe.github.io/tab-dataset/docs/user_guide.html">user guide</a> or the <a href="https://github.com/loco-philippe/tab-dataset">github repository</a>.</p>
+
+<h1 id="what-is-tab-dataset">What is TAB-dataset ?</h1>
+
+<h2 id="principles">Principles</h2>
+
+<p>In tabular data, columns and rows are not equivalent, the columns (or fields) represent the 'semantics' of the data and the rows represent the objects arranged according to the structure defined by the columns.</p>
+
+<p>The TAB-dataset tool measures and analyzes relationships between fields via the <a href="https://github.com/loco-philippe/tab-analysis#readme">TAB-analysis tool</a>.</p>
 
 <p>It also identifies data that does not respect given relationships.</p>
 
 <p>Finally, it proposes transformations of the data set to respect a set of relationships.</p>
-
-<p>For more information, see the <a href="https://loco-philippe.github.io/tab-dataset/docs/user_guide.html">user guide</a> or the <a href="https://github.com/loco-philippe/tab-dataset">github repository</a>.</p>
 
 <h2 id="examples">Examples</h2>
 
@@ -211,6 +223,26 @@ tab-dataset<wbr>.docs<wbr>.user_guide    </h1>
          <span class="s1">&#39;product&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;banana&#39;</span><span class="p">,</span> <span class="s1">&#39;banana&#39;</span><span class="p">]}</span>
 </code></pre>
 </div>
+
+<h2 id="dataset-structure">Dataset structure</h2>
+
+<p>To analyze the relationships between fields, a particular modeling is used:</p>
+
+<ul>
+<li>each field is transformed into a list of distinct values and a list of pointers to these values</li>
+<li>the analysis is then carried out on these lists of pointers</li>
+</ul>
+
+<blockquote>
+  <p>Example :</p>
+  
+  <p>The field: ['john', 'anna', 'paul', 'anna', 'john', 'lisa'] is transformed into a first list of values ['john', 'anna', 'paul', ' lisa'] and a second list of pointers: [0, 1, 2, 1, 0, 3].
+  We find for example this format in the 'categorical' data of Pandas</p>
+</blockquote>
+
+<h2 id="uses">Uses</h2>
+
+<p>TAB-dataset accepts pandas Dataframe, json data (<a href="https://github.com/loco-philippe/NTV#readme">NTV format</a>) and simple structure like list of list or dict of list.</p>
 
 <h1 id="installation">installation</h1>
 
