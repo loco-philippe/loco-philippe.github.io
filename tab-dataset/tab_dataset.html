@@ -28,9 +28,7 @@
                     <li><a href="tab_dataset/cdataset.html">cdataset</a></li>
                     <li><a href="tab_dataset/cfield.html">cfield</a></li>
                     <li><a href="tab_dataset/dataset.html">dataset</a></li>
-                    <li><a href="tab_dataset/dataset_analysis.html">dataset_analysis</a></li>
                     <li><a href="tab_dataset/dataset_interface.html">dataset_interface</a></li>
-                    <li><a href="tab_dataset/dataset_structure.html">dataset_structure</a></li>
                     <li><a href="tab_dataset/field.html">field</a></li>
                     <li><a href="tab_dataset/field_interface.html">field_interface</a></li>
             </ul>
@@ -58,6 +56,8 @@ tab-dataset<wbr>.tab_dataset    </h1>
 
 <p>This package contains the following classes and functions:</p>
 
+<p>Field structure</p>
+
 <ul>
 <li><p><code>tab-dataset.cfield</code> :</p>
 
@@ -66,11 +66,6 @@ tab-dataset<wbr>.tab_dataset    </h1>
 <li><code>tab-dataset.cfield.Cutil</code></li>
 <li><code>tab-dataset.cfield.root</code> (function)</li>
 <li><code>tab-dataset.cfield.identity</code> (function)</li>
-</ul></li>
-<li><p><code>tab-dataset.cdataset</code> :</p>
-
-<ul>
-<li><code>tab-dataset.cdataset.Cdataset</code></li>
 </ul></li>
 <li><p><code>tab-dataset.field</code> :</p>
 
@@ -86,10 +81,21 @@ tab-dataset<wbr>.tab_dataset    </h1>
 <li><code>tab-dataset.field_interface.FieldEncoder</code></li>
 <li><code>tab-dataset.field_interface.CborDecoder</code></li>
 </ul></li>
+</ul>
+
+<p>Dataset structure</p>
+
+<ul>
+<li><p><code>tab-dataset.cdataset</code> :</p>
+
+<ul>
+<li><code>tab-dataset.cdataset.Cdataset</code></li>
+<li>`tab-dataset.cdataset.DatasetAnalysis</li>
+</ul></li>
 <li><p><code>tab-dataset.dataset</code> :</p>
 
 <ul>
-<li>`tab-dataset.dataset.Dataset    </li>
+<li>`tab-dataset.dataset.Dataset</li>
 </ul></li>
 <li><p><code>tab-dataset.dataset_structure</code> :</p>
 
@@ -101,17 +107,12 @@ tab-dataset<wbr>.tab_dataset    </h1>
 <ul>
 <li>`tab-dataset.dataset_interface.DatasetInterface</li>
 </ul></li>
-<li><p><code>tab-dataset.dataset_analysis</code> :</p>
-
-<ul>
-<li>`tab-dataset.dataset_analysis.DatasetAnalysis</li>
-</ul></li>
 </ul>
 
-<p>Note: Analysis functions are in another package <code>tab-analysis</code> </p>
+<p>Note: Analysis functions are defined in another package <code>tab-analysis</code></p>
 
-<p>For more information, see the 
-<a href="https://loco-philippe.github.io/tab-dataset/documentation/user_guide.html">user guide</a> 
+<p>For more information, see the
+<a href="https://loco-philippe.github.io/tab-dataset/documentation/user_guide.html">user guide</a>
 or the <a href="https://github.com/loco-philippe/tab-dataset">github repository</a>.</p>
 </div>
 
@@ -129,49 +130,51 @@ or the <a href="https://github.com/loco-philippe/tab-dataset">github repository<
 </span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
 </span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">This package contains the following classes and functions:</span>
 </span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">- `tab-dataset.cfield` :</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">    - `tab-dataset.cfield.Cfield`</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">    - `tab-dataset.cfield.Cutil`</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">    - `tab-dataset.cfield.root` (function)</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">    - `tab-dataset.cfield.identity` (function)</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="sd">- `tab-dataset.cdataset` :</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="sd">    - `tab-dataset.cdataset.Cdataset`</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="sd">        </span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="sd">- `tab-dataset.field` :</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="sd">    - `tab-dataset.field.Field`</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="sd">    - `tab-dataset.field.Nfield`</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="sd">    - `tab-dataset.field.Sfield`</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="sd">- `tab-dataset.field_interface` :</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="sd">    - `tab-dataset.field_interface.FieldInterface`</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a><span class="sd">    - `tab-dataset.field_interface.FieldEncoder`</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="sd">    - `tab-dataset.field_interface.CborDecoder`</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="sd">- `tab-dataset.dataset` :</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="sd">    - `tab-dataset.dataset.Dataset    </span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="sd">- `tab-dataset.dataset_structure` :</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="sd">    - `tab-dataset.dataset_structure.DatasetStructure</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="sd">    </span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="sd">- `tab-dataset.dataset_interface` :</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="sd">    - `tab-dataset.dataset_interface.DatasetInterface</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="sd">    </span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="sd">- `tab-dataset.dataset_analysis` :</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="sd">    - `tab-dataset.dataset_analysis.DatasetAnalysis</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="sd">Note: Analysis functions are in another package `tab-analysis` </span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">Field structure</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">- `tab-dataset.cfield` :</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">    - `tab-dataset.cfield.Cfield`</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">    - `tab-dataset.cfield.Cutil`</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="sd">    - `tab-dataset.cfield.root` (function)</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="sd">    - `tab-dataset.cfield.identity` (function)</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="sd">- `tab-dataset.field` :</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="sd">    - `tab-dataset.field.Field`</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="sd">    - `tab-dataset.field.Nfield`</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="sd">    - `tab-dataset.field.Sfield`</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="sd">- `tab-dataset.field_interface` :</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="sd">    - `tab-dataset.field_interface.FieldInterface`</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="sd">    - `tab-dataset.field_interface.FieldEncoder`</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a><span class="sd">    - `tab-dataset.field_interface.CborDecoder`</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="sd">Dataset structure</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="sd">- `tab-dataset.cdataset` :</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="sd">    - `tab-dataset.cdataset.Cdataset`</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="sd">    - `tab-dataset.cdataset.DatasetAnalysis</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="sd">- `tab-dataset.dataset` :</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="sd">    - `tab-dataset.dataset.Dataset</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="sd">- `tab-dataset.dataset_structure` :</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="sd">    - `tab-dataset.dataset_structure.DatasetStructure</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="sd">- `tab-dataset.dataset_interface` :</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="sd">    - `tab-dataset.dataset_interface.DatasetInterface</span>
 </span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="sd">For more information, see the </span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="sd">[user guide](https://loco-philippe.github.io/tab-dataset/documentation/user_guide.html) </span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">or the [github repository](https://github.com/loco-philippe/tab-dataset).</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="kn">from</span> <span class="nn">tab_dataset.dataset</span> <span class="kn">import</span> <span class="n">Ndataset</span><span class="p">,</span> <span class="n">Sdataset</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="kn">from</span> <span class="nn">tab_dataset.cdataset</span> <span class="kn">import</span> <span class="n">Cdataset</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="kn">from</span> <span class="nn">tab_dataset.field</span> <span class="kn">import</span> <span class="n">Nfield</span><span class="p">,</span> <span class="n">Sfield</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="kn">from</span> <span class="nn">tab_dataset.cfield</span> <span class="kn">import</span> <span class="n">Cfield</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="c1">#print(&#39;package :&#39;, __package__)</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="sd">Note: Analysis functions are defined in another package `tab-analysis`</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">For more information, see the</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="sd">[user guide](https://loco-philippe.github.io/tab-dataset/documentation/user_guide.html)</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="sd">or the [github repository](https://github.com/loco-philippe/tab-dataset).</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="kn">from</span> <span class="nn">tab_dataset.dataset</span> <span class="kn">import</span> <span class="n">Ndataset</span><span class="p">,</span> <span class="n">Sdataset</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="kn">from</span> <span class="nn">tab_dataset.cdataset</span> <span class="kn">import</span> <span class="n">Cdataset</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="kn">from</span> <span class="nn">tab_dataset.field</span> <span class="kn">import</span> <span class="n">Nfield</span><span class="p">,</span> <span class="n">Sfield</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="kn">from</span> <span class="nn">tab_dataset.cfield</span> <span class="kn">import</span> <span class="n">Cfield</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="c1">#print(&#39;package :&#39;, __package__)</span>
 </span></pre></div>
 
 
