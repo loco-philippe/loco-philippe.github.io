@@ -45,10 +45,10 @@
     <li><a href="#dataset-structure">Dataset structure</a></li>
     <li><a href="#uses">Uses</a></li>
   </ul></li>
-  <li><a href="#installation">installation</a>
+  <li><a href="#installation">Installation</a>
   <ul>
     <li><a href="#dataset-package">dataset package</a></li>
-    <li><a href="#installation-2">Installation</a></li>
+    <li><a href="#installation-2">installation</a></li>
   </ul></li>
   <li><a href="#examples-and-uses">Examples and uses</a></li>
   <li><a href="#documentation">documentation</a>
@@ -244,24 +244,49 @@ tab-dataset<wbr>.docs<wbr>.user_guide    </h1>
 
 <p>TAB-dataset accepts pandas Dataframe, json data (<a href="https://github.com/loco-philippe/NTV#readme">NTV format</a>) and simple structure like list of list or dict of list.</p>
 
-<h1 id="installation">installation</h1>
+<h1 id="installation">Installation</h1>
 
 <h2 id="dataset-package">dataset package</h2>
 
 <p>The <code>tab_dataset</code> package includes</p>
 
 <ul>
-<li><code>analysis</code> module
+<li><p><code>cdataset</code> module</p>
+
 <ul>
-<li>class <code>AnaField</code> : Structure of a single field</li>
-<li>class <code>AnaRelation</code> : Relationship between two fields</li>
-<li>class <code>AnaDfield</code> : Structure and relationships of fields inside a dataset</li>
-<li>class <code>AnaDataset</code> : Structure of a dataset</li>
-<li>an utility class with static methods : <code>Util</code></li>
+<li>class <code>Cdataset</code> : core class for datasets</li>
+<li>class <code>DatasetAnalysis</code> : interface with TAB-Analysis package</li>
+</ul></li>
+<li><p><code>dataset</code> module</p>
+
+<ul>
+<li>class <code>Sdataset</code> : child <code>Cdataset</code> class for usual data</li>
+<li>class <code>Ndataset</code> : child <code>Cdataset</code> class for complex data with NTV representation</li>
+</ul></li>
+<li><p><code>dataset_interface</code> module</p>
+
+<ul>
+<li>class <code>DatasetInterface</code> : Interface and conversion</li>
+</ul></li>
+<li><p><code>cfield</code> module</p>
+
+<ul>
+<li>class <code>Cfield</code> : core class for fields</li>
+</ul></li>
+<li><p><code>field</code> module</p>
+
+<ul>
+<li>class <code>Sfield</code> : child <code>Cfield</code> class for usual data</li>
+<li>class <code>Nfield</code> : child <code>Cfield</code> class for complex data with NTV representation</li>
+</ul></li>
+<li><p><code>field_interface</code> module</p>
+
+<ul>
+<li>class <code>FieldInterface</code> : Interface and conversion</li>
 </ul></li>
 </ul>
 
-<h2 id="installation-2">Installation</h2>
+<h2 id="installation-2">installation</h2>
 
 <p><code>tab_dataset</code> itself is a pure Python package. maintained on <a href="https://github.com/loco-philippe/tab-dataset">tab-dataset github repository</a>.</p>
 
