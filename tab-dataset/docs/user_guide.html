@@ -50,7 +50,11 @@
     <li><a href="#dataset-package">dataset package</a></li>
     <li><a href="#installation-2">installation</a></li>
   </ul></li>
-  <li><a href="#examples-and-uses">Examples and uses</a></li>
+  <li><a href="#examples-and-uses">Examples and uses</a>
+  <ul>
+    <li><a href="#field-usage-example">Field usage example</a></li>
+    <li><a href="#dataset-usage-example">Dataset usage example</a></li>
+  </ul></li>
   <li><a href="#documentation">documentation</a>
   <ul>
     <li><a href="#documents">documents</a></li>
@@ -236,8 +240,14 @@ tab-dataset<wbr>.docs<wbr>.user_guide    </h1>
 <blockquote>
   <p>Example :</p>
   
-  <p>The field: ['john', 'anna', 'paul', 'anna', 'john', 'lisa'] is transformed into a first list of values ['john', 'anna', 'paul', ' lisa'] and a second list of pointers: [0, 1, 2, 1, 0, 3].
-  We find for example this format in the 'categorical' data of Pandas</p>
+  <p>The field: ['john', 'anna', 'paul', 'anna', 'john', 'lisa'] is transformed into:</p>
+  
+  <ul>
+  <li>a first list of values ['john', 'anna', 'paul', ' lisa']</li>
+  <li>a second list of pointers: [0, 1, 2, 1, 0, 3].</li>
+  </ul>
+  
+  <p>We find for example this format in the 'categorical' data of pandas DataFrame.</p>
 </blockquote>
 
 <h2 id="uses">Uses</h2>
@@ -303,11 +313,67 @@ tab-dataset<wbr>.docs<wbr>.user_guide    </h1>
 
 <h1 id="examples-and-uses">Examples and uses</h1>
 
-<p>One Notebook is available:</p>
+<p>The examples are described for each object class :</p>
 
 <ul>
-<li><a href="https://nbviewer.org/github/loco-philippe/tab-dataset/blob/main/example/example.ipynb">tbd</a> presents the tab_dataset interface</li>
+<li><a href="https://github.com/loco-philippe/tab-dataset/tree/main/example/Field/README.md">Field</a> : Class for Fields</li>
+<li><a href="https://github.com/loco-philippe/tab-dataset/blob/main/example/Dataset/README.md">Dataset</a> : Class for tabular or multi-dimensional Dataset</li>
 </ul>
+
+<p>The Jupyter Notebooks are available on <a href="http://nbviewer.org/github/loco-philippe/tab-dataset/tree/main/example">nbviewer</a></p>
+
+<h2 id="field-usage-example">Field usage example</h2>
+
+<h3 id="1-creation">1 - Creation</h3>
+
+<p>This <a href="Field_creation.ipynb">example</a> shows the different ways to create a Field object</p>
+
+<h3 id="2-extended-values">2 - Extended values</h3>
+
+<p>Field objects are built from <a href="http://nbviewer.org/github/loco-philippe/NTV/tree/main/example">NTV Value objects</a>.
+This <a href="Field_value.ipynb">example</a> shows the diversity and presents the representations of values objects.</p>
+
+<h3 id="3-update">3 - Update</h3>
+
+<p>This <a href="Field_update.ipynb">example</a> shows independence of methods from values objects and presents the basic access methods.</p>
+
+<h3 id="4-structure">4 - Structure</h3>
+
+<p>This <a href="Field_structure.ipynb">example</a> introduces methods for understanding and updating Field object.</p>
+
+<h3 id="5-structure-analysis">5 - Structure analysis</h3>
+
+<p>This <a href="Field_structure_analysis.ipynb">example</a> introduces methods for understanding and managing relationships between Field objects.</p>
+
+<h2 id="dataset-usage-example">Dataset usage example</h2>
+
+<h3 id="1-simple-example">1 - Simple example</h3>
+
+<p>This <a href="http://nbviewer.org/github/loco-philippe/tab-dataset/tree/main/example/Dataset/Dataset_simple.ipynb">example</a> shows the capacities of analysis of tabular data.</p>
+
+<h3 id="2-field-and-extended-values-examples">2 - Field and extended values examples</h3>
+
+<p>Dataset objects are built from <a href="http://nbviewer.org/github/loco-philippe/tab-dataset/tree/main/example/Field/README.md">Field objects</a> and <a href="http://nbviewer.org/github/loco-philippe/NTV/tree/main/example">NTV Value objects</a>.</p>
+
+<h3 id="3-creation">3 - Creation</h3>
+
+<p>This <a href="http://nbviewer.org/github/loco-philippe/tab-dataset/tree/main/example/Dataset_creation.ipynb">example</a> shows the different ways to create a Dataset object.</p>
+
+<h3 id="4-update">4 - Update</h3>
+
+<p>This <a href="http://nbviewer.org/github/loco-philippe/tab-dataset/tree/main/example/Dataset_update.ipynb">example</a> presents methods to access, update and assemble Dataset objects.</p>
+
+<h3 id="5-structure">5 - Structure</h3>
+
+<p>This <a href="http://nbviewer.org/github/loco-philippe/tab-dataset/tree/main/example/Dataset_structure.ipynb">example</a> introduces methods for understanding and managing structure of Dataset object.</p>
+
+<h3 id="6-structure-analysis">6 - Structure analysis</h3>
+
+<p>This <a href="http://nbviewer.org/github/loco-philippe/tab-dataset/tree/main/example/Dataset_structure-analysis.ipynb">example</a> introduces methods for understanding and managing global structure of Dataset object.</p>
+
+<h3 id="7-data-aggregation">7 - Data aggregation</h3>
+
+<p>In this <a href="http://nbviewer.org/github/loco-philippe/tab-dataset/tree/main/example/Dataset_aggregation.ipynb">example</a> several Dataset objects are assembled and made available as a single object.</p>
 
 <h1 id="documentation">documentation</h1>
 
@@ -353,8 +419,10 @@ tab-dataset<wbr>.docs<wbr>.user_guide    </h1>
 </span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">.. include:: ../README.md</span>
 </span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="sd">.. include:: ../tab_dataset/README.md</span>
 </span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="sd">.. include:: ../example/README.md</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">.. include:: ./README.md    </span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">.. include:: ../example/Field/README.md</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">.. include:: ../example/Dataset/README.md</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">.. include:: ./README.md    </span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span></pre></div>
 
 
