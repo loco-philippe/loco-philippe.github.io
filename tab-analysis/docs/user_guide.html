@@ -38,6 +38,12 @@
 
             <h2>Contents</h2>
             <ul>
+  <li><a href="#what-is-tab-analysis">What is TAB-analysis ?</a>
+  <ul>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#examples">Examples</a></li>
+    <li><a href="#uses">Uses</a></li>
+  </ul></li>
   <li><a href="#installation">installation</a>
   <ul>
     <li><a href="#tab_analysis-package">tab_analysis package</a></li>
@@ -74,7 +80,158 @@ tab-analysis<wbr>.docs<wbr>.user_guide    </h1>
 
 <h3 id="tab-analysis-a-tool-to-analyse-tabular-and-multi-dimensionnal-structures"><em>TAB-analysis : A tool to Analyse tabular and multi-dimensionnal structures</em></h3>
 
+<p><em>TAB-analysis analyzes and measures the relationships between Fields in any tabular Dataset.</em></p>
+
+<p><em>The TAB-analysis tool is part of the <a href="https://github.com/loco-philippe/Environmental-Sensing#readme">Environmental Sensing Project</a></em></p>
+
 <p>For more information, see the <a href="https://loco-philippe.github.io/tab-analysis/docs/user_guide.html">user guide</a> or the <a href="https://github.com/loco-philippe/tab-analysis">github repository</a>.</p>
+
+<h1 id="what-is-tab-analysis">What is TAB-analysis ?</h1>
+
+<h2 id="principles">Principles</h2>
+
+<p>Each field in a dataset has global properties (e.g. the number of different values).
+The relationships between two fields can also be characterized in a similar way (e.g. number of pairs of values from the two different fields).</p>
+
+<p>Analyzing these properties gives us a measure of the entire dataset.</p>
+
+<p>The TAB-analysis module carries out these measurements and analyzes. It also identifies data that does not respect given relationships.</p>
+
+<h2 id="examples">Examples</h2>
+
+<p>Here is a price list of different foods based on packaging.</p>
+
+<table>
+<thead>
+<tr>
+  <th>'plants'</th>
+  <th>'quantity'</th>
+  <th>'product'</th>
+  <th>'price'</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>'fruit'</td>
+  <td>'1 kg'</td>
+  <td>'apple'</td>
+  <td>1</td>
+</tr>
+<tr>
+  <td>'fruit'</td>
+  <td>'10 kg'</td>
+  <td>'apple'</td>
+  <td>10</td>
+</tr>
+<tr>
+  <td>'fruit'</td>
+  <td>'1 kg'</td>
+  <td>'orange'</td>
+  <td>2</td>
+</tr>
+<tr>
+  <td>'fruit'</td>
+  <td>'10 kg'</td>
+  <td>'orange'</td>
+  <td>20</td>
+</tr>
+<tr>
+  <td>'vegetable'</td>
+  <td>'1 kg'</td>
+  <td>'peppers'</td>
+  <td>1.5</td>
+</tr>
+<tr>
+  <td>'vegetable'</td>
+  <td>'10 kg'</td>
+  <td>'peppers'</td>
+  <td>15</td>
+</tr>
+<tr>
+  <td>'vegetable'</td>
+  <td>'1 kg'</td>
+  <td>'carrot'</td>
+  <td>0.5</td>
+</tr>
+<tr>
+  <td>'vegetable'</td>
+  <td>'10 kg'</td>
+  <td>'carrot'</td>
+  <td>5</td>
+</tr>
+</tbody>
+</table>
+
+<p>In this example, we observe two kinds of relationships:</p>
+
+<ul>
+<li>classification ("derived" relationship): between 'plants' and 'product' (each product belongs a plant)</li>
+<li>crossing ("crossed" relationship): between 'product' and 'quantity' (all the combinations of the two fields are present).</li>
+</ul>
+
+<p>This Dataset can be translated in a matrix between 'quantity' ['1 kg', '10 kg'] and 'product' ['apple', 'orange', 'peppers', 'carrot']</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="c1"># creation of the `analysis` object </span>
+        <span class="kn">from</span> <span class="nn">tab_dataset</span> <span class="kn">import</span> <span class="n">Sdataset</span>
+        <span class="kn">from</span> <span class="nn">tab_analysis</span> <span class="kn">import</span> <span class="n">AnaDataset</span>
+        <span class="n">tabular</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;plants&#39;</span><span class="p">:</span>   <span class="p">[</span><span class="s1">&#39;fruit&#39;</span><span class="p">,</span> <span class="s1">&#39;fruit&#39;</span><span class="p">,</span><span class="s1">&#39;fruit&#39;</span><span class="p">,</span>   <span class="s1">&#39;fruit&#39;</span><span class="p">,</span><span class="s1">&#39;vegetable&#39;</span><span class="p">,</span><span class="s1">&#39;vegetable&#39;</span><span class="p">,</span><span class="s1">&#39;vegetable&#39;</span><span class="p">,</span><span class="s1">&#39;vegetable&#39;</span> <span class="p">],</span>
+                   <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;1 kg&#39;</span> <span class="p">,</span> <span class="s1">&#39;10 kg&#39;</span><span class="p">,</span> <span class="s1">&#39;1 kg&#39;</span><span class="p">,</span>   <span class="s1">&#39;10 kg&#39;</span><span class="p">,</span>  <span class="s1">&#39;1 kg&#39;</span><span class="p">,</span>    <span class="s1">&#39;10 kg&#39;</span><span class="p">,</span>   <span class="s1">&#39;1 kg&#39;</span><span class="p">,</span>     <span class="s1">&#39;10 kg&#39;</span>     <span class="p">],</span> 
+                   <span class="s1">&#39;product&#39;</span><span class="p">:</span>  <span class="p">[</span><span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;peppers&#39;</span><span class="p">,</span> <span class="s1">&#39;peppers&#39;</span><span class="p">,</span> <span class="s1">&#39;carrot&#39;</span><span class="p">,</span>   <span class="s1">&#39;carrot&#39;</span>    <span class="p">],</span> 
+                   <span class="s1">&#39;price&#39;</span><span class="p">:</span>    <span class="p">[</span><span class="mi">1</span><span class="p">,</span>       <span class="mi">10</span><span class="p">,</span>      <span class="mi">2</span><span class="p">,</span>        <span class="mi">20</span><span class="p">,</span>       <span class="mf">1.5</span><span class="p">,</span>       <span class="mi">15</span><span class="p">,</span>        <span class="mf">0.5</span><span class="p">,</span>        <span class="mi">5</span>           <span class="p">]}</span>
+        <span class="n">analysis</span> <span class="o">=</span> <span class="n">AnaDataset</span><span class="p">(</span><span class="n">Sdataset</span><span class="o">.</span><span class="n">ntv</span><span class="p">(</span><span class="n">tabular</span><span class="p">)</span><span class="o">.</span><span class="n">to_analysis</span><span class="p">(</span><span class="kc">True</span><span class="p">))</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="c1"># each relationship is evaluated and measured </span>
+        <span class="n">analysis</span><span class="o">.</span><span class="n">get_relation</span><span class="p">(</span><span class="s1">&#39;plants&#39;</span><span class="p">,</span> <span class="s1">&#39;product&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">typecoupl</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="s1">&#39;derived&#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="n">analysis</span><span class="o">.</span><span class="n">get_relation</span><span class="p">(</span><span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="s1">&#39;product&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">typecoupl</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="s1">&#39;crossed&#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="c1"># the &#39;distance&#39; between to Fields is measured (number of codec links to change to be coupled))</span>
+        <span class="n">analysis</span><span class="o">.</span><span class="n">get_relation</span><span class="p">(</span><span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="s1">&#39;product&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">distance</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="mi">6</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="c1"># the dataset can be represented as a &#39;derived tree&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">analysis</span><span class="o">.</span><span class="n">tree</span><span class="p">())</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="n">root</span><span class="o">-</span><span class="n">derived</span> <span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+           <span class="mi">1</span> <span class="p">:</span> <span class="n">quantity</span> <span class="p">(</span><span class="mi">6</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+           <span class="mi">2</span> <span class="p">:</span> <span class="n">product</span> <span class="p">(</span><span class="mi">4</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span>
+              <span class="mi">0</span> <span class="p">:</span> <span class="n">plants</span> <span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+           <span class="mi">3</span> <span class="p">:</span> <span class="n">price</span> <span class="p">(</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">8</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="c1"># &#39;partitions&#39; are found (partitions are multi-dimensionnal data)&#39;</span>
+        <span class="n">analysis</span><span class="o">.</span><span class="n">partitions</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="p">[[</span><span class="s1">&#39;product&#39;</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="c1"># the `field_partition` method return the main structure of the dataset</span>
+        <span class="n">analysis</span><span class="o">.</span><span class="n">field_partition</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;primary&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="s1">&#39;product&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;secondary&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;plants&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;unique&#39;</span><span class="p">:</span> <span class="p">[],</span>
+         <span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]}</span>
+</code></pre>
+</div>
+
+<h2 id="uses">Uses</h2>
+
+<p>A TAB-analysis object is initialized by a set of properties (a dict with specific keys). It can therefore be used from any tabular data manager (e.g. pandas).</p>
+
+<p>Possible uses are as follows:</p>
+
+<ul>
+<li>control of a dataset in relation to a data model,</li>
+<li>quality indicators of a dataset</li>
+<li>analysis of datasets</li>
+</ul>
+
+<p>and in connection with the tabular application:</p>
+
+<ul>
+<li>error detection and correction,</li>
+<li>generation of optimized data formats</li>
+<li>interface to specific applications</li>
+</ul>
 
 <h1 id="installation">installation</h1>
 

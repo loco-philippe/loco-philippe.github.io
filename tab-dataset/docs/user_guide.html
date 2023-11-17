@@ -43,6 +43,7 @@
     <li><a href="#principles">Principles</a></li>
     <li><a href="#examples">Examples</a></li>
     <li><a href="#dataset-structure">Dataset structure</a></li>
+    <li><a href="#json-interface">JSON interface</a></li>
     <li><a href="#uses">Uses</a></li>
   </ul></li>
   <li><a href="#installation">Installation</a>
@@ -98,6 +99,8 @@ tab-dataset<wbr>.docs<wbr>.user_guide    </h1>
 <p>In tabular data, columns and rows are not equivalent, the columns (or fields) represent the 'semantics' of the data and the rows represent the objects arranged according to the structure defined by the columns.</p>
 
 <p>The TAB-dataset tool measures and analyzes relationships between fields via the <a href="https://github.com/loco-philippe/tab-analysis#readme">TAB-analysis tool</a>.</p>
+
+<p>TAB-dataset uses relationships between fields to have an optimized JSON format (JSON-TAB format).</p>
 
 <p>It also identifies data that does not respect given relationships.</p>
 
@@ -175,6 +178,40 @@ tab-dataset<wbr>.docs<wbr>.user_guide    </h1>
 <li>crossing ("crossed" relationship): between 'product' and 'quantity' (all the combinations of the two fields are present).</li>
 </ul>
 
+<p>Another observation is that each record has a specific combination of 'product' and 'quantity', it will be possible to convert this dataset in matrix:</p>
+
+<table>
+<thead>
+<tr>
+  <th>price</th>
+  <th>'1 kg'</th>
+  <th>'10 kg'</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>'apple'</td>
+  <td>1</td>
+  <td>10</td>
+</tr>
+<tr>
+  <td>'orange'</td>
+  <td>2</td>
+  <td>20</td>
+</tr>
+<tr>
+  <td>'peppers'</td>
+  <td>1.5</td>
+  <td>15</td>
+</tr>
+<tr>
+  <td>'banana'</td>
+  <td>0.5</td>
+  <td>5</td>
+</tr>
+</tbody>
+</table>
+
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="c1"># creation of the `prices` object </span>
         <span class="kn">from</span> <span class="nn">tab_dataset</span> <span class="kn">import</span> <span class="n">Sdataset</span>
@@ -184,16 +221,12 @@ tab-dataset<wbr>.docs<wbr>.user_guide    </h1>
                    <span class="s1">&#39;price&#39;</span><span class="p">:</span>    <span class="p">[</span><span class="mi">1</span><span class="p">,</span>       <span class="mi">10</span><span class="p">,</span>      <span class="mi">2</span><span class="p">,</span>        <span class="mi">20</span><span class="p">,</span>       <span class="mf">1.5</span><span class="p">,</span>       <span class="mi">15</span><span class="p">,</span>        <span class="mf">0.5</span><span class="p">,</span>      <span class="mi">5</span>       <span class="p">]}</span>
         <span class="n">prices</span> <span class="o">=</span> <span class="n">Sdataset</span><span class="o">.</span><span class="n">ntv</span><span class="p">(</span><span class="n">tabular</span><span class="p">)</span>
 
-<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="c1"># the `field_partition` method return the main structure of the dataset</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="c1"># the `field_partition` method return the main structure of the dataset (see TAB-analysis)</span>
         <span class="n">prices</span><span class="o">.</span><span class="n">field_partition</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;primary&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="s1">&#39;product&#39;</span><span class="p">],</span>
          <span class="s1">&#39;secondary&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;plants&#39;</span><span class="p">],</span>
          <span class="s1">&#39;unique&#39;</span><span class="p">:</span> <span class="p">[],</span>
          <span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]}</span>
-
-<span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="c1"># each relationship is evaluated and measured </span>
-        <span class="n">prices</span><span class="o">.</span><span class="n">relation</span><span class="p">(</span><span class="s1">&#39;plants&#39;</span><span class="p">,</span> <span class="s1">&#39;fruit&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">typecoupl</span>
-<span class="n">Out</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="s1">&#39;derived&#39;</span>
 
 <span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="c1"># we can send the data to tools supporting the identified data structure</span>
         <span class="n">prices</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
@@ -250,9 +283,45 @@ tab-dataset<wbr>.docs<wbr>.user_guide    </h1>
   <p>We find for example this format in the 'categorical' data of pandas DataFrame.</p>
 </blockquote>
 
+<h2 id="json-interface">JSON interface</h2>
+
+<p>TAB-dataset uses relationships between fields to have an optimized JSON format (<a href="https://github.com/loco-philippe/NTV/blob/main/documentation/JSON-TAB-standard.pdf">JSON-TAB format</a>).</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="c1"># the JSON length (equivalent to CSV length) is not optimized</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tabular</span><span class="p">))</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="mi">309</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="c1"># the JSON-TAB format is optimized</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">prices</span><span class="o">.</span><span class="n">to_ntv</span><span class="p">()</span><span class="o">.</span><span class="n">to_obj</span><span class="p">()))</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="mi">193</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="n">prices</span><span class="o">.</span><span class="n">to_ntv</span><span class="p">()</span><span class="o">.</span><span class="n">to_obj</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;plants&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;fruit&#39;</span><span class="p">,</span> <span class="s1">&#39;vegetable&#39;</span><span class="p">],</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
+          <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;1 kg&#39;</span><span class="p">,</span> <span class="s1">&#39;10 kg&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+          <span class="s1">&#39;product&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;peppers&#39;</span><span class="p">,</span> <span class="s1">&#39;banana&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">]],</span>
+          <span class="s1">&#39;price&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">11</span><span class="p">]:</span> <span class="c1"># the JSON-TAB format is reversible</span>
+         <span class="n">Sdataset</span><span class="o">.</span><span class="n">from_ntv</span><span class="p">(</span><span class="n">prices</span><span class="o">.</span><span class="n">to_ntv</span><span class="p">()</span><span class="o">.</span><span class="n">to_obj</span><span class="p">())</span> <span class="o">==</span> <span class="n">prices</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">11</span><span class="p">]:</span> <span class="kc">True</span>
+</code></pre>
+</div>
+
 <h2 id="uses">Uses</h2>
 
 <p>TAB-dataset accepts pandas Dataframe, json data (<a href="https://github.com/loco-philippe/NTV#readme">NTV format</a>) and simple structure like list of list or dict of list.</p>
+
+<p>Possible uses are as follows:</p>
+
+<ul>
+<li>control of a dataset in relation to a data model,</li>
+<li>quality indicators of a dataset</li>
+<li>analysis of datasets</li>
+<li>error detection and correction,</li>
+<li>generation of optimized data formats (alternative to CSV format)</li>
+<li>interface to specific applications</li>
+</ul>
 
 <h1 id="installation">Installation</h1>
 
