@@ -136,13 +136,19 @@
                         <li>
                                 <a class="function" href="#Xdataset.from_scipp">from_scipp</a>
                         </li>
+                        <li>
+                                <a class="function" href="#Xdataset.to_nddata">to_nddata</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Xdataset.from_nddata">from_nddata</a>
+                        </li>
                 </ul>
 
             </li>
     </ul>
 
 
-            <footer>ntv_numpy V0.1.0</footer>
+            <footer>ntv_numpy v0.1.0</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -175,7 +181,7 @@ ntv-numpy<wbr>.<a href="./../ntv_numpy.html">ntv_numpy</a><wbr>.xdataset    </h1
 </span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="kn">import</span> <span class="nn">json</span>
 </span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="kn">from</span> <span class="nn">ntv_numpy.ndarray</span> <span class="kn">import</span> <span class="n">NpUtil</span>
 </span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="kn">from</span> <span class="nn">ntv_numpy.xndarray</span> <span class="kn">import</span> <span class="n">Xndarray</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="kn">from</span> <span class="nn">ntv_numpy.xconnector</span> <span class="kn">import</span> <span class="n">XarrayConnec</span><span class="p">,</span> <span class="n">ScippConnec</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="kn">from</span> <span class="nn">ntv_numpy.xconnector</span> <span class="kn">import</span> <span class="n">XarrayConnec</span><span class="p">,</span> <span class="n">ScippConnec</span><span class="p">,</span> <span class="n">AstropyNDDataConnec</span>
 </span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="kn">from</span> <span class="nn">json_ntv</span> <span class="kn">import</span> <span class="n">Ntv</span>
 </span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a>
 </span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a>
@@ -526,9 +532,19 @@ ntv-numpy<wbr>.<a href="./../ntv_numpy.html">ntv_numpy</a><wbr>.xdataset    </h1
 </span><span id="L-359"><a href="#L-359"><span class="linenos">359</span></a>        <span class="k">return</span> <span class="n">ScippConnec</span><span class="o">.</span><span class="n">xexport</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </span><span id="L-360"><a href="#L-360"><span class="linenos">360</span></a>
 </span><span id="L-361"><a href="#L-361"><span class="linenos">361</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="L-362"><a href="#L-362"><span class="linenos">362</span></a>    <span class="k">def</span> <span class="nf">from_scipp</span><span class="p">(</span><span class="n">xar</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span id="L-362"><a href="#L-362"><span class="linenos">362</span></a>    <span class="k">def</span> <span class="nf">from_scipp</span><span class="p">(</span><span class="n">sci</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 </span><span id="L-363"><a href="#L-363"><span class="linenos">363</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;return a Xdataset from a scipp object DataArray, Dataset or DataGroup&#39;&#39;&#39;</span>
-</span><span id="L-364"><a href="#L-364"><span class="linenos">364</span></a>        <span class="k">return</span> <span class="n">ScippConnec</span><span class="o">.</span><span class="n">ximport</span><span class="p">(</span><span class="n">xar</span><span class="p">,</span> <span class="n">Xdataset</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="L-364"><a href="#L-364"><span class="linenos">364</span></a>        <span class="k">return</span> <span class="n">ScippConnec</span><span class="o">.</span><span class="n">ximport</span><span class="p">(</span><span class="n">sci</span><span class="p">,</span> <span class="n">Xdataset</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="L-365"><a href="#L-365"><span class="linenos">365</span></a>
+</span><span id="L-366"><a href="#L-366"><span class="linenos">366</span></a>    <span class="k">def</span> <span class="nf">to_nddata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span id="L-367"><a href="#L-367"><span class="linenos">367</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;return a NDData from a Xdataset</span>
+</span><span id="L-368"><a href="#L-368"><span class="linenos">368</span></a><span class="sd">        &#39;&#39;&#39;</span>
+</span><span id="L-369"><a href="#L-369"><span class="linenos">369</span></a>        <span class="k">return</span> <span class="n">AstropyNDDataConnec</span><span class="o">.</span><span class="n">xexport</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="L-370"><a href="#L-370"><span class="linenos">370</span></a>
+</span><span id="L-371"><a href="#L-371"><span class="linenos">371</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="L-372"><a href="#L-372"><span class="linenos">372</span></a>    <span class="k">def</span> <span class="nf">from_nddata</span><span class="p">(</span><span class="n">ndd</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span id="L-373"><a href="#L-373"><span class="linenos">373</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;return a Xdataset from a NDData&#39;&#39;&#39;</span>
+</span><span id="L-374"><a href="#L-374"><span class="linenos">374</span></a>        <span class="k">return</span> <span class="n">AstropyNDDataConnec</span><span class="o">.</span><span class="n">ximport</span><span class="p">(</span><span class="n">ndd</span><span class="p">,</span> <span class="n">Xdataset</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -891,9 +907,19 @@ ntv-numpy<wbr>.<a href="./../ntv_numpy.html">ntv_numpy</a><wbr>.xdataset    </h1
 </span><span id="Xdataset-360"><a href="#Xdataset-360"><span class="linenos">360</span></a>        <span class="k">return</span> <span class="n">ScippConnec</span><span class="o">.</span><span class="n">xexport</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </span><span id="Xdataset-361"><a href="#Xdataset-361"><span class="linenos">361</span></a>
 </span><span id="Xdataset-362"><a href="#Xdataset-362"><span class="linenos">362</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Xdataset-363"><a href="#Xdataset-363"><span class="linenos">363</span></a>    <span class="k">def</span> <span class="nf">from_scipp</span><span class="p">(</span><span class="n">xar</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span id="Xdataset-363"><a href="#Xdataset-363"><span class="linenos">363</span></a>    <span class="k">def</span> <span class="nf">from_scipp</span><span class="p">(</span><span class="n">sci</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 </span><span id="Xdataset-364"><a href="#Xdataset-364"><span class="linenos">364</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;return a Xdataset from a scipp object DataArray, Dataset or DataGroup&#39;&#39;&#39;</span>
-</span><span id="Xdataset-365"><a href="#Xdataset-365"><span class="linenos">365</span></a>        <span class="k">return</span> <span class="n">ScippConnec</span><span class="o">.</span><span class="n">ximport</span><span class="p">(</span><span class="n">xar</span><span class="p">,</span> <span class="n">Xdataset</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="Xdataset-365"><a href="#Xdataset-365"><span class="linenos">365</span></a>        <span class="k">return</span> <span class="n">ScippConnec</span><span class="o">.</span><span class="n">ximport</span><span class="p">(</span><span class="n">sci</span><span class="p">,</span> <span class="n">Xdataset</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="Xdataset-366"><a href="#Xdataset-366"><span class="linenos">366</span></a>
+</span><span id="Xdataset-367"><a href="#Xdataset-367"><span class="linenos">367</span></a>    <span class="k">def</span> <span class="nf">to_nddata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span id="Xdataset-368"><a href="#Xdataset-368"><span class="linenos">368</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;return a NDData from a Xdataset</span>
+</span><span id="Xdataset-369"><a href="#Xdataset-369"><span class="linenos">369</span></a><span class="sd">        &#39;&#39;&#39;</span>
+</span><span id="Xdataset-370"><a href="#Xdataset-370"><span class="linenos">370</span></a>        <span class="k">return</span> <span class="n">AstropyNDDataConnec</span><span class="o">.</span><span class="n">xexport</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="Xdataset-371"><a href="#Xdataset-371"><span class="linenos">371</span></a>
+</span><span id="Xdataset-372"><a href="#Xdataset-372"><span class="linenos">372</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="Xdataset-373"><a href="#Xdataset-373"><span class="linenos">373</span></a>    <span class="k">def</span> <span class="nf">from_nddata</span><span class="p">(</span><span class="n">ndd</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span id="Xdataset-374"><a href="#Xdataset-374"><span class="linenos">374</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;return a Xdataset from a NDData&#39;&#39;&#39;</span>
+</span><span id="Xdataset-375"><a href="#Xdataset-375"><span class="linenos">375</span></a>        <span class="k">return</span> <span class="n">AstropyNDDataConnec</span><span class="o">.</span><span class="n">ximport</span><span class="p">(</span><span class="n">ndd</span><span class="p">,</span> <span class="n">Xdataset</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -1769,20 +1795,67 @@ metadata and data_arrays</li>
                     <div class="decorator">@staticmethod</div>
 
         <span class="def">def</span>
-        <span class="name">from_scipp</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">xar</span>, </span><span class="param"><span class="o">**</span><span class="n">kwargs</span></span><span class="return-annotation">):</span></span>
+        <span class="name">from_scipp</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">sci</span>, </span><span class="param"><span class="o">**</span><span class="n">kwargs</span></span><span class="return-annotation">):</span></span>
 
                 <label class="view-source-button" for="Xdataset.from_scipp-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#Xdataset.from_scipp"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Xdataset.from_scipp-362"><a href="#Xdataset.from_scipp-362"><span class="linenos">362</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Xdataset.from_scipp-363"><a href="#Xdataset.from_scipp-363"><span class="linenos">363</span></a>    <span class="k">def</span> <span class="nf">from_scipp</span><span class="p">(</span><span class="n">xar</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span id="Xdataset.from_scipp-363"><a href="#Xdataset.from_scipp-363"><span class="linenos">363</span></a>    <span class="k">def</span> <span class="nf">from_scipp</span><span class="p">(</span><span class="n">sci</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 </span><span id="Xdataset.from_scipp-364"><a href="#Xdataset.from_scipp-364"><span class="linenos">364</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;return a Xdataset from a scipp object DataArray, Dataset or DataGroup&#39;&#39;&#39;</span>
-</span><span id="Xdataset.from_scipp-365"><a href="#Xdataset.from_scipp-365"><span class="linenos">365</span></a>        <span class="k">return</span> <span class="n">ScippConnec</span><span class="o">.</span><span class="n">ximport</span><span class="p">(</span><span class="n">xar</span><span class="p">,</span> <span class="n">Xdataset</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="Xdataset.from_scipp-365"><a href="#Xdataset.from_scipp-365"><span class="linenos">365</span></a>        <span class="k">return</span> <span class="n">ScippConnec</span><span class="o">.</span><span class="n">ximport</span><span class="p">(</span><span class="n">sci</span><span class="p">,</span> <span class="n">Xdataset</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>return a Xdataset from a scipp object DataArray, Dataset or DataGroup</p>
+</div>
+
+
+                            </div>
+                            <div id="Xdataset.to_nddata" class="classattr">
+                                        <input id="Xdataset.to_nddata-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">to_nddata</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="o">**</span><span class="n">kwargs</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="Xdataset.to_nddata-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#Xdataset.to_nddata"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Xdataset.to_nddata-367"><a href="#Xdataset.to_nddata-367"><span class="linenos">367</span></a>    <span class="k">def</span> <span class="nf">to_nddata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span id="Xdataset.to_nddata-368"><a href="#Xdataset.to_nddata-368"><span class="linenos">368</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;return a NDData from a Xdataset</span>
+</span><span id="Xdataset.to_nddata-369"><a href="#Xdataset.to_nddata-369"><span class="linenos">369</span></a><span class="sd">        &#39;&#39;&#39;</span>
+</span><span id="Xdataset.to_nddata-370"><a href="#Xdataset.to_nddata-370"><span class="linenos">370</span></a>        <span class="k">return</span> <span class="n">AstropyNDDataConnec</span><span class="o">.</span><span class="n">xexport</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>return a NDData from a Xdataset</p>
+</div>
+
+
+                            </div>
+                            <div id="Xdataset.from_nddata" class="classattr">
+                                        <input id="Xdataset.from_nddata-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+                    <div class="decorator">@staticmethod</div>
+
+        <span class="def">def</span>
+        <span class="name">from_nddata</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">ndd</span>, </span><span class="param"><span class="o">**</span><span class="n">kwargs</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="Xdataset.from_nddata-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#Xdataset.from_nddata"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Xdataset.from_nddata-372"><a href="#Xdataset.from_nddata-372"><span class="linenos">372</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="Xdataset.from_nddata-373"><a href="#Xdataset.from_nddata-373"><span class="linenos">373</span></a>    <span class="k">def</span> <span class="nf">from_nddata</span><span class="p">(</span><span class="n">ndd</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span id="Xdataset.from_nddata-374"><a href="#Xdataset.from_nddata-374"><span class="linenos">374</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;return a Xdataset from a NDData&#39;&#39;&#39;</span>
+</span><span id="Xdataset.from_nddata-375"><a href="#Xdataset.from_nddata-375"><span class="linenos">375</span></a>        <span class="k">return</span> <span class="n">AstropyNDDataConnec</span><span class="o">.</span><span class="n">ximport</span><span class="p">(</span><span class="n">ndd</span><span class="p">,</span> <span class="n">Xdataset</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>return a Xdataset from a NDData</p>
 </div>
 
 
