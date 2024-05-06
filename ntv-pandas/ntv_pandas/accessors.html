@@ -176,10 +176,10 @@ ntv-pandas<wbr>.<a href="./../ntv_pandas.html">ntv_pandas</a><wbr>.accessors    
 </span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>
 </span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a><span class="sd">        *Parameters*</span>
 </span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>
-</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a><span class="sd">        - dims: list of string (default None) - order of dimensions to apply</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="sd">        - **dataset** : Boolean (default True) - if False and a single data_var,</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a><span class="sd">        - **dims**: list of string (default None) - order of dimensions to apply</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="sd">        - **dataset**: Boolean (default True) - if False and a single data_var,</span>
 </span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="sd">        return a sc.DataArray</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a><span class="sd">        - **datagroup** : Boolean (default True) - if True, return a sc.DataGroup</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a><span class="sd">        - **datagroup**: Boolean (default True) - if True, return a sc.DataGroup</span>
 </span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="sd">        which contains the sc.DataArray/sc.Dataset and the other data else only</span>
 </span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a><span class="sd">        sc.DataArray/sc.Dataset&quot;&quot;&quot;</span>
 </span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>        <span class="k">return</span> <span class="n">Xdataset</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -190,12 +190,12 @@ ntv-pandas<wbr>.<a href="./../ntv_pandas.html">ntv_pandas</a><wbr>.accessors    
 </span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>
 </span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a><span class="sd">        *Parameters*</span>
 </span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>
-</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="sd">        - dims: list of string (default None) - order of dimensions to apply</span>
-</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="sd">        - **dataset** : Boolean (default True) - if False and a single data_var,</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="sd">        - **dims**: list of string (default None) - order of dimensions to apply</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="sd">        - **dataset**: Boolean (default True) - if False and a single data_var,</span>
 </span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a><span class="sd">        return a DataArray</span>
-</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="sd">        - **datagroup** : Boolean (default True) - if True return a DataGroup with</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="sd">        - **datagroup**: Boolean (default True) - if True return a DataGroup with</span>
 </span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a><span class="sd">        metadata and data_arrays</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="sd">        - **ntv_type** : Boolean (default True) - if True add ntv-type to the name&quot;&quot;&quot;</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="sd">        - **ntv_type**: Boolean (default True) - if True add ntv-type to the name&quot;&quot;&quot;</span>
 </span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>        <span class="k">return</span> <span class="n">Xdataset</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">to_scipp</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>
 </span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>
@@ -290,10 +290,10 @@ ntv-pandas<wbr>.<a href="./../ntv_pandas.html">ntv_pandas</a><wbr>.accessors    
 </span><span id="NpdDataFrameAccessor-68"><a href="#NpdDataFrameAccessor-68"><span class="linenos">68</span></a>
 </span><span id="NpdDataFrameAccessor-69"><a href="#NpdDataFrameAccessor-69"><span class="linenos">69</span></a><span class="sd">        *Parameters*</span>
 </span><span id="NpdDataFrameAccessor-70"><a href="#NpdDataFrameAccessor-70"><span class="linenos">70</span></a>
-</span><span id="NpdDataFrameAccessor-71"><a href="#NpdDataFrameAccessor-71"><span class="linenos">71</span></a><span class="sd">        - dims: list of string (default None) - order of dimensions to apply</span>
-</span><span id="NpdDataFrameAccessor-72"><a href="#NpdDataFrameAccessor-72"><span class="linenos">72</span></a><span class="sd">        - **dataset** : Boolean (default True) - if False and a single data_var,</span>
+</span><span id="NpdDataFrameAccessor-71"><a href="#NpdDataFrameAccessor-71"><span class="linenos">71</span></a><span class="sd">        - **dims**: list of string (default None) - order of dimensions to apply</span>
+</span><span id="NpdDataFrameAccessor-72"><a href="#NpdDataFrameAccessor-72"><span class="linenos">72</span></a><span class="sd">        - **dataset**: Boolean (default True) - if False and a single data_var,</span>
 </span><span id="NpdDataFrameAccessor-73"><a href="#NpdDataFrameAccessor-73"><span class="linenos">73</span></a><span class="sd">        return a sc.DataArray</span>
-</span><span id="NpdDataFrameAccessor-74"><a href="#NpdDataFrameAccessor-74"><span class="linenos">74</span></a><span class="sd">        - **datagroup** : Boolean (default True) - if True, return a sc.DataGroup</span>
+</span><span id="NpdDataFrameAccessor-74"><a href="#NpdDataFrameAccessor-74"><span class="linenos">74</span></a><span class="sd">        - **datagroup**: Boolean (default True) - if True, return a sc.DataGroup</span>
 </span><span id="NpdDataFrameAccessor-75"><a href="#NpdDataFrameAccessor-75"><span class="linenos">75</span></a><span class="sd">        which contains the sc.DataArray/sc.Dataset and the other data else only</span>
 </span><span id="NpdDataFrameAccessor-76"><a href="#NpdDataFrameAccessor-76"><span class="linenos">76</span></a><span class="sd">        sc.DataArray/sc.Dataset&quot;&quot;&quot;</span>
 </span><span id="NpdDataFrameAccessor-77"><a href="#NpdDataFrameAccessor-77"><span class="linenos">77</span></a>        <span class="k">return</span> <span class="n">Xdataset</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -304,12 +304,12 @@ ntv-pandas<wbr>.<a href="./../ntv_pandas.html">ntv_pandas</a><wbr>.accessors    
 </span><span id="NpdDataFrameAccessor-82"><a href="#NpdDataFrameAccessor-82"><span class="linenos">82</span></a>
 </span><span id="NpdDataFrameAccessor-83"><a href="#NpdDataFrameAccessor-83"><span class="linenos">83</span></a><span class="sd">        *Parameters*</span>
 </span><span id="NpdDataFrameAccessor-84"><a href="#NpdDataFrameAccessor-84"><span class="linenos">84</span></a>
-</span><span id="NpdDataFrameAccessor-85"><a href="#NpdDataFrameAccessor-85"><span class="linenos">85</span></a><span class="sd">        - dims: list of string (default None) - order of dimensions to apply</span>
-</span><span id="NpdDataFrameAccessor-86"><a href="#NpdDataFrameAccessor-86"><span class="linenos">86</span></a><span class="sd">        - **dataset** : Boolean (default True) - if False and a single data_var,</span>
+</span><span id="NpdDataFrameAccessor-85"><a href="#NpdDataFrameAccessor-85"><span class="linenos">85</span></a><span class="sd">        - **dims**: list of string (default None) - order of dimensions to apply</span>
+</span><span id="NpdDataFrameAccessor-86"><a href="#NpdDataFrameAccessor-86"><span class="linenos">86</span></a><span class="sd">        - **dataset**: Boolean (default True) - if False and a single data_var,</span>
 </span><span id="NpdDataFrameAccessor-87"><a href="#NpdDataFrameAccessor-87"><span class="linenos">87</span></a><span class="sd">        return a DataArray</span>
-</span><span id="NpdDataFrameAccessor-88"><a href="#NpdDataFrameAccessor-88"><span class="linenos">88</span></a><span class="sd">        - **datagroup** : Boolean (default True) - if True return a DataGroup with</span>
+</span><span id="NpdDataFrameAccessor-88"><a href="#NpdDataFrameAccessor-88"><span class="linenos">88</span></a><span class="sd">        - **datagroup**: Boolean (default True) - if True return a DataGroup with</span>
 </span><span id="NpdDataFrameAccessor-89"><a href="#NpdDataFrameAccessor-89"><span class="linenos">89</span></a><span class="sd">        metadata and data_arrays</span>
-</span><span id="NpdDataFrameAccessor-90"><a href="#NpdDataFrameAccessor-90"><span class="linenos">90</span></a><span class="sd">        - **ntv_type** : Boolean (default True) - if True add ntv-type to the name&quot;&quot;&quot;</span>
+</span><span id="NpdDataFrameAccessor-90"><a href="#NpdDataFrameAccessor-90"><span class="linenos">90</span></a><span class="sd">        - **ntv_type**: Boolean (default True) - if True add ntv-type to the name&quot;&quot;&quot;</span>
 </span><span id="NpdDataFrameAccessor-91"><a href="#NpdDataFrameAccessor-91"><span class="linenos">91</span></a>        <span class="k">return</span> <span class="n">Xdataset</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">to_scipp</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </span></pre></div>
 
@@ -493,10 +493,10 @@ value in a {key:value} object where key is ':field' for Series or ':tab' for Dat
 </span><span id="NpdDataFrameAccessor.to_xarray-68"><a href="#NpdDataFrameAccessor.to_xarray-68"><span class="linenos">68</span></a>
 </span><span id="NpdDataFrameAccessor.to_xarray-69"><a href="#NpdDataFrameAccessor.to_xarray-69"><span class="linenos">69</span></a><span class="sd">        *Parameters*</span>
 </span><span id="NpdDataFrameAccessor.to_xarray-70"><a href="#NpdDataFrameAccessor.to_xarray-70"><span class="linenos">70</span></a>
-</span><span id="NpdDataFrameAccessor.to_xarray-71"><a href="#NpdDataFrameAccessor.to_xarray-71"><span class="linenos">71</span></a><span class="sd">        - dims: list of string (default None) - order of dimensions to apply</span>
-</span><span id="NpdDataFrameAccessor.to_xarray-72"><a href="#NpdDataFrameAccessor.to_xarray-72"><span class="linenos">72</span></a><span class="sd">        - **dataset** : Boolean (default True) - if False and a single data_var,</span>
+</span><span id="NpdDataFrameAccessor.to_xarray-71"><a href="#NpdDataFrameAccessor.to_xarray-71"><span class="linenos">71</span></a><span class="sd">        - **dims**: list of string (default None) - order of dimensions to apply</span>
+</span><span id="NpdDataFrameAccessor.to_xarray-72"><a href="#NpdDataFrameAccessor.to_xarray-72"><span class="linenos">72</span></a><span class="sd">        - **dataset**: Boolean (default True) - if False and a single data_var,</span>
 </span><span id="NpdDataFrameAccessor.to_xarray-73"><a href="#NpdDataFrameAccessor.to_xarray-73"><span class="linenos">73</span></a><span class="sd">        return a sc.DataArray</span>
-</span><span id="NpdDataFrameAccessor.to_xarray-74"><a href="#NpdDataFrameAccessor.to_xarray-74"><span class="linenos">74</span></a><span class="sd">        - **datagroup** : Boolean (default True) - if True, return a sc.DataGroup</span>
+</span><span id="NpdDataFrameAccessor.to_xarray-74"><a href="#NpdDataFrameAccessor.to_xarray-74"><span class="linenos">74</span></a><span class="sd">        - **datagroup**: Boolean (default True) - if True, return a sc.DataGroup</span>
 </span><span id="NpdDataFrameAccessor.to_xarray-75"><a href="#NpdDataFrameAccessor.to_xarray-75"><span class="linenos">75</span></a><span class="sd">        which contains the sc.DataArray/sc.Dataset and the other data else only</span>
 </span><span id="NpdDataFrameAccessor.to_xarray-76"><a href="#NpdDataFrameAccessor.to_xarray-76"><span class="linenos">76</span></a><span class="sd">        sc.DataArray/sc.Dataset&quot;&quot;&quot;</span>
 </span><span id="NpdDataFrameAccessor.to_xarray-77"><a href="#NpdDataFrameAccessor.to_xarray-77"><span class="linenos">77</span></a>        <span class="k">return</span> <span class="n">Xdataset</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -509,10 +509,10 @@ value in a {key:value} object where key is ':field' for Series or ':tab' for Dat
 <p><em>Parameters</em></p>
 
 <ul>
-<li>dims: list of string (default None) - order of dimensions to apply</li>
-<li><strong>dataset</strong> : Boolean (default True) - if False and a single data_var,
+<li><strong>dims</strong>: list of string (default None) - order of dimensions to apply</li>
+<li><strong>dataset</strong>: Boolean (default True) - if False and a single data_var,
 return a sc.DataArray</li>
-<li><strong>datagroup</strong> : Boolean (default True) - if True, return a sc.DataGroup
+<li><strong>datagroup</strong>: Boolean (default True) - if True, return a sc.DataGroup
 which contains the sc.DataArray/sc.Dataset and the other data else only
 sc.DataArray/sc.Dataset</li>
 </ul>
@@ -537,12 +537,12 @@ sc.DataArray/sc.Dataset</li>
 </span><span id="NpdDataFrameAccessor.to_scipp-82"><a href="#NpdDataFrameAccessor.to_scipp-82"><span class="linenos">82</span></a>
 </span><span id="NpdDataFrameAccessor.to_scipp-83"><a href="#NpdDataFrameAccessor.to_scipp-83"><span class="linenos">83</span></a><span class="sd">        *Parameters*</span>
 </span><span id="NpdDataFrameAccessor.to_scipp-84"><a href="#NpdDataFrameAccessor.to_scipp-84"><span class="linenos">84</span></a>
-</span><span id="NpdDataFrameAccessor.to_scipp-85"><a href="#NpdDataFrameAccessor.to_scipp-85"><span class="linenos">85</span></a><span class="sd">        - dims: list of string (default None) - order of dimensions to apply</span>
-</span><span id="NpdDataFrameAccessor.to_scipp-86"><a href="#NpdDataFrameAccessor.to_scipp-86"><span class="linenos">86</span></a><span class="sd">        - **dataset** : Boolean (default True) - if False and a single data_var,</span>
+</span><span id="NpdDataFrameAccessor.to_scipp-85"><a href="#NpdDataFrameAccessor.to_scipp-85"><span class="linenos">85</span></a><span class="sd">        - **dims**: list of string (default None) - order of dimensions to apply</span>
+</span><span id="NpdDataFrameAccessor.to_scipp-86"><a href="#NpdDataFrameAccessor.to_scipp-86"><span class="linenos">86</span></a><span class="sd">        - **dataset**: Boolean (default True) - if False and a single data_var,</span>
 </span><span id="NpdDataFrameAccessor.to_scipp-87"><a href="#NpdDataFrameAccessor.to_scipp-87"><span class="linenos">87</span></a><span class="sd">        return a DataArray</span>
-</span><span id="NpdDataFrameAccessor.to_scipp-88"><a href="#NpdDataFrameAccessor.to_scipp-88"><span class="linenos">88</span></a><span class="sd">        - **datagroup** : Boolean (default True) - if True return a DataGroup with</span>
+</span><span id="NpdDataFrameAccessor.to_scipp-88"><a href="#NpdDataFrameAccessor.to_scipp-88"><span class="linenos">88</span></a><span class="sd">        - **datagroup**: Boolean (default True) - if True return a DataGroup with</span>
 </span><span id="NpdDataFrameAccessor.to_scipp-89"><a href="#NpdDataFrameAccessor.to_scipp-89"><span class="linenos">89</span></a><span class="sd">        metadata and data_arrays</span>
-</span><span id="NpdDataFrameAccessor.to_scipp-90"><a href="#NpdDataFrameAccessor.to_scipp-90"><span class="linenos">90</span></a><span class="sd">        - **ntv_type** : Boolean (default True) - if True add ntv-type to the name&quot;&quot;&quot;</span>
+</span><span id="NpdDataFrameAccessor.to_scipp-90"><a href="#NpdDataFrameAccessor.to_scipp-90"><span class="linenos">90</span></a><span class="sd">        - **ntv_type**: Boolean (default True) - if True add ntv-type to the name&quot;&quot;&quot;</span>
 </span><span id="NpdDataFrameAccessor.to_scipp-91"><a href="#NpdDataFrameAccessor.to_scipp-91"><span class="linenos">91</span></a>        <span class="k">return</span> <span class="n">Xdataset</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">to_scipp</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </span></pre></div>
 
@@ -553,12 +553,12 @@ sc.DataArray/sc.Dataset</li>
 <p><em>Parameters</em></p>
 
 <ul>
-<li>dims: list of string (default None) - order of dimensions to apply</li>
-<li><strong>dataset</strong> : Boolean (default True) - if False and a single data_var,
+<li><strong>dims</strong>: list of string (default None) - order of dimensions to apply</li>
+<li><strong>dataset</strong>: Boolean (default True) - if False and a single data_var,
 return a DataArray</li>
-<li><strong>datagroup</strong> : Boolean (default True) - if True return a DataGroup with
+<li><strong>datagroup</strong>: Boolean (default True) - if True return a DataGroup with
 metadata and data_arrays</li>
-<li><strong>ntv_type</strong> : Boolean (default True) - if True add ntv-type to the name</li>
+<li><strong>ntv_type</strong>: Boolean (default True) - if True add ntv-type to the name</li>
 </ul>
 </div>
 
