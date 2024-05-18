@@ -178,7 +178,7 @@
     </ul>
 
 
-            <footer>ntv_pandas v2.0.0</footer>
+            <footer>ntv_pandas dev</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -426,7 +426,7 @@ ntv-pandas<wbr>.<a href="./../ntv_pandas.html">ntv_pandas</a><wbr>.pandas_ntv_co
 </span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a>
 </span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a><span class="sd">    *Parameters*</span>
 </span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a>
-</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a><span class="sd">    - **json_name**: Boolean (default True) - if False use full_name else json_name</span>
+</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a><span class="sd">    - **ntv_type**: Boolean (default True) - if False use full_name else json_name</span>
 </span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a><span class="sd">    - **info**: Boolean (default True) - if True add xdt.info in DataFrame.attrs</span>
 </span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a><span class="sd">    - **dims**: list of string (default None) - order of dimensions full_name to apply</span>
 </span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a><span class="sd">    &#39;&#39;&#39;</span>
@@ -438,7 +438,7 @@ ntv-pandas<wbr>.<a href="./../ntv_pandas.html">ntv_pandas</a><wbr>.pandas_ntv_co
 </span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a>
 </span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a><span class="sd">    *Parameters*</span>
 </span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>
-</span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a><span class="sd">    - **json_name**: Boolean (default True) - if False use full_name else json_name</span>
+</span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a><span class="sd">    - **ntv_type**: Boolean (default True) - if False use full_name else json_name</span>
 </span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a><span class="sd">    - **info**: Boolean (default True) - if True add xdt.info in DataFrame.attrs</span>
 </span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a><span class="sd">    - **dims**: list of string (default None) - order of dimensions full_name to apply</span>
 </span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a><span class="sd">    &#39;&#39;&#39;</span>
@@ -731,7 +731,7 @@ ntv-pandas<wbr>.<a href="./../ntv_pandas.html">ntv_pandas</a><wbr>.pandas_ntv_co
 </span><span id="L-497"><a href="#L-497"><span class="linenos">497</span></a><span class="sd">        NTVvalue and a ntv_type&#39;&#39;&#39;</span>
 </span><span id="L-498"><a href="#L-498"><span class="linenos">498</span></a>        <span class="n">srs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)),</span>
 </span><span id="L-499"><a href="#L-499"><span class="linenos">499</span></a>                           <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="s1">&#39;series&#39;</span><span class="p">)</span>
-</span><span id="L-500"><a href="#L-500"><span class="linenos">500</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">pd_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-500"><a href="#L-500"><span class="linenos">500</span></a>        <span class="k">if</span> <span class="n">pd_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-501"><a href="#L-501"><span class="linenos">501</span></a>            <span class="n">srs</span> <span class="o">=</span> <span class="n">srs</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">pd_name</span><span class="p">)</span>
 </span><span id="L-502"><a href="#L-502"><span class="linenos">502</span></a>        <span class="k">return</span> <span class="n">PdUtil</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">ntv_type</span><span class="p">,</span> <span class="n">srs</span><span class="p">,</span> <span class="n">tojson</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </span><span id="L-503"><a href="#L-503"><span class="linenos">503</span></a>
@@ -1260,7 +1260,7 @@ value in a {key:value} object where key is ':field' for Series or ':tab' for Dat
 </span><span id="from_xarray-193"><a href="#from_xarray-193"><span class="linenos">193</span></a>
 </span><span id="from_xarray-194"><a href="#from_xarray-194"><span class="linenos">194</span></a><span class="sd">    *Parameters*</span>
 </span><span id="from_xarray-195"><a href="#from_xarray-195"><span class="linenos">195</span></a>
-</span><span id="from_xarray-196"><a href="#from_xarray-196"><span class="linenos">196</span></a><span class="sd">    - **json_name**: Boolean (default True) - if False use full_name else json_name</span>
+</span><span id="from_xarray-196"><a href="#from_xarray-196"><span class="linenos">196</span></a><span class="sd">    - **ntv_type**: Boolean (default True) - if False use full_name else json_name</span>
 </span><span id="from_xarray-197"><a href="#from_xarray-197"><span class="linenos">197</span></a><span class="sd">    - **info**: Boolean (default True) - if True add xdt.info in DataFrame.attrs</span>
 </span><span id="from_xarray-198"><a href="#from_xarray-198"><span class="linenos">198</span></a><span class="sd">    - **dims**: list of string (default None) - order of dimensions full_name to apply</span>
 </span><span id="from_xarray-199"><a href="#from_xarray-199"><span class="linenos">199</span></a><span class="sd">    &#39;&#39;&#39;</span>
@@ -1273,7 +1273,7 @@ value in a {key:value} object where key is ':field' for Series or ':tab' for Dat
 <p><em>Parameters</em></p>
 
 <ul>
-<li><strong>json_name</strong>: Boolean (default True) - if False use full_name else json_name</li>
+<li><strong>ntv_type</strong>: Boolean (default True) - if False use full_name else json_name</li>
 <li><strong>info</strong>: Boolean (default True) - if True add xdt.info in DataFrame.attrs</li>
 <li><strong>dims</strong>: list of string (default None) - order of dimensions full_name to apply</li>
 </ul>
@@ -1297,7 +1297,7 @@ value in a {key:value} object where key is ':field' for Series or ':tab' for Dat
 </span><span id="from_scipp-205"><a href="#from_scipp-205"><span class="linenos">205</span></a>
 </span><span id="from_scipp-206"><a href="#from_scipp-206"><span class="linenos">206</span></a><span class="sd">    *Parameters*</span>
 </span><span id="from_scipp-207"><a href="#from_scipp-207"><span class="linenos">207</span></a>
-</span><span id="from_scipp-208"><a href="#from_scipp-208"><span class="linenos">208</span></a><span class="sd">    - **json_name**: Boolean (default True) - if False use full_name else json_name</span>
+</span><span id="from_scipp-208"><a href="#from_scipp-208"><span class="linenos">208</span></a><span class="sd">    - **ntv_type**: Boolean (default True) - if False use full_name else json_name</span>
 </span><span id="from_scipp-209"><a href="#from_scipp-209"><span class="linenos">209</span></a><span class="sd">    - **info**: Boolean (default True) - if True add xdt.info in DataFrame.attrs</span>
 </span><span id="from_scipp-210"><a href="#from_scipp-210"><span class="linenos">210</span></a><span class="sd">    - **dims**: list of string (default None) - order of dimensions full_name to apply</span>
 </span><span id="from_scipp-211"><a href="#from_scipp-211"><span class="linenos">211</span></a><span class="sd">    &#39;&#39;&#39;</span>
@@ -1310,7 +1310,7 @@ value in a {key:value} object where key is ':field' for Series or ':tab' for Dat
 <p><em>Parameters</em></p>
 
 <ul>
-<li><strong>json_name</strong>: Boolean (default True) - if False use full_name else json_name</li>
+<li><strong>ntv_type</strong>: Boolean (default True) - if False use full_name else json_name</li>
 <li><strong>info</strong>: Boolean (default True) - if True add xdt.info in DataFrame.attrs</li>
 <li><strong>dims</strong>: list of string (default None) - order of dimensions full_name to apply</li>
 </ul>
@@ -1872,7 +1872,7 @@ value in a {key:value} object where key is ':field' for Series or ':tab' for Dat
 </span><span id="SeriesConnec-498"><a href="#SeriesConnec-498"><span class="linenos">498</span></a><span class="sd">        NTVvalue and a ntv_type&#39;&#39;&#39;</span>
 </span><span id="SeriesConnec-499"><a href="#SeriesConnec-499"><span class="linenos">499</span></a>        <span class="n">srs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)),</span>
 </span><span id="SeriesConnec-500"><a href="#SeriesConnec-500"><span class="linenos">500</span></a>                           <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="s1">&#39;series&#39;</span><span class="p">)</span>
-</span><span id="SeriesConnec-501"><a href="#SeriesConnec-501"><span class="linenos">501</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">pd_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="SeriesConnec-501"><a href="#SeriesConnec-501"><span class="linenos">501</span></a>        <span class="k">if</span> <span class="n">pd_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="SeriesConnec-502"><a href="#SeriesConnec-502"><span class="linenos">502</span></a>            <span class="n">srs</span> <span class="o">=</span> <span class="n">srs</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">pd_name</span><span class="p">)</span>
 </span><span id="SeriesConnec-503"><a href="#SeriesConnec-503"><span class="linenos">503</span></a>        <span class="k">return</span> <span class="n">PdUtil</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">ntv_type</span><span class="p">,</span> <span class="n">srs</span><span class="p">,</span> <span class="n">tojson</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </span><span id="SeriesConnec-504"><a href="#SeriesConnec-504"><span class="linenos">504</span></a>
